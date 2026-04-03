@@ -1,12 +1,10 @@
-# Kafka Patterns Guide
+# 📨 Kafka Patterns
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. When to Use Kafka (and When Not To)
+## 🎯 1. When to Use Kafka (and When Not To)
 
 Kafka is not a replacement for REST APIs. Use it for the right problem.
 
@@ -26,7 +24,7 @@ Kafka is not a replacement for REST APIs. Use it for the right problem.
 
 ---
 
-## 2. Core Concepts
+## 📨 2. Core Concepts
 
 Before writing any Kafka code, understand these concepts:
 
@@ -38,7 +36,7 @@ Before writing any Kafka code, understand these concepts:
 
 ---
 
-## 3. Standard Kafka Configuration
+## 📨 3. Standard Kafka Configuration
 
 ### 3.1 application.yml (Producer)
 
@@ -77,7 +75,7 @@ spring:
 
 ---
 
-## 4. Writing a Producer
+## 📨 4. Writing a Producer
 
 ### 4.1 The Wrong Way
 
@@ -158,7 +156,7 @@ public class KafkaOrderEventPublisher implements OrderEventPublisher {
 
 ---
 
-## 5. Writing a Consumer
+## 📨 5. Writing a Consumer
 
 ### 5.1 The Basic Pattern
 
@@ -214,7 +212,7 @@ public class OrderCompletedEventConsumer {
 
 ---
 
-## 6. Idempotent Consumers — Handling Duplicates
+## 🧩 6. Idempotent Consumers — Handling Duplicates
 
 Kafka delivers messages **at least once**. Your consumer will receive the same message more than once — during rebalances, restarts, or network issues. Your consumer must handle this safely.
 
@@ -268,7 +266,7 @@ public class OrderCompletedEventConsumer {
 
 ---
 
-## 7. Dead Letter Queue (DLQ) — Handling Poison Messages
+## 📨 7. Dead Letter Queue (DLQ) — Handling Poison Messages
 
 A "poison message" is a message your consumer cannot process — bad data, a schema it doesn't understand, or a persistent downstream failure. Without a DLQ, this message blocks the partition forever.
 
@@ -322,7 +320,7 @@ Examples:
 
 ---
 
-## 8. Partition Key Strategy
+## 🧩 8. Partition Key Strategy
 
 The partition key determines which partition a message goes to. Messages with the same key always go to the same partition — and are therefore ordered relative to each other.
 
@@ -344,7 +342,7 @@ kafkaTemplate.send("orders.order.completed", Instant.now().toString(), event);
 
 ---
 
-## 9. Transactional Outbox Pattern
+## 🧩 9. Transactional Outbox Pattern
 
 **Problem:** What if the service saves to the database but then crashes before publishing the Kafka event? The data is saved, but no one is notified.
 
@@ -411,7 +409,7 @@ Use this pattern for any event that **must not be lost** — payment captures, o
 
 ---
 
-## 10. Consumer Group Lag Monitoring
+## 📊 10. Consumer Group Lag Monitoring
 
 Consumer lag = the number of messages published to a topic that your consumer hasn't processed yet.
 
@@ -432,7 +430,7 @@ Every consumer must have a Grafana alert on lag:
 
 ---
 
-## 11. Local Development with Kafka
+## 💻 11. Local Development with Kafka
 
 ```bash
 # Start Kafka locally via docker compose
@@ -458,7 +456,7 @@ docker exec -it kafka kafka-consumer-groups \
 
 ---
 
-## 12. Topic Creation Workflow
+## 📋 12. Topic Creation Workflow
 
 Topics are not self-service — creation is a controlled process to ensure consistency and data governance.
 
@@ -490,7 +488,7 @@ Topics are not self-service — creation is a controlled process to ensure consi
 
 ---
 
-## 13. DLQ Replay Procedure
+## 🛤️ 13. DLQ Replay Procedure
 
 ### 13.1 Replay Mechanism
 
@@ -530,5 +528,8 @@ All replays are logged with:
 Audit entries are written to the `ops-audit-log` and are retained for 12 months.
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,10 +1,10 @@
-# 06 — Multi-Region Patterns
+# 🌍 Multi-Region Patterns
 
-> **Status:** Mandated · **Owner:** Platform Engineering · **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Overview](#1-overview)
 2. [Region as a Configuration Dimension](#2-region-as-a-configuration-dimension)
@@ -19,7 +19,7 @@
 
 ---
 
-## 1. Overview
+## 🎯 1. Overview
 
 The platform operates across multiple regions spanning different countries, currencies, languages, and regulatory environments. Each region has its own pricing rules, service types, regulatory requirements, currencies, and operational constraints.
 
@@ -31,7 +31,7 @@ This guide defines how every platform service, BFF, and client application must 
 
 ---
 
-## 2. Region as a Configuration Dimension
+## 🌍 2. Region as a Configuration Dimension
 
 ### Configuration Hierarchy
 
@@ -85,7 +85,7 @@ Services cache resolved config with a **60-second TTL** and subscribe to SSM cha
 
 ---
 
-## 3. Multi-Currency Handling
+## 🌍 3. Multi-Currency Handling
 
 ### Integer-Only Monetary Values
 
@@ -133,7 +133,7 @@ The BFF formats monetary values for display using the locale's conventions:
 
 ---
 
-## 4. Service Types Per Region
+## 🌍 4. Service Types Per Region
 
 Service types are **configuration-driven**, not hard-coded. Different regions support different service types based on market demand and regulatory requirements.
 
@@ -203,7 +203,7 @@ When a new service type is needed in a region, it is a **config change** — no 
 
 ---
 
-## 5. Regulatory Compliance
+## 🔐 5. Regulatory Compliance
 
 Each market has unique regulatory requirements for providers, service delivery, and operations. These rules are stored as configuration and enforced by the **Provider Profile Service** and the **Compliance Service**.
 
@@ -227,7 +227,7 @@ Each market has unique regulatory requirements for providers, service delivery, 
 
 ---
 
-## 6. Timezone Handling
+## 🌍 6. Timezone Handling
 
 ### Rules
 
@@ -267,7 +267,7 @@ ZonedDateTime local = now.atZone(ZoneId.of("America/New_York"));     // display
 
 ---
 
-## 7. Localization
+## 🌍 7. Localization
 
 ### Supported Locales
 
@@ -347,7 +347,7 @@ This ensures the content-authoring teams define messages once per key, and trans
 
 ---
 
-## 8. Feature Rollout by Geography
+## 🌍 8. Feature Rollout by Geography
 
 The platform uses **LaunchDarkly** for feature flag management with geographic targeting at three levels:
 
@@ -390,7 +390,7 @@ This allows targeting by any combination of geography, platform, app version, an
 
 ---
 
-## 9. New Region Launch Checklist
+## 📋 9. New Region Launch Checklist
 
 Launching the platform in a new region is a cross-functional operation. The following checklist ensures nothing is missed.
 
@@ -443,7 +443,7 @@ Launching the platform in a new region is a cross-functional operation. The foll
 
 ---
 
-## 10. Data Residency
+## 🔐 10. Data Residency
 
 The platform complies with data residency requirements by ensuring user data is stored in the correct geographic region.
 
@@ -504,7 +504,7 @@ flowchart TD
 
 ---
 
-## 11. Web i18n
+## 🌍 11. Web i18n
 
 Web frontends use **react-i18next** for internationalization, with ICU message format for handling complex pluralization and gender rules.
 
@@ -579,7 +579,7 @@ Web frontends support right-to-left (RTL) layout for Arabic (`ar`) and Hebrew (`
 
 ---
 
-## 12. UX Writing Principles
+## 📏 12. UX Writing Principles
 
 Consistent, clear copy is as important as consistent UI components. All user-facing text in {Company} products follows these principles.
 
@@ -635,5 +635,8 @@ Empty states **explain** the situation and **suggest an action**.
 | "(blank screen)" | "No notifications yet. We'll let you know when something needs your attention." |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

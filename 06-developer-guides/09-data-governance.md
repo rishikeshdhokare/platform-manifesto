@@ -1,16 +1,10 @@
-# Data Governance
+# 📊 Data Governance
 
-> **{Company} Platform Manifesto** · Developer Guides
-
-| Field | Value |
-|-------|-------|
-| **Status** | Mandated |
-| **Owner** | Data Engineering / Platform |
-| **Last Updated** | 2026 |
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Data Engineering / Platform](https://img.shields.io/badge/owner-Data_Engineering_%2F_Platform-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Data Steward Role](#1-data-steward-role)
 2. [Data Quality SLAs](#2-data-quality-slas)
@@ -24,7 +18,7 @@
 
 ---
 
-## 1. Data Steward Role
+## 📊 1. Data Steward Role
 
 Every domain at {Company} has a designated **data steward** — a named individual responsible for the quality, accessibility, retention, and compliance of the data produced by their domain.
 
@@ -58,7 +52,7 @@ If a data quality issue arises and the data steward is unavailable, the escalati
 
 ---
 
-## 2. Data Quality SLAs
+## 📊 2. Data Quality SLAs
 
 Data quality is measured and enforced via tiered SLAs. The tier is determined by the downstream impact of data quality degradation.
 
@@ -88,7 +82,7 @@ Data quality is measured and enforced via tiered SLAs. The tier is determined by
 
 ---
 
-## 3. Data Catalog
+## 📊 3. Data Catalog
 
 All datasets — databases, Kafka topics, S3 buckets, Redshift tables, and event schemas — must be registered in the data catalog before production deployment. Unregistered datasets are invisible, ungoverned, and a compliance risk.
 
@@ -119,7 +113,7 @@ Registration is validated during the deployment pipeline. A service that produce
 
 ---
 
-## 4. Data Quality Monitoring
+## 📊 4. Data Quality Monitoring
 
 Automated data quality checks run continuously to detect anomalies, schema violations, and SLA breaches before they impact downstream consumers.
 
@@ -175,7 +169,7 @@ Quality check failures trigger alerts through the SLA breach response matrix (§
 
 ---
 
-## 5. Bad Data Incident Process
+## 📋 5. Bad Data Incident Process
 
 When bad data reaches production — corrupted records, incorrect values, schema violations that bypassed validation — the impact can cascade to downstream consumers, dashboards, and customer-facing features. Speed and blast-radius assessment are critical.
 
@@ -219,7 +213,7 @@ flowchart TD
 
 ---
 
-## 6. Analytics Data Contracts
+## 📊 6. Analytics Data Contracts
 
 An analytics data contract is a formal agreement between a data producer and its analytics consumers. It defines the schema, SLA, and change management process for data flowing from operational systems into the analytics platform.
 
@@ -257,7 +251,7 @@ Breaking changes to analytics data (column removal, type change, semantic change
 
 ---
 
-## 7. Data Retention Matrix
+## 📊 7. Data Retention Matrix
 
 Each domain must maintain a data retention matrix that defines the lifecycle of every data store it owns. The following template must be filled per domain and registered in the data catalog.
 
@@ -282,7 +276,7 @@ Each domain must maintain a data retention matrix that defines the lifecycle of 
 
 ---
 
-## 8. PII Handling
+## 🔐 8. PII Handling
 
 Data governance and privacy engineering are inseparable. This section cross-references the privacy engineering standards and adds data-governance-specific controls.
 
@@ -316,7 +310,7 @@ For full PII handling details — including data classification, privacy impact 
 
 ---
 
-## 9. Data Access Controls
+## 🔐 9. Data Access Controls
 
 ### 9.1 Principles
 
@@ -372,5 +366,8 @@ flowchart TD
 | 5 | Quarterly access review revokes stale permissions (per privacy-engineering.md §10) |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

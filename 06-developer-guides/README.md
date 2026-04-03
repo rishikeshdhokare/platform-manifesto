@@ -1,4 +1,6 @@
-# 06 — Developer Guides
+# 🛠️ 06 — Developer Guides
+
+![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
 
 Hands-on guides for building things the right way. Reference these while writing code.
 
@@ -15,4 +17,9 @@ Hands-on guides for building things the right way. Reference these while writing
 | [09-data-governance.md](./09-data-governance.md) | Data governance — stewards, quality SLAs, retention, analytics contracts |
 | [10-local-development.md](./10-local-development.md) | Local development — Docker Compose, seeding, secrets, first PR path, troubleshooting |
 
-← [Back to root](../README.md)
+---
+<div align="center">
+
+🏠 [Back to root](../README.md)
+
+</div>

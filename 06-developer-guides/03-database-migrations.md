@@ -1,12 +1,10 @@
-# Database Migrations Guide
+# 🗄️ Database Migrations
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. The Golden Rule
+## 🎯 1. The Golden Rule
 
 **Never change a database schema by hand.** Not in dev. Not in staging. Never in production.
 
@@ -20,7 +18,7 @@ Why:
 
 ---
 
-## 2. Flyway Setup
+## 💻 2. Flyway Setup
 
 Flyway is included in the platform BOM. It runs automatically on application startup.
 
@@ -43,7 +41,7 @@ spring:
 
 ---
 
-## 3. File Naming Convention
+## 📏 3. File Naming Convention
 
 All migration files live in `src/main/resources/db/migration/`.
 
@@ -66,7 +64,7 @@ Rules:
 
 ---
 
-## 4. Writing Good Migration Scripts
+## 🗄️ 4. Writing Good Migration Scripts
 
 ### 4.1 Always Specify Explicit Constraints and Types
 
@@ -132,7 +130,7 @@ ALTER TABLE orders
 
 ---
 
-## 5. The Expand-Contract Pattern
+## 🧩 5. The Expand-Contract Pattern
 
 This is the most important thing to understand about schema migrations in a live system.
 
@@ -227,7 +225,7 @@ ALTER TABLE orders ALTER COLUMN service_type SET NOT NULL;
 
 ---
 
-## 6. Large Table Migrations
+## 🗄️ 6. Large Table Migrations
 
 For tables with millions of rows, `ALTER TABLE` locks the table and blocks reads/writes. Use these patterns:
 
@@ -280,7 +278,7 @@ END $$;
 
 ---
 
-## 7. What To Do When You Make a Mistake
+## 🛤️ 7. What To Do When You Make a Mistake
 
 **Scenario: You merged a migration with a bug and it's already applied in dev.**
 
@@ -308,7 +306,7 @@ ALTER TABLE orders
 
 ---
 
-## 8. Migration Checklist
+## 📋 8. Migration Checklist
 
 Before raising a PR with a migration, verify:
 
@@ -326,7 +324,7 @@ Before raising a PR with a migration, verify:
 
 ---
 
-## 9. Checking Migration Status
+## 💻 9. Checking Migration Status
 
 ```bash
 # See which migrations have been applied
@@ -340,5 +338,8 @@ Before raising a PR with a migration, verify:
 ```
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

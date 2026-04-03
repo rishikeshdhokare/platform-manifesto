@@ -1,12 +1,10 @@
-# Developer Experience (DX)
+# 🧑‍💻 Developer Experience
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Developer experience is a force multiplier. An engineer who can go from zero to running code locally in under an hour, get a PR reviewed in under a day, and deploy to production confidently in under 15 minutes is more effective than one wrestling with environment setup and opaque tooling.
 
@@ -14,7 +12,7 @@ Developer experience is a force multiplier. An engineer who can go from zero to 
 
 ---
 
-## 2. Onboarding Target
+## 🎯 2. Onboarding Target
 
 A new engineer must be able to reach these milestones independently:
 
@@ -33,7 +31,7 @@ If these targets are not met, it is a **platform problem**, not an engineer prob
 
 ---
 
-## 3. Local Development
+## 💻 3. Local Development
 
 ### 3.1 Prerequisites
 
@@ -151,7 +149,7 @@ Each service's `local-setup.sh` script provisions all required local AWS resourc
 
 ---
 
-## 4. Git Hooks (pre-commit)
+## 🛤️ 4. Git Hooks (pre-commit)
 
 Every repository ships with a `.pre-commit-config.yaml` that runs lightweight checks before commit:
 
@@ -181,7 +179,7 @@ Install hooks: `pre-commit install --hook-type commit-msg`
 
 ---
 
-## 5. IDE Setup
+## 💻 5. IDE Setup
 
 ### 5.1 Recommended IDE: IntelliJ IDEA
 
@@ -205,7 +203,7 @@ Import: `File → Manage IDE Settings → Import Settings → platform-ide-setti
 
 ---
 
-## 6. Service Scaffolding — Golden Path Template
+## 🛤️ 6. Service Scaffolding — Golden Path Template
 
 New services are created using the Backstage service template — not by copying an existing service.
 
@@ -229,7 +227,7 @@ From template creation to running locally: **< 15 minutes**.
 
 ---
 
-## 7. Platform BOM (Bill of Materials)
+## 🏗️ 7. Platform BOM (Bill of Materials)
 
 All services import the **platform BOM** which pins all dependency versions. Teams never specify versions for platform-managed dependencies:
 
@@ -257,7 +255,7 @@ The platform BOM is updated quarterly. Security patches trigger out-of-band upda
 
 ---
 
-## 8. Inner Loop Speed Targets
+## ⚡ 8. Inner Loop Speed Targets
 
 The inner loop is the cycle: **write code → compile → test → run**. Slow inner loops kill focus.
 
@@ -274,7 +272,7 @@ If a service consistently misses these targets, the team must invest in improvin
 
 ---
 
-## 9. Documentation Standards
+## 📏 9. Documentation Standards
 
 ### 9.1 What to Document
 
@@ -322,7 +320,7 @@ Link to runbook and PagerDuty service
 
 ---
 
-## 10. Feedback & Platform Improvement
+## 📈 10. Feedback & Platform Improvement
 
 The platform exists to serve engineering teams. Teams should provide feedback via:
 - **Monthly DX survey** — NPS-style, 3 questions, 2 minutes
@@ -333,7 +331,7 @@ Platform team SLA for responding to feedback: 2 business days.
 
 ---
 
-## 11. Onboarding Buddy Program
+## 🤝 11. Onboarding Buddy Program
 
 Every new joiner is assigned an **onboarding buddy** from their team. The buddy is not the new joiner's manager.
 
@@ -363,7 +361,7 @@ At the end of the 4-week period:
 
 ---
 
-## 12. Documentation Standards
+## 📏 12. Documentation Standards
 
 ### Required Metadata
 
@@ -397,5 +395,8 @@ Any PR that changes **observable behavior** (API response format, configuration 
 - Manual API documentation is not maintained separately — it drifts and becomes a liability
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,12 +1,10 @@
-# Data Platform Standards
+# 🏗️ Data Platform
 
-> **Status:** Mandated  
-> **Owner:** Data Engineering + Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Data Engineering + Platform Engineering](https://img.shields.io/badge/owner-Data_Engineering_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Data Ownership Principle
+## 🎯 1. Data Ownership Principle
 
 Each domain service is the **single source of truth** for its own data. No other service reads from a domain's database directly. Data is shared through:
 - APIs (synchronous, request-time)
@@ -15,7 +13,7 @@ Each domain service is the **single source of truth** for its own data. No other
 
 ---
 
-## 2. Event Schema Registry
+## 📏 2. Event Schema Registry
 
 ### 2.1 Standard
 
@@ -49,7 +47,7 @@ Examples:
 
 ---
 
-## 3. Analytics Data Pipeline
+## 🏗️ 3. Analytics Data Pipeline
 
 ### 3.1 Architecture
 
@@ -92,7 +90,7 @@ Operational DBs (Aurora)
 
 ---
 
-## 4. GDPR & Data Compliance
+## 🔐 4. GDPR & Data Compliance
 
 - **Right to erasure:** Implemented via a `data-deletion-service` that accepts a customer/provider ID and triggers deletion across all operational stores and queues a downstream analytics tombstone event
 - **Data residency:** All EU customer data stored in `eu-west-1` or `eu-central-1` only; enforced by SCP
@@ -103,7 +101,7 @@ Operational DBs (Aurora)
 
 ---
 
-## 5. Data Store Selection Guide
+## 🎯 5. Data Store Selection Guide
 
 Picking the wrong data store is expensive to fix. Use this decision guide before choosing:
 
@@ -132,7 +130,7 @@ Is this for real-time geospatial queries (provider locations)?
 
 ---
 
-## 6. Provider Location — Geospatial Pattern
+## 🧩 6. Provider Location — Geospatial Pattern
 
 Provider location updates are the highest-frequency writes on the platform (~5 updates/second/active provider). They use Redis geospatial indexes:
 
@@ -173,7 +171,7 @@ public class ProviderLocationRepository {
 
 ---
 
-## 7. Analytics Pipeline — Step by Step
+## 🏗️ 7. Analytics Pipeline — Step by Step
 
 ### 7.1 Change Data Capture (CDC) with Debezium
 
@@ -227,7 +225,7 @@ Kafka Connect S3 Sink writes CDC events to S3 in Parquet format. AWS Glue crawls
 
 ---
 
-## 8. Data Ownership Anti-Patterns
+## ❌ 8. Data Ownership Anti-Patterns
 
 These are the most common mistakes. Avoid them:
 
@@ -241,7 +239,7 @@ These are the most common mistakes. Avoid them:
 
 ---
 
-## 9. Redshift Conventions
+## 📏 9. Redshift Conventions
 
 ### 9.1 Schema Naming
 
@@ -289,7 +287,7 @@ SORTKEY (completed_at);
 
 ---
 
-## 10. Pipeline Orchestration
+## 🏗️ 10. Pipeline Orchestration
 
 ### 10.1 Orchestrator Selection
 
@@ -326,7 +324,7 @@ SLA misses trigger alerts to the data platform team's Slack channel and are trac
 
 ---
 
-## 11. CDC Operations
+## 🏗️ 11. CDC Operations
 
 ### 11.1 Connector Lifecycle
 
@@ -358,7 +356,7 @@ The Debezium connector will automatically pick up new columns. Removing columns 
 
 ---
 
-## 12. Real-Time Analytics
+## 📊 12. Real-Time Analytics
 
 | Technology | Use Case | Status |
 |-----------|----------|--------|
@@ -370,7 +368,7 @@ Kinesis Data Analytics is the approved solution for streaming analytics. For nea
 
 ---
 
-## 13. Fine-Grained Data Access
+## 🔐 13. Fine-Grained Data Access
 
 ### 13.1 Column-Level Grants
 
@@ -404,7 +402,7 @@ USING (region = current_setting('app.current_region'));
 
 ---
 
-## 14. Pipeline Freshness Monitoring
+## 📊 14. Pipeline Freshness Monitoring
 
 ### 14.1 Thresholds
 
@@ -436,5 +434,8 @@ USING (region = current_setting('app.current_region'));
 ```
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,12 +1,10 @@
-# Local Development Guide
+# 💻 Local Development Guide
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Prerequisites](#1-prerequisites)
 2. [Clone-to-Running in Five Minutes](#2-clone-to-running-in-five-minutes)
@@ -19,7 +17,7 @@
 
 ---
 
-## 1. Prerequisites
+## 💻 1. Prerequisites
 
 Every {Company} engineer needs the following installed before cloning any service repository.
 
@@ -46,7 +44,7 @@ Every {Company} engineer needs the following installed before cloning any servic
 
 ---
 
-## 2. Clone-to-Running in Five Minutes
+## 💻 2. Clone-to-Running in Five Minutes
 
 Every service repository follows the same bootstrap flow:
 
@@ -73,7 +71,7 @@ The service is ready when `http://localhost:8080/actuator/health` returns `{"sta
 
 ---
 
-## 3. Docker Compose Stack
+## 💻 3. Docker Compose Stack
 
 All {Company} services share a common `docker-compose.infra.yml` pulled from the `platform-local-stack` repository. Services extend it with a local `docker-compose.override.yml` for service-specific needs.
 
@@ -180,7 +178,7 @@ To avoid conflicts when running multiple services simultaneously, each service r
 
 ---
 
-## 4. Database Seeding
+## 🗄️ 4. Database Seeding
 
 ### 4.1 Seed Script Convention
 
@@ -226,7 +224,7 @@ ON CONFLICT (code) DO NOTHING;
 
 ---
 
-## 5. Secrets in Local Dev
+## 🔐 5. Secrets in Local Dev
 
 ### 5.1 `.env.local` with Dummy Values
 
@@ -293,7 +291,7 @@ public class LocalSecretsConfig {
 
 ---
 
-## 6. Makefile Targets
+## 💻 6. Makefile Targets
 
 Every {Company} service repository includes a `Makefile` with standardized targets. Teams may add service-specific targets but must not remove or rename the platform targets.
 
@@ -358,7 +356,7 @@ clean:
 
 ---
 
-## 7. First PR Path
+## 🛤️ 7. First PR Path
 
 New engineers should ship code on their first day. The recommended first PR path is intentionally simpler than the golden path scaffold — it removes the cognitive overhead of creating a new service.
 
@@ -397,7 +395,7 @@ Every new engineer is assigned a **buddy** from their team. The buddy:
 
 ---
 
-## 8. Troubleshooting FAQ
+## 💻 8. Troubleshooting FAQ
 
 ### 8.1 Common Issues
 
@@ -432,5 +430,8 @@ Every new engineer is assigned a **buddy** from their team. The buddy:
 | **Backstage docs** | Self-service reference | N/A |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

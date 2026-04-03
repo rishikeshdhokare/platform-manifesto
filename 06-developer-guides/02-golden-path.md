@@ -1,12 +1,10 @@
-# The Golden Path
+# 🛤️ Golden Path
 
-> **Status:** Reference  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Reference](https://img.shields.io/badge/status-Reference-yellow?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## What Is the Golden Path?
+## 🎯 What Is the Golden Path?
 
 The golden path is a **complete, opinionated, end-to-end walkthrough** of building and shipping a service on this platform. It covers everything from creating the repository to running code in production, observable and monitored.
 
@@ -14,7 +12,7 @@ This is not a tutorial — it is **the way things are done here**. Following it 
 
 ---
 
-## End-to-End Steps
+## 🛤️ End-to-End Steps
 
 ### Step 1: Scaffold the Service
 
@@ -351,7 +349,7 @@ Link the runbook from `catalog-info.yaml`.
 
 ---
 
-## Checklist: Is My Service Golden Path Compliant?
+## 📋 Checklist: Is My Service Golden Path Compliant?
 
 ```
 Repository & Code
@@ -396,7 +394,7 @@ Production Readiness
 
 ---
 
-## JVM Options Template
+## 🏗️ JVM Options Template
 
 All Java services deployed via the shared Helm chart use a standard set of JVM flags. These are configured in the Helm chart's default values and applied automatically to every service.
 
@@ -436,5 +434,8 @@ jvmOpts: >-
 ```
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

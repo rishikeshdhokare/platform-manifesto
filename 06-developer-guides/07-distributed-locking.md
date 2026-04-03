@@ -1,16 +1,10 @@
-# 🔒 Distributed Locking Patterns
+# 🔐 Distributed Locking
 
-> **{Company} Platform Manifesto** · Developer Guides
-
-| Field | Value |
-|-------|-------|
-| **Status** | Active |
-| **Owner** | Platform Engineering |
-| **Last Updated** | 2026-03-31 |
+![Status: Active](https://img.shields.io/badge/status-Active-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026-03-31](https://img.shields.io/badge/updated-2026--03--31-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [When You Need Distributed Locks](#1-when-you-need-distributed-locks)
 2. [Optimistic Locking with JPA @Version](#2-optimistic-locking-with-jpa-version)
@@ -23,7 +17,7 @@
 
 ---
 
-## 1. When You Need Distributed Locks
+## 🎯 1. When You Need Distributed Locks
 
 In a platform serving concurrent requests, certain operations **must not happen twice**:
 
@@ -47,7 +41,7 @@ The form of coordination depends on the scope:
 
 ---
 
-## 2. Optimistic Locking with JPA @Version
+## 🔐 2. Optimistic Locking with JPA @Version
 
 Optimistic locking is the **default choice**. It requires no external infrastructure, has zero contention overhead in the happy path, and leverages the database's own MVCC guarantees.
 
@@ -133,7 +127,7 @@ public class OrderService {
 
 ---
 
-## 3. Redis Distributed Locks with Redisson
+## 🔐 3. Redis Distributed Locks with Redisson
 
 When the coordination boundary extends beyond a single database, the platform uses **Redisson** to acquire distributed locks backed by Redis.
 
@@ -223,7 +217,7 @@ Examples:
 
 ---
 
-## 4. Lock Timeout and Lease Expiry
+## 🔐 4. Lock Timeout and Lease Expiry
 
 Distributed locks **must always have a lease (TTL)**. A lock without a timeout is a deadlock waiting to happen.
 
@@ -254,7 +248,7 @@ Thread B acquires lock at T+10s — system recovers
 
 ---
 
-## 5. Double-Assignment Prevention
+## 🔐 5. Double-Assignment Prevention
 
 The canonical example of distributed locking on the platform: preventing two orders from being assigned to the same provider simultaneously.
 
@@ -301,7 +295,7 @@ The lock ensures mutual exclusion. The status check ensures correctness even if 
 
 ---
 
-## 6. Testing Concurrent Access
+## 🧩 6. Testing Concurrent Access
 
 Concurrency bugs only manifest under load. Every locking implementation must include a concurrent access test.
 
@@ -389,7 +383,7 @@ class ProviderAssignmentConcurrencyTest {
 
 ---
 
-## 7. Anti-Patterns
+## ❌ 7. Anti-Patterns
 
 | Anti-Pattern | Why It's Dangerous | What to Do Instead |
 |--------------|--------------------|--------------------|
@@ -404,7 +398,7 @@ class ProviderAssignmentConcurrencyTest {
 
 ---
 
-## 8. Decision Guide
+## 🎯 8. Decision Guide
 
 ### When to Lock — and How
 
@@ -439,5 +433,8 @@ flowchart TD
 | Single-threaded processor? | No concurrency → no lock needed | None |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

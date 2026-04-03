@@ -1,16 +1,10 @@
 # ⚡ Cache Patterns
 
-> **{Company} Platform Manifesto** · Developer Guides
-
-| Field | Value |
-|-------|-------|
-| **Status** | Active |
-| **Owner** | Platform Engineering |
-| **Last Updated** | 2026-03-31 |
+![Status: Active](https://img.shields.io/badge/status-Active-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026-03-31](https://img.shields.io/badge/updated-2026--03--31-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Caching Philosophy](#1-caching-philosophy)
 2. [Cache-Aside Pattern](#2-cache-aside-pattern)
@@ -25,7 +19,7 @@
 
 ---
 
-## 1. Caching Philosophy
+## 🎯 1. Caching Philosophy
 
 > **A cache is always eventually consistent. Design accordingly.**
 
@@ -41,7 +35,7 @@ Caching is a performance optimization, not a source of truth. Every cached value
 
 ---
 
-## 2. Cache-Aside Pattern
+## 🧩 2. Cache-Aside Pattern
 
 Cache-aside (also called lazy-loading) is the **default caching pattern**. The application manages the cache explicitly: read from cache first; on miss, read from database and populate cache.
 
@@ -116,7 +110,7 @@ public class PricingRuleService {
 
 ---
 
-## 3. TTL Strategy
+## ⚡ 3. TTL Strategy
 
 TTL (time-to-live) defines the maximum staleness window. Choose TTL based on how frequently the data changes and how damaging a stale read is.
 
@@ -150,7 +144,7 @@ flowchart TD
 
 ---
 
-## 4. Event-Driven Invalidation
+## ⚡ 4. Event-Driven Invalidation
 
 For data with long TTLs, relying on natural expiry alone means users see stale data for too long after a change. The platform uses **Kafka-driven cache invalidation** to proactively clear cache entries when the source data changes.
 
@@ -230,7 +224,7 @@ Cache invalidation is inherently idempotent — evicting a key that doesn't exis
 
 ---
 
-## 5. Cache Warming on Startup
+## ⚡ 5. Cache Warming on Startup
 
 For critical reference data, a cold cache on startup means the first requests after a deployment pay a latency penalty. The platform warms key caches during application startup.
 
@@ -285,7 +279,7 @@ The `ApplicationRunner` sets a readiness flag that the health indicator checks.
 
 ---
 
-## 6. Cache Stampede Prevention
+## ⚡ 6. Cache Stampede Prevention
 
 A **cache stampede** occurs when a popular cache key expires and hundreds of concurrent requests simultaneously query the database to re-fill it. This can overload the database.
 
@@ -373,7 +367,7 @@ public PricingRule getPricingRuleWithEarlyExpiry(String cacheKey) {
 
 ---
 
-## 7. What NOT to Cache
+## ❌ 7. What NOT to Cache
 
 Some data categories must **never** be stored in Redis, regardless of performance benefits.
 
@@ -392,7 +386,7 @@ Some data categories must **never** be stored in Redis, regardless of performanc
 
 ---
 
-## 8. Metrics
+## 📊 8. Metrics
 
 A cache without observability is a liability. Every cache exposes the following metrics to Prometheus, visualized in Grafana.
 
@@ -434,7 +428,7 @@ management:
 
 ---
 
-## 9. Redis Configuration
+## ⚡ 9. Redis Configuration
 
 ### Spring Boot Application Configuration
 
@@ -492,7 +486,7 @@ Examples:
 
 ---
 
-## 10. Decision Guide
+## 🎯 10. Decision Guide
 
 ### Should You Cache This Data?
 
@@ -537,7 +531,7 @@ flowchart TD
 
 ---
 
-## 11. In-Process Caching (Caffeine)
+## ⚡ 11. In-Process Caching (Caffeine)
 
 Not all caching requires Redis. For small, frequently accessed reference data with short TTLs, an in-process cache avoids the network round-trip entirely.
 
@@ -614,5 +608,8 @@ public CurrencyConfig getCurrencyConfig(String currencyCode) {
 ```
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>
