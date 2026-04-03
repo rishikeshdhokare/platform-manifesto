@@ -441,7 +441,7 @@ modules/
 ### Terraform Snippet — Basic Route with Authorizer
 
 ```hcl
-module "rider_bff_route" {
+module "customer_bff_route" {
   source = "../../modules/api-gateway"
 
   api_name    = "{company}-platform-api"

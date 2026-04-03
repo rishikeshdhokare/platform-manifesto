@@ -372,7 +372,9 @@ spring:
 
 ## 6. API Gateway Rate Limiting
 
-Rate limiting at the API Gateway (Kong) is the first line of defence — it rejects abusive or excessive traffic before it reaches application services.
+> **Note:** The primary API edge is AWS API Gateway + WAF (see `04-infrastructure-and-cloud/07-api-gateway-strategy.md`). Kong is referenced here as an alternative for service-level rate limiting within the mesh; the platform standard is API Gateway for external traffic.
+
+Rate limiting at the API Gateway is the first line of defence — it rejects abusive or excessive traffic before it reaches application services.
 
 ### 6.1 Rate Limiting Dimensions
 

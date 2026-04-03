@@ -192,4 +192,92 @@ pipeline where it makes more sense at scale.
 
 ---
 
+## 6. Inner Source Standards
+
+Any engineer may open a PR to any service they don't own. The following standards govern how inner source contributions are handled.
+
+### Maintainer SLA
+
+| Action | SLA |
+|--------|-----|
+| Acknowledge PR (comment or review) | Within 48 hours |
+| Final decision (approve or reject with rationale) | Within 5 business days |
+
+### Accept/Reject Criteria
+
+A contributed PR must:
+- Pass CI (all checks green)
+- Follow the service's coding standards and style guide
+- Include tests covering the change
+- Not introduce breaking changes to the service's API
+
+### Breaking Changes to Shared Libraries
+
+Breaking changes to shared libraries require:
+1. An **RFC** documenting the change and its impact
+2. A **4-week communication window** to all consumers before merge
+3. A **migration guide** included in the PR
+
+### On-Call Responsibility
+
+The **owning team** remains on-call for inner source contributions. Contributors are **NOT** responsible for production issues arising from their merged PRs. The owning team accepts operational responsibility at merge time.
+
+### Recognition
+
+Inner source contributions count toward **engineering ladder progression** — specifically the "collaboration" and "impact beyond team" dimensions. Contributions are tracked via GitHub PR metadata.
+
+---
+
+## 7. Technical Debt Registry
+
+### Registry Location
+
+Technical debt is tracked on a dedicated Jira board with a `tech-debt` issue type.
+
+### Required Fields
+
+| Field | Description | Example Values |
+|-------|-------------|----------------|
+| Title | Short description of the debt item | "Orders Service still uses deprecated Kafka client" |
+| Owning Team | Team responsible for resolution | Fulfillment, Payments, Platform |
+| Blast Radius | Scope of impact | Single service / Cross-service / Platform |
+| Customer Impact | Effect if debt is not addressed | None / Degraded experience / Risk of outage |
+| Estimated Effort | T-shirt size | S / M / L / XL |
+| Age | When the debt was first identified | Auto-tracked from creation date |
+
+### Priority Scoring
+
+```
+Priority Score = (blast_radius × 3) + (customer_impact × 3) + (age_months × 1) + (effort_inverse × 1)
+```
+
+Higher score = higher priority. Scoring values:
+
+| Factor | Values |
+|--------|--------|
+| Blast radius | Single service = 1, Cross-service = 2, Platform = 3 |
+| Customer impact | None = 0, Degraded experience = 2, Risk of outage = 3 |
+| Age (months) | Actual months since creation (capped at 12) |
+| Effort inverse | XL = 1, L = 2, M = 3, S = 4 (smaller items are easier to close) |
+
+### Sequencing
+
+- **Monthly:** Top 5 items by score reviewed in engineering leadership sync
+- **Quarterly:** Each team must include the top item from their backlog in their sprint
+- **20% capacity:** Each team allocates 20% of sprint capacity to tech debt reduction — this is non-negotiable (see Section 3.3)
+
+### Executive Escalation
+
+If a team's tech debt capacity (< 20%) is consistently redirected to product work for **more than 2 consecutive quarters**, VP Engineering intervenes to rebalance priorities.
+
+### Reporting
+
+Quarterly tech debt report to the CTO covering:
+- Total items (open, by blast radius and customer impact)
+- Items closed since last report
+- Top risks (highest-scoring unresolved items)
+- Trending (is debt growing or shrinking?)
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

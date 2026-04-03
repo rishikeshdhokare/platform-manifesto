@@ -252,7 +252,48 @@ env:
 
 ---
 
-## 11. Job Scheduling — Amazon EventBridge Scheduler
+## 11. Certificate Lifecycle Management
+
+### 11.1 ACM Certificates
+
+AWS Certificate Manager certificates attached to ALBs and CloudFront distributions are **auto-renewed** by AWS. No manual action is required. These cover the majority of the platform's external TLS.
+
+### 11.2 Non-ACM Certificates
+
+Third-party certificates (partner mTLS, vendor-issued certificates, client certificates for external integrations) require manual tracking:
+
+- All non-ACM certificates are recorded in a **certificate inventory spreadsheet** (linked from the platform runbook in Backstage)
+- Each entry includes: domain/CN, issuer, expiry date, owning team, renewal procedure, and associated service
+- Expiry is monitored via a **CloudWatch custom metric** (`certificate.days_until_expiry`) emitted daily by a scheduled Lambda
+
+### 11.3 Expiry Alerting
+
+| Days Before Expiry | Action |
+|---------------------|--------|
+| **30 days** | Slack notification to owning team + `#platform-alerts` |
+| **14 days** | PagerDuty low-urgency alert to owning team |
+| **7 days** | PagerDuty high-urgency alert to owning team + engineering manager escalation |
+
+### 11.4 Istio CA Rotation
+
+Istio's **intermediate CA certificate** (issued by a root CA managed by Platform Engineering) is rotated **annually**. The rotation procedure is documented in the Istio CA rotation runbook and includes:
+
+- Generating a new intermediate CA signed by the root CA
+- Configuring Istio to serve both old and new CA certificates during a 48-hour overlap window
+- Verifying mTLS connectivity across all namespaces before removing the old CA
+- Post-rotation validation via automated mesh health checks
+
+### 11.5 Certificate Pinning Coordination
+
+Any server certificate change that affects mobile clients requires coordination with the mobile team:
+
+- The mobile team must be notified **60 days before** any server certificate change (issuer change, key rotation, or domain migration)
+- This allows time to ship an app update that trusts the new certificate before the old one expires
+- Cross-reference: see [09-mobile-and-frontend/01-mobile-standards.md](../09-mobile-and-frontend/01-mobile-standards.md) for mobile certificate pinning implementation standards
+
+---
+
+## 12. Job Scheduling — Amazon EventBridge Scheduler
 
 All scheduled tasks (previously cron jobs) are managed via EventBridge Scheduler:
 
@@ -263,7 +304,7 @@ All scheduled tasks (previously cron jobs) are managed via EventBridge Scheduler
 
 ---
 
-## 12. Platform Component Health
+## 13. Platform Component Health
 
 The platform team publishes a **Platform Status Page** (internal) showing the health of all shared components. Teams can subscribe to incident notifications for components they depend on.
 

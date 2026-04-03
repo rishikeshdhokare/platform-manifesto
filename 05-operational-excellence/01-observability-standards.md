@@ -501,4 +501,245 @@ sla: "< 500ms from state transition"
 
 ---
 
+## 9. Error Budget Operations
+
+### 9.1 Burn-Rate Alerting
+
+Error budgets are monitored using **multi-window burn-rate alerts** implemented as Prometheus recording rules. Two windows are evaluated simultaneously:
+
+| Window | Purpose | Alert Condition |
+|--------|---------|-----------------|
+| **1-hour** | Detect fast burns (acute incidents) | Burn rate > 14.4× (consumes 100% of 30-day budget in 1 hour) |
+| **6-hour** | Detect slow burns (chronic degradation) | Burn rate > 6× (consumes 100% of 30-day budget in 6 hours) |
+
+Both windows must exceed their threshold simultaneously to fire an alert — this eliminates false positives from brief spikes.
+
+### 9.2 SLI Specification per SLO
+
+Every SLO must define its Service Level Indicator (SLI) precisely:
+
+| SLO Type | SLI Formula | Example |
+|----------|-------------|---------|
+| **Availability** | `1 - (error_requests / total_requests)` | 99.9% availability = error rate must be < 0.1% over the window |
+| **Latency** | `(requests_below_threshold / total_requests)` | 99th percentile < 500ms means ≥ 99% of requests must complete in < 500ms |
+
+SLIs are computed from Prometheus counters — not from logs or synthetic checks. The authoritative SLI source is the service's own instrumentation.
+
+### 9.3 Release Gating
+
+- Deployments are **paused automatically** when the service's error budget has < 20% remaining in the current 30-day window
+- When error budget is **exhausted (0% remaining)**, a feature freeze is enforced — only reliability-improving changes may be deployed
+- CI/CD pipeline queries the SLO dashboard API before proceeding with production promotion
+- Emergency hotfixes may bypass the gate with explicit approval (see below)
+
+### 9.4 Error Budget Policy Table
+
+| Budget Remaining | Status | Permitted Changes | Approval Required |
+|-----------------|--------|-------------------|-------------------|
+| > 50% | **Normal** | All changes permitted | Standard PR review |
+| 20–50% | **Caution** | No risky changes (schema migrations, major refactors, new integrations); feature work continues | Service owner must approve any deployment |
+| < 20% | **Reliability mode** | Only reliability improvements, bug fixes, and observability enhancements | Service owner approves all changes |
+| 0% (exhausted) | **Freeze** | Only incident fixes and reliability work; all feature work paused | VP Engineering approves any deployment |
+
+### 9.5 Exception Approval
+
+| Status | Who Approves Exceptions |
+|--------|------------------------|
+| Caution | Service owner (Tech Lead) |
+| Reliability mode | Service owner + Platform Engineering lead |
+| Freeze | VP Engineering — written justification required, time-boxed exception only |
+
+Exceptions are logged in the Reliability Review Board minutes and reviewed in the next monthly meeting.
+
+---
+
+## 10. Metric Cardinality
+
+### 10.1 Cardinality Ceiling
+
+Every service must maintain **fewer than 100,000 active time series** in Prometheus. Exceeding this ceiling degrades query performance for the entire monitoring cluster and increases storage costs non-linearly.
+
+The platform team monitors per-service cardinality via:
+```promql
+count by (service) ({__name__=~".+"})
+```
+
+Services approaching 80% of the ceiling receive automated warnings. Services exceeding the ceiling are required to reduce cardinality within 5 business days.
+
+### 10.2 Forbidden Labels
+
+The following values must **never** be used as Prometheus metric labels:
+
+| Forbidden Label | Reason |
+|----------------|--------|
+| `user_id` | Unbounded cardinality — one series per user |
+| `session_id` | Unbounded cardinality — one series per session |
+| `request_id` | Unbounded cardinality — one series per request |
+| `trace_id` | Unbounded cardinality — one series per trace |
+
+These identifiers belong in **logs and traces**, not in metrics. If you need to count events per user, use a counter with bounded labels (e.g., `region`, `service_type`) and correlate with logs for per-user drill-down.
+
+CI enforcement: the platform Prometheus metric linter (see Section 10.5) rejects any metric using these labels.
+
+### 10.3 Histogram Bucket Conventions
+
+All latency histograms must use the following standard bucket boundaries (in seconds):
+
+```yaml
+buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
+```
+
+This set provides sufficient resolution for both fast endpoints (< 100ms) and slower operations (multi-second). Services may add **additional** buckets for specific needs but must not remove any standard buckets.
+
+For Micrometer (Spring Boot), configure in `application.yml`:
+```yaml
+management:
+  metrics:
+    distribution:
+      slo:
+        http.server.requests: 5ms,10ms,25ms,50ms,100ms,250ms,500ms,1s,2.5s,5s,10s
+```
+
+### 10.4 Recording Rules for High-Cardinality Business Metrics
+
+Any business metric with **more than 10 label combinations** must have a Prometheus recording rule that pre-aggregates common queries. This avoids expensive real-time aggregation at query time.
+
+Example — if `business.orders.requested` has labels `region`, `service_type`, `channel`, and `pricing_tier`:
+
+```yaml
+groups:
+- name: orders-business-recording-rules
+  rules:
+  - record: business:orders_requested:rate5m_by_region
+    expr: sum by (region) (rate(business_orders_requested_total[5m]))
+  - record: business:orders_requested:rate5m_by_service_type
+    expr: sum by (service_type) (rate(business_orders_requested_total[5m]))
+```
+
+Dashboard queries must reference the recording rule, not the raw metric.
+
+### 10.5 CI Check: Prometheus Metric Linting
+
+Every service CI pipeline includes a **Prometheus metric lint step** that validates:
+
+| Check | Rule |
+|-------|------|
+| Forbidden labels | Rejects `user_id`, `session_id`, `request_id`, `trace_id` |
+| Naming conventions | Metric names must follow `snake_case` with unit suffix (`_seconds`, `_bytes`, `_total`) |
+| Histogram buckets | Latency histograms must include all standard buckets |
+| Cardinality estimate | Static analysis flags metrics with > 5 labels as requiring review |
+
+The linter runs as part of the `test` stage in the CI pipeline. Failures block the build.
+
+---
+
+## 11. Alert Hygiene
+
+### 11.1 Noise Budget
+
+Each on-call rotation has a **noise budget of fewer than 5 non-actionable pages**. A non-actionable page is one where the on-call engineer acknowledged the alert but no human intervention was required (the system self-healed, or the alert was a false positive).
+
+If a rotation exceeds 5 non-actionable pages, the team must dedicate time in the next sprint to tune or remove the offending alerts.
+
+### 11.2 Monthly Alert Review
+
+On the first week of every month, each team reviews all alerts that fired in the previous month:
+
+| Alert Outcome | Action |
+|---------------|--------|
+| Paged and required intervention | Keep — validate runbook is current |
+| Paged but resolved itself before engineer acted | Tune threshold or add `for` duration to debounce |
+| Paged and was a false positive | Fix or delete the alert |
+| Never fired in 6+ months | Review — is the threshold too high? Is the alert still relevant? |
+
+Alerts that paged but required no action for **two consecutive months** must be deleted or reworked.
+
+### 11.3 Signal-to-Noise Target
+
+**> 80% of pages should result in meaningful human intervention.** This is tracked monthly per team and reviewed in the Reliability Review Board.
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Actionable page rate | > 80% | (pages requiring intervention / total pages) × 100 |
+| Non-actionable pages per rotation | < 5 | Count of pages where no action was taken |
+| Mean time to acknowledge | < 5 min (P1), < 15 min (P2) | PagerDuty analytics |
+
+### 11.4 Runbook Linkage
+
+Every alert — regardless of severity — must include a `runbook` annotation linking to its runbook:
+
+```yaml
+annotations:
+  runbook: "https://wiki.{company}.internal/runbooks/{{ $labels.service }}#{{ $labels.alertname }}"
+```
+
+An alert without a runbook link is treated as an observability bug and must be fixed within the current sprint.
+
+### 11.5 Severity Review
+
+A **quarterly audit** of alert severity distribution is conducted by the Platform Engineering team:
+
+| Check | Purpose |
+|-------|---------|
+| P1 count trend | Are P1 alerts increasing? Indicates systemic reliability issues |
+| P1 → P2 reclassification | Alerts originally classified as P1 that consistently have low impact should be downgraded |
+| P2 → P1 promotion | Alerts classified as P2 that consistently cause significant user impact should be upgraded |
+| Orphaned alerts | Alerts for services that have been decommissioned or significantly refactored |
+
+Results are presented at the Reliability Review Board and feed into the quarterly incident pattern analysis.
+
+---
+
+## 12. Log Retention & Legal Hold
+
+### 12.1 Retention Tiers
+
+| Tier | Storage | Retention Period | Query Performance |
+|------|---------|-----------------|-------------------|
+| **Hot** | Amazon OpenSearch Service | 30 days | Full-text search, sub-second queries |
+| **Cold** | Amazon S3 (Glacier Flexible Retrieval) | 1 year | Retrieval within 3–5 hours on request |
+
+After cold retention expires, logs are permanently deleted unless a legal hold is in effect.
+
+### 12.2 Legal Hold Process
+
+On request from the Legal team, specific log streams can be **frozen indefinitely** until the hold is explicitly released.
+
+**Process:**
+1. Legal sends a written request to `platform-engineering@{company}.com` specifying the log streams (service name, date range, any relevant identifiers)
+2. Platform Engineering applies **S3 Object Lock** (Governance mode or Compliance mode, as directed by Legal) to the relevant log objects
+3. Platform Engineering confirms the hold in writing to Legal, referencing the object lock configuration
+4. Locked objects are excluded from lifecycle expiration rules — they persist until Legal issues a release
+5. On release, Platform Engineering removes the object lock and logs resume normal lifecycle
+
+Legal holds are tracked in a shared register accessible to Platform Engineering and Legal.
+
+### 12.3 Cost Management
+
+High-volume services (producing **> 1 TB/month** of logs) must implement log sampling to control costs:
+
+| Log Level | Production Sampling Rate | Rationale |
+|-----------|------------------------|-----------|
+| `ERROR` | 1:1 (no sampling) | Every error is valuable |
+| `WARN` | 1:1 (no sampling) | Warnings indicate potential issues |
+| `INFO` | 1:1 (no sampling) | Business events and lifecycle events |
+| `DEBUG` | 1:10 (10% sampled) | Diagnostic detail — most value is in traces, not debug logs |
+
+Sampling is implemented at the Fluent Bit layer using probabilistic sampling filters — application code does not need to change.
+
+Services below 1 TB/month are not required to sample but are encouraged to keep DEBUG disabled in production by default (per Section 2.5).
+
+### 12.4 Per-Tier Retention Override
+
+| Service Tier | Hot Retention | Cold Retention | Approval Required |
+|-------------|---------------|----------------|-------------------|
+| Standard | 30 days | 1 year | None (default) |
+| **Tier 1 (critical services)** | Up to 90 days | 1 year | VP Engineering approval |
+
+Tier 1 services (Orders, Payments, Fulfillment) may request extended hot retention when longer query access is operationally justified (e.g., for slow-developing financial reconciliation issues). Requests are made via a platform engineering ticket and approved by VP Engineering.
+
+Extended retention increases OpenSearch storage costs — the requesting team's cost centre is charged for the incremental storage.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

@@ -190,4 +190,58 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
+## 11. SLOs and Error Budgets
+
+| SLO | Target | Measurement |
+|-----|--------|-------------|
+| **Availability** | 99.9% (measured monthly) | Successful gRPC responses / total requests |
+| **Multiplier lookup latency (p99)** | < 50ms for `GetCurrentMultiplier` | Prometheus histogram on gRPC handler duration (Redis read path) |
+| **Zone resolution latency (p99)** | < 100ms for `GetZoneForLocation` | Prometheus histogram on gRPC handler duration |
+| **Error rate** | < 0.1% 5xx / gRPC INTERNAL errors | Application error counters per RPC method |
+
+**Error budget policy:** Dynamic Pricing directly affects customer-facing price estimates. When the monthly error budget is exhausted, the team must conduct a reliability review and defer feature work until the budget recovers.
+
+---
+
+## 12. Failure Modes
+
+| Failure Scenario | User Impact | Fallback Strategy |
+|-----------------|-------------|-------------------|
+| **Redis unavailable (multiplier store)** | Cannot retrieve current multiplier for a zone | **Fallback to 1.0x multiplier** (base pricing only) — customers see standard pricing; no dynamic component. Alert fires immediately. |
+| **Multiplier computation pipeline stalled** | Stale multipliers remain in Redis past their TTL | Multipliers auto-expire via Redis TTL (~5 min); after expiry, `GetCurrentMultiplier` returns 1.0x default. Stale zone data is tolerated for up to the TTL window. |
+| **Demand/supply signal consumer lag** | Multipliers do not reflect current demand accurately | Multipliers are computed from last-available signals; acceptable staleness up to 2 minutes. Beyond that, consumer lag alert fires and the pipeline is investigated. |
+| **RDS (zone config) unavailable** | Cannot load or update zone configurations | Zone configs are cached in-memory at startup and refreshed periodically; cached config continues to serve. Config updates are deferred until RDS recovers. |
+| **H3 zone resolution failure** | Cannot map a location to a pricing zone | Return gRPC `NOT_FOUND` with appropriate message; Pricing Service falls back to market-level default multiplier |
+
+---
+
+## 13. Capacity Sizing
+
+| Resource | Configuration |
+|----------|--------------|
+| **Min replicas** | 3 (production) |
+| **Max replicas** | 15 (HPA) |
+| **HPA target** | 60% CPU utilization |
+| **Redis** | ElastiCache cluster (cluster mode enabled) for multiplier values |
+| **RDS** | Shared Commercial team RDS cluster for zone config and pricing history |
+| **DB connection pool** | 10 connections per pod |
+| **Peak QPS** | ~1,500 req/s for `GetCurrentMultiplier` (called on every price estimate) |
+| **Memory** | 512Mi request / 1Gi limit per pod |
+| **CPU** | 500m request / 1000m limit per pod |
+
+---
+
+## 14. Data Retention Matrix
+
+| Store | Data | Retention | Deletion Mechanism |
+|-------|------|-----------|-------------------|
+| **Redis** — multiplier values | Current effective multiplier per zone | ~5 minutes TTL | Automatic TTL expiry; stale multipliers are never served |
+| **RDS** — `pricing_zones` / `pricing_zone_configs` | Zone definitions, geometry refs, curve parameters | Indefinite (configuration data) | Soft-delete inactive zones; never hard-delete for audit |
+| **RDS** — `multiplier_history` | Time series of multiplier values per zone | 1 year | Scheduled archival job → S3; deleted from RDS after archival |
+| **Kafka** — `dynamicpricing.*` topics | Published multiplier events and demand spikes | 14 days (platform default) | Kafka topic retention policy |
+| **Kafka** — consumed event topics | Order and provider location events | 14 days (platform default) | Kafka topic retention policy |
+| **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
+
+---
+
 ← [Back to Domain Catalog](./README.md)

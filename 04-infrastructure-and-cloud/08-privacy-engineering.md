@@ -466,4 +466,55 @@ Every quarter, the Security team conducts an access review:
 
 ---
 
+## 12. Compliance Frameworks & Audit Readiness
+
+### 12.1 Framework Coverage
+
+| Framework | Status | Notes |
+|-----------|--------|-------|
+| **GDPR** | ✅ Implemented | Full compliance — see Sections 3–9 of this document |
+| **PCI-DSS** | ✅ Implemented | Payment data tokenized via PSP; platform never stores raw card data |
+| **SOC 2 Type II** | ✅ Implemented | Annual audit cycle; trust services criteria mapped in Section 11 |
+| **ISO 27001** | 🟡 Target | Certification targeted within **12 months**; gap analysis complete, remediation in progress |
+
+### 12.2 Compliance-as-Code
+
+All compliance controls are codified and version-controlled:
+
+- **AWS Config rules** — continuous compliance checks for resource configurations (encryption enabled, public access blocked, logging active)
+- **Security Hub standards** — CIS AWS Foundations Benchmark and PCI-DSS standard enabled across all accounts
+- **CloudTrail** — enabled in all regions, all accounts, with log file validation and S3 lifecycle policies for retention
+- All of the above are **defined in Terraform** — no manual Security Hub or Config rule configuration
+
+### 12.3 Continuous Control Monitoring
+
+Automated evidence collection runs continuously for SOC 2 controls:
+
+| Control Area | Automated Evidence |
+|-------------|-------------------|
+| **Access reviews** | IAM user/role inventory exported monthly; stale credentials flagged automatically |
+| **Encryption verification** | AWS Config rule checks that all RDS, S3, EBS, and Secrets Manager resources have encryption enabled |
+| **Incident response testing** | Quarterly tabletop exercises logged; post-incident reviews stored in Confluence with action items tracked in Jira |
+| **Change management** | All infrastructure changes via Terraform PRs; audit trail from GitHub + ArgoCD |
+| **Availability monitoring** | SLO dashboards with error budget tracking; incident timeline from PagerDuty |
+
+### 12.4 Audit Readiness Cadence
+
+| Activity | Frequency | Owner |
+|----------|-----------|-------|
+| **Internal audit prep** | Quarterly | Security team + Platform Engineering |
+| **External audit (SOC 2)** | Annually | Security team + external auditor |
+| **Evidence collection** | Continuous (automated via scripts) | Platform Engineering |
+| **Control gap review** | Monthly | Security team |
+| **Audit findings remediation** | Per finding SLA (Critical: 30 days, High: 60 days, Medium: 90 days) | Assigned team |
+
+### 12.5 Gap Tracking
+
+- Compliance gaps are tracked in **Jira** with the `compliance` label
+- Each gap ticket includes: affected framework, control reference, current state, target state, remediation owner, and due date
+- The security team reviews all open `compliance` tickets **monthly** in the compliance standup
+- Gaps older than their SLA are escalated to the VP of Engineering
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

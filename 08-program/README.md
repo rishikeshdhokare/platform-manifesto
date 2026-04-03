@@ -8,5 +8,6 @@ Where we are, where we're going, and how we measure progress.
 | [02-migration-roadmap.md](./02-migration-roadmap.md) | Phased migration program, DORA targets, risk register |
 | [03-vendor-assessment.md](./03-vendor-assessment.md) | AWS lock-in analysis, portability assessment, exit cost estimation |
 | [04-engineering-metrics.md](./04-engineering-metrics.md) | Developer satisfaction, toil, platform adoption, tech debt quantification |
+| [05-vendor-intake.md](./05-vendor-intake.md) | Vendor & SaaS intake process, security review, procurement, pilot criteria |
 
 ← [Back to root](../README.md)

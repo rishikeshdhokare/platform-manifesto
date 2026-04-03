@@ -178,7 +178,7 @@ A non-Java language is justified when:
 
 ## 6. Data Stores
 
-### 4.1 Relational Database
+### 6.1 Relational Database
 
 | Decision | Detail |
 |----------|--------|
@@ -187,7 +187,7 @@ A non-Java language is justified when:
 | **Migrations** | Flyway — mandatory. No manual schema changes in any environment |
 | **Connection pooling** | PgBouncer sidecar, or RDS Proxy for serverless workloads |
 
-### 4.2 Caching
+### 6.2 Caching
 
 | Decision | Detail |
 |----------|--------|
@@ -196,7 +196,7 @@ A non-Java language is justified when:
 | **Use cases** | Session state, rate limiting, geospatial indexes (provider location), hot read caches |
 | **Prohibited use** | Redis must not be used as a primary data store — data there must be reconstructible |
 
-### 4.3 Event Streaming
+### 6.3 Event Streaming
 
 | Decision | Detail |
 |----------|--------|
@@ -205,12 +205,12 @@ A non-Java language is justified when:
 | **Schema format** | Avro with Schema Registry (AWS Glue Schema Registry) |
 | **Topic naming** | `{domain}.{entity}.{event}` e.g. `orders.order.completed` |
 
-### 4.4 Search
+### 6.4 Search
 
 - **Amazon OpenSearch Service** — for full-text and geo search workloads
 - Not a general-purpose store; data in OpenSearch must be projected from a canonical source
 
-### 4.5 Object Storage
+### 6.5 Object Storage
 
 - **Amazon S3** — for all binary/blob storage
 - Versioning enabled on all production buckets
@@ -220,7 +220,7 @@ A non-Java language is justified when:
 
 ## 7. Cloud Platform
 
-### 5.1 Provider
+### 7.1 Provider
 
 **AWS — primary and exclusive cloud provider.**
 
@@ -239,7 +239,7 @@ A non-Java language is justified when:
 | Observability | Amazon CloudWatch + AWS X-Ray (supplemented by Grafana stack) |
 | Cost management | AWS Cost Explorer + tagging enforcement |
 
-### 5.2 Infrastructure as Code
+### 7.2 Infrastructure as Code
 
 - **Terraform** — mandatory for all AWS infrastructure
 - **Terraform version:** pinned via `.terraform-version` (tfenv)

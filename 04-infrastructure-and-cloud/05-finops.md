@@ -23,6 +23,7 @@
 9. [Cost Anomaly Detection](#9-cost-anomaly-detection)
 10. [Cost per Transaction](#10-cost-per-transaction)
 11. [FinOps Review Cadence](#11-finops-review-cadence)
+12. [Cost Allocation Model](#12-cost-allocation-model)
 
 ---
 
@@ -401,6 +402,43 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 5. Anomaly postmortems.
 6. Savings Plan utilization and coverage.
 7. Action items for next month.
+
+---
+
+## 12. Cost Allocation Model
+
+### Showback vs Chargeback
+
+| Model | Status | Description |
+|-------|--------|-------------|
+| **Showback** | Default | Teams see their costs in dashboards and reports but are not charged internally |
+| **Chargeback** | Escalation | Considered for teams exceeding agreed budgets for two or more consecutive months |
+
+### Allocation Method
+
+| Cost Type | Allocation | Examples |
+|-----------|------------|---------|
+| **Direct costs** | Allocated to owning team via service tag | EC2, RDS, Redis, MSK per service |
+| **Shared costs** | Allocated proportionally by compute spend | VPC, NAT Gateway, observability platform, platform team infrastructure |
+
+### Reservations
+
+| Commitment Type | Scope | Term |
+|-----------------|-------|------|
+| Compute Savings Plans | All EKS compute (existing) | 1-year, no upfront |
+| RDS Reserved Instances | Tier 1 Aurora clusters | 1-year, no upfront |
+| ElastiCache Reserved Nodes | Production Redis clusters | 1-year, no upfront |
+| MSK Reserved Capacity | Production Kafka brokers | Evaluated annually |
+
+### FinOps RACI
+
+| Activity | Responsible | Accountable | Consulted | Informed |
+|----------|-------------|-------------|-----------|----------|
+| Tag enforcement | Platform team | FinOps lead | Team leads | VP Eng |
+| Budget setting | FinOps lead | VP Eng | Team leads | CFO |
+| Rightsizing | Team lead | Engineering Manager | Platform team | FinOps lead |
+| Reservation purchasing | FinOps lead | VP Eng | Finance | Platform team |
+| Anomaly investigation | Team lead | Engineering Manager | Platform team | FinOps lead |
 
 ---
 

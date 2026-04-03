@@ -595,4 +595,92 @@ jobs:
 
 ---
 
+## 12. Data Labeling Pipeline
+
+### Tooling
+
+| Context | Tool | Deployment |
+|---------|------|------------|
+| Text / tabular data | Label Studio | Self-hosted on EKS |
+| Image / video data | Scale AI or Labelbox | Vendor-managed |
+
+### Workflow
+
+```
+Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → Review → Approved → Feature Store
+```
+
+### Quality Metrics
+
+| Metric | Target | Purpose |
+|--------|--------|---------|
+| Inter-annotator agreement (Cohen's kappa) | > 0.8 for production models | Ensures annotator consistency |
+| Gold set accuracy | > 95% | Validates annotator quality against known-good labels |
+| Annotation velocity | Tracked per annotator per task type | Identifies bottlenecks and training needs |
+
+### Feedback Loop
+
+- Model predictions are used as **pre-labels** to accelerate annotation — annotators correct rather than label from scratch
+- Disagreements between model pre-labels and annotator labels are flagged for **expert review**
+
+### Data Versioning
+
+- Labeled datasets are versioned in S3 with **DVC** (Data Version Control)
+- Each labeled dataset version is linked to the corresponding model registry entry
+- Reproducing a model's training data is a single `dvc checkout` command
+
+### Cost Tracking
+
+- Per-label cost tracked by task type and vendor
+- Monthly cost report sent to model owners
+- Cost-per-label trended quarterly to identify efficiency improvements
+
+---
+
+## 13. GPU & Training Cost Governance
+
+### Approved GPU Instances
+
+| Instance Type | Use Case | Approval Required |
+|---------------|----------|-------------------|
+| `ml.g5.xlarge` | Default for most training jobs | Team lead |
+| `ml.g5.2xlarge` | Larger models requiring more GPU memory | Team lead |
+| `ml.p4d.24xlarge` | Distributed training (multi-GPU) | **VP Engineering approval** |
+
+### Quotas
+
+- Per-team GPU hour budget is set **quarterly**
+- Tracked in AWS Cost Explorer using the `ml-team` tag
+- Teams exceeding 80% of quarterly budget receive a warning; exceeding 100% requires VP Eng approval for additional hours
+
+### Spot vs On-Demand
+
+| Training Job Type | Required Capacity Type | Rationale |
+|-------------------|----------------------|-----------|
+| Standard training (> 2 hours) | **Spot instances mandatory** | Up to 70% cost savings |
+| Short jobs (< 2 hours) | On-demand permitted | Spot interruption risk outweighs savings for short jobs |
+| Time-critical retraining | On-demand permitted | Cannot tolerate Spot interruption delays |
+
+### Stop-Loss
+
+- All SageMaker training jobs **must** set `MaxRuntimeInSeconds` (default: 86,400 — 24 hours)
+- Jobs exceeding the team's per-job budget trigger an alert to the team lead
+- Runaway training jobs are automatically terminated after `MaxRuntimeInSeconds`
+
+### Cost Attribution
+
+- Every training job must be tagged with:
+  - `project` — the business initiative
+  - `team` — the owning team
+  - `model-name` — the model being trained
+- Monthly cost review per model in the FinOps sync meeting
+
+### Idle Resource Cleanup
+
+- GPU notebook instances (SageMaker Studio / Notebook Instances) are **auto-stopped after 1 hour of inactivity** via lifecycle configuration
+- Weekly automated audit identifies running GPU instances with no active kernel or training job
+- Instances idle for > 24 hours are flagged and auto-stopped
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

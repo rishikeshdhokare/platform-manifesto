@@ -325,9 +325,11 @@ Non-tagged resources trigger a Config compliance alert.
 
 | Tier | Examples | RTO | RPO |
 |------|---------|-----|-----|
-| **Tier 1 — Critical** | Orders, Fulfillment, Payments | < 15 min | < 1 min |
+| **Tier 1 — Critical** | Orders, Fulfillment, Payments | < 30 min | < 1 min |
 | **Tier 2 — Important** | Provider/Customer Profile, Pricing | < 30 min | < 5 min |
 | **Tier 3 — Standard** | Notifications, Reporting | < 2 hours | < 30 min |
+
+> **Note:** The Tier 1 RTO target of 30 minutes aligns with the operational procedure in the disaster recovery playbook.
 
 ### 7.3 Failover Approach
 
@@ -347,6 +349,59 @@ Non-tagged resources trigger a Config compliance alert.
   - Staging runs at 50% of production sizing
   - No `reserved` instances without platform team review (use Savings Plans instead)
 - Cost Explorer budgets with alerts at 80% and 100% of monthly budget
+
+---
+
+## 9. Backup & Restore Strategy
+
+### Aurora PostgreSQL
+
+| Setting | Value |
+|---------|-------|
+| Automated daily snapshots | Enabled (existing) |
+| Point-in-time recovery | Enabled |
+| Retention | 35 days |
+
+### Restore Drills
+
+| Service Tier | Drill Frequency | Procedure |
+|--------------|-----------------|-----------|
+| Tier 1 (Critical) | Quarterly | Restore to isolated namespace, run smoke tests, record RTO achieved |
+| Tier 2 (Important) | Semi-annually | Restore to isolated namespace, run smoke tests, record RTO achieved |
+
+**Target RTO for restore:**
+- Tier 1: < 1 hour
+- Tier 2: < 4 hours
+
+### MSK (Kafka)
+
+- Topic data is inherently replicated (replication factor 3)
+- For disaster recovery: MirrorMaker 2 to secondary region (existing)
+- **Consumer offset backup:** daily export to S3
+
+### Redis (ElastiCache)
+
+| Setting | Value |
+|---------|-------|
+| Automatic backups | Daily |
+| Retention | 7 days |
+| Tier 1 services | Multi-AZ with automatic failover enabled |
+
+### S3
+
+| Setting | Value |
+|---------|-------|
+| Versioning | Enabled (existing) |
+| Cross-region replication | Enabled for Tier 1 buckets |
+| S3 Object Lock | Enabled for compliance-critical data |
+
+### Ransomware Protection
+
+| Control | Implementation |
+|---------|----------------|
+| S3 Object Lock | Governance mode for all backup buckets |
+| MFA Delete | Enabled on backup buckets |
+| IAM delete restriction | Delete operations restricted to break-glass role only |
 
 ---
 

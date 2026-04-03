@@ -135,6 +135,7 @@ How our system is structured — domain decomposition, communication patterns, a
 | `05-grpc-standards.md` | Proto conventions, code generation, Spring Boot integration, testing |
 | `06-saga-patterns.md` | Distributed transactions — choreography, compensation, order lifecycle saga |
 | `07-service-decomposition.md` | When to split or merge services, boundary validation criteria |
+| `08-event-schema-evolution.md` | Avro compatibility, partition keys, breaking change playbook |
 
 ---
 
@@ -150,6 +151,7 @@ How we write, review, test, and ship code. The day-to-day craft of engineering a
 | `05-git-workflow.md` | Trunk-based dev in practice — daily workflow and common scenarios |
 | `06-code-review-guide.md` | How to give and receive feedback; good/bad comment examples |
 | `07-ab-testing.md` | A/B testing strategy — hypothesis, experiment design, statistical rigor, guardrails |
+| `08-deprecation-lifecycle.md` | Deprecation lifecycle for APIs, events, services, and flags |
 
 ---
 
@@ -166,6 +168,7 @@ Our AWS platform — network topology, compute, data stores, security, and confi
 | `06-capacity-planning.md` | Demand modeling, pre-scaling, load test-driven validation |
 | `07-api-gateway-strategy.md` | API Gateway configuration, routing, throttling, WAF integration |
 | `08-privacy-engineering.md` | Data classification, PIA, anonymization, GDPR erasure, consent management |
+| `09-multi-tenancy.md` | Multi-tenancy patterns, data isolation, tenant-aware observability |
 
 ---
 
@@ -198,6 +201,7 @@ Hands-on guides for building things the right way. Reference these while writing
 | `06-multi-region-patterns.md` | Region/tenant config, multi-currency, localization, regulatory compliance |
 | `07-distributed-locking.md` | Optimistic locking, Redis locks, preventing double-assignment |
 | `08-cache-patterns.md` | Cache-aside, TTL strategy, event-driven invalidation, stampede prevention |
+| `09-data-governance.md` | Data governance, quality SLAs, retention matrices, analytics contracts |
 
 ---
 
@@ -210,6 +214,10 @@ Team structure, decision-making, and how we work together.
 | `02-engineering-ladder.md` | Career levels mapped to manifesto practices — Engineer I to Principal |
 | `03-open-source-policy.md` | License compliance, contribution guidelines, publishing policy |
 | `04-product-engineering.md` | Product-engineering collaboration, discovery, rituals, prioritization |
+| `05-rfc-process.md` | RFC process — template, stages, reviewers, timeout rules |
+| `06-technology-radar.md` | Technology radar — Adopt/Trial/Assess/Hold quadrants |
+| `07-hiring-standards.md` | Hiring & interview standards, rubrics, bar-raiser process |
+| `08-knowledge-sharing.md` | Knowledge sharing — guilds, tech talks, architecture clinics |
 
 ---
 
@@ -222,6 +230,7 @@ Where we are, where we're going, and how we measure progress.
 | `02-migration-roadmap.md` | Phased migration program, DORA targets, risk register |
 | `03-vendor-assessment.md` | AWS lock-in analysis, portability assessment, exit cost estimation |
 | `04-engineering-metrics.md` | Developer satisfaction, toil, platform adoption, tech debt quantification |
+| `05-vendor-intake.md` | Vendor & SaaS intake process, security review, procurement |
 
 ---
 
@@ -231,6 +240,7 @@ Standards for the client applications that customers and providers interact with
 | File | Description |
 |------|-------------|
 | `01-mobile-standards.md` | Offline-first, push notifications, performance budgets, accessibility, BFF patterns |
+| `02-web-frontend-standards.md` | Web frontend — SPA/SSR, design system, accessibility, Core Web Vitals |
 
 ---
 
@@ -345,17 +355,17 @@ flowchart TB
 | Section | Documents |
 |---------|-----------|
 | Platform Standards | 1 |
-| Architecture & API | 7 |
-| Engineering Practices | 7 |
-| Infrastructure & Cloud | 8 |
+| Architecture & API | 8 |
+| Engineering Practices | 8 |
+| Infrastructure & Cloud | 9 |
 | Operational Excellence | 8 |
-| Developer Guides | 8 |
-| Ways of Working | 4 |
-| Program | 4 |
-| Mobile & Frontend | 1 |
+| Developer Guides | 9 |
+| Ways of Working | 8 |
+| Program | 5 |
+| Mobile & Frontend | 2 |
 | AI/ML Platform | 2 |
 | Domain Catalog | 10 |
-| **Total** | **60 documents** |
+| **Total** | **70 documents** |
 
 ---
 

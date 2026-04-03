@@ -391,4 +391,86 @@ Quarterly, with ad-hoc sessions for urgent reviews.
 
 ---
 
+## 10. LLM Operational Limits
+
+### Token Limits per Use Case
+
+| Use Case | Max Input Tokens | Max Output Tokens | Model | Cost Cap/Request |
+|----------|------------------|-------------------|-------|------------------|
+| Internal assistant | 8,000 | 2,000 | Bedrock Claude | $0.10 |
+| Code review | 16,000 | 4,000 | Bedrock Claude | $0.25 |
+| Customer-facing summary | 4,000 | 500 | Bedrock Claude Instant | $0.02 |
+| Batch analytics | 32,000 | 4,000 | Bedrock Claude | $0.50 |
+
+### Overflow Handling
+
+- If input exceeds the token limit, **truncate with summarization** — never hard-cutoff mid-sentence or mid-document
+- All truncation events are logged with the original input length, truncated length, and summarization method
+- Truncation logs are reviewed weekly for patterns that indicate a limit needs adjustment
+
+### Cost Caps
+
+| Scope | Limit | Enforcement |
+|-------|-------|-------------|
+| Per-user daily (internal tools) | $5.00 | API gateway rate limiting; user receives "daily limit reached" message |
+| Per-service monthly | Set per team in config | Budget alert at 80%; hard cap at 100% with escalation to team lead |
+
+### Rate Limiting
+
+| Context | Rate Limit |
+|---------|------------|
+| Internal tools (per user) | 10 LLM requests/minute |
+| Production services (per service) | 100 LLM requests/minute |
+
+---
+
+## 11. LLM Red-Teaming & Adversarial Testing
+
+### Cadence
+
+| Scope | Frequency |
+|-------|-----------|
+| Customer-facing LLM features | Quarterly red-teaming exercises |
+| Internal LLM tools | Annual red-teaming exercises |
+
+### OWASP LLM Top 10 Alignment
+
+Every red-teaming exercise must test for:
+
+| OWASP LLM Risk | Test Approach |
+|-----------------|---------------|
+| Prompt injection | Attempt to override system prompt via user input |
+| Data leakage | Attempt to extract training data, PII, or system prompt |
+| Excessive agency | Verify LLM cannot perform actions beyond its allowlisted capabilities |
+| Insecure output handling | Verify outputs are sanitized before rendering (e.g., no XSS via LLM output) |
+| Model denial of service | Test with adversarial inputs designed to maximize token consumption |
+
+### Red Team Composition
+
+- **Security team** — adversarial testing expertise
+- **ML team** — model behavior and prompt engineering knowledge
+- **External contractor** — fresh perspective, rotated annually
+
+### Tooling
+
+- **Garak** (or equivalent) for automated adversarial prompt testing, integrated into CI for regression
+- Adversarial test suites are version-controlled alongside model configuration
+- CI runs a subset of adversarial tests on every prompt template change
+
+### Allowlisted Tools
+
+- For internal LLM assistants that support tool/API calling, the set of tools the LLM may invoke must be **explicitly allowlisted**
+- Default: **NONE** — no tool access unless explicitly granted and reviewed
+- Each tool grant requires security review and is documented in the LLM feature's architecture decision record
+
+### Incident Response
+
+| Trigger | Action | SLA |
+|---------|--------|-----|
+| LLM produces harmful, biased, or unsafe output | **Kill switch** — disable feature flag immediately | Immediate |
+| Kill switch activated | Post-incident review (PIR) | Within 48 hours |
+| PIR completed | Remediation deployed + adversarial test added | Within 1 week |
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

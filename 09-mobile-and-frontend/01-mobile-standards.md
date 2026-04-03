@@ -18,6 +18,12 @@
 10. [Accessibility](#10-accessibility)
 11. [Mobile CI/CD](#11-mobile-cicd)
 12. [Error Handling UX](#12-error-handling-ux)
+13. [App Store Compliance](#13-app-store-compliance)
+14. [Authentication Lifecycle](#14-authentication-lifecycle)
+15. [Certificate Pinning](#15-certificate-pinning)
+16. [Android-Specific Monitoring](#16-android-specific-monitoring)
+17. [Native Binary Size](#17-native-binary-size)
+18. [Feature Parity](#18-feature-parity)
 
 ---
 
@@ -524,6 +530,306 @@ Error screens follow a consistent structure:
 | **User ID** | Attach anonymized user ID for crash correlation |
 | **Breadcrumbs** | Log navigation events and key user actions (last 50) |
 | **Alerting** | PagerDuty alert if crash-free rate drops below 99% in a 1-hour window |
+
+---
+
+## 13. App Store Compliance
+
+### 13.1 Apple privacy manifest
+
+A **privacy manifest** (`PrivacyInfo.xcprivacy`) is maintained in the Xcode project. It declares all API usage reasons and data collection categories. The manifest is updated with every dependency change — new third-party SDKs must declare their privacy API usage before integration.
+
+### 13.2 Privacy labels
+
+| Store | Artifact | Review Cadence |
+|-------|----------|---------------|
+| App Store | Nutrition labels (App Privacy section) | Updated before each release |
+| Play Store | Data safety declaration | Updated alongside Android build |
+
+Privacy labels are reviewed by the security team before submission. CI validates that the Play Store data safety declaration matches the app's actual data collection behavior.
+
+### 13.3 App Tracking Transparency (ATT)
+
+- The ATT prompt is displayed **before** any tracking occurs (iOS 14.5+).
+- If the user declines, **no tracking is performed** — analytics fall back to aggregated, non-identifiable metrics.
+- The ATT prompt is shown at a contextually appropriate moment (not on first launch), with a pre-prompt screen explaining the value exchange.
+
+### 13.4 Account deletion
+
+An in-app **account deletion flow** is required (Apple mandate, effective for all apps):
+
+1. User navigates to Settings → Account → Delete Account.
+2. App displays a confirmation screen explaining data that will be deleted.
+3. On confirmation, the app calls the BFF account deletion endpoint.
+4. The BFF triggers the **GDPR erasure pipeline**, which handles data deletion across all backend services.
+5. The user is logged out and all local data is cleared.
+
+### 13.5 Review preparation checklist
+
+Before every App Store / Play Store submission:
+
+- [ ] Changelog written in user-facing language (not developer jargon)
+- [ ] Screenshots updated if UI has changed
+- [ ] Privacy labels / data safety declaration reviewed
+- [ ] Privacy manifest updated for any new SDK integrations
+- [ ] Metadata (description, keywords, categories) reviewed for accuracy
+- [ ] All required Apple/Google questionnaires answered
+
+---
+
+## 14. Authentication Lifecycle
+
+### 14.1 Token storage
+
+| Token | Storage Location | Rationale |
+|-------|-----------------|-----------|
+| Access token | **Memory only** | Short-lived; no persistence needed; reduces attack surface |
+| Refresh token (iOS) | **Keychain** with `kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly` | Survives app restart; device-bound; encrypted at rest |
+| Refresh token (Android) | **EncryptedSharedPreferences** backed by Android Keystore | Hardware-backed encryption; device-bound |
+
+Tokens are **never** stored in `AsyncStorage`, `UserDefaults`, plain `SharedPreferences`, or any unencrypted storage.
+
+### 14.2 Refresh flow
+
+```mermaid
+sequenceDiagram
+    participant App as {Company} App
+    participant BFF as Customer BFF
+    participant Auth as Auth Service
+
+    App->>BFF: API request (access token expired)
+    BFF-->>App: 401 Unauthorized
+    App->>BFF: POST /auth/refresh (refresh token)
+    BFF->>Auth: Validate + rotate refresh token
+    Auth-->>BFF: New access token + new refresh token
+    BFF-->>App: 200 OK (new tokens)
+    App->>App: Store new tokens, retry original request
+```
+
+- Access token expires in **15 minutes**.
+- The SDK auto-refreshes using the refresh token transparently — the user never sees an auth prompt during active use.
+- If the refresh fails (token revoked, expired, or network error after retries), the user is redirected to the login screen.
+
+### 14.3 Token rotation
+
+Refresh tokens are **single-use**. Each refresh request returns a new refresh token, and the previous one is invalidated. This limits the window of abuse if a refresh token is compromised.
+
+### 14.4 Logout
+
+1. Clear all local tokens (memory + secure storage).
+2. Call `POST /auth/logout` to invalidate the server-side session and refresh token.
+3. Clear any cached user data from SQLite and in-memory stores.
+4. Navigate to the login screen.
+
+### 14.5 Invalidate all sessions
+
+Users can trigger "Sign out of all devices" from Settings → Security:
+
+- The app calls `POST /auth/sessions/invalidate-all`.
+- The server invalidates **all** refresh tokens associated with the account.
+- All other devices are forced to re-authenticate on their next token refresh.
+
+### 14.6 Clock skew
+
+Token expiry validation includes a **30-second clock skew tolerance** to account for minor time drift between the device and server. Tokens are considered valid if they expire within 30 seconds of the current device time.
+
+### 14.7 Biometric authentication
+
+| Aspect | Policy |
+|--------|--------|
+| Purpose | Optional app unlock (convenience); **not** used for initial login |
+| iOS | FaceID / TouchID via `LocalAuthentication` framework |
+| Android | `BiometricPrompt` API (fingerprint, face, iris) |
+| Fallback | Device PIN / passcode if biometric fails or is unavailable |
+| Enrollment | User opts in from Settings → Security → Biometric Unlock |
+| Token access | Biometric success unlocks the refresh token from secure storage for silent re-authentication |
+
+---
+
+## 15. Certificate Pinning
+
+### 15.1 Scope
+
+Certificate pinning is enabled for all API endpoints:
+
+- **BFF endpoints** (`api.{company}.com`)
+- **Auth endpoints** (`auth.{company}.com`)
+
+### 15.2 Implementation
+
+Pin the **intermediate CA certificate** (not the leaf certificate) to allow server certificate rotation without requiring an app update:
+
+```typescript
+const pinningConfig = {
+  'api.{company}.com': {
+    includeSubdomains: true,
+    pins: [
+      { hash: '<primary-ca-sha256-hash>' },
+      { hash: '<backup-ca-sha256-hash>' },
+    ],
+  },
+  'auth.{company}.com': {
+    includeSubdomains: true,
+    pins: [
+      { hash: '<primary-ca-sha256-hash>' },
+      { hash: '<backup-ca-sha256-hash>' },
+    ],
+  },
+};
+```
+
+### 15.3 Pin set
+
+| Pin | Purpose |
+|-----|---------|
+| Primary | Current intermediate CA certificate |
+| Backup | A **different CA's** intermediate certificate, pre-configured as a fallback |
+
+The backup pin ensures continuity if the primary CA is compromised or revoked.
+
+### 15.4 Failure mode
+
+If pin validation fails:
+
+1. **Block the request** — do not fall back to unpinned TLS.
+2. Log the failure locally and send a diagnostic report to the analytics endpoint (via a separate, unpinned reporting channel if necessary).
+3. Alert the security team via the backend reporting pipeline.
+4. Show the user a network error screen (not a security-specific message that could aid attackers).
+
+### 15.5 Rotation
+
+When a CA certificate is approaching expiry:
+
+1. Push the **new pin set** via remote config (LaunchDarkly or Firebase Remote Config) **before** rotating the server certificate.
+2. Wait for the new pin set to propagate to >95% of active clients (measured via analytics).
+3. Rotate the server certificate.
+4. Remove the old pin from the remote config in the next app release.
+
+### 15.6 Debug builds
+
+Certificate pinning is **disabled** in debug builds to allow proxy-based debugging tools (Charles Proxy, mitmproxy) during development. This is controlled by a build-time flag — never by a runtime toggle.
+
+---
+
+## 16. Android-Specific Monitoring
+
+### 16.1 ANR targets
+
+| Metric | Target | Source |
+|--------|--------|--------|
+| ANR rate | **<0.5%** | Play vitals threshold for "bad behavior" designation |
+| Crash-free rate | **>99.5%** | Play vitals + Firebase Crashlytics |
+| Cold start time | **<3 seconds** | Firebase Performance Monitoring |
+
+### 16.2 ANR monitoring
+
+- **Firebase Performance Monitoring** captures ANR events with stack traces.
+- **Play vitals dashboard** provides aggregate ANR data segmented by device, OS version, and app version.
+- ANR rate is reviewed weekly as part of the release health check.
+
+### 16.3 Main-thread watchdog
+
+- **StrictMode** is enabled in debug builds to detect accidental main-thread violations:
+
+```kotlin
+if (BuildConfig.DEBUG) {
+    StrictMode.setThreadPolicy(
+        StrictMode.ThreadPolicy.Builder()
+            .detectNetwork()
+            .detectDiskReads()
+            .detectDiskWrites()
+            .penaltyLog()
+            .penaltyDeath()
+            .build()
+    )
+}
+```
+
+- **All network and database calls** must execute on background threads — enforced by StrictMode in debug and by code review in CI.
+
+### 16.4 Play vitals integration
+
+The release dashboard tracks key Play vitals metrics:
+
+| Metric | Threshold | Action if Breached |
+|--------|-----------|--------------------|
+| Crash-free rate | >99.5% | Halt staged rollout, investigate |
+| ANR rate | <0.5% | Halt staged rollout, investigate |
+| Startup time (cold) | <3s | File performance regression ticket |
+| Permission denials | Monitor | Review UX flow for permission requests |
+
+---
+
+## 17. Native Binary Size
+
+### 17.1 Size budgets
+
+| Artifact | Budget | Guideline |
+|----------|--------|-----------|
+| AAB (Android App Bundle) | **<30 MB** download size | Per Google Play guidelines for optimal install conversion |
+| IPA (iOS) | **<200 MB** OTA download | Apple cellular download threshold — larger apps require Wi-Fi |
+
+### 17.2 ABI coverage (Android)
+
+Ensure all required ABIs are included in the AAB:
+
+| ABI | Target |
+|-----|--------|
+| `arm64-v8a` | Modern ARM devices (majority of market) |
+| `armeabi-v7a` | Older 32-bit ARM devices |
+| `x86_64` | Emulator support for development and CI |
+
+### 17.3 CI enforcement
+
+Binary size is tracked in CI on every PR:
+
+- The build step records the compressed download size.
+- If the size increases by **>5%** compared to the `main` branch baseline, the PR is blocked.
+- To unblock, the engineer must provide a written justification in the PR description and get approval from the mobile tech lead.
+
+### 17.4 Optimization techniques
+
+| Platform | Technique | Impact |
+|----------|-----------|--------|
+| Android | **ProGuard / R8** code shrinking and obfuscation | Reduces DEX size by 20–40% |
+| Android | **Resource shrinking** (`shrinkResources true`) | Removes unused drawables, layouts |
+| React Native | **Hermes bytecode compilation** | Reduces JS bundle size, improves startup |
+| Both | **Asset optimization** — compress PNGs, use WebP, vector drawables where possible | Reduces asset payload |
+| Both | **Dependency audit** — review new dependencies for size impact before adding | Prevents bloat |
+
+---
+
+## 18. Feature Parity
+
+### 18.1 Default: simultaneous delivery
+
+Features ship on **both iOS and Android simultaneously** unless an explicit exception is approved.
+
+### 18.2 Exceptions
+
+Platform-specific UX features that have no equivalent on the other platform are permitted as single-platform deliveries:
+
+| Feature Type | Example | Requirement |
+|-------------|---------|-------------|
+| iOS-only | App Clips, Shortcuts, Live Activities | ADR documenting why single-platform is appropriate |
+| Android-only | Widgets, App Actions, Instant Apps | ADR documenting why single-platform is appropriate |
+
+The ADR must explain why the feature is platform-specific and confirm that core functionality remains available on both platforms.
+
+### 18.3 Parity tracking
+
+- A **feature matrix** is maintained in Backstage, listing all user-facing features and their availability per platform.
+- The matrix is reviewed **monthly** during the mobile engineering sync.
+- Each feature entry includes: feature name, iOS status, Android status, owning team, and target parity date (if applicable).
+
+### 18.4 Escalation
+
+If one platform falls behind by **more than 2 features** (features shipped on one platform but not yet available on the other):
+
+1. The gap is flagged in the monthly parity review.
+2. The engineering manager is notified and must provide a remediation plan within one sprint.
+3. Parity work is prioritized in the next sprint planning cycle.
+4. Persistent parity gaps (>2 months) are escalated to the VP of Engineering.
 
 ---
 

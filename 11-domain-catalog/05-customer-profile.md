@@ -268,4 +268,56 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 
 ---
 
+## 12. SLOs and Error Budgets
+
+| SLO | Target | Measurement |
+|-----|--------|-------------|
+| **Availability** | 99.9% (measured monthly) | Successful responses / total requests (excluding scheduled maintenance) |
+| **Latency (p99)** | < 150ms for profile reads | Prometheus histogram on REST handler duration |
+| **Error rate** | < 0.1% 5xx responses | Istio telemetry + application error counters |
+
+**Error budget policy:** When the monthly error budget is exhausted, the team halts feature releases and dedicates the next sprint to reliability. New features resume only after the error budget recovers.
+
+---
+
+## 13. Failure Modes
+
+| Failure Scenario | User Impact | Fallback Strategy |
+|-----------------|-------------|-------------------|
+| **Profile DB read unavailable** | Customer cannot view their profile, saved places, or preferences | Return cached profile from Redis (stale read, TTL 5 min); customer app shows last-known profile state |
+| **Profile DB write unavailable** | Preference updates, saved place edits fail | Queue update via outbox pattern; return 503 with `Retry-After`; preference updates are **queued** and applied when DB recovers |
+| **Payment method token write failure** | Customer cannot add/update payment methods | Return user-friendly error; tokenization is idempotent via PSP reference — client can retry safely |
+| **Kafka producer failure** | Downstream consumers (Analytics, Fraud) miss registration/update events | Outbox table ensures events are persisted to DB first; outbox poller retries publishing |
+| **Order history projection lag** | Customer sees stale order history | Acceptable up to 5 minutes; projection is eventually consistent by design; stale indicator shown if lag > 2 min |
+
+---
+
+## 14. Capacity Sizing
+
+| Resource | Configuration |
+|----------|--------------|
+| **Min replicas** | 3 (production) |
+| **Max replicas** | 20 (HPA) |
+| **HPA target** | 60% CPU utilization |
+| **DB connection pool** | 20 connections per pod (PgBouncer sidecar) |
+| **Peak QPS** | ~800 req/s (read-heavy; 85% reads, 15% writes) |
+| **Memory** | 1Gi request / 2Gi limit per pod |
+| **CPU** | 500m request / 2000m limit per pod |
+
+---
+
+## 15. Data Retention Matrix
+
+| Store | Data | Retention | Deletion Mechanism |
+|-------|------|-----------|-------------------|
+| **RDS PostgreSQL** — `customers` table | Customer profile, status, auth subject | Until account deletion (GDPR erasure) | Erasure job: redact PII, tombstone row |
+| **RDS PostgreSQL** — `payment_methods` | Tokenized payment references | Until customer removes method or account deletion | DELETE on customer action; cascade on erasure |
+| **RDS PostgreSQL** — `saved_places` | Saved locations (PII — addresses) | Until customer removes or account deletion | DELETE on customer action; cascade on erasure |
+| **RDS PostgreSQL** — `customer_preferences` | Locale, notification, marketing prefs | Until account deletion | Cascade on erasure |
+| **RDS PostgreSQL** — `order_history` | Denormalized order projection | 7 years (tax/regulatory) — anonymized on erasure | Anonymize `customerId` on erasure; archive after 7 years |
+| **Kafka** — `customers.customer.*` topics | Customer domain events | 14 days (platform default) | Kafka topic retention policy |
+| **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
+
+---
+
 ← [Back to Domain Catalog](./README.md)

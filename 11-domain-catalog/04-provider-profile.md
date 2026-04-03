@@ -246,4 +246,55 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 
 ---
 
+## 11. SLOs and Error Budgets
+
+| SLO | Target | Measurement |
+|-----|--------|-------------|
+| **Availability** | 99.9% (measured monthly) | Successful responses / total requests (excluding scheduled maintenance) |
+| **Latency (p99)** | < 200ms for profile reads | Prometheus histogram on gRPC/REST handler duration |
+| **Error rate** | < 0.1% 5xx responses | Istio telemetry + application error counters |
+
+**Error budget policy:** When the monthly error budget is exhausted (>0.1% of the budget remaining), the team pauses feature work and focuses on reliability improvements until the budget recovers in the next window.
+
+---
+
+## 12. Failure Modes
+
+| Failure Scenario | User Impact | Fallback Strategy |
+|-----------------|-------------|-------------------|
+| **Profile DB read unavailable** | Provider profile cannot be loaded in BFF/consumer apps | Return cached profile from Redis (stale read, TTL 5 min); degrade gracefully with "profile temporarily unavailable" in non-critical UI sections |
+| **Profile DB write unavailable** | Profile updates, approval, and suspension fail | Queue write operations; return 503 with `Retry-After` header; alerts fire for operator intervention |
+| **Document upload (S3) degraded** | Providers cannot upload license/insurance documents | Return user-friendly error with retry guidance; uploads are idempotent so clients can retry safely |
+| **Kafka producer failure** | Downstream consumers (Fulfillment, Fraud) miss status change events | Outbox table ensures events are persisted to DB first; outbox poller retries publishing; no data loss |
+| **Fraud signal consumer lag** | Delayed auto-suspension of flagged providers | Acceptable up to 5 minutes; beyond that, consumer lag alert fires and on-call investigates |
+
+---
+
+## 13. Capacity Sizing
+
+| Resource | Configuration |
+|----------|--------------|
+| **Min replicas** | 3 (production) |
+| **Max replicas** | 15 (HPA) |
+| **HPA target** | 60% CPU utilization |
+| **DB connection pool** | 20 connections per pod (PgBouncer sidecar) |
+| **Peak QPS** | ~500 req/s (read-heavy; 80% reads, 20% writes) |
+| **Memory** | 1Gi request / 2Gi limit per pod |
+| **CPU** | 500m request / 2000m limit per pod |
+
+---
+
+## 14. Data Retention Matrix
+
+| Store | Data | Retention | Deletion Mechanism |
+|-------|------|-----------|-------------------|
+| **RDS PostgreSQL** — `providers` table | Provider profile, status, timestamps | Duration of engagement + 1 year | Deactivation workflow + scheduled cleanup job |
+| **RDS PostgreSQL** — `documents` table | Document metadata and verification state | Duration of engagement + 1 year | Cascade delete with provider offboarding |
+| **Amazon S3** — document blobs | License, insurance, certification images | Duration of engagement + 1 year | S3 lifecycle policy triggered by provider offboarding event |
+| **RDS PostgreSQL** — `provider_ratings` | Rating aggregates and history | Indefinite (anonymized after deactivation) | Anonymize `providerId` on deactivation |
+| **Kafka** — `providers.provider.*` topics | Provider domain events | 14 days (platform default) | Kafka topic retention policy |
+| **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
+
+---
+
 ← [Back to Domain Catalog](./README.md)

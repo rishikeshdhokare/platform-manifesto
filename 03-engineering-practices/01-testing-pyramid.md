@@ -411,9 +411,32 @@ Every service must define and document its performance baseline in `docs/perform
 A flaky test is a test that passes and fails without code changes. Flaky tests are **treated as bugs**.
 
 1. A flaky test must be **quarantined** (tagged `@Disabled` with a tracking issue) within 24 hours of being identified
-2. The tracking issue must be fixed within **1 sprint**
-3. A test that has been quarantined for >2 sprints is escalated to the Tech Lead
-4. Flaky test counts are tracked on the team engineering health dashboard
+2. The tracking issue must be fixed within **2 weeks**; if not fixed within **4 weeks**, the test must be **deleted or rewritten from scratch**
+3. Flaky test counts are tracked on the team engineering health dashboard
+
+---
+
+## 9. Accessibility Testing in CI
+
+Accessibility is not an afterthought — it is tested in CI alongside functional tests.
+
+### 9.1 Web Frontends
+
+- **axe-core** is integrated into all Playwright E2E tests via `@axe-core/playwright`
+- Every E2E test page navigation includes an accessibility scan
+- **WCAG 2.1 AA** violations **fail the build** — no exceptions
+- Known false positives are suppressed with documented justification in the axe configuration file, reviewed quarterly
+
+### 9.2 Mobile
+
+- Accessibility audit runs via **Detox** (React Native) or **Appium** with accessibility assertions
+- Violations are logged as **warnings** by default
+- At **L3+ maturity** (per the team maturity model), accessibility violations become **blocking**
+- Minimum checks: content descriptions on interactive elements, minimum touch target sizes, contrast ratios
+
+### 9.3 Cross-Reference
+
+See [09-mobile-and-frontend/02-web-frontend-standards.md](../09-mobile-and-frontend/02-web-frontend-standards.md) for the full web accessibility standards, including ARIA patterns, keyboard navigation requirements, and screen reader testing.
 
 ---
 

@@ -572,4 +572,35 @@ Platform Engineer on-call
 
 ---
 
+## 11. DNS Strategy
+
+### TTL Configuration
+
+| Record Type | TTL | Rationale |
+|-------------|-----|-----------|
+| All production DNS records (normal) | 300 seconds | Balances caching performance with change propagation speed |
+| Failover-eligible records (health-check-enabled) | 60 seconds | Pre-configured for fast failover; already active |
+| SOA MINIMUM (negative caching) | 60 seconds | Limits negative caching impact during failover |
+
+### DNS Failover Testing
+
+**Cadence:** Quarterly — separate from the full DR drill.
+
+**Procedure:**
+1. Simulate primary health check failure via Route 53 health check configuration
+2. Verify client DNS resolution switches to secondary within 2× TTL (≤ 120 seconds)
+3. Monitor for stale DNS responses from intermediate resolvers
+4. Flip back to primary
+5. Record resolution times and any anomalies
+
+### Monitoring
+
+| Check | Tool | Alert Threshold |
+|-------|------|-----------------|
+| Route 53 health check status | Grafana (via CloudWatch metrics) | Any production health check failing for > 2 minutes |
+| DNS resolution time | External synthetic monitor | Resolution time > 1 second |
+| Health check endpoint latency | CloudWatch | p99 > 3 seconds |
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

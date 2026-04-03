@@ -712,4 +712,198 @@ Use **Istio `AuthorizationPolicy`** for **service-to-service** access control (e
 
 ---
 
+## 12. gRPC Load Balancing
+
+### 12.1 Default: Istio/Envoy L7 balancing
+
+Istio's Envoy sidecar handles **L7 load balancing** for gRPC. Because gRPC uses HTTP/2 multiplexing, all requests over a single connection go to the same pod — connection-level (L4) balancing is insufficient and will cause hot-spotting.
+
+### 12.2 Kubernetes headless Services
+
+Use **headless Services** (`clusterIP: None`) so Istio can discover and balance across individual pod IPs rather than the single cluster IP:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: pricing
+spec:
+  clusterIP: None
+  selector:
+    app: pricing
+  ports:
+    - name: grpc
+      port: 9090
+      targetPort: 9090
+```
+
+### 12.3 Client-side balancing
+
+Client-side load balancing (e.g., `round_robin` in gRPC channel config) is **not recommended**. Envoy handles this transparently and consistently across all services in the mesh.
+
+### 12.4 Stale endpoint handling
+
+Istio **outlier detection** ejects unhealthy pods from the load-balancing pool:
+
+| Parameter | Value |
+|-----------|-------|
+| Consecutive 5xx errors before ejection | **5** |
+| Ejection duration | **30 seconds** |
+| Max ejection percentage | **50%** (prevent full fleet ejection) |
+
+Configure via `DestinationRule`:
+
+```yaml
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: pricing-outlier
+spec:
+  host: pricing
+  trafficPolicy:
+    outlierDetection:
+      consecutive5xxErrors: 5
+      interval: 10s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+```
+
+### 12.5 Sticky sessions
+
+Avoid sticky sessions for gRPC. If required for long-lived streaming RPCs, use Istio **consistent hashing** on a header:
+
+```yaml
+trafficPolicy:
+  loadBalancer:
+    consistentHash:
+      httpHeaderName: x-{company}-session-id
+```
+
+Document the business justification in an ADR before enabling sticky sessions.
+
+---
+
+## 13. Cancellation Propagation
+
+When a client cancels a request, the server **MUST** observe the cancellation and stop processing promptly.
+
+### 13.1 Server-side detection (Spring Boot)
+
+Use `StreamObserver.setOnCancelHandler()` to detect client cancellation:
+
+```java
+@Override
+public void calculatePrice(
+        CalculatePriceRequest request,
+        StreamObserver<CalculatePriceResponse> responseObserver) {
+
+    var context = Context.current();
+    responseObserver.setOnCancelHandler(() -> {
+        log.info("Client cancelled CalculatePrice after {}ms, orderId={}",
+                context.getDeadline() != null
+                        ? context.getDeadline().timeRemaining(TimeUnit.MILLISECONDS)
+                        : "unknown",
+                request.getOrderId());
+    });
+
+    if (context.isCancelled()) {
+        responseObserver.onError(Status.CANCELLED
+                .withDescription("Request cancelled by client")
+                .asRuntimeException());
+        return;
+    }
+
+    // ... proceed with calculation
+}
+```
+
+### 13.2 Downstream call cancellation
+
+If the server has made downstream gRPC calls, cancel them via `Context.current().withCancellation()`:
+
+```java
+CancellableContext cancellableContext = Context.current().withCancellation();
+try {
+    cancellableContext.run(() -> {
+        downstreamStub.someCall(request);
+    });
+} finally {
+    cancellableContext.cancel(new CancellationException("Parent request cancelled"));
+}
+```
+
+### 13.3 Side effects on cancellation
+
+If the cancelled operation has already produced side effects (e.g., written to a database):
+
+- **In a transaction:** roll back the transaction.
+- **Already committed:** leave the data in place and let idempotency handle a re-request from the client.
+- **External side effects** (e.g., payment initiated): log for reconciliation; do not silently discard.
+
+### 13.4 Logging
+
+Log cancellations at **INFO** level with elapsed time for observability. Include the RPC method name and any relevant business identifiers (order ID, quote ID) to aid debugging.
+
+---
+
+## 14. Proto Management
+
+### 14.1 Repository structure
+
+Protos live in a shared **`{company}/api-protos`** monorepo, organized by domain:
+
+```
+api-protos/
+├── orders/
+│   └── v1/
+│       ├── orders_service.proto
+│       └── orders_types.proto
+├── pricing/
+│   └── v1/
+│       ├── pricing_service.proto
+│       └── pricing_types.proto
+├── fulfillment/
+│   └── v1/
+│       └── fulfillment_service.proto
+└── buf.yaml
+```
+
+### 14.2 CI validation
+
+**`buf lint`** and **`buf breaking`** run on every PR to the proto repo:
+
+| Check | Tool | Blocks PR? |
+|-------|------|------------|
+| Style and lint | `buf lint` | Yes |
+| Backward compatibility | `buf breaking --against origin/main` | Yes |
+| Compilation | `buf build` | Yes |
+
+Breaking changes (field type changes, removed fields without `reserved`, renamed RPCs) **fail the build**.
+
+### 14.3 Consumption
+
+Downstream services consume generated code via a published artifact:
+
+| Language | Artifact | Repository |
+|----------|----------|------------|
+| Java | `com.{company}:api-protos-java` | Maven (internal Nexus) |
+| TypeScript | `@{company}/api-protos-ts` | npm (internal registry) |
+
+CI in the `api-protos` repo publishes new artifact versions on every merge to `main`.
+
+### 14.4 Versioning
+
+Proto package versions follow the **`{company}.{domain}.v{N}`** convention. A new major version means a new package — `{company}.pricing.v1` and `{company}.pricing.v2` coexist as separate packages during migration (see Section 3).
+
+### 14.5 Review process
+
+Proto changes require approval from:
+
+1. **The owning team** — the team responsible for the domain.
+2. **At least one consumer team** — a team that depends on the proto contract.
+
+This ensures changes are validated from both the producer and consumer perspective before merge.
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

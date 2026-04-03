@@ -11,5 +11,6 @@ How we write, review, test, and ship code. The day-to-day craft of engineering.
 | [05-git-workflow.md](./05-git-workflow.md) | Trunk-based dev in practice — daily workflow and common scenarios |
 | [06-code-review-guide.md](./06-code-review-guide.md) | How to give and receive feedback; good/bad comment examples |
 | [07-ab-testing.md](./07-ab-testing.md) | A/B testing strategy — hypothesis, experiment design, statistical rigor, guardrails |
+| [08-deprecation-lifecycle.md](./08-deprecation-lifecycle.md) | Deprecation lifecycle — APIs, events, services, flags, communication, enforcement |
 
 ← [Back to root](../README.md)

@@ -212,4 +212,56 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
+## 11. SLOs and Error Budgets
+
+| SLO | Target | Measurement |
+|-----|--------|-------------|
+| **Delivery rate** | 99.5% of notifications delivered successfully within 60 seconds of dispatch | Delivery log success count / total dispatched (per channel) |
+| **Dispatch latency (p99)** | < 5 seconds from event consumption to provider dispatch | Prometheus histogram: event received timestamp → provider ack timestamp |
+| **Error rate** | < 0.5% provider-side delivery failures (after retries) | Delivery log FAILED status count / total dispatched |
+
+**Error budget policy:** When the monthly delivery rate drops below 99.5%, the team investigates provider health, channel routing logic, and template errors. Feature work pauses if the rate remains below target for 3 consecutive days.
+
+---
+
+## 12. Failure Modes
+
+| Failure Scenario | User Impact | Fallback Strategy |
+|-----------------|-------------|-------------------|
+| **Push delivery failure (FCM/APNs)** | Customer/provider does not receive push notification | **Channel fallback:** retry push once → fall back to **SMS** for critical notifications |
+| **SMS delivery failure (Twilio)** | Customer/provider does not receive SMS | **Channel fallback:** fall back to **email** for critical notifications; log failure for non-critical |
+| **Email delivery failure (SendGrid)** | Customer/provider does not receive email | Retry with exponential backoff (3 attempts); alert on-call if failure rate exceeds 5% in 5-minute window |
+| **All channels degraded** | No notifications reaching users | Circuit breaker opens on all providers; notifications are queued in DB; alert fires for immediate investigation; notifications dispatched when providers recover |
+| **Template resolution failure** | Notification cannot be rendered | Skip dispatch; log error with event context; alert template owner; no partial/broken notifications sent to users |
+| **Kafka consumer lag** | Delayed notification delivery | Acceptable up to 60 seconds; beyond that, consumer lag alert fires and auto-scaling kicks in |
+
+---
+
+## 13. Capacity Sizing
+
+| Resource | Configuration |
+|----------|--------------|
+| **Min replicas** | 3 (production) |
+| **Max replicas** | 25 (HPA) — notifications are bursty around order completion and assignment |
+| **HPA target** | 70% CPU utilization |
+| **DB connection pool** | 15 connections per pod |
+| **Peak QPS** | ~1,200 events/s consumed (burst during peak hours) |
+| **Memory** | 512Mi request / 1Gi limit per pod |
+| **CPU** | 250m request / 1000m limit per pod |
+
+---
+
+## 14. Data Retention Matrix
+
+| Store | Data | Retention | Deletion Mechanism |
+|-------|------|-----------|-------------------|
+| **RDS PostgreSQL** — `notifications` | Notification instances, correlation IDs | 90 days | Scheduled cleanup job; archive to S3 for audit |
+| **RDS PostgreSQL** — `templates` | Template definitions and versions | Indefinite (versioned) | Soft-delete deprecated templates; never hard-delete |
+| **RDS PostgreSQL** — `delivery_log` | Per-channel delivery attempts and status | 90 days | Scheduled cleanup job; aggregate metrics retained indefinitely |
+| **RDS PostgreSQL** — `notification_preferences` | User opt-in/out preferences | Until account deletion (GDPR erasure cascade) | Deleted on `customers.customer.deleted` event |
+| **Kafka** — consumed event topics | Incoming domain events | 14 days (platform default) | Kafka topic retention policy |
+| **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
+
+---
+
 ← [Back to Domain Catalog](./README.md)

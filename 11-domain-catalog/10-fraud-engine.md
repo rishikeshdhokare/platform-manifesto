@@ -220,4 +220,72 @@ The primary **fraud scoring model** is served from an **AWS SageMaker** endpoint
 
 ---
 
+## 12. SLOs and Error Budgets
+
+| SLO | Target | Measurement |
+|-----|--------|-------------|
+| **Availability** | 99.95% (measured monthly) — higher than standard due to critical-path role | Successful gRPC responses / total requests |
+| **Risk scoring latency (p99)** | < 200ms for `EvaluateRisk` | Prometheus histogram on gRPC handler duration (includes rule engine + optional ML call) |
+| **Risk score lookup latency (p99)** | < 50ms for `GetRiskScore` | Prometheus histogram on gRPC handler duration (Redis/cache read path) |
+| **Error rate** | < 0.05% 5xx / gRPC INTERNAL errors | Application error counters per RPC method |
+
+**Error budget policy:** The Fraud Engine is on the critical path for order creation and payment authorization. When the monthly error budget is exhausted, **all** feature work stops, and the team conducts a reliability review. The VP of Engineering is notified if the budget is breached in consecutive months.
+
+---
+
+## 13. Failure Modes
+
+The Fraud Engine uses a **fail-open vs fail-closed** model depending on the signal type. The decision is deliberate: some fraud signals are advisory (fail-open preserves user experience), while others are protective (fail-closed prevents financial loss).
+
+| Signal Type | Fail Mode | Rationale |
+|------------|-----------|-----------|
+| **Order velocity check** | Fail-open (ALLOW) | False block on high-volume legitimate customers is worse than a delayed fraud catch |
+| **Device fingerprint anomaly** | Fail-open (ALLOW + FLAG) | Flag for async review; do not block order |
+| **Payment instrument risk** | Fail-closed (BLOCK) | Financial loss prevention takes priority |
+| **Account creation risk** | Fail-open (ALLOW + FLAG) | Blocking legitimate signups is costly; flag for review |
+| **Provider document fraud** | Fail-closed (BLOCK) | Safety-critical; block and require manual review |
+| **Location anomaly** | Fail-open (ALLOW + FLAG) | GPS inaccuracy causes false positives; flag only |
+
+### ML Model Fallback
+
+| Failure Scenario | User Impact | Fallback Strategy |
+|-----------------|-------------|-------------------|
+| **SageMaker endpoint unavailable or timeout** | ML-based risk score unavailable | **Fall back to rule-based scoring** (deterministic outcomes from `FraudRule` evaluation only). Metrics and alerts fire on degraded mode. |
+| **Rule engine failure** | No fraud evaluation possible | **Fail-open for non-payment signals** (ALLOW + log); **fail-closed for payment signals** (BLOCK + alert). This is the last-resort policy. |
+| **Redis (feature cache) unavailable** | Real-time features (velocity, fingerprint) unavailable | Evaluate with historical features from Aurora only; reduced accuracy but functional. Alert fires for cache restoration. |
+| **Aurora unavailable** | No access to cases, rules, or historical features | Emergency mode: rule engine uses in-memory rule cache (loaded at startup); ML endpoint provides scoring without historical enrichment. P1 alert fires immediately. |
+| **Kafka consumer lag (event ingestion)** | Delayed fraud signals for downstream services | Acceptable up to 60 seconds; beyond that, consumer lag alert fires. In-flight orders continue with last-known risk state. |
+
+---
+
+## 14. Capacity Sizing
+
+| Resource | Configuration |
+|----------|--------------|
+| **Min replicas** | 5 (production) — higher minimum due to Tier 1 criticality |
+| **Max replicas** | 30 (HPA) |
+| **HPA target** | 50% CPU utilization (aggressive scaling due to latency sensitivity) |
+| **Aurora connection pool** | 20 connections per pod (RDS Proxy) |
+| **Redis** | ElastiCache cluster (cluster mode enabled) for feature cache and velocity counters |
+| **Peak QPS** | ~1,000 req/s for `EvaluateRisk` (called on every order request and payment) |
+| **Memory** | 1Gi request / 2Gi limit per pod |
+| **CPU** | 1000m request / 4000m limit per pod |
+
+---
+
+## 15. Data Retention Matrix
+
+| Store | Data | Retention | Deletion Mechanism |
+|-------|------|-----------|-------------------|
+| **Aurora PostgreSQL** — `fraud_signals` | Individual fraud signal records | 2 years | Scheduled archival job → S3; deleted from Aurora after archival |
+| **Aurora PostgreSQL** — `fraud_cases` | Investigation cases and resolution records | 7 years (regulatory/legal) | Archived to S3 after 2 years; deleted after 7 years |
+| **Aurora PostgreSQL** — `fraud_rules` | Rule definitions and versions | Indefinite (versioned, never hard-deleted) | Soft-delete deprecated rules |
+| **Aurora PostgreSQL** — `risk_scores` | Historical risk scores per entity | 1 year | Scheduled cleanup job; aggregate metrics retained indefinitely |
+| **Redis** — feature cache | Device fingerprints, velocity counters | Variable TTL (1 hour – 24 hours depending on feature) | Automatic TTL expiry |
+| **Kafka** — `fraud.*` topics | Published fraud signals and case events | 14 days (platform default) | Kafka topic retention policy |
+| **Kafka** — consumed event topics | Order, payment, registration events | 14 days (platform default) | Kafka topic retention policy |
+| **CloudWatch Logs** | Application logs | 90 days (extended for fraud investigation) | CloudWatch log group retention policy |
+
+---
+
 ← [Back to Domain Catalog](./README.md)

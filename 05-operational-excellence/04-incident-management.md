@@ -437,4 +437,137 @@ This is not punitive — it is a structural incentive to invest in reliability b
 
 ---
 
+## 12. On-Call Structure
+
+### 12.1 Rotation Model
+
+Every team operating production services must maintain an on-call rotation with **primary and secondary** engineers.
+
+| Role | Responsibility |
+|------|---------------|
+| **Primary** | First responder — receives all PagerDuty alerts, acknowledges and begins investigation |
+| **Secondary** | Backup — receives escalation if primary does not acknowledge within 5 minutes |
+
+### 12.2 Rotation Schedule
+
+- **Rotation length:** Weekly
+- **Handoff time:** Monday 10:00 AM local time
+- **Handoff format:** Synchronous (Slack huddle or brief call) using the handoff checklist
+
+### 12.3 Handoff Checklist
+
+At every rotation handoff, the outgoing on-call walks the incoming on-call through:
+
+```
+[ ] Open incidents — any active or recently resolved incidents
+[ ] Active alerts — any alerts currently firing or recently resolved
+[ ] Recent deployments — services deployed in the last 48 hours (check ArgoCD)
+[ ] Known issues — degraded services, upcoming maintenance, ongoing investigations
+[ ] Pending PIR actions — any action items assigned to the team that are in progress
+```
+
+The checklist is posted in the team's Slack channel as a written record.
+
+### 12.4 PagerDuty Escalation Policy
+
+| Elapsed Time | Escalation Step |
+|-------------|-----------------|
+| 0 min | Alert sent to **primary on-call** |
+| 5 min (no ack) | Escalate to **secondary on-call** |
+| 15 min (no ack) | Escalate to **Engineering Manager** |
+| 30 min (no ack) | Escalate to **VP Engineering** |
+
+All escalation policies are configured in PagerDuty and tested quarterly to verify contact details and routing.
+
+### 12.5 Follow-the-Sun
+
+Follow-the-sun on-call is **not required** until a team spans more than 8 timezone hours. Until then:
+
+- Single-timezone rotation with after-hours coverage
+- After-hours expectations: engineer must be reachable (not necessarily at a desk) and able to respond within 15 minutes
+- If the team grows to span > 8 TZ hours, transition to follow-the-sun with regional handoffs
+
+### 12.6 Compensation
+
+On-call engineers receive **time-off-in-lieu** for after-hours pages:
+
+| Scenario | Compensation |
+|----------|-------------|
+| Page outside business hours (resolved in < 30 min) | 1 hour time off |
+| Page outside business hours (resolved in > 30 min) | Actual time spent, rounded up to next hour |
+| Weekend/holiday page | 1.5× the time spent |
+
+Time off is tracked by the Engineering Manager and taken within the same quarter. Unused compensation does not roll over.
+
+### 12.7 Burnout Prevention
+
+| Guardrail | Policy |
+|-----------|--------|
+| **Max consecutive rotations** | 2 — no engineer may be on-call for more than 2 consecutive weeks |
+| **Page volume target** | Max 10 pages per rotation — if exceeded, team must review alert hygiene (see Observability Standards, Section 11) |
+| **Monthly review** | Engineering Managers review page volume per team member monthly; uneven distribution is addressed |
+| **Post-incident rest** | After a P1 incident requiring > 2 hours of active response, the on-call engineer may take the next business day off |
+
+### 12.8 Staffing Requirement
+
+Every on-call rotation must have a **minimum of 4 engineers** to ensure sustainable coverage. Teams with fewer than 4 engineers share on-call with a related team or escalate to the Platform Engineering on-call as secondary.
+
+---
+
+## 13. PIR Action Item Governance
+
+### 13.1 Tracking
+
+All action items from Post-Incident Reviews are:
+
+- Created as **Jira tickets** immediately after the PIR meeting
+- Labelled with `pir-action` for tracking and reporting
+- Linked to the PIR document (Confluence page or Git-hosted markdown)
+- Assigned to a specific owner with a due date
+
+### 13.2 SLA to Close
+
+| Action Priority | Closure SLA | Determination |
+|----------------|-------------|---------------|
+| **P1 action** | 30 calendar days | Action prevents recurrence of a P1 incident |
+| **P2 action** | 60 calendar days | Action prevents recurrence of a P2 incident or addresses a contributing factor |
+
+Priority is determined during the PIR meeting based on the severity of the original incident and the criticality of the action item.
+
+### 13.3 Verification
+
+Action items are marked as **done** only after verification confirms the fix is effective:
+
+| Verification Method | When to Use |
+|--------------------|-------------|
+| Automated test added and passing | Code-level fixes (null handling, validation) |
+| Alert rule confirmed firing correctly | Observability improvements |
+| Monitoring confirms no recurrence for 7 days | Operational changes (scaling, config) |
+| Load test passing | Capacity-related fixes |
+
+"I deployed the fix" is not sufficient — verification evidence must be linked in the Jira ticket.
+
+### 13.4 Escalation
+
+| Condition | Escalation |
+|-----------|-----------|
+| P1 action overdue by > 7 days | Flagged in weekly engineering leadership sync |
+| P2 action overdue by > 14 days | Flagged in weekly engineering leadership sync |
+| Any action overdue by > 30 days beyond SLA | Escalated to VP Engineering |
+
+The Platform Engineering team maintains a dashboard of all open PIR action items, visible to engineering leadership.
+
+### 13.5 Quarterly PIR Review
+
+Every quarter, the Reliability Review Board conducts a PIR retrospective:
+
+1. **Completion rate:** What percentage of PIR actions were closed within SLA?
+2. **Systemic patterns:** Are multiple PIRs identifying the same root cause category? (e.g., "missing tests", "no canary", "missing circuit breaker")
+3. **Effectiveness:** Did completed actions prevent recurrence? (Check: has a similar incident occurred since the action was completed?)
+4. **Manifesto updates:** If a pattern is systemic, update this manifesto with a new standard or guardrail to prevent the class of failure
+
+Target: **> 90% of PIR actions closed within SLA** each quarter.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

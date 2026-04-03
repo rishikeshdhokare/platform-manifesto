@@ -261,4 +261,173 @@ All compliance controls are mapped to the engineering practices in this manifest
 
 ---
 
+## 10. Secrets Rotation Policy
+
+### 10.1 Rotation schedules
+
+| Secret Type | Rotation Frequency | Mechanism |
+|-------------|-------------------|-----------|
+| DB passwords | Every **30 days** | AWS Secrets Manager automatic rotation (Lambda) |
+| Third-party API keys | Every **90 days** | AWS Secrets Manager with configured rotation schedule |
+| Service account tokens | Every **90 days** | AWS Secrets Manager automatic rotation |
+
+### 10.2 Rotation failure alerting
+
+| Component | Configuration |
+|-----------|---------------|
+| CloudWatch Alarm | Fires if the rotation Lambda fails or times out |
+| Alert target | `#security-alerts` Slack channel via SNS → ChatBot |
+| Escalation | If not acknowledged within 1 hour, page on-call security engineer via PagerDuty |
+
+### 10.3 Emergency rotation (break-glass)
+
+Any engineer can trigger immediate credential rotation via the **Secrets Emergency Rotation** runbook:
+
+1. Open the rotation runbook in the operations wiki.
+2. Identify the affected secret in AWS Secrets Manager.
+3. Trigger immediate rotation via the console or CLI (`aws secretsmanager rotate-secret --secret-id <id>`).
+4. Verify the dependent service picks up the new credential (check application logs for authentication errors).
+5. **Notify the security team within 1 hour** with the reason for emergency rotation.
+6. Open a follow-up incident ticket if the rotation was triggered by a suspected compromise.
+
+### 10.4 Central dashboard
+
+All rotation schedules are tracked in a **Grafana dashboard** (`Security → Secrets Rotation Status`) that shows:
+
+- Last rotation date per secret
+- Next scheduled rotation
+- Failed rotations (with links to CloudWatch logs)
+- Secrets approaching rotation deadline (amber at 7 days, red at overdue)
+
+---
+
+## 11. Container Runtime Security
+
+### 11.1 Runtime threat detection — Falco
+
+**Falco** is deployed as a DaemonSet on all EKS nodes, monitoring syscalls for anomalous behavior.
+
+**Detection rules:**
+
+| Rule | Severity | Description |
+|------|----------|-------------|
+| Unexpected process execution | Warning | Process not in the container's expected process tree |
+| Shell spawned in container | Critical | `/bin/sh`, `/bin/bash`, or similar shells launched |
+| Sensitive file access | Warning | Read/write to `/etc/shadow`, `/etc/passwd`, or mounted secrets |
+| Network connection to unusual ports | Warning | Outbound connections to ports not in the declared allow-list |
+| Crypto mining patterns | Critical | Detection of known mining binaries or CPU-intensive hash patterns |
+
+### 11.2 Response
+
+- **Warning-level alerts** → `#security-alerts` Slack channel for triage.
+- **Critical-level alerts** → automatic pod termination + `#security-alerts` notification + PagerDuty page.
+- All Falco events are shipped to the central SIEM for correlation and forensic analysis.
+
+### 11.3 Admission control — Kyverno
+
+**Kyverno** policies enforce the following at admission time (pod creation is rejected if any rule fails):
+
+| Policy | Enforcement |
+|--------|-------------|
+| No privileged containers | `spec.containers[*].securityContext.privileged: false` |
+| No host network | `spec.hostNetwork: false` |
+| No host PID | `spec.hostPID: false` |
+| Image source restriction | Image must originate from the {Company} ECR registry |
+| Required labels | `app`, `team`, `platform.{company}.com/domain` must be present |
+| Read-only root filesystem | `securityContext.readOnlyRootFilesystem: true` (exceptions via annotation) |
+
+### 11.4 Image re-scanning
+
+- All running container images in ECR are **re-scanned weekly** for newly published CVEs.
+- New CVEs discovered in running images trigger an alert to the owning team.
+- **SLA:** 7 days to patch or apply an approved mitigation (WAF rule, network restriction, etc.).
+- Critical CVEs with known exploits follow the accelerated timeline in Section 3.2.
+
+### 11.5 Pod Security Standards
+
+| Environment | Pod Security Standard | Enforcement |
+|-------------|----------------------|-------------|
+| Production | `restricted` | Enforce (reject non-compliant pods) |
+| Staging | `baseline` | Enforce |
+| Development | `baseline` | Warn (allow but log violations) |
+
+---
+
+## 12. Network Egress Control
+
+### 12.1 Default-deny egress
+
+All production namespaces have a **NetworkPolicy** that denies all egress by default:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-egress
+  namespace: orders
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+```
+
+Specific egress rules are layered on top of this deny-all baseline.
+
+### 12.2 Allowlists
+
+Teams declare required external endpoints in their **Helm values**:
+
+```yaml
+egress:
+  allowedExternalEndpoints:
+    - host: api.stripe.com
+      port: 443
+    - host: maps.googleapis.com
+      port: 443
+```
+
+The platform Helm chart translates these into `NetworkPolicy` rules. The platform team reviews and provisions the rules during PR review.
+
+### 12.3 Istio EgressGateway
+
+All external HTTPS traffic routes through a shared **Istio EgressGateway** for centralized logging and inspection:
+
+```mermaid
+flowchart LR
+    Pod["Service Pod"] -->|mTLS| Sidecar["Envoy Sidecar"]
+    Sidecar -->|mTLS| EG["EgressGateway"]
+    EG -->|TLS| Ext["External API"]
+    EG -->|access log| Logs["Central Logging"]
+```
+
+The EgressGateway provides:
+
+- **Access logging** — every external request is logged with source service, destination, response code, and latency.
+- **TLS origination** — the gateway handles TLS to external endpoints; pods send plaintext to the sidecar.
+- **Circuit breaking** — protects against cascading failures from slow external dependencies.
+
+### 12.4 Allowed external domains
+
+| Category | Examples |
+|----------|----------|
+| Package registries | Maven Central, npm registry, PyPI |
+| Cloud APIs | AWS service endpoints (`*.amazonaws.com`) |
+| Approved third-party APIs | Payment providers, mapping APIs, notification gateways |
+| Monitoring | Datadog, PagerDuty |
+
+Any new external dependency requires a **security review** and explicit addition to the allowlist.
+
+### 12.5 Monitoring
+
+| Metric | Alert Condition |
+|--------|----------------|
+| Egress traffic volume per service per destination | Spike >3x baseline in 15-minute window |
+| Connections to non-allowlisted destinations | Any connection attempt (blocked by policy) |
+| EgressGateway error rate | >1% 5xx responses in 5-minute window |
+| Egress latency per destination | p99 >5s sustained for 10 minutes |
+
+Unexpected destination alerts page the security on-call immediately.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

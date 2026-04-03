@@ -71,6 +71,27 @@ These are acceptable — they represent state transitions, not arbitrary RPC.
 
 **`POST` idempotency:** All `POST` endpoints that create resources or trigger mutations must support an `Idempotency-Key` header. The server stores the response for a `POST` keyed on this value and returns the cached response if the same key is received again within 24 hours.
 
+### 3.1 Idempotency Details
+
+**Scope:** The `Idempotency-Key` is scoped per authenticated principal — specifically `tenant + user`. The same key submitted by different principals is treated as different operations. This prevents cross-tenant collisions in multi-tenant environments.
+
+**Payload mismatch:** If the same `Idempotency-Key` is submitted with a **different request payload** than the original, the server returns `422 Unprocessable Entity` with error code `IDEMPOTENCY_KEY_PAYLOAD_MISMATCH`. The server does not execute the new payload — the original result stands.
+
+**PATCH operations:** `PATCH` is inherently idempotent — applying the same patch twice produces the same result. No `Idempotency-Key` is required for PATCH requests (though clients may include one; the server will honour it if present).
+
+**gRPC:** For mutation RPCs in internal gRPC services, include an `idempotency_key` field in the request message:
+
+```protobuf
+message CreatePaymentRequest {
+  string idempotency_key = 1;
+  string order_id = 2;
+  int64 amount_cents = 3;
+  string currency = 4;
+}
+```
+
+The same storage and TTL semantics apply as for REST — the key is stored in the idempotency table with the serialised response, and replayed if the same key is received within 24 hours.
+
 ---
 
 ## 4. Versioning
@@ -173,6 +194,24 @@ GET /v1/orders?limit=20&cursor=eyJpZCI6IjEyMyJ9
 
 When there are no more pages, `nextCursor` is `null` and `hasMore` is `false`.
 
+### 6.3 Deep Pagination Limit
+
+Maximum traversal depth is **10,000 items** (i.e., 500 pages at `limit=20`). Requests that attempt to paginate beyond 10,000 items receive a `400 Bad Request` with error code `PAGINATION_DEPTH_EXCEEDED` and a message instructing the caller to apply filters (date range, status, etc.) to narrow the result set.
+
+This limit exists to protect database performance — deep cursor-based pagination still requires index traversal proportional to depth.
+
+### 6.4 Cursor Encoding & Expiry
+
+- **Encoding:** Cursors are **opaque, base64-encoded strings**. Clients must not parse, construct, or modify cursors — they are server-generated and server-interpreted.
+- **Expiry:** Cursors expire after **1 hour**. A request with an expired cursor returns `400 Bad Request` with error code `CURSOR_EXPIRED`. The client must restart pagination from the beginning.
+- **Contents:** Internally, cursors encode the last-seen sort key(s) and direction. The encoding format is an implementation detail and may change without notice.
+
+### 6.5 Consistency
+
+- Where the underlying data store supports it, cursors use **snapshot isolation** — the result set is consistent as of the time the first page was requested.
+- For data stores without snapshot isolation (e.g., OpenSearch), results **may shift** between pages if the underlying data changes (inserts, deletes, re-sorting). This must be documented in the API spec for affected endpoints.
+- APIs that cannot guarantee cursor consistency must include a `consistency: "best-effort"` field in the pagination response object.
+
 ---
 
 ## 7. Error Handling
@@ -269,6 +308,48 @@ X-RateLimit-Remaining: 0
 X-RateLimit-Reset: 1700000000
 ```
 
+### 9.1 Algorithm & Enforcement
+
+| Algorithm | Use Case | Behaviour |
+|-----------|----------|-----------|
+| **Token bucket** (standard) | Most endpoints | Tokens refill at a steady rate; allows smoothed traffic with some burst capacity |
+| **Sliding window** | Endpoints requiring strict per-second limits (e.g., payment initiation) | Exact count over a rolling time window; no burst allowed |
+
+Token bucket is the default. Sliding window is used only when the downstream system cannot tolerate any burst (e.g., third-party payment processor rate limits).
+
+### 9.2 Rate Limit Dimensions
+
+| Dimension | Applied To | Key |
+|-----------|-----------|-----|
+| **Per-API-key** (default) | All authenticated endpoints | API key or JWT `sub` claim |
+| **Per-IP** | Unauthenticated endpoints (login, registration, public APIs) | Client IP (respecting `X-Forwarded-For` from trusted proxies only) |
+| **Per-tenant** | B2B / partner APIs | Tenant ID from JWT claims |
+
+### 9.3 Burst Allowance
+
+All rate-limited endpoints allow a **burst of 2× the sustained rate for up to 10 seconds**. For example, an endpoint with a sustained limit of 60 req/min (1 req/s) may burst to 2 req/s for 10 seconds before rate limiting applies.
+
+Burst is implemented via the token bucket's bucket depth — set to `sustained_rate × 10`.
+
+### 9.4 Fairness & Noisy Neighbour Prevention
+
+- **Per-tenant quotas:** In multi-tenant (B2B) contexts, each tenant receives an independent quota. A single tenant cannot exhaust the shared pool.
+- **Shared pool:** Unauthenticated traffic shares a global pool. If a single IP consumes a disproportionate share, per-IP limiting triggers before the global pool is exhausted.
+- **Priority tiers:** Partner API keys can be assigned higher quotas via the developer portal. Default quotas apply unless explicitly overridden.
+
+### 9.5 Enforcement Split
+
+| Layer | Handles | Tool |
+|-------|---------|------|
+| **API Gateway** | Global rate limits per tier (unauthenticated, authenticated, partner) | AWS API Gateway usage plans + throttling |
+| **BFF** | Per-user / per-session rate limits (e.g., max 5 order creations per minute per user) | Application-level rate limiter (Resilience4j `RateLimiter` or Redis-backed counter) |
+
+The API Gateway is the first line of defence — it protects backend services from traffic floods. The BFF applies business-level rate limits that require awareness of the authenticated user context.
+
+### 9.6 Response
+
+All rate-limited responses return `429 Too Many Requests` with a `Retry-After` header indicating the number of seconds until the client may retry. Clients must respect this header — SDKs and BFFs should implement automatic backoff.
+
 ---
 
 ## 10. OpenAPI Contract
@@ -355,6 +436,57 @@ When a new version is released:
 - CI check: new services cannot integrate against a deprecated API version (enforced via Pact broker tags)
 - Backstage: deprecated APIs are visually flagged in the catalog
 - Quarterly review: API versions older than 18 months with <1% traffic are candidates for forced sunset
+
+---
+
+## 13. GraphQL Policy
+
+### 13.1 Default Position
+
+**GraphQL is NOT approved for new services.** The standard API pattern is REST (external) + gRPC (internal). This is a deliberate decision, not an oversight.
+
+### 13.2 Rationale
+
+GraphQL adds significant operational complexity that our current platform tooling does not support at scale:
+
+| Concern | REST/gRPC (current) | GraphQL (additional burden) |
+|---------|---------------------|----------------------------|
+| **Caching** | Standard HTTP caching (CDN, `Cache-Control`) | Requires custom cache strategies; POST-based queries defeat HTTP caches |
+| **Monitoring** | Per-endpoint metrics (RED method) | Single `/graphql` endpoint — all queries look the same without custom instrumentation |
+| **Authorization** | Per-endpoint middleware | Per-field authorization required; easy to accidentally expose data |
+| **N+1 queries** | Explicit in code; visible in traces | Hidden in resolver chains; requires DataLoader discipline |
+| **Rate limiting** | Per-endpoint limits | Query complexity varies wildly; simple rate limits are insufficient |
+
+### 13.3 Exception Process
+
+If a team believes GraphQL is the right solution for a **BFF aggregation** use case (e.g., a mobile BFF that aggregates 5+ downstream services into a single screen), they may propose it via the RFC process (see Ways of Working — RFC Process).
+
+The RFC must address:
+- Why REST aggregation in the BFF is insufficient
+- How the team will handle each concern in the table above
+- Who will own the ongoing operational complexity
+
+### 13.4 If Approved: Mandatory Guardrails
+
+GraphQL services approved via RFC must enforce **all** of the following:
+
+| Guardrail | Configuration |
+|-----------|--------------|
+| **Query depth limit** | Maximum 10 levels of nesting |
+| **Complexity scoring** | Maximum 1,000 points per query (fields = 1 point, nested objects = 10 points, connections = 50 points) |
+| **Per-field authorization** | Every field resolver checks the caller's permissions; no implicit trust based on parent access |
+| **DataLoader** | Mandatory for all resolvers that access a data source; prevents N+1 queries |
+| **Persisted queries only** | In production, only pre-registered query hashes are accepted; arbitrary query strings are rejected |
+| **Introspection disabled** | `introspection: false` in production; enabled only in development/staging |
+
+### 13.5 Monitoring Requirements for GraphQL
+
+If a GraphQL service is approved, it must implement custom observability to match the visibility we get from REST endpoints:
+
+- Per-operation-name metrics (rate, errors, duration) — operation names are required on all queries
+- Query complexity tracking as a Prometheus histogram
+- Slow query logging (queries exceeding complexity threshold or duration > 1s)
+- Depth violation alerts
 
 ---
 

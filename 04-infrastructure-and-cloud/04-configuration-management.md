@@ -370,12 +370,44 @@ Before deploying a service, verify:
 [ ] Helm values reference secrets via volumeMount, not env vars
 [ ] Local dev works with application-local.yml and docker-compose
 [ ] Feature flags have sensible defaults (OFF for new features)
-[ ] Secrets are rotated — no secret older than 90 days in production
+[ ] Secrets are rotated — No secret older than 90 days (API keys, third-party tokens) or 30 days (database passwords) in production — aligned with the secrets rotation policy in 03-security.md
 ```
 
 ---
 
-## 10. Troubleshooting Config
+## 10. Feature Flag Lifecycle
+
+Feature flags are powerful but accumulate quickly. Without active management, the codebase fills with dead toggles, and LaunchDarkly becomes unnavigable. These rules keep the flag inventory clean.
+
+### 10.1 Max Age
+
+Flags older than **90 days** trigger an automated Slack notification to the flag owner. The notification includes a direct link to the flag in LaunchDarkly and the originating Jira ticket.
+
+### 10.2 Orphan Detection
+
+A **monthly script** scans LaunchDarkly for flags with **zero evaluations in 30 days**. These are considered orphans. Each orphan is filed as a cleanup ticket in Jira, assigned to the owning team, and tagged `feature-flag-cleanup`.
+
+### 10.3 Ownership
+
+Every flag **must have an owner** (team) recorded in LaunchDarkly's custom `owner` field. Flags without an owner are escalated to the responsible engineering manager within 48 hours. Unowned flags that remain unclaimed for 7 days are disabled in non-production environments.
+
+### 10.4 Environment Lifecycle
+
+Flags follow a strict promotion path:
+
+1. **Dev** — flag created and tested
+2. **Staging** — flag promoted and validated in integration
+3. **Production** — flag promoted after staging validation
+
+Production flags that are **not present in staging for >7 days** are flagged as anomalies and reported to the team lead. This prevents "production-only" flags that bypass the standard validation flow.
+
+### 10.5 Cleanup Enforcement
+
+Flags that are past their **planned removal date** (set when the flag is created) **block the team's next feature flag creation** until the overdue flag is cleaned up. This is enforced via a pre-creation webhook in LaunchDarkly that checks the team's outstanding cleanup debt.
+
+---
+
+## 11. Troubleshooting Config
 
 ```bash
 # See what config Spring Boot has loaded (run locally or in a pod)

@@ -330,4 +330,67 @@ Platform team SLA for responding to feedback: 2 business days.
 
 ---
 
+## 11. Onboarding Buddy Program
+
+Every new joiner is assigned an **onboarding buddy** from their team. The buddy is not the new joiner's manager.
+
+### Buddy Responsibilities
+
+| Period | Cadence | Activities |
+|--------|---------|------------|
+| Week 1 | Daily check-in | Orient to codebase, team rituals, tooling; answer questions; pair programming on first PR |
+| Weeks 2–4 | Weekly check-in | Ongoing support, answer questions, review progress against onboarding milestones |
+
+### Program Details
+
+| Parameter | Value |
+|-----------|-------|
+| Duration | 4 weeks |
+| Selection | Rotating among team members |
+| Engineering ladder | Counts toward the "mentoring" criterion |
+
+### Feedback
+
+At the end of the 4-week period:
+- Both the new joiner and the buddy fill out a feedback form
+- Results are reviewed by the engineering manager
+- Aggregate feedback is used to improve the onboarding process quarterly
+
+---
+
+## 12. Documentation Standards
+
+### Required Metadata
+
+Every markdown document in the platform manifesto and service documentation must include:
+
+| Field | Requirement |
+|-------|-------------|
+| `Last Updated` | Date in the document header; updated with every substantive change |
+| `Owner` | Team or individual responsible for the document's accuracy |
+
+### Automated Quality Checks
+
+| Check | Frequency | Action on Failure |
+|-------|-----------|-------------------|
+| Broken link detection | Monthly CI job | Broken links filed as Jira issues assigned to document owner |
+| Staleness detection | Monthly scan | Docs not updated in > 6 months flagged for review by owner |
+
+### Behavior Change Documentation
+
+Any PR that changes **observable behavior** (API response format, configuration defaults, error handling, etc.) must update the relevant documentation. This is enforced via the PR template checklist:
+
+```markdown
+## PR Checklist
+- [ ] If this PR changes observable behavior, I have updated the relevant documentation
+```
+
+### API Documentation
+
+- **OpenAPI spec** is the source of truth for all API documentation
+- Backstage TechDocs pages are **auto-generated** from the OpenAPI spec
+- Manual API documentation is not maintained separately — it drifts and becomes a liability
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

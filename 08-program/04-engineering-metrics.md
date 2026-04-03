@@ -201,7 +201,7 @@ If a team consistently spends < 10% on debt, leadership will review whether feat
 | Dev environment set up | < 4 hours | Self-reported |
 | First passing CI build | < 1 day | GitHub Actions |
 | First PR merged | < 3 days | GitHub |
-| First production deploy | < 2 weeks | ArgoCD |
+| First production deploy | End of Week 1 | ArgoCD |
 | Comfortable with on-call | < 6 weeks | Manager assessment |
 
 ### 7.1 Onboarding Checklist
@@ -213,7 +213,7 @@ Every new hire follows the onboarding golden path in Backstage:
 4. Push, watch CI, get a review, merge, deploy
 5. Observe the deployment in Grafana
 
-If onboarding takes longer than 2 weeks to first deploy, the platform team investigates — the problem is the platform, not the person.
+If onboarding takes longer than end of Week 1 to first deploy, the platform team investigates — the problem is the platform, not the person.
 
 ---
 
@@ -329,6 +329,30 @@ graph TB
 3. Top 3 concerns (what needs attention)
 4. Developer satisfaction survey results
 5. Open Q&A
+
+---
+
+## 11. Metrics We Do Not Use
+
+The following metrics are **explicitly excluded** from engineering evaluation at {Company}. They are vanity metrics that incentivize the wrong behaviours, reward activity over impact, and damage team culture when used in comparisons or reviews.
+
+| Metric | Why We Reject It |
+|--------|-----------------|
+| **Lines of code** | Measures output, not outcome. More code is not better code. The best engineering often *removes* lines. |
+| **Raw sprint velocity** | Varies by team composition, story pointing style, and scope. Not comparable across teams. Using it as a target incentivizes point inflation. |
+| **Individual commit counts** | Incentivizes small, meaningless commits. Measures activity, not impact. A single well-crafted commit is worth more than twenty trivial ones. |
+| **Code coverage as a target** | Coverage is a tool, not a goal. 100% coverage with bad assertions is worse than 80% with meaningful tests. We enforce a *floor* (80%), not a *target*. |
+| **Number of PRs merged** | Incentivizes splitting work unnecessarily. Judge impact, not volume. |
+| **"Story points per engineer"** | Individual velocity is meaningless and harmful. Engineering is a team sport. Measuring individuals this way destroys collaboration. |
+
+**These metrics are explicitly forbidden in:**
+
+- Performance reviews
+- Team comparisons and rankings
+- Leadership dashboards and executive reports
+- Promotion packets
+
+If any of these metrics appear in a dashboard or review, report it to the CTO office. We measure outcomes (DORA, SLOs, customer impact), not activity.
 
 ---
 
