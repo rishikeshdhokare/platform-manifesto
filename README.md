@@ -316,7 +316,7 @@ Everything for the engineers building client applications.
 </details>
 
 <details>
-<summary><b>🤖 10 — AI & Machine Learning</b> &nbsp;·&nbsp; <i>Model infrastructure and responsible AI</i> &nbsp;·&nbsp; <code>2 docs</code></summary>
+<summary><b>🤖 10 — AI/ML Platform</b> &nbsp;·&nbsp; <i>Model infrastructure and responsible AI</i> &nbsp;·&nbsp; <code>2 docs</code></summary>
 
 <br/>
 

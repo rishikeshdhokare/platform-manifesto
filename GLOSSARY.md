@@ -7,7 +7,7 @@ Quick reference for acronyms and terms used across this manifesto.
 | Term | Full Name | Definition | Where to Learn More |
 |------|-----------|-----------|-------------------|
 | **ABAC** | Attribute-Based Access Control | Access control model that evaluates attributes (user, resource, environment) to grant or deny access | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
-| **ADR** | Architecture Decision Record | A document capturing a significant architectural decision, its context, and consequences | [05-git-workflow.md](./03-engineering-practices/05-git-workflow.md) |
+| **ADR** | Architecture Decision Record | A document capturing a significant architectural decision, its context, and consequences | [01-team-topology.md](./07-ways-of-working/01-team-topology.md) |
 | **BFF** | Backend for Frontend | A server-side component tailored to serve a specific frontend client's needs | [01-mobile-standards.md](./09-mobile-and-frontend/01-mobile-standards.md) |
 | **BOM** | Bill of Materials | A dependency management construct that aligns versions of related libraries | [04-android-standards.md](./09-mobile-and-frontend/04-android-standards.md) |
 | **CAB** | Change Advisory Board | A governance body that reviews and approves high-risk changes to production systems | [03-cd-practices.md](./03-engineering-practices/03-cd-practices.md) |
@@ -40,7 +40,7 @@ Quick reference for acronyms and terms used across this manifesto.
 | **PRR** | Production Readiness Review | A checklist-driven review ensuring a service meets operational standards before its first production deployment | [02-golden-path.md](./06-developer-guides/02-golden-path.md) |
 | **RACI** | Responsible, Accountable, Consulted, Informed | A matrix that clarifies roles and responsibilities for tasks and decisions | [01-maturity-model.md](./08-program/01-maturity-model.md) |
 | **RBAC** | Role-Based Access Control | An access control model where permissions are assigned to roles and users are assigned to roles | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
-| **RFC** | Request for Comments | A proposal document circulated for feedback before making a significant technical decision | [06-code-review-guide.md](./03-engineering-practices/06-code-review-guide.md) |
+| **RFC** | Request for Comments | A proposal document circulated for feedback before making a significant technical decision | [05-rfc-process.md](./07-ways-of-working/05-rfc-process.md) |
 | **RLS** | Row-Level Security | A database feature that restricts which rows a user can access based on policies | [09-multi-tenancy.md](./04-infrastructure-and-cloud/09-multi-tenancy.md) |
 | **SAST** | Static Application Security Testing | Security testing that analyses source code for vulnerabilities without executing the program | [11-qa-standards.md](./03-engineering-practices/11-qa-standards.md) |
 | **SBOM** | Software Bill of Materials | A comprehensive inventory of all components, libraries, and dependencies in a software product | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
