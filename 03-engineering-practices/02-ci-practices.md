@@ -1,0 +1,287 @@
+# CI Practices
+
+> **Status:** Mandated  
+> **Owner:** Platform Engineering  
+> **Last Updated:** 2025
+
+---
+
+## 1. Philosophy
+
+Continuous Integration means **integrating into the main branch continuously** — not once a sprint, not once a week, but multiple times a day. The CI pipeline is the guardian of main: nothing that breaks the build, fails tests, or violates quality gates gets in.
+
+**The two laws of CI:**
+1. The main branch is always in a releasable state
+2. If the build is broken, fixing it is the team's top priority — everything else stops
+
+---
+
+## 2. Source Control Strategy
+
+### 2.1 Trunk-Based Development
+
+We practice **trunk-based development** (TBD). All engineers commit to `main` either directly (for very small changes) or via **short-lived feature branches** (lifespan < 2 days).
+
+**Why TBD and not GitFlow / long-lived branches:**
+- Long-lived branches create merge debt — the longer a branch lives, the harder it merges
+- GitFlow encourages batching changes, which conflicts with CI/CD principles
+- TBD forces small, incremental, always-integrating changes — which surfaces problems early
+
+### 2.2 Branch Naming
+
+```
+{type}/{jira-ticket}-{short-description}
+
+Types: feat, fix, refactor, chore, docs, test
+
+Examples:
+  feat/RIDE-1234-add-dynamic-pricing-endpoint
+  fix/RIDE-5678-correct-price-calculation
+  chore/RIDE-9012-upgrade-spring-boot-3.2
+```
+
+### 2.3 Branch Protection Rules (GitHub)
+
+All repositories must enforce:
+- ✅ Require PR before merging to `main`
+- ✅ Require at least **1 approval** (2 for core platform services)
+- ✅ Require all status checks to pass before merging
+- ✅ Require branches to be up to date before merging
+- ✅ Dismiss stale reviews when new commits are pushed
+- ✅ Require linear history (rebase, not merge commits)
+- ❌ No force pushes to `main`
+- ❌ No deletion of `main`
+
+### 2.4 Commit Messages
+
+We use **Conventional Commits**:
+
+```
+{type}({scope}): {short description}
+
+{optional longer body}
+
+{optional footer: BREAKING CHANGE, Refs, Closes}
+
+Examples:
+  feat(pricing): add dynamic multiplier to price calculation
+  fix(fulfillment): prevent double-assignment of provider to order
+  chore(deps): upgrade spring-boot to 3.2.1
+  docs(api): update OpenAPI spec for v2 orders endpoint
+
+  BREAKING CHANGE: removed deprecated priceEstimate field from response
+```
+
+Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `perf`, `ci`, `build`
+
+Commit messages are **linted in CI** — a PR with non-conforming commit messages fails.
+
+---
+
+## 3. Pull Request Standards
+
+### 3.1 PR Size
+
+- **Target: < 400 lines changed per PR**
+- PRs > 800 lines require explicit justification in the PR description
+- Large PRs are a signal that the change should be broken down, not a sign of productivity
+
+### 3.2 PR Description Template
+
+Every repository ships with a PR template at `.github/pull_request_template.md`:
+
+```markdown
+## What does this PR do?
+
+<!-- One paragraph summary -->
+
+## Why?
+
+<!-- Business or technical motivation -->
+
+## How was it tested?
+
+<!-- Unit tests / integration tests / manual testing steps -->
+
+## Checklist
+
+- [ ] Tests added/updated
+- [ ] OpenAPI spec updated (if API changes)
+- [ ] ADR raised (if architectural decision made)
+- [ ] Feature flag added (if deploying behind a flag)
+- [ ] Runbook updated (if operational behaviour changed)
+- [ ] No secrets or credentials committed
+```
+
+### 3.3 Code Review Standards
+
+Reviewers are expected to check for:
+- Correctness (does it do what it says?)
+- Test coverage (is the behaviour tested?)
+- Security (no credentials, no injection risks, no overly permissive access)
+- API contract adherence (does it follow API standards?)
+- Observability (does it log and emit metrics appropriately?)
+
+Reviewers are **not** expected to enforce formatting — that is the linter's job.
+
+**Review SLA:** PRs must receive a first review within **1 business day**. Stale PRs (no activity for 3 days) are auto-flagged on the team Slack channel.
+
+---
+
+## 4. CI Pipeline
+
+### 4.1 Platform
+
+**GitHub Actions** — all pipelines are defined in `.github/workflows/` in the service repository.
+
+The platform team provides **reusable workflow templates** in the central `platform-workflows` repository. Services reference these rather than copy-pasting pipeline YAML.
+
+### 4.2 PR Pipeline
+
+Triggered on: **every push to a feature branch / every PR update**
+
+**Time budget: < 10 minutes total. If it's slower, optimise it.**
+
+```yaml
+# .github/workflows/pr.yml
+name: PR Pipeline
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    uses: {company}/platform-workflows/.github/workflows/java-pr.yml@main
+    with:
+      java-version: '21'
+    secrets: inherit
+```
+
+The shared `java-pr.yml` workflow runs these stages in order:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  Stage 1: Setup (30s)                                   │
+│  - Checkout                                             │
+│  - Setup JDK 21 (Amazon Corretto)                       │
+│  - Restore Gradle cache                                 │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  Stage 2: Build & Lint (2 min)                          │
+│  - gradle build -x test                                 │
+│  - Checkstyle (Google Java Style)                       │
+│  - Conventional commit lint                             │
+│  - Detect secrets scan (git-secrets / gitleaks)         │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  Stage 3: Unit Tests (3 min)                            │
+│  - gradle test (unit tests only)                        │
+│  - JaCoCo coverage report                               │
+│  - Coverage gate: ≥ 80% or fail                         │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  Stage 4: Integration Tests (4 min)                     │
+│  - gradle integrationTest (Testcontainers)              │
+│  - Contract test verification (Pact)                    │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  Stage 5: Security & Quality (2 min, parallel)          │
+│  - Snyk dependency scan                                 │
+│  - SonarCloud analysis                                  │
+│  - OpenAPI diff (no breaking changes vs main)           │
+│  - Dockerfile lint (Hadolint)                           │
+└──────────────────────┬──────────────────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────────────────┐
+│  Stage 6: Container Build (1 min)                       │
+│  - Docker build (does not push)                         │
+│  - Snyk container scan                                  │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 4.3 Main Branch Pipeline
+
+Triggered on: **every merge to `main`**
+
+This is the pipeline that builds and publishes the artifact for deployment.
+
+```
+Stage 1: Full build + all tests (same as PR pipeline)
+Stage 2: Container build & push to ECR
+  - Tag: {git-sha}, {version}, latest
+Stage 3: Pact can-i-deploy check
+Stage 4: Trigger CD pipeline (dev environment)
+Stage 5: Publish Pact to broker
+Stage 6: Release notes generation (conventional-changelog)
+```
+
+### 4.4 Scheduled Pipelines
+
+| Pipeline | Schedule | Purpose |
+|----------|----------|---------|
+| Dependency update scan | Daily 06:00 UTC | Snyk, Dependabot |
+| Load test | Weekly Mon 02:00 UTC | Gatling against staging |
+| E2E test suite | Nightly 01:00 UTC | Full journey tests |
+| Security audit | Weekly | OWASP dependency check |
+
+---
+
+## 5. Quality Gates
+
+These gates are **non-negotiable**. A PR cannot be merged if any of these fail:
+
+| Gate | Tool | Threshold |
+|------|------|-----------|
+| Unit test pass rate | JUnit 5 | 100% |
+| Integration test pass rate | JUnit 5 | 100% |
+| Line coverage | JaCoCo + SonarCloud | ≥ 80% |
+| Code smells | SonarCloud | 0 blockers, 0 critical |
+| Dependency vulnerabilities | Snyk | 0 critical, 0 high |
+| Container vulnerabilities | Snyk | 0 critical |
+| Secret detection | Gitleaks | 0 detected |
+| Breaking API change | openapi-diff | 0 breaking changes (or ADR required) |
+| Commit message format | commitlint | Conventional Commits compliant |
+| Checkstyle | Checkstyle (Google style) | 0 violations |
+
+---
+
+## 6. Build Performance
+
+### 6.1 Gradle Caching
+
+All pipelines use Gradle remote build cache:
+- Cache hosted on **Gradle Enterprise** (or GitHub Actions cache)
+- Cache key based on: task inputs + dependency hash
+- Expected cache hit rate: > 70% on warm runs
+
+### 6.2 Test Parallelism
+
+- Unit tests run in parallel: `maxParallelForks = Runtime.getRuntime().availableProcessors()`
+- Integration tests run sequentially per service (Testcontainers constraint)
+- Multiple services' pipelines run in parallel (GitHub Actions matrix)
+
+### 6.3 Pipeline Time SLA
+
+| Pipeline | Target | Alert Threshold |
+|----------|--------|----------------|
+| PR pipeline | < 10 min | > 15 min triggers review |
+| Main pipeline | < 15 min | > 20 min triggers review |
+
+If a pipeline consistently exceeds its SLA, the team is expected to optimise it — slow feedback loops kill CI culture.
+
+---
+
+## 7. Notifications & Visibility
+
+- **Slack:** CI failures on `main` post to `#ci-failures-{team}` channel immediately
+- **GitHub:** All checks visible on PR — no merge until green
+- **Dashboard:** Platform CI health dashboard in Grafana — tracks build times, failure rates, flakiness per service
+
+---
+
+*← [Back to section](./README.md) · [Back to root](../README.md)*

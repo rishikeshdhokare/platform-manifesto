@@ -1,0 +1,282 @@
+# Common Infrastructure Components
+
+> **Status:** Mandated  
+> **Owner:** Platform Engineering  
+> **Last Updated:** 2025
+
+---
+
+## 1. Overview
+
+These are the platform-level infrastructure components that every service benefits from. Teams do not build these themselves — they consume them. Platform Engineering owns their operation, availability, and upgrade lifecycle.
+
+---
+
+## 2. Service Mesh — Istio
+
+### 2.1 What It Does
+
+Istio handles cross-cutting network concerns without application code changes:
+- **mTLS between all pods** — zero-trust service-to-service encryption
+- **Traffic management** — canary routing, retries, timeouts, circuit breaking at the mesh level
+- **Observability** — distributed tracing and traffic metrics without instrumentation
+- **Authorisation policies** — service-to-service access control by identity
+
+### 2.2 What Teams Need to Do
+
+Pods are automatically enrolled in the mesh via the `istio-injection: enabled` label on their namespace. Teams need to:
+- Annotate their `Deployment` with Istio-compatible health check paths
+- Define a `VirtualService` if they need custom traffic routing (e.g. canary)
+- Define `DestinationRules` for connection pool settings (provided by platform templates)
+
+### 2.3 Teams Must NOT
+
+- Implement their own mTLS — Istio handles this
+- Set `PeerAuthentication` to `PERMISSIVE` mode in production — all production namespaces require `STRICT`
+
+---
+
+## 3. Secrets Management — AWS Secrets Manager
+
+### 3.1 How Secrets Are Consumed
+
+Secrets are **never** passed as environment variables or stored in Git. The approved pattern:
+
+**Pattern A: External Secrets Operator (preferred)**
+- The `ExternalSecret` CRD syncs secrets from AWS Secrets Manager into Kubernetes Secrets
+- Pods mount the Kubernetes Secret as a volume (not env vars)
+- Rotation happens automatically — pods restart on secret rotation via Reloader
+
+```yaml
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: orders-db-credentials
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: aws-secrets-manager
+    kind: ClusterSecretStore
+  target:
+    name: orders-db-credentials
+  data:
+  - secretKey: db-password
+    remoteRef:
+      key: /production/orders-service/db-password
+```
+
+**Pattern B: Spring Cloud AWS (for runtime secret fetching)**
+- For secrets that need to be fetched at runtime, not startup
+- Use `software.amazon.awssdk:secretsmanager` via Spring Cloud AWS autoconfiguration
+
+### 3.2 Secret Naming Convention
+
+```
+/{environment}/{service-name}/{secret-name}
+
+Examples:
+  /production/orders-service/db-password
+  /production/payments-service/stripe-api-key
+  /staging/notifications-service/twilio-auth-token
+```
+
+### 3.3 Access Control
+
+- Each service has an IRSA role granting `secretsmanager:GetSecretValue` only for its own secrets path
+- No service can read another service's secrets
+- Secret access is logged in CloudTrail
+
+---
+
+## 4. Configuration Management — AWS Systems Manager Parameter Store
+
+For **non-sensitive** configuration values (feature toggles backup, service URLs, tunable parameters):
+
+```
+/{environment}/{service-name}/{parameter-name}
+
+Examples:
+  /production/fulfillment-service/max-search-radius-km
+  /production/pricing-service/base-price
+```
+
+- Parameters are loaded at startup via Spring Cloud AWS
+- Configuration changes do not require a redeployment — services poll for changes every 5 minutes
+- **Secrets must never go in Parameter Store** — use Secrets Manager
+
+---
+
+## 5. Service Mesh Observability — Kiali
+
+Kiali provides a topology view of the service mesh — which services are talking to which, with health and traffic metrics. It is deployed in the platform namespace and accessible to all engineers via SSO.
+
+Use Kiali to:
+- Visualise traffic flows and latency between services
+- Identify misconfigured or unhealthy services in the mesh
+- Debug mTLS handshake failures
+
+---
+
+## 6. Internal Developer Portal — Backstage
+
+Backstage is the central catalog of all services, APIs, documentation, and tooling.
+
+### 6.1 What Lives in Backstage
+
+- **Service catalog** — every microservice registered with owner, tech stack, runbook links
+- **API catalog** — all OpenAPI specs published from CI
+- **Documentation** — TechDocs (Markdown in repo, rendered in Backstage)
+- **Templates** — Golden path scaffolding (new service wizard)
+- **Tech radar** — approved vs trial vs deprecated technologies
+
+### 6.2 Service Registration (Mandatory)
+
+Every service must have a `catalog-info.yaml` at the repo root:
+
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: orders-service
+  description: Manages the lifecycle of an order
+  tags:
+    - java
+    - spring-boot
+    - kafka
+  links:
+    - url: https://grafana.{company}.internal/d/orders
+      title: Grafana Dashboard
+    - url: https://wiki.{company}.internal/runbooks/orders-service
+      title: Runbook
+  annotations:
+    github.com/project-slug: {company}/orders-service
+    backstage.io/techdocs-ref: dir:.
+    pagerduty.com/service-id: P1234567
+spec:
+  type: service
+  lifecycle: production
+  owner: team-orders
+  system: platform
+  dependsOn:
+    - component:payments-service
+    - component:provider-profile-service
+  providesApis:
+    - orders-api-v1
+```
+
+---
+
+## 7. GitOps — ArgoCD
+
+### 7.1 Access Model
+
+- ArgoCD UI is accessible to all engineers (read access)
+- Sync and rollback operations require `developer` role or above
+- Production namespace sync requires `senior-engineer` role
+- All actions in ArgoCD are logged and auditable
+
+### 7.2 Application Structure in platform-config
+
+```
+platform-config/
+├── apps/
+│   ├── dev/
+│   │   ├── orders-service.yaml
+│   │   ├── fulfillment-service.yaml
+│   │   └── ...
+│   ├── staging/
+│   └── production/
+├── helm-charts/
+│   ├── java-service/        # Shared Helm chart for all Java services
+│   └── ...
+└── argocd/
+    └── app-of-apps.yaml     # ArgoCD App of Apps pattern
+```
+
+### 7.3 Helm Chart — java-service
+
+The platform ships a shared Helm chart `java-service` that handles all standard Kubernetes resources (Deployment, Service, HPA, PodDisruptionBudget, ServiceMonitor). Teams override values, not the chart:
+
+```yaml
+# values-production.yaml
+image:
+  repository: 123456789.dkr.ecr.eu-west-1.amazonaws.com/orders-service
+  tag: "sha-abc1234"
+
+replicaCount: 3
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 30
+  targetCPUUtilizationPercentage: 60
+
+env:
+  SPRING_PROFILES_ACTIVE: production
+  AWS_REGION: eu-west-1
+```
+
+---
+
+## 8. Container Registry — Amazon ECR
+
+- One ECR repository per service: `{service-name}`
+- Images are tagged: `{git-sha}` (immutable), `{semver}`, `latest` (mutable, points to last main build)
+- **Image scanning:** ECR enhanced scanning (on push) — critical and high vulnerabilities block deployment
+- **Lifecycle policy:** Keep last 50 images; expire images older than 90 days
+- Cross-account access: Staging and production accounts pull from the shared services ECR account
+
+---
+
+## 9. Internal DNS & Service Discovery
+
+- **Internal DNS:** Route 53 Private Hosted Zone — `{service}.internal.{company}.com`
+- **In-cluster:** Kubernetes DNS + Istio service registry — services address each other as `http://orders-service.orders.svc.cluster.local`
+- **Cross-cluster (future):** Istio multi-cluster mesh with cross-cluster service discovery
+
+---
+
+## 10. Certificate Management
+
+- **External TLS:** AWS Certificate Manager (ACM) — certificates auto-renewed, attached to ALB/CloudFront
+- **Internal mTLS:** Istio manages certificates via its CA — teams never handle internal certs manually
+- **No self-signed certs in any environment** (SCP enforced at org level for public endpoints)
+
+---
+
+## 11. Job Scheduling — Amazon EventBridge Scheduler
+
+All scheduled tasks (previously cron jobs) are managed via EventBridge Scheduler:
+
+- Schedules are defined in Terraform (not in application code)
+- Targets are Lambda functions or EKS CronJobs
+- Failed executions trigger CloudWatch alarms
+- No scheduled tasks run in application containers — this creates unpredictable scaling behaviour
+
+---
+
+## 12. Platform Component Health
+
+The platform team publishes a **Platform Status Page** (internal) showing the health of all shared components. Teams can subscribe to incident notifications for components they depend on.
+
+| Component | SLA (Uptime) | Owner |
+|-----------|-------------|-------|
+| EKS Clusters | 99.95% | Platform |
+| MSK (Kafka) | 99.9% | Platform |
+| Aurora (shared infra) | 99.99% | Platform |
+| ElastiCache | 99.9% | Platform |
+| ArgoCD | 99.9% | Platform |
+| Backstage | 99.5% | Platform |
+| Secrets Manager (AWS) | 99.99% | AWS |
+
+---
+
+*← [Back to section](./README.md) · [Back to root](../README.md)*
