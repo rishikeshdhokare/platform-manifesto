@@ -1,12 +1,10 @@
-# Observability in Practice
+# 📡 Observability in Practice
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. The Goal
+## 🎯 1. The Goal
 
 When something goes wrong in production at 2am, you should be able to answer these questions **without touching any server or running any queries manually:**
 
@@ -20,7 +18,7 @@ This guide shows you **exactly how to set up** logging, metrics, and tracing so 
 
 ---
 
-## 2. Logging in Practice
+## 📡 2. Logging in Practice
 
 ### 2.1 Setup
 
@@ -248,7 +246,7 @@ Output (as JSON, with correlation ID automatically included from MDC):
 
 ---
 
-## 3. Metrics in Practice
+## 📡 3. Metrics in Practice
 
 ### 3.1 Setup — Already Done
 
@@ -374,7 +372,7 @@ hikaricp_connections_active{service="orders-service"}
 
 ---
 
-## 4. Distributed Tracing in Practice
+## 📡 4. Distributed Tracing in Practice
 
 ### 4.1 Setup — Java Agent
 
@@ -483,7 +481,7 @@ This means you can:
 
 ---
 
-## 5. Health Checks
+## 👁️ 5. Health Checks
 
 Spring Boot Actuator provides health checks. Configure them properly:
 
@@ -533,7 +531,7 @@ Use readiness to signal "I'm starting up" or "I've lost my DB connection — sto
 
 ---
 
-## 6. Observability Checklist
+## 📋 6. Observability Checklist
 
 Before going to production, verify each item:
 
@@ -559,4 +557,8 @@ curl http://localhost:8080/actuator/prometheus | grep "orders_requested"
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,12 +1,10 @@
-# Testing in Production
+# 🧪 Testing in Production
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Why Test in Production
+## 🎯 1. Why Test in Production
 
 Staging environments are useful but inherently limited. They **cannot replicate**:
 
@@ -23,7 +21,7 @@ Staging environments are useful but inherently limited. They **cannot replicate*
 
 ---
 
-## 2. Synthetic Monitoring
+## 📡 2. Synthetic Monitoring
 
 ### 2.1 CloudWatch Synthetics Canaries
 
@@ -48,7 +46,7 @@ Canaries use a **dedicated test account** (`canary@{company}.com`) with a test p
 
 ---
 
-## 3. Canary Scripts as Code
+## 🧪 3. Canary Scripts as Code
 
 All canary scripts are stored in Git alongside the service they monitor, deployed via Terraform, and version-controlled like any other production artifact.
 
@@ -91,7 +89,7 @@ Canary Terraform is applied via the same ArgoCD pipeline as the service. When a 
 
 ---
 
-## 4. Traffic Mirroring
+## 🧪 4. Traffic Mirroring
 
 ### 4.1 How It Works
 
@@ -135,7 +133,7 @@ flowchart LR
 
 ---
 
-## 5. Dark Launches
+## 🧪 5. Dark Launches
 
 Deploy new functionality to production but expose it only to internal users via **LaunchDarkly feature flags**.
 
@@ -161,7 +159,7 @@ Deploy new functionality to production but expose it only to internal users via 
 
 ---
 
-## 6. Smoke Tests
+## 🧪 6. Smoke Tests
 
 Lightweight health checks that run **automatically after every deployment** to verify the service is alive and functional.
 
@@ -185,7 +183,7 @@ Smoke tests are already embedded in the CD pipeline via ArgoCD post-sync hooks. 
 
 ---
 
-## 7. Safety Rules
+## ⚠️ 7. Safety Rules
 
 Testing in production is powerful but dangerous if done carelessly. These rules are **non-negotiable**.
 
@@ -200,7 +198,7 @@ Testing in production is powerful but dangerous if done carelessly. These rules 
 
 ---
 
-## 8. Testing-in-Production Technique Selection
+## 📋 8. Testing-in-Production Technique Selection
 
 Use this diagram to choose the right technique for your scenario.
 
@@ -241,4 +239,8 @@ flowchart TD
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

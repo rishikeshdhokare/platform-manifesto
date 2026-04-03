@@ -1,12 +1,10 @@
-# Debugging Guide
+# 🔍 Debugging Guide
 
-> **Status:** Guidance  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Local Debugging](#1-local-debugging)
 2. [Staging Environment Debugging](#2-staging-environment-debugging)
@@ -17,7 +15,7 @@
 
 ---
 
-## 1. Local Debugging
+## 🔍 1. Local Debugging
 
 ### 1.1 IntelliJ Remote Debug Configuration
 
@@ -87,7 +85,7 @@ docker exec kafka kafka-consumer-groups \
 
 ---
 
-## 2. Staging Environment Debugging
+## 🔍 2. Staging Environment Debugging
 
 ### 2.1 kubectl Port-Forward
 
@@ -145,7 +143,7 @@ kubectl debug -n orders pod/order-service-abc123 \
 
 ---
 
-## 3. Log Search
+## 🔍 3. Log Search
 
 {Company} ships structured JSON logs to **OpenSearch** (via Fluent Bit). Grafana Loki is available as an alternative for teams that prefer LogQL.
 
@@ -225,7 +223,7 @@ kubectl debug -n orders pod/order-service-abc123 \
 
 ---
 
-## 4. Trace Exploration
+## 🔍 4. Trace Exploration
 
 ### 4.1 X-Ray / Grafana Tempo UI Walkthrough
 
@@ -278,7 +276,7 @@ To jump from a trace to logs:
 
 ---
 
-## 5. Common Scenarios
+## 🔍 5. Common Scenarios
 
 ### 5.1 Diagnosis Quick Reference
 
@@ -337,7 +335,7 @@ make reset
 
 ---
 
-## 6. Help Channels
+## 📋 6. Help Channels
 
 ### 6.1 Channel Directory
 
@@ -369,4 +367,8 @@ Every new engineer is assigned a buddy from their team for the first 90 days. Bu
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

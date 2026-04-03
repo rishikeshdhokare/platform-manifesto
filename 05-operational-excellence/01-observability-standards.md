@@ -1,12 +1,10 @@
-# Observability Standards
+# 👁️ Observability Standards
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 You cannot operate what you cannot observe. Observability is not a feature — it is a prerequisite for production deployment. Every service must be observable from day one, not retrofitted after an incident.
 
@@ -19,7 +17,7 @@ All three must be in place before a service receives production traffic. The **f
 
 ---
 
-## 2. Logging
+## 📡 2. Logging
 
 ### 2.1 Standard
 
@@ -107,7 +105,7 @@ DEBUG can be enabled per-service via a runtime feature flag without redeployment
 
 ---
 
-## 3. Metrics
+## 📡 3. Metrics
 
 ### 3.1 Standard
 
@@ -196,7 +194,7 @@ Dashboards are stored as JSON in the service repository at `docs/dashboards/` an
 
 ---
 
-## 4. Distributed Tracing
+## 📡 4. Distributed Tracing
 
 ### 4.1 Standard
 
@@ -259,7 +257,7 @@ public AssignmentResult assignProvider(OrderRequest request) {
 
 ---
 
-## 5. Alerting
+## 🚨 5. Alerting
 
 ### 5.1 Philosophy
 
@@ -331,7 +329,7 @@ A P1 alert without a runbook is treated as an observability bug.
 
 ---
 
-## 6. SLOs and Error Budgets
+## 👁️ 6. SLOs and Error Budgets
 
 ### 6.1 Every Core Service Must Define SLOs
 
@@ -351,7 +349,7 @@ A P1 alert without a runbook is treated as an observability bug.
 
 ---
 
-## 7. Business Metrics & Product Analytics
+## 👁️ 7. Business Metrics & Product Analytics
 
 System observability (RED metrics, SLOs) tells you if the platform is healthy. Business observability tells you if the **product** is healthy. Both are required.
 
@@ -420,7 +418,7 @@ Both use the same underlying data — CDC events flow to Redshift, Prometheus me
 
 ---
 
-## 8. Event Catalog
+## 📋 8. Event Catalog
 
 ### 8.1 Why an Event Catalog
 
@@ -501,7 +499,7 @@ sla: "< 500ms from state transition"
 
 ---
 
-## 9. Error Budget Operations
+## 👁️ 9. Error Budget Operations
 
 ### 9.1 Burn-Rate Alerting
 
@@ -553,7 +551,7 @@ Exceptions are logged in the Reliability Review Board minutes and reviewed in th
 
 ---
 
-## 10. Metric Cardinality
+## 📡 10. Metric Cardinality
 
 ### 10.1 Cardinality Ceiling
 
@@ -633,7 +631,7 @@ The linter runs as part of the `test` stage in the CI pipeline. Failures block t
 
 ---
 
-## 11. Alert Hygiene
+## 🚨 11. Alert Hygiene
 
 ### 11.1 Noise Budget
 
@@ -690,7 +688,7 @@ Results are presented at the Reliability Review Board and feed into the quarterl
 
 ---
 
-## 12. Log Retention & Legal Hold
+## 📡 12. Log Retention & Legal Hold
 
 ### 12.1 Retention Tiers
 
@@ -742,7 +740,7 @@ Extended retention increases OpenSearch storage costs — the requesting team's 
 
 ---
 
-## 13. Toil Measurement
+## 🔄 13. Toil Measurement
 
 ### 13.1 Definition
 
@@ -773,7 +771,7 @@ Toil is distinct from engineering overhead (meetings, planning) and operational 
 
 ---
 
-## 14. SLO Adoption Scorecard
+## 📋 14. SLO Adoption Scorecard
 
 ### 14.1 Scorecard
 
@@ -793,7 +791,7 @@ Toil is distinct from engineering overhead (meetings, planning) and operational 
 
 ---
 
-## 15. Incident Classification Matrix
+## 🚨 15. Incident Classification Matrix
 
 Use the following matrix to classify incident severity based on the intersection of **impact** (how many users are affected) and **urgency** (how quickly must we respond).
 
@@ -815,7 +813,7 @@ This matrix supplements the severity definitions in Section 5.3. When in doubt, 
 
 ---
 
-## 16. Synthetic Monitoring
+## 📡 16. Synthetic Monitoring
 
 ### 16.1 Standard
 
@@ -866,7 +864,7 @@ Canary definitions live in the service's infrastructure repository (Terraform). 
 
 ---
 
-## 17. Service Ownership Enforcement
+## 🔄 17. Service Ownership Enforcement
 
 ### 17.1 Backstage Ownership Label
 
@@ -907,4 +905,8 @@ Transfer checklist:
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

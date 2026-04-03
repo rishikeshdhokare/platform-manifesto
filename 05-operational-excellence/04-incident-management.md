@@ -1,12 +1,10 @@
-# Incident Management Guide
+# 🚨 Incident Management
 
-> **Status:** Mandated  
-> **Owner:** Engineering Leadership + Platform  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Engineering Leadership + Platform](https://img.shields.io/badge/owner-Engineering_Leadership_+_Platform-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 **Incidents are normal.** Complex distributed systems fail. The measure of an engineering organisation is not whether incidents happen — it is how quickly they are detected, how calmly they are managed, and how thoroughly they are learned from.
 
@@ -16,7 +14,7 @@ Two rules that govern everything:
 
 ---
 
-## 2. Severity Levels
+## 🚨 2. Severity Levels
 
 | Severity | Definition | Examples | Response SLA |
 |----------|-----------|---------|-------------|
@@ -27,7 +25,7 @@ Two rules that govern everything:
 
 ---
 
-## 3. Incident Response Playbook
+## 🚨 3. Incident Response Playbook
 
 ### Phase 1: Detection (0–5 minutes)
 
@@ -136,7 +134,7 @@ When resolved:
 
 ---
 
-## 4. Roles During an Incident
+## 🚨 4. Roles During an Incident
 
 | Role | Responsibility | Who |
 |------|--------------|-----|
@@ -149,7 +147,7 @@ For small teams, one person may play IC + Technical Investigator. That's fine �
 
 ---
 
-## 5. Post-Incident Review (PIR)
+## 🔄 5. Post-Incident Review (PIR)
 
 The PIR is **not a blame session**. It is an engineering exercise to understand what made the system fragile and how to prevent recurrence.
 
@@ -266,7 +264,7 @@ when completing orders created before the service_type field was added.
 
 ---
 
-## 6. On-Call Expectations
+## 🚨 6. On-Call Expectations
 
 - **Response time:** Acknowledge P1 PagerDuty alerts within 5 minutes, at any hour
 - **Handoff:** On-call rotation is weekly; hand off with a written status of any open issues
@@ -276,7 +274,7 @@ when completing orders created before the service_type field was added.
 
 ---
 
-## 7. Runbook Template
+## 📋 7. Runbook Template
 
 Every service must have a runbook at `docs/runbook.md`. Use this template:
 
@@ -340,7 +338,7 @@ kubectl -n {namespace}-production rollout restart deployment/{service}
 
 ---
 
-## 8. Incident Pattern Analysis
+## 🔄 8. Incident Pattern Analysis
 
 Individual PIRs catch specific failures. Pattern analysis catches systemic weaknesses.
 
@@ -361,7 +359,7 @@ Individual PIRs catch specific failures. Pattern analysis catches systemic weakn
 
 ---
 
-## 9. Reliability Review Board
+## 🔄 9. Reliability Review Board
 
 Monthly cross-team review of production reliability health.
 
@@ -378,7 +376,7 @@ Monthly cross-team review of production reliability health.
 
 ---
 
-## 10. Production Readiness Review (PRR)
+## 📋 10. Production Readiness Review (PRR)
 
 Mandatory for any new service before it receives production traffic. This is the gateway from "deployed" to "production-ready."
 
@@ -424,7 +422,7 @@ A service that fails PRR cannot receive production traffic until all items are r
 
 ---
 
-## 11. Error Budget Enforcement
+## 👁️ 11. Error Budget Enforcement
 
 When a service exhausts its monthly error budget:
 
@@ -437,7 +435,7 @@ This is not punitive — it is a structural incentive to invest in reliability b
 
 ---
 
-## 12. On-Call Structure
+## 🚨 12. On-Call Structure
 
 ### 12.1 Rotation Model
 
@@ -514,7 +512,7 @@ Every on-call rotation must have a **minimum of 4 engineers** to ensure sustaina
 
 ---
 
-## 13. PIR Action Item Governance
+## 🔄 13. PIR Action Item Governance
 
 ### 13.1 Tracking
 
@@ -570,7 +568,7 @@ Target: **> 90% of PIR actions closed within SLA** each quarter.
 
 ---
 
-## 14. Post-Launch Reliability Review
+## 🔄 14. Post-Launch Reliability Review
 
 Every new service undergoes a **30-day post-launch reliability review** after receiving production traffic. This review is mandatory before removing the enhanced monitoring put in place during the Production Readiness Review (PRR).
 
@@ -593,7 +591,7 @@ Every new service undergoes a **30-day post-launch reliability review** after re
 
 ---
 
-## 15. Change Management
+## 🔄 15. Change Management
 
 ### 15.1 Change Freeze Calendar
 
@@ -627,7 +625,7 @@ All high-risk changes must be announced at least **48 hours in advance** in the 
 
 ---
 
-## 16. MTTx Targets
+## 📊 16. MTTx Targets
 
 ### 16.1 Organisation-Wide Targets
 
@@ -647,7 +645,7 @@ All high-risk changes must be announced at least **48 hours in advance** in the 
 
 ---
 
-## 17. Service Dependency Mapping
+## 🔄 17. Service Dependency Mapping
 
 ### 17.1 Source of Truth
 
@@ -694,4 +692,8 @@ Blast-radius documentation is reviewed during the Production Readiness Review (S
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

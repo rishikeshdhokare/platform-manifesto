@@ -1,12 +1,10 @@
-# Load Shedding & Backpressure Guide
+# ⚖️ Load Shedding
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Why Load Shedding Matters
+## 🎯 1. Why Load Shedding Matters
 
 The platform operates in an environment where demand is inherently spiky. Seasonal peaks, promotional events, or sudden surges in activity can **10x normal request volume** in a matter of minutes.
 
@@ -27,7 +25,7 @@ With load shedding:
 
 ---
 
-## 2. Request Priority Classification
+## ⚖️ 2. Request Priority Classification
 
 Every API endpoint in the platform is assigned a priority level. This classification determines which requests survive during overload.
 
@@ -116,7 +114,7 @@ priority-classification:
 
 ---
 
-## 3. Load Shedding Tiers
+## ⚖️ 3. Load Shedding Tiers
 
 The platform operates on a five-tier escalation model. Each tier is a strict superset of the previous — Tier 3 includes all actions from Tiers 1 and 2.
 
@@ -160,7 +158,7 @@ Tiers are escalated immediately but de-escalated slowly. Each lower tier require
 
 ---
 
-## 4. Implementation
+## ⚖️ 4. Implementation
 
 ### 4.1 Load Shedding Interceptor
 
@@ -292,7 +290,7 @@ Manual activation is appropriate when:
 
 ---
 
-## 5. Kafka Backpressure
+## ⚖️ 5. Kafka Backpressure
 
 Not all load arrives via HTTP. Kafka consumers can also be overwhelmed when producers spike — for example, when thousands of provider location updates pour in during a demand surge.
 
@@ -370,7 +368,7 @@ spring:
 
 ---
 
-## 6. API Gateway Rate Limiting
+## 🚪 6. API Gateway Rate Limiting
 
 > **Note:** The primary API edge is AWS API Gateway + WAF (see `04-infrastructure-and-cloud/07-api-gateway-strategy.md`). Kong is referenced here as an alternative for service-level rate limiting within the mesh; the platform standard is API Gateway for external traffic.
 
@@ -493,7 +491,7 @@ curl -X PATCH http://kong-admin:8001/plugins/{price-estimate-rate-limit-id} \
 
 ---
 
-## 7. Worked Example: Event Surge
+## 🧩 7. Worked Example: Event Surge
 
 A major event ends at 23:00. 40,000 attendees open their apps simultaneously.
 
@@ -564,7 +562,7 @@ sequenceDiagram
 
 ---
 
-## 8. Recovery Procedure
+## 🔄 8. Recovery Procedure
 
 Exiting load shedding safely is as important as entering it. Dropping back to Tier 0 too quickly causes a "thundering herd" — all the queued and deferred traffic floods back simultaneously.
 
@@ -608,7 +606,7 @@ flowchart TD
 
 ---
 
-## 9. Monitoring & Alerting
+## 📡 9. Monitoring & Alerting
 
 ### 9.1 Grafana Dashboard Panels
 
@@ -679,7 +677,7 @@ groups:
 
 ---
 
-## 10. Auto-Remediation
+## 🔄 10. Auto-Remediation
 
 ### 10.1 Target
 
@@ -717,4 +715,8 @@ Auto-remediation metrics are reported in the monthly SRE review and tracked on t
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

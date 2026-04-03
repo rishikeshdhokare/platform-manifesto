@@ -1,12 +1,10 @@
-# Resilience Patterns Guide
+# 🛡️ Resilience Patterns
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Why Resilience Matters
+## 🎯 1. Why Resilience Matters
 
 In a distributed system, **everything will fail eventually** — a downstream service, a database connection, a network blip. The question is not whether a dependency will fail, but whether your service fails gracefully when it does.
 
@@ -19,7 +17,7 @@ With resilience patterns, a failing dependency causes **graceful degradation** �
 
 ---
 
-## 2. Our Library: Resilience4j
+## 🛡️ 2. Our Library: Resilience4j
 
 We use **Resilience4j** for all resilience patterns. It is included in the platform BOM and integrates with Spring Boot and Micrometer automatically.
 
@@ -31,7 +29,7 @@ implementation("io.github.resilience4j:resilience4j-kotlin")
 
 ---
 
-## 3. Circuit Breaker
+## 🛡️ 3. Circuit Breaker
 
 ### 3.1 What It Does
 
@@ -128,7 +126,7 @@ public class OrderService {
 
 ---
 
-## 4. Retry
+## 🛡️ 4. Retry
 
 ### 4.1 What It Does
 
@@ -189,7 +187,7 @@ public AssignmentResult assignProvider(OrderRequest request) {
 
 ---
 
-## 5. Timeout
+## 🛡️ 5. Timeout
 
 ### 5.1 Why Timeouts Are Non-Negotiable
 
@@ -231,7 +229,7 @@ public RestClient pricingServiceRestClient() {
 
 ---
 
-## 6. Bulkhead
+## 🛡️ 6. Bulkhead
 
 ### 6.1 What It Does
 
@@ -266,7 +264,7 @@ public PriceEstimate getPriceEstimate(OrderRequest request) {
 
 ---
 
-## 7. Complete Example: Calling the Fulfillment Service
+## 🧩 7. Complete Example: Calling the Fulfillment Service
 
 Here's a full, production-ready example combining all patterns:
 
@@ -324,7 +322,7 @@ public class OrderDispatchService {
 
 ---
 
-## 8. Observability for Resilience
+## 👁️ 8. Observability for Resilience
 
 Resilience4j automatically exports metrics to Prometheus. Monitor these:
 
@@ -349,7 +347,7 @@ Add these to your Grafana dashboard. A circuit breaker transitioning to OPEN is 
 
 ---
 
-## 9. Quick Reference
+## 📋 9. Quick Reference
 
 | Pattern | Problem It Solves | When to Use |
 |---------|------------------|-------------|
@@ -361,4 +359,8 @@ Add these to your Grafana dashboard. A circuit breaker transitioning to OPEN is 
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

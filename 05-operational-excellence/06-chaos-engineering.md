@@ -1,12 +1,10 @@
-# Chaos Engineering Program
+# 💥 Chaos Engineering
 
-> **Status:** Mandated
-> **Owner:** Platform Engineering
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 You cannot be confident in circuit breakers you've never triggered, failover you've never tested, or load shedding you've never activated. Chaos engineering is how the platform builds that confidence.
 
@@ -16,7 +14,7 @@ Chaos engineering is not optional. Every Tier-1 and Tier-2 service must particip
 
 ---
 
-## 2. Principles
+## 💥 2. Principles
 
 | # | Principle | Detail |
 |---|-----------|--------|
@@ -29,7 +27,7 @@ Chaos engineering is not optional. Every Tier-1 and Tier-2 service must particip
 
 ---
 
-## 3. Tools
+## 💥 3. Tools
 
 The platform uses a layered chaos toolchain, with each tool targeting a different level of the stack:
 
@@ -90,7 +88,7 @@ graph TB
 
 ---
 
-## 4. Experiment Catalog
+## 📋 4. Experiment Catalog
 
 Every Tier-1 and Tier-2 service must maintain an experiment catalog. The table below shows the standard experiments that all qualifying services should implement:
 
@@ -106,7 +104,7 @@ Every Tier-1 and Tier-2 service must maintain an experiment catalog. The table b
 
 ---
 
-## 5. Game Day Process
+## 💥 5. Game Day Process
 
 The platform runs quarterly game days — structured chaos exercises that simulate real-world failure scenarios with full incident response.
 
@@ -162,7 +160,7 @@ sequenceDiagram
 
 ---
 
-## 6. Steady-State Hypothesis
+## 💥 6. Steady-State Hypothesis
 
 Before injecting chaos, define what "normal" looks like. Without a steady-state hypothesis, you are just breaking things — not engineering resilience.
 
@@ -189,7 +187,7 @@ If steady-state metrics breach the tolerance bounds during chaos, the experiment
 
 ---
 
-## 7. Circuit Breaker Validation
+## 🛡️ 7. Circuit Breaker Validation
 
 Circuit breakers are the most critical resilience pattern on the platform. A circuit breaker that has never been triggered in a realistic scenario is a liability, not an asset. This worked example shows how to validate a Resilience4j circuit breaker using chaos engineering.
 
@@ -259,7 +257,7 @@ stateDiagram-v2
 
 ---
 
-## 8. Blast Radius Control
+## ⚠️ 8. Blast Radius Control
 
 Chaos experiments must follow a strict blast radius progression. Jumping directly to production-wide experiments is prohibited.
 
@@ -305,7 +303,7 @@ Each level requires successful completion of the previous level. A failure at an
 
 ---
 
-## 9. Safety Rules
+## ⚠️ 9. Safety Rules
 
 | # | Rule | Rationale |
 |---|------|-----------|
@@ -320,7 +318,7 @@ Each level requires successful completion of the previous level. A failure at an
 
 ---
 
-## 10. Reporting
+## 📋 10. Reporting
 
 Every chaos experiment produces a post-experiment report. Reports are the institutional memory of our resilience posture — they track what we've validated, what we've found, and what we've fixed.
 
@@ -385,10 +383,16 @@ docs/chaos-reports/YYYY-MM-DD-experiment-name.md
 
 ---
 
-## 11. Change Freeze Calendar
+## 🔄 11. Change Freeze Calendar
 
 Change freeze calendar: see [04-incident-management.md](./04-incident-management.md) for the quarterly change freeze schedule. Chaos experiments are suspended during freeze windows.
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+---
+
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

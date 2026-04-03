@@ -1,12 +1,10 @@
-# Disaster Recovery Playbook
+# 🔥 Disaster Recovery Playbook
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering + CTO  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + CTO](https://img.shields.io/badge/owner-Platform_Engineering_+_CTO-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Scope
+## 🎯 1. Scope
 
 This playbook covers **region-level failure recovery** — what to do when an entire AWS region becomes unavailable and the platform must fail over to a secondary region.
 
@@ -23,7 +21,7 @@ These events are rare but catastrophic. When they happen, every minute counts �
 
 ---
 
-## 2. Current DR Posture
+## 🔥 2. Current DR Posture
 
 The platform runs an **active-passive** disaster recovery architecture with automated health checking and manual failover.
 
@@ -92,7 +90,7 @@ The secondary region is kept in a **warm standby** configuration:
 
 ---
 
-## 3. RTO / RPO by Service Tier
+## 🔥 3. RTO / RPO by Service Tier
 
 | Tier | Services | RTO (Recovery Time) | RPO (Data Loss Window) | Recovery Priority |
 |------|----------|---------------------|------------------------|-------------------|
@@ -128,7 +126,7 @@ The secondary region is kept in a **warm standby** configuration:
 
 ---
 
-## 4. Failover Decision
+## 🔥 4. Failover Decision
 
 ### 4.1 Who Decides
 
@@ -178,7 +176,7 @@ flowchart TD
 
 ---
 
-## 5. Failover Procedure
+## 🔥 5. Failover Procedure
 
 Once authorised, execute the following steps **in order**. Each step has a responsible party and an estimated duration.
 
@@ -241,7 +239,7 @@ argocd app sync --all --context {company}-eu-central-1
 
 ---
 
-## 6. Failback Procedure
+## 🔥 6. Failback Procedure
 
 Once the primary region (eu-west-1) is restored by AWS, we must carefully return to it. Failback is **not urgent** — take time to do it safely.
 
@@ -287,7 +285,7 @@ Once the primary region (eu-west-1) is restored by AWS, we must carefully return
 
 ---
 
-## 7. Split-Brain Handling
+## ⚠️ 7. Split-Brain Handling
 
 In rare cases, both regions may have accepted writes during the outage window — for example, if DNS propagation was slow and some clients continued hitting the primary while others were already routed to the secondary.
 
@@ -330,7 +328,7 @@ The script compares records created/updated during the failover window and flags
 
 ---
 
-## 8. Communication Templates
+## 📋 8. Communication Templates
 
 ### 8.1 Internal Slack Template — DR Activation
 
@@ -423,7 +421,7 @@ Next Steps:
 
 ---
 
-## 9. Quarterly DR Exercise
+## 🧪 9. Quarterly DR Exercise
 
 Disaster recovery procedures that are never tested are disaster recovery procedures that don't work. The platform conducts a DR exercise **every quarter**.
 
@@ -525,7 +523,7 @@ Post-Exercise:
 
 ---
 
-## 10. Contacts & Escalation
+## 📋 10. Contacts & Escalation
 
 ### DR Response Team
 
@@ -572,7 +570,7 @@ Platform Engineer on-call
 
 ---
 
-## 11. DNS Strategy
+## 🔥 11. DNS Strategy
 
 ### TTL Configuration
 
@@ -603,7 +601,7 @@ Platform Engineer on-call
 
 ---
 
-## 12. Rollback SLA
+## 🔥 12. Rollback SLA
 
 When a production deployment causes issues, rollback speed is critical. The following SLA tiers define the maximum time from incident detection to a rolled-back, stable state.
 
@@ -617,4 +615,8 @@ Tier 1 is the default for all services that use Argo Rollouts with canary analys
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

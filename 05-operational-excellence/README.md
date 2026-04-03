@@ -1,4 +1,6 @@
-# 05 — Operational Excellence
+# 🚨 05 — Operational Excellence
+
+![Docs](https://img.shields.io/badge/docs-9-blue?style=flat-square)
 
 How we keep services healthy in production — observability, resilience, and incident response.
 
@@ -14,4 +16,10 @@ How we keep services healthy in production — observability, resilience, and in
 | [08-testing-in-production.md](./08-testing-in-production.md) | Synthetic monitoring, traffic mirroring, dark launches |
 | [09-debugging-guide.md](./09-debugging-guide.md) | Debugging guide — local, staging, log search, trace exploration, common scenarios |
 
-← [Back to root](../README.md)
+---
+
+<div align="center">
+
+🏠 [Back to root](../README.md)
+
+</div>
