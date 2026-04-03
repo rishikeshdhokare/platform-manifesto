@@ -350,4 +350,38 @@ Before a service is eligible for automated production deployment, it must have:
 
 ---
 
+## 10. Change Risk Rubric
+
+Every production deployment carries risk. The following rubric classifies changes by risk level and defines the appropriate deployment method and approval requirements.
+
+| Risk Level | Characteristics | Deployment Method | Approval Required |
+|------------|----------------|------------------|-------------------|
+| **Low** | Config changes, environment variable updates, feature flag toggles | Auto-rollback via ArgoCD | None |
+| **Medium** | Single-service code changes, minor API updates, dependency bumps | Canary deployment (5% → 25% → 50% → 100%) | Tech Lead |
+| **High** | Schema migrations, multi-service coordinated changes, new service deployment, breaking API changes | Manual promotion gates between stages | Tech Lead + Engineering Manager |
+
+### How to Classify
+
+- If the change can be reverted by toggling a flag or updating a config value → **Low**.
+- If the change affects a single service's behavior and can be rolled back via ArgoCD → **Medium**.
+- If the change requires coordination across services, involves a database migration, or cannot be easily rolled back → **High**.
+
+When in doubt, classify one level higher.
+
+---
+
+## 11. Deploy Frequency Targets
+
+Deployment frequency targets are aligned with the [Engineering Maturity Model](../08-program/01-maturity-model.md). Teams at higher maturity levels are expected to deploy more frequently with shorter lead times.
+
+| Maturity Level | Deploy Frequency Target | Lead Time Target | Description |
+|----------------|------------------------|------------------|-------------|
+| **L2 — Managed** | Weekly | < 1 week | Team deploys reliably at least once per week; manual gates may still exist |
+| **L3 — Defined** | Daily | < 1 day | Team deploys daily with automated canary; feature flags decouple deploy from release |
+| **L4 — Optimized** | On-demand, multiple per day | < 1 hour | Fully automated pipeline; engineers deploy whenever code is merged; zero manual gates |
+
+These targets are measured via ArgoCD deployment timestamps and reviewed in the monthly engineering metrics review. Teams that consistently miss their maturity-level target should investigate pipeline bottlenecks, test reliability, or approval process friction.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

@@ -833,4 +833,81 @@ If one platform falls behind by **more than 2 features** (features shipped on on
 
 ---
 
+## 19. Network Retry Classification
+
+Not all failed requests should be retried. Retrying non-idempotent or client-error requests wastes resources, duplicates side effects, and degrades user experience. The following classification governs retry behavior in the mobile networking layer.
+
+| Response | Retry Strategy | Rationale |
+|----------|---------------|-----------|
+| `429 Too Many Requests` | Retry with exponential backoff (honor `Retry-After` header) | Server is rate-limiting; backing off allows recovery |
+| `503 Service Unavailable` | Retry with exponential backoff (max 3 attempts) | Transient server overload; likely recovers quickly |
+| Network timeout | Retry with exponential backoff (max 3 attempts) | Transient network condition; worth retrying |
+| `4xx` (except 429) | Do **not** retry | Client error — retrying will produce the same result |
+| Payment-adjacent requests | Require idempotency key; retry only with key attached | Prevents duplicate charges or refunds |
+
+### Captive Portal Detection
+
+Before retrying any failed request, the networking layer performs a **connectivity check** to detect captive portals (hotel Wi-Fi, airport Wi-Fi login pages). The check sends a lightweight request to a known endpoint and validates the response. If a captive portal is detected, retries are suspended and the user is shown a "Connect to Wi-Fi" prompt instead of cycling through failed retries.
+
+### Implementation
+
+```typescript
+const retryConfig = {
+  retryableStatusCodes: [429, 503],
+  maxRetries: 3,
+  baseDelay: 1000,
+  maxDelay: 30000,
+  backoffMultiplier: 2,
+  requireIdempotencyKey: ['/v1/payments', '/v1/refunds', '/v1/payouts'],
+  captivePortalCheckUrl: 'https://connectivity.{company}.com/check',
+};
+```
+
+---
+
+## 20. WebSocket on Mobile
+
+Real-time features (live order tracking, provider location updates, chat) use WebSocket connections managed by the `@{company}/ws-client` wrapper library.
+
+### `@{company}/ws-client`
+
+The wrapper provides a unified API for WebSocket connections across iOS and Android, handling the complexities of mobile lifecycle and network conditions.
+
+| Feature | Behavior |
+|---------|----------|
+| **Connection management** | Auto-connect on app foreground, disconnect on app background |
+| **Reconnection** | Exponential backoff reconnection with jitter on unexpected disconnects |
+| **App state awareness** | Listens to `AppState` changes; closes socket when backgrounded to conserve battery |
+| **Heartbeat** | Client sends ping every 30 seconds; server responds with pong; missed pongs trigger reconnection |
+| **Message queuing** | Messages sent while disconnected are queued and delivered on reconnect (max 50 messages) |
+| **Authentication** | Attaches access token on connect; re-authenticates on token refresh |
+
+### Battery-Aware Polling Fallback
+
+When WebSocket connections are unreliable (poor network, frequent disconnects), the client automatically falls back to **polling** with a battery-aware interval:
+
+| Battery Level | Network Quality | Polling Interval |
+|---------------|----------------|-----------------|
+| > 50% | Any | 5 seconds |
+| 20–50% | Good | 10 seconds |
+| 20–50% | Poor | 30 seconds |
+| < 20% | Any | 60 seconds |
+
+The fallback is transparent to the consuming code — components subscribe to the same event stream regardless of the underlying transport.
+
+### Usage
+
+```typescript
+import { useWsClient } from '@{company}/ws-client';
+
+const ws = useWsClient({
+  url: 'wss://ws.{company}.com/v1/orders/stream',
+  topics: ['order.status', 'provider.location'],
+  onMessage: (event) => handleRealtimeEvent(event),
+  fallbackPollingUrl: '/v1/orders/{orderId}/status',
+});
+```
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

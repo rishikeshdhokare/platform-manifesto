@@ -458,4 +458,77 @@ docker exec -it kafka kafka-consumer-groups \
 
 ---
 
+## 12. Topic Creation Workflow
+
+Topics are not self-service — creation is a controlled process to ensure consistency and data governance.
+
+### 12.1 Request Process
+
+| Step | Action | Owner |
+|------|--------|-------|
+| 1 | Submit request via Backstage topic creation form or PR to `platform-config` repo | Requesting team |
+| 2 | Platform team reviews: partition count, replication factor, retention policy, schema subject | Platform Engineering |
+| 3 | Data steward for the owning domain approves data classification and retention | Data steward |
+| 4 | Topic provisioned via Terraform MSK module | Platform Engineering (automated) |
+
+### 12.2 Default Topic Configuration
+
+| Parameter | Default | Override Requires |
+|-----------|---------|-------------------|
+| **Partition count** | 6 | Platform team approval with load justification |
+| **Replication factor** | 3 | Not overridable in production |
+| **Retention** | 7 days | Data steward approval for longer retention |
+| **Cleanup policy** | `delete` | `compact` requires ADR |
+| **Schema subject** | `{domain}.{entity}.{event}.v1` | Must match naming convention |
+
+### 12.3 Approval Matrix
+
+| Approver | What They Verify |
+|----------|-----------------|
+| **Platform team** | Naming convention, partition count, replication factor, Terraform plan |
+| **Data steward** (domain) | Data classification, retention policy, PII considerations, consumer access |
+
+---
+
+## 13. DLQ Replay Procedure
+
+### 13.1 Replay Mechanism
+
+DLQ messages are replayed via the Ops Portal UI or CLI:
+
+```bash
+kafka-dlq-replay --topic {topic}.dlq --from {date} --dry-run
+```
+
+Always run with `--dry-run` first to preview the messages that will be replayed.
+
+### 13.2 Safety Checks
+
+| Check | Detail |
+|-------|--------|
+| **Idempotency key verification** | Each message's idempotency key is validated before replay |
+| **Replay count limit** | Maximum 10,000 messages per batch — larger replays require batching |
+| **Dry-run first** | `--dry-run` is mandatory before any live replay |
+| **Original idempotency key** | Replayed messages use the original idempotency key — no new key is generated |
+
+### 13.3 Interaction with Idempotency Tables
+
+If the idempotency key has already been processed and the result is cached in the `processed_events` table, the replay is a **no-op** — the consumer detects the duplicate and skips processing. This is the expected behavior for most replays of transient failures.
+
+### 13.4 Audit Trail
+
+All replays are logged with:
+
+| Field | Description |
+|-------|-------------|
+| **Operator** | Who initiated the replay (SSO identity) |
+| **Timestamp** | When the replay was executed |
+| **Topic** | Source DLQ topic |
+| **Message count** | Number of messages replayed |
+| **Dry-run** | Whether it was a dry-run or live replay |
+
+Audit entries are written to the `ops-audit-log` and are retained for 12 months.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

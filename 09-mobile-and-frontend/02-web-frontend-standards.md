@@ -17,6 +17,15 @@
 9. [State Management](#9-state-management)
 10. [Testing Strategy](#10-testing-strategy)
 11. [Error Tracking](#11-error-tracking)
+12. [BFF Client Generation](#12-bff-client-generation)
+13. [Web Authentication](#13-web-authentication)
+14. [Routing Conventions](#14-routing-conventions)
+15. [Form Error Mapping](#15-form-error-mapping)
+16. [SEO](#16-seo)
+17. [API Mocking (MSW)](#17-api-mocking-msw)
+18. [LaunchDarkly for React](#18-launchdarkly-for-react)
+19. [Web i18n](#19-web-i18n)
+20. [WebSocket Client](#20-websocket-client)
 
 ---
 
@@ -341,10 +350,10 @@ All {Company} web applications enforce a **strict Content Security Policy** via 
 |-----------|-------|-----------|
 | `default-src` | `'self'` | Only load resources from the same origin by default |
 | `script-src` | `'self'` (no `'unsafe-inline'`, no `'unsafe-eval'`) | Prevents inline script injection (XSS) |
-| `style-src` | `'self' 'unsafe-inline'` | Inline styles permitted for CSS-in-JS; nonce-based where possible |
+| `style-src` | `'self'` | Tailwind CSS and CSS Modules are the approved styling approaches; both work with strict CSP without `unsafe-inline`. If SSR with CSS-in-JS is needed, use nonce-based CSP |
 | `img-src` | `'self' data: https://cdn.{company}.app` | Allow images from CDN and data URIs |
 | `font-src` | `'self' https://fonts.gstatic.com` | Google Fonts or self-hosted |
-| `connect-src` | `'self' https://api.{company}.app wss://ws.{company}.app` | API and WebSocket endpoints |
+| `connect-src` | `'self' https://api.{company}.com wss://ws.{company}.app` | API and WebSocket endpoints |
 | `frame-ancestors` | `'none'` | Prevent clickjacking — no embedding in iframes |
 | `base-uri` | `'self'` | Prevent `<base>` tag injection |
 
@@ -561,6 +570,392 @@ function App() {
 | **New issue spike** | > 10 occurrences of a new error in 5 minutes | Slack alert to owning team channel |
 | **Regression** | A previously resolved issue reoccurs | Slack alert + PagerDuty if P1 |
 | **Error rate threshold** | > 1% of sessions have unhandled errors | PagerDuty alert |
+
+---
+
+## 12. BFF Client Generation
+
+### 12.1 Standard
+
+All BFF (Backend for Frontend) API clients are generated from the OpenAPI specification using **openapi-typescript-codegen**.
+
+| Parameter | Value |
+|-----------|-------|
+| Generator | `openapi-typescript-codegen` |
+| Input | BFF OpenAPI spec (`openapi.yaml`) |
+| Output | `src/api/generated/` |
+| Regeneration trigger | On any change to the BFF OpenAPI spec |
+| Version control | Generated code is committed to the repository |
+
+### 12.2 Usage
+
+```bash
+npx openapi-typescript-codegen \
+  --input ../bff/openapi.yaml \
+  --output src/api/generated \
+  --client fetch \
+  --useOptions
+```
+
+Generated clients are imported in application code and wrapped with TanStack Query hooks. Do not modify generated files — changes will be overwritten on regeneration.
+
+---
+
+## 13. Web Authentication
+
+### 13.1 SPA Authentication (PKCE)
+
+Single-page applications use **Authorization Code Flow with PKCE**:
+
+| Parameter | Value |
+|-----------|-------|
+| Flow | Authorization Code + PKCE |
+| Token storage | In-memory only (never `localStorage` or `sessionStorage`) |
+| Token refresh | Silent refresh via hidden iframe or refresh token (if supported by IdP) |
+| Library | `oidc-client-ts` or auth provider SDK |
+
+### 13.2 SSR Authentication (BFF-Managed Cookie)
+
+Server-rendered applications use BFF-managed sessions:
+
+| Parameter | Value |
+|-----------|-------|
+| Session management | BFF issues `httpOnly`, `Secure`, `SameSite=Strict` cookie |
+| Token storage | Server-side session store (Redis) |
+| CSRF protection | CSRF token required for all state-changing requests (cookie-based auth) |
+
+### 13.3 TanStack Query Global 401 Handler
+
+```typescript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failureCount, error) => {
+        if (error instanceof ApiError && error.status === 401) {
+          return false;
+        }
+        return failureCount < 3;
+      },
+    },
+  },
+});
+
+queryClient.getQueryCache().subscribe((event) => {
+  if (event?.query?.state?.error?.status === 401) {
+    authService.silentRefresh().catch(() => authService.logout());
+  }
+});
+```
+
+---
+
+## 14. Routing Conventions
+
+### 14.1 Framework-Specific Patterns
+
+| Framework | Routing Approach |
+|-----------|-----------------|
+| **Next.js** | File-based routing (App Router or Pages Router) |
+| **React Router** | Route config object (`createBrowserRouter`) |
+
+### 14.2 Protected Routes
+
+All authenticated routes use a protected route wrapper:
+
+```typescript
+function ProtectedRoute({ children }: { children: React.ReactNode }) {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return <LoadingSpinner />;
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+
+  return <>{children}</>;
+}
+```
+
+### 14.3 Lazy Loading
+
+Route-level code splitting uses `React.lazy` with `Suspense`:
+
+```typescript
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const Orders = React.lazy(() => import('./pages/Orders'));
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <ProtectedRoute><AppLayout /></ProtectedRoute>,
+    children: [
+      { path: 'dashboard', element: <Suspense fallback={<PageSkeleton />}><Dashboard /></Suspense> },
+      { path: 'orders', element: <Suspense fallback={<PageSkeleton />}><Orders /></Suspense> },
+    ],
+  },
+]);
+```
+
+---
+
+## 15. Form Error Mapping
+
+### 15.1 Server Error Mapping
+
+API error responses include a `details` array. Each entry maps to a field-level error:
+
+```json
+{
+  "error": "validation_failed",
+  "message": "Request validation failed",
+  "details": [
+    { "field": "shippingAddress", "message": "error.address.required" },
+    { "field": "email", "message": "error.email.invalid" }
+  ]
+}
+```
+
+The frontend maps `details` entries to field-level errors by `field` name and displays them inline.
+
+### 15.2 i18n Error Messages
+
+Error message keys are resolved via `react-i18next`:
+
+```typescript
+const { t } = useTranslation();
+
+{serverErrors.map((err) => (
+  <FieldError key={err.field} message={t(err.message)} />
+))}
+```
+
+Server validation errors are displayed inline next to the relevant form field, not as a summary banner at the top.
+
+---
+
+## 16. SEO
+
+### 16.1 Metadata
+
+| Framework | Approach |
+|-----------|----------|
+| **Next.js** | `metadata` API (App Router) or `next/head` (Pages Router) |
+| **SPA (Vite + React)** | `react-helmet-async` |
+
+Every public-facing page must define: `title`, `description`, `canonical URL`, and `og:` tags.
+
+### 16.2 Structured Data
+
+Public-facing pages include **JSON-LD** structured data where applicable:
+
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "{Company}",
+  "url": "https://www.{company}.app"
+}
+</script>
+```
+
+### 16.3 Sitemap
+
+A `sitemap.xml` is generated for all public-facing pages and submitted to search engines. For Next.js, use the built-in sitemap generation. For SPAs, generate a static sitemap during the build step.
+
+---
+
+## 17. API Mocking (MSW)
+
+### 17.1 Standard
+
+**Mock Service Worker (MSW)** is the standard API mocking tool for all {Company} web frontends.
+
+| Context | MSW Mode | Purpose |
+|---------|----------|---------|
+| Local development | Browser (`setupWorker`) | Intercepts fetch requests in the browser for offline-first development |
+| Unit/integration tests | Node (`setupServer`) | Intercepts requests in the test process for deterministic test data |
+
+### 17.2 Handler Generation
+
+MSW handlers are generated from the BFF OpenAPI spec and shared across projects:
+
+```
+packages/
+  mocks/
+    handlers/
+      orders.ts
+      payments.ts
+      users.ts
+    browser.ts
+    server.ts
+```
+
+### 17.3 Usage
+
+```typescript
+import { setupServer } from 'msw/node';
+import { handlers } from '@{company}/mocks';
+
+const server = setupServer(...handlers);
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+```
+
+---
+
+## 18. LaunchDarkly for React
+
+### 18.1 Setup
+
+Use `launchdarkly-react-client-sdk` with the `LDProvider` wrapper:
+
+```typescript
+import { LDProvider } from 'launchdarkly-react-client-sdk';
+
+function App() {
+  return (
+    <LDProvider
+      clientSideID={import.meta.env.VITE_LD_CLIENT_ID}
+      options={{ bootstrap: 'localStorage' }}
+    >
+      <RouterProvider router={router} />
+    </LDProvider>
+  );
+}
+```
+
+### 18.2 Consuming Flags
+
+```typescript
+import { useFlags } from 'launchdarkly-react-client-sdk';
+
+function OrderForm() {
+  const { newCheckoutFlow } = useFlags();
+
+  return newCheckoutFlow ? <NewCheckout /> : <LegacyCheckout />;
+}
+```
+
+### 18.3 Anonymous to Identified User Transition
+
+On app load before login, the SDK initialises with an anonymous context. On login, identify the user:
+
+```typescript
+import { useLDClient } from 'launchdarkly-react-client-sdk';
+
+function useIdentifyUser() {
+  const ldClient = useLDClient();
+
+  const identify = useCallback((user: User) => {
+    ldClient?.identify({
+      kind: 'user',
+      key: user.id,
+      email: user.email,
+      custom: { region: user.region },
+    });
+  }, [ldClient]);
+
+  return identify;
+}
+```
+
+### 18.4 Test Overrides
+
+In tests, mock LaunchDarkly flags via `jest.mock`:
+
+```typescript
+jest.mock('launchdarkly-react-client-sdk', () => ({
+  useFlags: () => ({ newCheckoutFlow: true }),
+  useLDClient: () => ({ identify: jest.fn() }),
+  LDProvider: ({ children }: any) => children,
+}));
+```
+
+---
+
+## 19. Web i18n
+
+### 19.1 Standard
+
+| Parameter | Value |
+|-----------|-------|
+| Library | `react-i18next` |
+| Message format | ICU Message Format |
+| Extraction | `i18next-parser` (extracts keys from source code) |
+| Locale fallback chain | Specific locale → language → `en` (e.g., `fr-CA` → `fr` → `en`) |
+| RTL support | Enabled via `dir="rtl"` on `<html>` for RTL locales |
+
+### 19.2 Translation Workflow
+
+```mermaid
+flowchart LR
+    A["Developer adds\nt('key') in code"] --> B["i18next-parser\nextracts keys"]
+    B --> C["JSON files exported\nto TMS"]
+    C --> D["Translators provide\ntranslations"]
+    D --> E["Translated JSON\nimported back"]
+    E --> F["CI validates\nall keys present"]
+```
+
+### 19.3 Usage
+
+```typescript
+import { useTranslation } from 'react-i18next';
+
+function OrderStatus({ count }: { count: number }) {
+  const { t } = useTranslation();
+
+  return <p>{t('orders.activeCount', { count })}</p>;
+}
+```
+
+Translation file (`en.json`):
+
+```json
+{
+  "orders": {
+    "activeCount": "{count, plural, one {# active order} other {# active orders}}"
+  }
+}
+```
+
+---
+
+## 20. WebSocket Client
+
+### 20.1 Standard
+
+All WebSocket connections use the `@{company}/ws-client` wrapper library, which standardises authentication, reconnection, and error handling.
+
+| Parameter | Value |
+|-----------|-------|
+| Library | `@{company}/ws-client` |
+| Auth | Auth token sent on initial connection (`Authorization` header or query param) |
+| Reconnect | Exponential backoff (1s → 2s → 4s → 8s → max 30s) |
+| Heartbeat | Client-side ping every 30 seconds; server pong expected within 5 seconds |
+
+### 20.2 TanStack Query Integration
+
+WebSocket events are integrated with TanStack Query to keep server state in sync:
+
+```typescript
+import { useQueryClient } from '@tanstack/react-query';
+import { useWebSocket } from '@{company}/ws-client';
+
+function useOrderUpdates(orderId: string) {
+  const queryClient = useQueryClient();
+
+  useWebSocket(`/orders/${orderId}`, {
+    onMessage: (event) => {
+      queryClient.setQueryData(['orders', orderId], event.data);
+    },
+    onReconnect: () => {
+      queryClient.invalidateQueries({ queryKey: ['orders', orderId] });
+    },
+  });
+}
+```
+
+On reconnection, the client invalidates relevant queries to ensure data consistency after any missed events.
 
 ---
 

@@ -679,4 +679,42 @@ groups:
 
 ---
 
+## 10. Auto-Remediation
+
+### 10.1 Target
+
+**30% of P3/P4 incidents auto-remediated by end of year.** Auto-remediation reduces on-call burden and MTTR for well-understood failure modes.
+
+### 10.2 Standard Patterns
+
+| Trigger | Automated Action | Human Override |
+|---------|-----------------|----------------|
+| OOM (Out of Memory) | Pod restart | Alert if > 3 restarts/hour; page on-call |
+| CPU > 90% for 5 minutes | HPA scale-up | Alert if already at max replicas; page on-call |
+| Circuit breaker open | Log event + send alert | Auto-recover after cool-down period; page if circuit remains open > 15 minutes |
+| Kafka consumer lag > threshold | Increase consumer concurrency | Alert if lag does not decrease within 10 minutes |
+| Health check failing | Pod restart via liveness probe | Alert if > 3 restarts in 15 minutes |
+
+### 10.3 Runbook Requirement
+
+Each auto-remediation pattern must be documented as a runbook containing:
+
+- Trigger condition and threshold
+- Automated action taken
+- Human override steps (how to disable the automation)
+- Escalation criteria (when to involve a human)
+- Known failure modes of the automation itself
+
+### 10.4 Measurement
+
+| Metric | Target | Tracking |
+|--------|--------|----------|
+| Auto-remediation rate | 30% of P3/P4 incidents by end of year | Monthly SRE review |
+| Auto-remediation success rate | > 90% (automation resolves the issue without human intervention) | PagerDuty + Grafana |
+| False positive rate | < 10% (automation triggers but no real issue) | Monthly review |
+
+Auto-remediation metrics are reported in the monthly SRE review and tracked on the platform health dashboard.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

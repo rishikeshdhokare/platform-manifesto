@@ -504,4 +504,136 @@ flowchart TD
 
 ---
 
+## 11. Web i18n
+
+Web frontends use **react-i18next** for internationalization, with ICU message format for handling complex pluralization and gender rules.
+
+### Setup
+
+```typescript
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import ICU from 'i18next-icu';
+
+i18n
+  .use(ICU)
+  .use(initReactI18next)
+  .init({
+    fallbackLng: 'en',
+    supportedLngs: ['en', 'es', 'fr', 'de', 'ar', 'he', 'ja'],
+    interpolation: { escapeValue: false },
+  });
+```
+
+### ICU Message Format
+
+ICU messages handle plurals, gender, and select expressions natively:
+
+```json
+{
+  "order.items": "{count, plural, one {# item} other {# items}}",
+  "greeting": "{gender, select, male {Welcome back, Mr. {name}} female {Welcome back, Ms. {name}} other {Welcome back, {name}}}"
+}
+```
+
+### String Extraction
+
+Translation keys are extracted from source code automatically using **i18next-parser**:
+
+```bash
+npx i18next-parser --config i18next-parser.config.js
+```
+
+Extracted strings are committed to the repository and synced with the Translation Management System (TMS).
+
+### TMS Integration
+
+| Aspect | Detail |
+|--------|--------|
+| **Platform** | Phrase or Lokalise (team decision via ADR) |
+| **Sync** | CI pushes new keys to TMS on merge to `main`; translators work in the TMS UI |
+| **Pull** | CI pulls completed translations before release builds |
+| **Format** | JSON (ICU message format) |
+| **Review** | Translations reviewed by native speakers before release |
+
+### Locale Fallback Chain
+
+When a translation is missing for a specific locale, the fallback chain ensures the user always sees content:
+
+```
+es-MX → es → en
+fr-CA → fr → en
+ar-EG → ar → en
+```
+
+The fallback chain is configured in i18next's `fallbackLng` option.
+
+### RTL Support for Arabic and Hebrew
+
+Web frontends support right-to-left (RTL) layout for Arabic (`ar`) and Hebrew (`he`) locales:
+
+- Set `dir="rtl"` on the `<html>` element based on the active locale.
+- Use **logical CSS properties** (`margin-inline-start`, `padding-inline-end`, `inset-inline-start`) instead of physical properties (`margin-left`, `padding-right`, `left`).
+- Icons with directional meaning (arrows, chevrons) are mirrored via CSS `transform: scaleX(-1)`.
+- Test all layouts in both LTR and RTL modes in CI via Playwright.
+
+---
+
+## 12. UX Writing Principles
+
+Consistent, clear copy is as important as consistent UI components. All user-facing text in {Company} products follows these principles.
+
+### Tone
+
+| Principle | Detail |
+|-----------|--------|
+| **Clear** | Use simple, direct language. Avoid jargon, abbreviations, and technical terms. |
+| **Concise** | Say what needs to be said in as few words as possible. Every word must earn its place. |
+| **Helpful** | Guide the user toward the next action. Never leave them stranded. |
+| **Never condescending** | Do not blame the user. Do not use phrases like "simply", "just", or "obviously". |
+
+### Error Messages
+
+Error messages follow a two-part structure: **what happened** + **what to do next**.
+
+| Bad | Good |
+|-----|------|
+| "Error 500" | "Something went wrong. Please try again." |
+| "Invalid input" | "Phone number must include a country code (e.g., +1 555 123 4567)." |
+| "Network error" | "We couldn't reach our servers. Check your connection and try again." |
+| "Unauthorized" | "Your session has expired. Please sign in again." |
+
+### Button Labels
+
+Buttons use the **verb + noun** pattern to clearly communicate what the action does.
+
+| Bad | Good |
+|-----|------|
+| "Submit" | "Place order" |
+| "OK" | "Save changes" |
+| "Yes" | "Confirm cancellation" |
+| "Continue" | "Proceed to payment" |
+
+### Placeholder Text
+
+Placeholders show an **example**, not an instruction.
+
+| Bad | Good |
+|-----|------|
+| "Enter your email" | "jane@example.com" |
+| "Type your address" | "123 Main Street" |
+| "Search" | "Search by name or order ID" |
+
+### Empty States
+
+Empty states **explain** the situation and **suggest an action**.
+
+| Bad | Good |
+|-----|------|
+| "No results" | "No orders found. Place your first order to get started." |
+| "Nothing here" | "You haven't added any saved addresses yet. Add one to speed up checkout." |
+| "(blank screen)" | "No notifications yet. We'll let you know when something needs your attention." |
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

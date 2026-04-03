@@ -105,7 +105,7 @@ This document defines the approved technology stack for all new and replatformed
 |---------|----------|
 | Navigation | React Navigation |
 | State management | TanStack Query (server state) + Zustand (local state) |
-| Offline support | WatermelonDB or AsyncStorage depending on complexity |
+| Offline support | react-native-quick-sqlite for structured data (default), AsyncStorage for simple key-value; WatermelonDB only with ADR |
 | Push notifications | Firebase Cloud Messaging (FCM) + APNs |
 | Deep linking | `{company}://` scheme + universal links |
 | OTA updates | CodePush (for JS bundle updates without app store release) |
@@ -196,7 +196,24 @@ A non-Java language is justified when:
 | **Use cases** | Session state, rate limiting, geospatial indexes (provider location), hot read caches |
 | **Prohibited use** | Redis must not be used as a primary data store — data there must be reconstructible |
 
-### 6.3 Event Streaming
+### 6.3 In-Process Caching
+
+| Decision | Detail |
+|----------|--------|
+| **Library** | Caffeine — for config and reference data only |
+| **TTL** | < 5 minutes maximum |
+| **Max entries** | 10,000 per cache instance |
+| **Use cases** | Configuration lookups, reference/master data, feature flag snapshots |
+
+| Scenario | Allowed? | Rationale |
+|----------|----------|-----------|
+| Config / reference data (e.g., pricing rules, region definitions) | ✅ Yes | Low-frequency change, small dataset, tolerance for brief staleness |
+| Feature flag snapshots (short TTL) | ✅ Yes | Reduces calls to LaunchDarkly; TTL ≤ 30 seconds |
+| User profile or session data | ❌ Forbidden | Stale user data causes authorization and display bugs across replicas |
+| Shared mutable state (e.g., rate-limit counters) | ❌ Forbidden | In-process caches are per-pod; use Redis for shared state |
+| Data that must be immediately consistent after writes | ❌ Forbidden | TTL-based eviction cannot guarantee instant consistency |
+
+### 6.4 Event Streaming
 
 | Decision | Detail |
 |----------|--------|
@@ -205,12 +222,12 @@ A non-Java language is justified when:
 | **Schema format** | Avro with Schema Registry (AWS Glue Schema Registry) |
 | **Topic naming** | `{domain}.{entity}.{event}` e.g. `orders.order.completed` |
 
-### 6.4 Search
+### 6.5 Search
 
 - **Amazon OpenSearch Service** — for full-text and geo search workloads
 - Not a general-purpose store; data in OpenSearch must be projected from a canonical source
 
-### 6.5 Object Storage
+### 6.6 Object Storage
 
 - **Amazon S3** — for all binary/blob storage
 - Versioning enabled on all production buckets
@@ -303,6 +320,43 @@ A non-Java language is justified when:
 | CI/CD | GitHub Actions + ArgoCD | Jenkins, CircleCI, Bitbucket Pipelines |
 | Secrets | AWS Secrets Manager | Hardcoded env vars, `.env` files in repos |
 | Feature flags | LaunchDarkly | Custom flag systems, env var toggles |
+
+---
+
+## 12. Web Authentication Patterns
+
+### 12.1 SPA Authentication (PKCE)
+
+Single-page applications use **Authorization Code with PKCE**:
+
+| Aspect | Standard |
+|--------|----------|
+| **Flow** | Authorization Code + PKCE (RFC 7636) |
+| **Token storage** | In-memory only — never `localStorage` or `sessionStorage` |
+| **Token lifetime** | Access token: 15 minutes; refresh token: rotating, httpOnly cookie |
+| **Silent refresh** | Hidden iframe or service worker — no full-page redirect |
+
+Tokens stored in `localStorage` are accessible to any JavaScript running on the page (XSS risk). In-memory storage is lost on page refresh — the silent refresh mechanism re-obtains tokens without user interaction.
+
+### 12.2 SSR Authentication (BFF-Managed Session)
+
+Server-side rendered applications use **httpOnly cookies** managed by the BFF:
+
+| Aspect | Standard |
+|--------|----------|
+| **Session storage** | httpOnly, Secure, SameSite=Strict cookie |
+| **Session backend** | BFF manages the session; tokens never reach the browser |
+| **CSRF protection** | Double-submit cookie pattern or synchronizer token |
+
+The BFF acts as a confidential client — it holds the client secret and exchanges tokens with the identity provider on behalf of the browser.
+
+### 12.3 Silent Refresh Mechanisms
+
+| Mechanism | When to Use |
+|-----------|-------------|
+| **Hidden iframe** | Default for SPAs where the IdP supports `prompt=none` |
+| **Service worker** | When iframe-based refresh is blocked by third-party cookie policies |
+| **Refresh token rotation** | Always enabled — each refresh token is single-use; a reused token revokes the entire session |
 
 ---
 

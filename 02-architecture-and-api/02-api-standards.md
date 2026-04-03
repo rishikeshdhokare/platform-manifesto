@@ -34,6 +34,8 @@ https://api.{company}.com/v1/providers/{providerId}/location
 https://api.{company}.com/v2/pricing/estimates
 ```
 
+> **Per-environment hosts:** `api-dev.{company}.com`, `api-staging.{company}.com`, `api.{company}.com`
+
 ### 2.2 Resource Naming Rules
 
 | Rule | Correct | Incorrect |
@@ -161,6 +163,8 @@ Sunset: Sat, 31 Dec 2025 23:59:59 GMT
   { "amount": 1250, "currency": "USD" }
   ```
 - **Coordinates:** GeoJSON-compatible — `{ "lat": 40.7128, "lng": -74.0060 }`
+
+  > **Note:** JSON API payloads use `{"lat": N, "lng": N}` objects. GeoJSON endpoints use `[lng, lat]` per GeoJSON spec.
 
 ---
 
@@ -487,6 +491,33 @@ If a GraphQL service is approved, it must implement custom observability to matc
 - Query complexity tracking as a Prometheus histogram
 - Slow query logging (queries exceeding complexity threshold or duration > 1s)
 - Depth violation alerts
+
+---
+
+## 14. Internal Authentication
+
+### 14.1 BFF-to-Service Authentication
+
+The BFF validates the external JWT and forwards identity claims to downstream services as HTTP headers:
+
+| Header | Value | Description |
+|--------|-------|-------------|
+| `X-{Company}-User-Id` | UUID from JWT `sub` claim | Authenticated user identity |
+| `X-{Company}-Roles` | Comma-separated role list from JWT | User roles for authorization |
+| `X-{Company}-Tenant-Id` | Tenant identifier from JWT | Tenant context for multi-tenant isolation |
+
+Downstream services trust these headers because the request arrives over the Istio mesh with mTLS — the BFF's SPIFFE identity is verified by the sidecar. Services do not re-validate the original JWT.
+
+### 14.2 Service-to-Service Authentication
+
+| Communication Path | Auth Mechanism | Token Required? |
+|--------------------|---------------|-----------------|
+| BFF → internal service | Istio mTLS + forwarded JWT claim headers | No additional token — mTLS identity is sufficient |
+| Service → service (same mesh) | Istio mTLS (SPIFFE identity) | No — mesh identity verified automatically |
+| Service → external API | OAuth2 client credentials or API key | Yes — managed via Secrets Manager |
+| External partner → API Gateway | API key or OAuth2 Bearer token | Yes |
+
+For service-to-service calls within the mesh, Istio's **SPIFFE-based mTLS** provides mutual authentication. No additional JWT or API key is needed — the `AuthorizationPolicy` controls which service identities may call which endpoints.
 
 ---
 

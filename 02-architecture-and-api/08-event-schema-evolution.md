@@ -102,6 +102,8 @@ The following changes are **never permitted** without following the breaking cha
 | **Change topic partition count** | Rebalances all consumer groups; messages with the same key may land on a different partition, breaking ordering guarantees. Requires RFC. |
 | **Change the partition key field** | Existing consumers rely on per-key ordering; changing the key field breaks ordering semantics |
 
+> **Explicit rule:** Removing a field — even one with a default value — is a **BREAKING** change that requires the breaking change playbook (§7). This applies regardless of compatibility mode. The fact that a field has a default value does not make its removal safe for consumers that depend on it.
+
 ### 3.1 Schema Validation in CI
 
 Every service that publishes Kafka events includes a **schema compatibility check** in its CI pipeline:

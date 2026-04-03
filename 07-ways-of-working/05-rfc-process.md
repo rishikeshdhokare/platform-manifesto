@@ -196,4 +196,10 @@ The index is the single source of truth for all RFC statuses. Teams should check
 
 ---
 
+## 11. Scope Beyond Technical Decisions
+
+RFCs are not limited to technical decisions. Process changes, organizational restructuring, and cross-team workflow proposals should also use the RFC process when they affect more than one team. Examples include changes to the on-call rotation model, sprint cadence adjustments across teams, or new cross-team review processes. The same template, review process, and decision framework apply.
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

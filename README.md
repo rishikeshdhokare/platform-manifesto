@@ -108,6 +108,15 @@ flowchart TB
 
 ---
 
+## Getting Started
+
+| Document | Description |
+|----------|-------------|
+| [`ONBOARDING.md`](./ONBOARDING.md) | Step-by-step onboarding guide for new engineers — first day to first PR |
+| [`GLOSSARY.md`](./GLOSSARY.md) | Definitions for platform, architecture, and domain-specific terms used across this manifesto |
+
+---
+
 ## Structure
 
 The manifesto is organised into 11 sections. Each section is a folder containing related documents.
@@ -136,6 +145,7 @@ How our system is structured — domain decomposition, communication patterns, a
 | `06-saga-patterns.md` | Distributed transactions — choreography, compensation, order lifecycle saga |
 | `07-service-decomposition.md` | When to split or merge services, boundary validation criteria |
 | `08-event-schema-evolution.md` | Avro compatibility, partition keys, breaking change playbook |
+| `09-error-catalog.md` | Error catalog, exception handling, error code registry, frontend error boundaries |
 
 ---
 
@@ -152,6 +162,9 @@ How we write, review, test, and ship code. The day-to-day craft of engineering a
 | `06-code-review-guide.md` | How to give and receive feedback; good/bad comment examples |
 | `07-ab-testing.md` | A/B testing strategy — hypothesis, experiment design, statistical rigor, guardrails |
 | `08-deprecation-lifecycle.md` | Deprecation lifecycle for APIs, events, services, and flags |
+| `09-spring-boot-standards.md` | Spring Boot platform standards — logging, config, health checks, LaunchDarkly, virtual threads |
+| `10-frontend-ci-cd.md` | Frontend & mobile CI/CD — golden path, monorepo, preview environments, deployment |
+| `11-qa-standards.md` | QA standards — test environments, test data, bug triage, device testing |
 
 ---
 
@@ -169,6 +182,7 @@ Our AWS platform — network topology, compute, data stores, security, and confi
 | `07-api-gateway-strategy.md` | API Gateway configuration, routing, throttling, WAF integration |
 | `08-privacy-engineering.md` | Data classification, PIA, anonymization, GDPR erasure, consent management |
 | `09-multi-tenancy.md` | Multi-tenancy patterns, data isolation, tenant-aware observability |
+| `10-security-operations.md` | Security operations — threat modeling, vulnerability management, SIEM, pen testing, supply chain |
 
 ---
 
@@ -185,6 +199,7 @@ How we keep services healthy in production — observability, resilience, and in
 | `06-chaos-engineering.md` | Fault injection, game days, resilience validation program |
 | `07-disaster-recovery-playbook.md` | Region failover procedure, failback, data reconciliation |
 | `08-testing-in-production.md` | Synthetic monitoring, traffic mirroring, dark launches |
+| `09-debugging-guide.md` | Debugging guide — local, staging, log search, trace exploration, common scenarios |
 
 ---
 
@@ -202,6 +217,7 @@ Hands-on guides for building things the right way. Reference these while writing
 | `07-distributed-locking.md` | Optimistic locking, Redis locks, preventing double-assignment |
 | `08-cache-patterns.md` | Cache-aside, TTL strategy, event-driven invalidation, stampede prevention |
 | `09-data-governance.md` | Data governance, quality SLAs, retention matrices, analytics contracts |
+| `10-local-development.md` | Local development — Docker Compose, seeding, secrets, first PR path, troubleshooting |
 
 ---
 
@@ -218,6 +234,8 @@ Team structure, decision-making, and how we work together.
 | `06-technology-radar.md` | Technology radar — Adopt/Trial/Assess/Hold quadrants |
 | `07-hiring-standards.md` | Hiring & interview standards, rubrics, bar-raiser process |
 | `08-knowledge-sharing.md` | Knowledge sharing — guilds, tech talks, architecture clinics |
+| `09-engineering-management.md` | Engineering management — performance reviews, 1:1s, team health, headcount, career dev |
+| `10-product-operations.md` | Product operations — roadmap, OKRs, user stories, launch management, customer feedback |
 
 ---
 
@@ -241,6 +259,10 @@ Standards for the client applications that customers and providers interact with
 |------|-------------|
 | `01-mobile-standards.md` | Offline-first, push notifications, performance budgets, accessibility, BFF patterns |
 | `02-web-frontend-standards.md` | Web frontend — SPA/SSR, design system, accessibility, Core Web Vitals |
+| `03-react-native-guide.md` | React Native guide — Turbo Modules, navigation, debugging, Hermes, CodePush |
+| `04-android-standards.md` | Android standards — Gradle, Compose, Kotlin, Hilt, WorkManager |
+| `05-ios-standards.md` | iOS standards — SwiftUI, SPM, privacy manifest, extensions, dSYM |
+| `06-design-system.md` | Design system — handoff, governance, tokens, motion, dark mode, data viz |
 
 ---
 
@@ -355,17 +377,17 @@ flowchart TB
 | Section | Documents |
 |---------|-----------|
 | Platform Standards | 1 |
-| Architecture & API | 8 |
-| Engineering Practices | 8 |
-| Infrastructure & Cloud | 9 |
-| Operational Excellence | 8 |
-| Developer Guides | 9 |
-| Ways of Working | 8 |
+| Architecture & API | 9 |
+| Engineering Practices | 11 |
+| Infrastructure & Cloud | 10 |
+| Operational Excellence | 9 |
+| Developer Guides | 10 |
+| Ways of Working | 10 |
 | Program | 5 |
-| Mobile & Frontend | 2 |
+| Mobile & Frontend | 6 |
 | AI/ML Platform | 2 |
 | Domain Catalog | 10 |
-| **Total** | **70 documents** |
+| **Total** | **83 documents** |
 
 ---
 

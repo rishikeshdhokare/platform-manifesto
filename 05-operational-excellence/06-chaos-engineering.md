@@ -385,4 +385,10 @@ docs/chaos-reports/YYYY-MM-DD-experiment-name.md
 
 ---
 
+## 11. Change Freeze Calendar
+
+Change freeze calendar: see [04-incident-management.md](./04-incident-management.md) for the quarterly change freeze schedule. Chaos experiments are suspended during freeze windows.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

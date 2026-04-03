@@ -396,4 +396,45 @@ Production Readiness
 
 ---
 
+## JVM Options Template
+
+All Java services deployed via the shared Helm chart use a standard set of JVM flags. These are configured in the Helm chart's default values and applied automatically to every service.
+
+### Standard JVM Flags
+
+```
+-XX:+UseG1GC
+-XX:MaxRAMPercentage=75
+-XX:+ExitOnOutOfMemoryError
+-Xlog:gc*:file=/dev/stdout
+-XX:+FlightRecorder
+-XX:StartFlightRecording=settings=default,maxsize=100m
+```
+
+| Flag | Purpose |
+|------|---------|
+| `-XX:+UseG1GC` | G1 garbage collector — low-latency, suitable for containerized workloads |
+| `-XX:MaxRAMPercentage=75` | Heap sized as percentage of container memory limit — avoids hardcoded `-Xmx` values that drift from resource limits |
+| `-XX:+ExitOnOutOfMemoryError` | Terminates the JVM on OOM so Kubernetes restarts the pod cleanly instead of leaving a zombie process |
+| `-Xlog:gc*:file=/dev/stdout` | GC logs written to stdout for collection by the logging pipeline |
+| `-XX:+FlightRecorder` | Enables JDK Flight Recorder for low-overhead production profiling |
+| `-XX:StartFlightRecording=settings=default,maxsize=100m` | Continuous recording with a 100 MB rolling buffer for post-incident analysis |
+
+### Overriding JVM Options
+
+Teams may override JVM flags in their service's Helm values file. Any override must be documented in an ADR explaining why the default is not suitable for the service's workload.
+
+```yaml
+# values-production.yaml
+jvmOpts: >-
+  -XX:+UseG1GC
+  -XX:MaxRAMPercentage=80
+  -XX:+ExitOnOutOfMemoryError
+  -Xlog:gc*:file=/dev/stdout
+  -XX:+FlightRecorder
+  -XX:StartFlightRecording=settings=default,maxsize=200m
+```
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

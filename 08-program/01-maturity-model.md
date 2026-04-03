@@ -72,7 +72,7 @@ Each capability has four levels:
 | Deployment process | Manual | Semi-automated | Fully automated via GitOps | Self-service with zero-touch production deploys |
 | Feature flags | None | Basic env-var flags | LaunchDarkly for all unreleased features | Flags used for experiments, ops kill switches, and progressive rollout |
 | Canary / progressive delivery | Full rollout only | Manual canary | Automated canary with Argo Rollouts | Automated canary analysis; auto-rollback on threshold breach |
-| Rollback | Manual, slow | Manual ArgoCD | Automated rollback for canary failures | Mean Time to Recovery < 5 minutes |
+| Rollback | Manual, slow | Manual ArgoCD; rollback SLA < 30 min | Automated rollback for canary failures; rollback SLA < 15 min | Fully automated rollback < 5 min; zero-touch |
 | Environment parity | Dev ≠ Staging ≠ Production | Partial parity | All environments structurally identical | Drift detection alerts on any deviation |
 
 ---
@@ -85,8 +85,9 @@ Each capability has four levels:
 | Metrics | No metrics | Basic Spring Actuator metrics | RED metrics + business metrics + Grafana dashboard | Custom SLO dashboard; error budget tracked |
 | Distributed tracing | No tracing | Some manual instrumentation | OTel agent; full trace from BFF to DB | Trace sampling optimised; tail-based sampling for errors |
 | Alerting | No alerts | Some alerts, no runbooks | P1/P2 alerts with runbooks for all services | Alerts reviewed quarterly; false positive rate < 5% |
-| SLOs | Not defined | Defined but not tracked | SLOs defined and tracked in Grafana | Error budget policy in place; freeze on budget exhaustion |
+| SLOs | Not defined | SLOs defined; error budget policy defined and enforced | SLOs tracked in Grafana; burn-rate alerting configured | Error budget automated; freeze on budget exhaustion with self-service override |
 | On-call runbooks | None | Exists but outdated | Runbooks up to date; linked from every alert | Runbooks tested in DR exercises; measurable MTTR |
+| Service dependency map | None | Informal knowledge only | Service dependencies mapped in Backstage; blast radius documented | Live dependency graph auto-generated; impact analysis automated |
 
 ---
 

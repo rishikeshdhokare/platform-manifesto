@@ -25,6 +25,9 @@ A new engineer must be able to reach these milestones independently:
 | First PR submitted | End of Day 2 |
 | First PR merged | End of Day 3 |
 | First feature deployed to production | End of Week 1 |
+| First feature PR merged, attend sprint ceremonies, complete security orientation (see [security-operations.md](../04-infrastructure-and-cloud/10-security-operations.md)) | End of Week 2 |
+| On-call shadow shift completed (pair with primary on-call), domain deep-dive with tech lead, attend architecture clinic | End of Week 3 |
+| Solo on-call eligible (added to PagerDuty rotation), buddy graduation (feedback form), 30-day check-in with EM | End of Week 4 |
 
 If these targets are not met, it is a **platform problem**, not an engineer problem.
 
@@ -339,7 +342,9 @@ Every new joiner is assigned an **onboarding buddy** from their team. The buddy 
 | Period | Cadence | Activities |
 |--------|---------|------------|
 | Week 1 | Daily check-in | Orient to codebase, team rituals, tooling; answer questions; pair programming on first PR |
-| Weeks 2–4 | Weekly check-in | Ongoing support, answer questions, review progress against onboarding milestones |
+| Week 2 | 2–3 check-ins | First feature PR merged; attend sprint ceremonies (planning, standup, retro); complete security orientation (see [security-operations.md](../04-infrastructure-and-cloud/10-security-operations.md)) |
+| Week 3 | Weekly check-in | On-call shadow — pair with primary on-call for one shift; domain deep-dive session with tech lead; attend architecture clinic |
+| Week 4 | Weekly check-in | Solo on-call eligible (added to PagerDuty rotation); buddy graduation (feedback form submitted); 30-day check-in with engineering manager |
 
 ### Program Details
 

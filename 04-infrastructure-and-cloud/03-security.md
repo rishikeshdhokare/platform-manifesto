@@ -430,4 +430,98 @@ Unexpected destination alerts page the security on-call immediately.
 
 ---
 
+## 13. KMS Key Management
+
+### 13.1 Key Hierarchy
+
+| Data Classification | Key Type | Managed By | Rotation |
+|---------------------|----------|-----------|----------|
+| **Public / Operational** | AWS-managed KMS key | AWS (automatic) | Automatic (annual) |
+| **Personal (PII)** | Customer-managed CMK | Platform Engineering | Automatic (annual) |
+| **Highly Sensitive** | Customer-managed CMK with restricted key policy | Platform Engineering + Security | Automatic (annual) |
+| **Regulated** | BYOK (Bring Your Own Key) | Security team | Manual (per compliance schedule) |
+
+### 13.2 Key Rotation
+
+- All customer-managed CMKs have **automatic annual rotation** enabled
+- Rotation creates a new backing key; the key ID and alias remain unchanged
+- Previous key versions are retained for decryption of data encrypted with older versions
+- Rotation status is monitored via CloudTrail and the Secrets Rotation Grafana dashboard
+
+### 13.3 BYOK (Bring Your Own Key)
+
+For regulated data requiring customer-controlled key material:
+
+| Step | Action | Owner |
+|------|--------|-------|
+| 1 | Generate key material externally (HSM or approved key management tool) | Security team |
+| 2 | Import key material into AWS KMS with expiration date | Platform Engineering |
+| 3 | Document key provenance and chain of custody | Security team |
+| 4 | Configure automatic re-import before expiration | Platform Engineering |
+
+BYOK is only required for data subject to regulatory obligations (e.g., financial data, health records). Standard workloads use AWS-managed or CMK keys.
+
+### 13.4 Separation of Duties
+
+| Role | Permissions | Enforced By |
+|------|-------------|-------------|
+| **Key administrator** | Create, enable, disable, schedule deletion of CMKs | IAM policy: `kms:Create*`, `kms:Enable*`, `kms:Disable*`, `kms:ScheduleKeyDeletion` |
+| **Key user** | Encrypt, decrypt, generate data keys | IAM policy: `kms:Encrypt`, `kms:Decrypt`, `kms:GenerateDataKey*` |
+
+Key administrators **cannot** encrypt or decrypt data. Key users **cannot** manage key lifecycle. This separation is enforced via IAM policies attached to distinct IAM roles.
+
+---
+
+## 14. Privileged Access Management
+
+### 14.1 JIT (Just-In-Time) Access
+
+All privileged access to production infrastructure uses **temporary elevation** via AWS SSO:
+
+| Parameter | Value |
+|-----------|-------|
+| **Maximum session duration** | 4 hours |
+| **Approval required** | Yes — manager or security team approval via SSO request workflow |
+| **Auto-expiry** | Sessions terminate automatically after the granted duration |
+| **Scope** | Least-privilege role for the specific task (not broad admin access) |
+
+### 14.2 Audit Logging
+
+All privileged sessions are audit-logged to **CloudTrail**:
+
+| What Is Logged | Detail |
+|----------------|--------|
+| Session start/end | Timestamp, IAM role assumed, source IP |
+| API calls made | Every AWS API call during the elevated session |
+| Resources accessed | S3 objects, RDS instances, Secrets Manager secrets |
+| Console actions | AWS Management Console activity |
+
+Audit logs are retained for **12 months** in a tamper-proof S3 bucket with Object Lock enabled.
+
+### 14.3 Quarterly Access Certification
+
+Every quarter, the security team reviews all standing privileges:
+
+| Review Scope | Action |
+|-------------|--------|
+| IAM roles with persistent admin access | Justify or revoke |
+| Service accounts with broad permissions | Scope down to least privilege |
+| Break-glass credentials | Verify sealed and unused |
+| SSO permission sets | Verify alignment with current team structure |
+
+### 14.4 Break-Glass Access
+
+Emergency access for critical production incidents when normal JIT access is unavailable:
+
+| Parameter | Value |
+|-----------|-------|
+| **Credential storage** | Sealed credentials in AWS Secrets Manager (separate account) |
+| **Access** | Requires two-person authorization (dual-key retrieval) |
+| **Post-use review** | Mandatory review within 24 hours — all actions during break-glass session are audited |
+| **Rotation** | Credentials are rotated immediately after each use |
+
+Break-glass access triggers an automatic PagerDuty alert to the security team and creates a post-incident review ticket.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

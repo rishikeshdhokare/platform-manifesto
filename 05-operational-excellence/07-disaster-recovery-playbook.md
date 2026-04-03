@@ -603,4 +603,18 @@ Platform Engineer on-call
 
 ---
 
+## 12. Rollback SLA
+
+When a production deployment causes issues, rollback speed is critical. The following SLA tiers define the maximum time from incident detection to a rolled-back, stable state.
+
+| Tier | Rollback Method | Target Time | Detail |
+|------|----------------|-------------|--------|
+| **Tier 1** | ArgoCD automatic rollback | < 10 minutes | Argo Rollouts detects failed health checks during canary analysis and automatically aborts, rolling back to the previous revision with no human intervention. |
+| **Tier 2** | Manual ArgoCD rollback | < 30 minutes | On-call engineer triggers rollback via ArgoCD UI or CLI (`argocd app rollback`). Used when an issue is detected post-canary, after full rollout. |
+| **Tier 3** | Git revert + redeploy | < 60 minutes, best effort | Used when ArgoCD rollback is not sufficient (e.g., config changes in `platform-config` need reverting). Engineer reverts the commit, pushes, and the pipeline redeploys. Best effort — depends on CI pipeline speed and complexity of the revert. |
+
+Tier 1 is the default for all services that use Argo Rollouts with canary analysis. Services that do not yet use canary deployments default to Tier 2.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

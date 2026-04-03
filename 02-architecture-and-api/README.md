@@ -12,5 +12,6 @@ How our system is structured and how services communicate with each other and th
 | [06-saga-patterns.md](./06-saga-patterns.md) | Distributed transactions — choreography, compensation, order lifecycle saga |
 | [07-service-decomposition.md](./07-service-decomposition.md) | When to split or merge services, boundary validation criteria |
 | [08-event-schema-evolution.md](./08-event-schema-evolution.md) | Event schema evolution, Avro compatibility, partition keys, breaking change playbook |
+| [09-error-catalog.md](./09-error-catalog.md) | Error catalog, exception handling, error code registry, frontend error boundaries |
 
 ← [Back to root](../README.md)

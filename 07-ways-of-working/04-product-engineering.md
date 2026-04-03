@@ -195,4 +195,54 @@ Disagreements that reach step 3 must be documented with both perspectives for or
 
 ---
 
+## 8. User Story Standards
+
+### 8.1 Format
+
+All user stories follow the standard format:
+
+> **As a** [persona], **I want** [action], **so that** [outcome]
+
+The persona must be a specific, named persona from the team's user research (e.g., "customer placing a first order", "operations manager monitoring SLAs") — not a generic "user."
+
+### 8.2 Acceptance Criteria
+
+Acceptance criteria are written in **Given/When/Then** format:
+
+```
+Given [precondition]
+When [action]
+Then [expected result]
+```
+
+Example:
+
+```
+Given a customer has items in their cart
+When they tap "Place order"
+Then an order is created with status "requested"
+And the customer sees an order confirmation screen
+And an orders.order.requested event is published
+```
+
+Every user story must have at least one acceptance criterion. Stories without acceptance criteria are not accepted into sprint planning.
+
+### 8.3 Definition of Done
+
+A user story is **done** when all of the following are satisfied:
+
+| Criterion | Applies To |
+|-----------|-----------|
+| Code reviewed and approved | All stories |
+| All tests passing (unit, integration, contract) | All stories |
+| Relevant documentation updated | All stories |
+| Feature flag configured (if applicable) | New features behind flags |
+| Monitoring confirmed (dashboards, alerts) | All stories touching production services |
+| Accessibility verified | All UI changes |
+| Acceptance criteria verified by PM or QA | All stories |
+
+Stories that do not meet the Definition of Done are returned to "In Progress" and are not counted toward sprint velocity.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

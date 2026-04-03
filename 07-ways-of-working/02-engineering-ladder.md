@@ -147,4 +147,10 @@ Promotion and compensation decisions remain **manager and HR processes**; this d
 
 ---
 
+## 10. Relationship to Performance Reviews
+
+The engineering ladder informs performance reviews but does not replace them. For the performance review process, calibration cadence, and review templates, see [09-engineering-management.md](./09-engineering-management.md).
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

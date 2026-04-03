@@ -257,4 +257,45 @@ All experiments must be recorded in the shared experiment log:
 
 ---
 
+## 9. Product Analytics (Non-Experiment)
+
+Not all product measurement requires an A/B test. Product metrics outside of experiments are tracked via **structured events** that flow through the analytics pipeline.
+
+### Event Naming Convention
+
+All product analytics events follow the `{domain}.{action}.{object}` naming pattern:
+
+| Domain | Action | Object | Full Event Name |
+|--------|--------|--------|----------------|
+| `checkout` | `clicked` | `place_order` | `checkout.clicked.place_order` |
+| `search` | `submitted` | `query` | `search.submitted.query` |
+| `onboarding` | `completed` | `step_3` | `onboarding.completed.step_3` |
+| `provider` | `accepted` | `order_offer` | `provider.accepted.order_offer` |
+| `settings` | `toggled` | `dark_mode` | `settings.toggled.dark_mode` |
+| `order` | `viewed` | `tracking_screen` | `order.viewed.tracking_screen` |
+
+### Pipeline
+
+```
+Client / Service → Structured Event → Kafka → Redshift → QuickSight Dashboards
+```
+
+Events are published to Kafka with a consistent schema, consumed by the analytics pipeline, loaded into Redshift, and surfaced in QuickSight dashboards.
+
+### Product Metric Catalog
+
+The canonical list of product events and their definitions is maintained in [06-developer-guides/09-data-governance.md](../06-developer-guides/09-data-governance.md). Teams must register new events in the catalog before instrumenting them to prevent naming collisions and ensure consistent definitions.
+
+### Self-Serve Analytics
+
+Product managers and analysts access analytics via **QuickSight** connected to Redshift. QuickSight provides:
+
+- Pre-built dashboards for core product funnels (onboarding, order flow, payment)
+- Ad-hoc query capability for custom analysis
+- Scheduled email reports for key metrics
+
+No direct Redshift access is granted outside the analytics team. All queries go through QuickSight or approved BI tooling.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

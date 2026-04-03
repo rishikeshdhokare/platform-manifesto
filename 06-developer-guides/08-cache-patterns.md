@@ -537,4 +537,82 @@ flowchart TD
 
 ---
 
+## 11. In-Process Caching (Caffeine)
+
+Not all caching requires Redis. For small, frequently accessed reference data with short TTLs, an in-process cache avoids the network round-trip entirely.
+
+### Use Cases
+
+| Appropriate | Not Appropriate |
+|-------------|----------------|
+| Configuration and reference data (feature flags, region config, currency data) | User-specific data (profiles, preferences) |
+| Data with TTL < 5 minutes | Session state |
+| Max ~10,000 entries per cache | Shared mutable state across service instances |
+| Read-heavy, rarely changing data | Data that must be consistent across all pods immediately |
+
+### Forbidden for
+
+- **User data** — must be consistent across all service instances; use Redis.
+- **Session state** — must survive pod restarts; use Redis or the session store.
+- **Shared mutable state** — in-process caches are per-pod; mutations are invisible to other instances.
+
+### Invalidation via Kafka
+
+When the source data changes, a Kafka event listener triggers targeted invalidation:
+
+```java
+@KafkaListener(topics = "config.events", groupId = "${spring.application.name}-caffeine-invalidation")
+public void onConfigEvent(ConfigEvent event) {
+    Cache caffeineCache = caffeineCacheManager.getCache(event.getCacheName());
+    if (caffeineCache != null) {
+        caffeineCache.evict(event.getKey());
+    }
+}
+```
+
+This ensures that even with an in-process cache, data changes propagate within the Kafka consumer lag window (typically < 1 second).
+
+### Monitoring
+
+Caffeine integrates with Micrometer to expose cache metrics to Prometheus:
+
+| Metric | Description |
+|--------|-------------|
+| `cache.gets{result=hit}` | Total cache hits |
+| `cache.gets{result=miss}` | Total cache misses |
+| `cache.evictions` | Eviction count (due to size or expiry) |
+| `cache.size` | Current number of entries |
+| Hit rate | Derived: `hits / (hits + misses)` — alert if < 80% |
+
+### Configuration
+
+```java
+@Configuration
+@EnableCaching
+public class CaffeineCacheConfig {
+
+    @Bean
+    public CacheManager caffeineCacheManager() {
+        CaffeineCacheManager manager = new CaffeineCacheManager();
+        manager.setCaffeine(Caffeine.newBuilder()
+            .maximumSize(10_000)
+            .expireAfterWrite(Duration.ofMinutes(5))
+            .recordStats());
+        return manager;
+    }
+}
+```
+
+Service usage with `@Cacheable`:
+
+```java
+@Cacheable(value = "currencyConfig", key = "#currencyCode", cacheManager = "caffeineCacheManager")
+public CurrencyConfig getCurrencyConfig(String currencyCode) {
+    return currencyConfigRepository.findByCurrencyCode(currencyCode)
+        .orElseThrow(() -> new CurrencyNotFoundException(currencyCode));
+}
+```
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

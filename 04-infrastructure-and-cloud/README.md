@@ -13,5 +13,6 @@ Our AWS platform — network topology, compute, data stores, security, and confi
 | [07-api-gateway-strategy.md](./07-api-gateway-strategy.md) | API Gateway configuration, routing, throttling, WAF integration |
 | [08-privacy-engineering.md](./08-privacy-engineering.md) | Data classification, PIA, anonymization, GDPR erasure, consent management |
 | [09-multi-tenancy.md](./09-multi-tenancy.md) | Multi-tenancy patterns — data isolation, noisy-neighbor controls, tenant-aware observability |
+| [10-security-operations.md](./10-security-operations.md) | Security operations — threat modeling, vulnerability management, SIEM, pen testing, supply chain |
 
 ← [Back to root](../README.md)

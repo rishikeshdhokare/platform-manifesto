@@ -284,4 +284,80 @@ If a pipeline consistently exceeds its SLA, the team is expected to optimise it 
 
 ---
 
+## 8. DAST in CI
+
+### 8.1 OWASP ZAP Scans
+
+Dynamic Application Security Testing is performed quarterly against the staging environment:
+
+| Parameter | Value |
+|-----------|-------|
+| **Tool** | OWASP ZAP (containerized, latest stable) |
+| **Target** | Staging environment — all public-facing API endpoints |
+| **Frequency** | Quarterly (scheduled CI pipeline) |
+| **Scan type** | Full active scan + API scan (OpenAPI-driven) |
+
+### 8.2 Results Handling
+
+| Action | Detail |
+|--------|--------|
+| **Filing** | All findings are filed as Jira tickets with the `security` label |
+| **Triage** | Security team triages findings within 5 business days |
+| **Assignment** | Findings are assigned to the owning service team |
+| **SLA** | Critical: 7 days; High: 14 days; Medium: 30 days; Low: next sprint |
+
+---
+
+## 9. Terraform Drift Detection
+
+### 9.1 Scheduled Drift Check
+
+A weekly `terraform plan` runs in CI for the `platform-config` repository to detect configuration drift between the Terraform state and actual AWS resources:
+
+| Parameter | Value |
+|-----------|-------|
+| **Frequency** | Weekly (Monday 04:00 UTC) |
+| **Repository** | `platform-config` |
+| **Action on drift** | Alert to `#platform-alerts` Slack channel |
+| **Auto-remediate** | No — drift is investigated manually before applying |
+
+### 9.2 Drift Alert Format
+
+Alerts include: environment, resource type, resource name, and a summary of the detected drift. The on-call platform engineer investigates whether the drift was caused by manual changes (ClickOps — a compliance violation) or by an external process.
+
+---
+
+## 10. Terraform Module Testing
+
+### 10.1 Terratest for Shared Modules
+
+All shared Terraform modules in the `platform-modules` repository are tested with **Terratest**:
+
+| Parameter | Value |
+|-----------|-------|
+| **Framework** | Terratest (Go) |
+| **Trigger** | Every PR to `platform-modules` |
+| **Test cycle** | Provision → validate → destroy |
+| **Environment** | Dedicated `terraform-test` AWS account |
+
+### 10.2 Test Requirements
+
+Each module must include tests that:
+
+- Provision the module with default and override variables
+- Validate the created resources (e.g., RDS instance is Multi-AZ, S3 bucket has versioning enabled)
+- Destroy all resources cleanly (no orphaned resources)
+- Complete within **15 minutes** per module
+
+### 10.3 Module Release Process
+
+| Step | Action |
+|------|--------|
+| 1 | PR with module changes + Terratest |
+| 2 | Terratest passes (provision → validate → destroy) |
+| 3 | Platform team review and approval |
+| 4 | Merge to `main` → new module version tagged |
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

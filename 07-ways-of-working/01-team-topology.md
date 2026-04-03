@@ -37,6 +37,8 @@ Platform team responsibilities:
 
 **Platform team is not** a gatekeeper for deployments. Teams deploy themselves.
 
+Platform team on-call is separate from stream-aligned team on-call. Platform PagerDuty escalation policy is distinct — platform incidents escalate within the platform team, not to product engineering managers.
+
 ---
 
 ## 2. Ownership Model

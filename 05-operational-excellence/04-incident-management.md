@@ -570,4 +570,128 @@ Target: **> 90% of PIR actions closed within SLA** each quarter.
 
 ---
 
+## 14. Post-Launch Reliability Review
+
+Every new service undergoes a **30-day post-launch reliability review** after receiving production traffic. This review is mandatory before removing the enhanced monitoring put in place during the Production Readiness Review (PRR).
+
+### Review Criteria
+
+| Metric | Threshold | Source |
+|--------|-----------|--------|
+| SLO adherence | ≥ target SLO for 30 consecutive days | Grafana SLO dashboard |
+| Error rate | Stable at or below baseline | Prometheus |
+| P99 latency | Within defined SLO | Prometheus |
+| On-call burden | < 5 pages attributable to the new service | PagerDuty |
+| Open P1/P2 incidents | 0 unresolved incidents | Incident tracker |
+
+### Process
+
+1. At day 30, the owning tech lead schedules a review with Platform Engineering
+2. Review covers the criteria above plus a walkthrough of any incidents that occurred
+3. If all criteria are met, enhanced PRR monitoring (additional alerts, tighter thresholds) is removed
+4. If any criteria are not met, enhanced monitoring continues for another 15 days with a follow-up review
+
+---
+
+## 15. Change Management
+
+### 15.1 Change Freeze Calendar
+
+A change freeze calendar is published **quarterly** covering:
+
+- National and regional holidays
+- Major promotional events
+- End-of-quarter financial close periods
+- Any company-wide events with high customer visibility
+
+During freeze windows, only emergency hotfixes are permitted. All other deployments are paused.
+
+The calendar is published to **#platform-announcements** on Slack and maintained in the team wiki.
+
+### 15.2 Change Risk Rubric
+
+| Risk Level | Characteristics | Required Controls |
+|------------|----------------|-------------------|
+| **Low** | Configuration change; auto-rollback enabled; single service | Standard canary deployment; no additional approval |
+| **Medium** | Single-service code change with canary deployment | Canary with extended observation window (30 min); service owner approval |
+| **High** | Schema migration, multi-service coordinated change, manual approval gates, or changes with no automated rollback | Manual approval from tech lead + platform engineering; announced 48 hours in advance on #platform-announcements; rollback plan documented and tested |
+
+### 15.3 High-Risk Change Announcements
+
+All high-risk changes must be announced at least **48 hours in advance** in the **#platform-announcements** Slack channel with:
+
+- Description of the change
+- Expected impact window
+- Rollback plan
+- Point of contact during the change
+
+---
+
+## 16. MTTx Targets
+
+### 16.1 Organisation-Wide Targets
+
+| Severity | MTTD (Mean Time to Detect) | MTTR (Mean Time to Resolve) | Tracking |
+|----------|---------------------------|----------------------------|----------|
+| **P1** | < 5 minutes | < 30 minutes | PagerDuty + Grafana |
+| **P2** | < 15 minutes | < 4 hours | PagerDuty + Grafana |
+| **P3** | Best effort | Next business day | Jira |
+| **P4** | Best effort | Weekly review | Dashboard |
+
+### 16.2 Measurement
+
+- MTTD is measured from the onset of user impact (determined retrospectively from metrics) to the first alert firing or human detection
+- MTTR is measured from first alert to incident resolution (user impact ceased)
+- Both metrics are tracked per incident in the PIR and aggregated in the **monthly SRE review**
+- Trends are reported to the Reliability Review Board quarterly
+
+---
+
+## 17. Service Dependency Mapping
+
+### 17.1 Source of Truth
+
+| Dependency Type | Source of Truth | Tooling |
+|-----------------|----------------|---------|
+| Synchronous (HTTP/gRPC) | Backstage service graph | `catalog-info.yaml` → `dependsOn` field |
+| Asynchronous (Kafka) | EventCatalog | Event YAML definitions (producers/consumers) |
+| Infrastructure | Terraform dependency graph | Terraform state |
+
+### 17.2 Backstage Service Graph
+
+Every service's `catalog-info.yaml` must declare its dependencies:
+
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: orders-service
+spec:
+  type: service
+  owner: team-orders
+  dependsOn:
+    - component:payment-service
+    - component:fulfillment-engine
+    - resource:orders-database
+    - resource:orders-kafka-topic
+```
+
+The Backstage service graph is the primary tool for visualising service relationships during incidents.
+
+### 17.3 Blast-Radius Analysis
+
+Every **Tier 1 service** must have a documented blast-radius analysis answering:
+
+| Question | Documentation Location |
+|----------|----------------------|
+| Which upstream services depend on this service? | Backstage reverse dependency graph |
+| Which downstream services does this service call? | `catalog-info.yaml` `dependsOn` |
+| What is the user impact if this service is completely unavailable? | Service runbook |
+| What is the user impact if this service is degraded (high latency)? | Service runbook |
+| What circuit breakers or fallbacks exist? | Service runbook + architecture diagram |
+
+Blast-radius documentation is reviewed during the Production Readiness Review (Section 10) and updated after any architectural change.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

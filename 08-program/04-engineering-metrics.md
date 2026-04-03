@@ -356,4 +356,23 @@ If any of these metrics appear in a dashboard or review, report it to the CTO of
 
 ---
 
+## 12. MTTx Metrics
+
+In addition to DORA's MTTR, the platform tracks the full suite of MTTx (Mean Time to X) metrics to provide a complete picture of incident response effectiveness.
+
+| Metric | Definition | Target | Tracking |
+|--------|-----------|--------|----------|
+| **MTTD** (Mean Time to Detect) | Time from incident occurrence to first alert firing | < 5 minutes for Tier 1 services | PagerDuty + Grafana alerting timestamps |
+| **MTTR** (Mean Time to Resolve) | Time from incident detection to full resolution | < 30 min (P1), < 2h (P2) | PagerDuty incident lifecycle |
+| **MTBF** (Mean Time Between Failures) | Time between consecutive incidents for a given service | Increasing quarter-over-quarter | PagerDuty incident history |
+
+### Tracking and Review
+
+- MTTx metrics are tracked **per team per quarter** and aggregated at the organization level.
+- Results are reviewed in the **monthly SRE sync** alongside SLO compliance and error budget burn.
+- Teams with MTTD > 10 minutes are required to review their alerting configuration and improve detection coverage.
+- MTBF trends are used to identify services with chronic reliability issues and prioritize resilience investments.
+
+---
+
 ← [Back to section](./README.md) · [Back to root](../README.md)

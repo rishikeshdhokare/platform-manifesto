@@ -367,10 +367,10 @@ class ArchitectureTest {
             .haveNameMatching(".*Repository");
 
     @ArchTest
-    static final ArchRule servicesMustBeAnnotated =
-        classes().that().haveNameMatching(".*Service")
-            .and().resideInAPackage("..domain..")
-            .should().beAnnotatedWith(Service.class);
+    static final ArchRule domainMustNotImportSpring =
+        noClasses().that().resideInAPackage("..domain..")
+            .should().dependOnClassesThat()
+            .resideInAnyPackage("org.springframework..");
 }
 ```
 
@@ -437,6 +437,73 @@ Accessibility is not an afterthought — it is tested in CI alongside functional
 ### 9.3 Cross-Reference
 
 See [09-mobile-and-frontend/02-web-frontend-standards.md](../09-mobile-and-frontend/02-web-frontend-standards.md) for the full web accessibility standards, including ARIA patterns, keyboard navigation requirements, and screen reader testing.
+
+---
+
+## 10. Shared Test Fixtures
+
+### 10.1 Fixture Library
+
+Shared test data builders live in the **{company}-test-fixtures** library, organized by domain module:
+
+| Module | Artifact | Scope |
+|--------|----------|-------|
+| `test-fixtures-orders` | `com.{company}:test-fixtures-orders` | Order, OrderLine, OrderEvent builders |
+| `test-fixtures-payments` | `com.{company}:test-fixtures-payments` | Payment, Refund builders |
+| `test-fixtures-customers` | `com.{company}:test-fixtures-customers` | Customer, Address builders |
+| `test-fixtures-providers` | `com.{company}:test-fixtures-providers` | Provider, Vehicle, Document builders |
+
+The library is published to the internal Maven repository and versioned independently from service releases.
+
+### 10.2 Naming Convention
+
+All fixture builders follow the pattern `{Entity}Fixture.a{Entity}()`:
+
+```java
+Order order = OrderFixture.anOrder()
+    .withStatus(COMPLETED)
+    .withCustomer(CustomerFixture.aCustomer().build())
+    .withPrice(1250, "USD")
+    .build();
+
+Payment payment = PaymentFixture.aPayment()
+    .forOrder(order)
+    .withStatus(CAPTURED)
+    .build();
+```
+
+### 10.3 Rules
+
+- Fixtures produce **valid domain objects** by default — callers override only the fields relevant to their test
+- Fixtures must not depend on Spring context or database — they are plain Java builders
+- Each domain team owns and maintains their fixture module
+
+---
+
+## 11. Mocking Infrastructure
+
+### 11.1 Infrastructure Mocking by Technology
+
+| Technology | Unit Tests | Integration Tests |
+|------------|-----------|-------------------|
+| **gRPC** | `grpc-testing` InProcessServer with canned responses | Testcontainers with real gRPC server |
+| **Kafka** | EmbeddedKafka (`spring-kafka-test`) | Testcontainers Confluent image (`confluentinc/cp-kafka`) |
+| **External HTTP** | WireMock (stubbed responses) | WireMock (stubbed responses) |
+| **PostgreSQL** | — (unit tests do not touch DB) | Testcontainers (`postgres:15-alpine`) |
+| **Redis** | — (unit tests do not touch Redis) | Testcontainers (`redis:7-alpine`) |
+
+### 11.2 Performance Testing in Staging
+
+Staging performance tests run during **off-peak hours** (weekdays 02:00–06:00 UTC) to avoid interfering with QA and integration testing.
+
+Each service must document its **test data shape** in `docs/performance.md`:
+
+| Field | Description |
+|-------|-------------|
+| **Dataset size** | Number of records seeded before the test (e.g., 100K orders, 10K providers) |
+| **Traffic pattern** | Steady-state vs. spike; read/write ratio |
+| **External dependencies** | Stubbed or real; if stubbed, latency profile used |
+| **Baseline metrics** | Expected p50, p95, p99 latency and throughput |
 
 ---
 

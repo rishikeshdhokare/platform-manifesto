@@ -50,7 +50,7 @@ flowchart TD
 
 ## 2. Proto File Conventions
 
-All `.proto` definitions for platform services live in a **`proto/` directory at the repository root** (not scattered under `src/main/proto` without a clear top-level contract folder, unless the repo is a single-service library — then `src/main/proto` is acceptable but must mirror the package layout below).
+The **{company}/api-protos** monorepo is the DEFAULT and ONLY source of truth for all proto definitions. Per-service `proto/` directories are NOT permitted. All services consume generated code from the published `api-protos` artifact (see Section 14 — Proto Management). The package layout conventions below apply to files within the monorepo.
 
 ### 2.1 Package naming
 
@@ -219,7 +219,7 @@ tasks.named<JavaCompile>("compileJava") {
 
 **Rules:**
 
-- **`proto/`** at repo root (or `src/main/proto` if single-module and documented).
+- Proto definitions live exclusively in the **{company}/api-protos** monorepo — per-service `proto/` directories are not permitted.
 - Output under **`build/generated/source/proto`** only.
 - Add **`build/`** to `.gitignore`; never commit `**/generated/**` gRPC/Java outputs.
 

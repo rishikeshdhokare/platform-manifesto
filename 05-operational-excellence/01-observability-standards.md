@@ -742,4 +742,169 @@ Extended retention increases OpenSearch storage costs — the requesting team's 
 
 ---
 
+## 13. Toil Measurement
+
+### 13.1 Definition
+
+Toil is work that is:
+
+- **Manual** — a human must perform the task
+- **Repetitive** — done over and over
+- **Automatable** — could be handled by software
+- **Reactive** — triggered by an event rather than proactive improvement
+- **No enduring value** — does not permanently improve the system
+
+Toil is distinct from engineering overhead (meetings, planning) and operational work that requires judgment.
+
+### 13.2 Tracking
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| % engineer time spent on toil | < 30% | Self-reported in weekly team survey |
+| Toil reduction backlog items | Active at all times | Jira tickets labelled `toil` |
+| Toil reduction velocity | ≥ 1 item closed per team per sprint | Jira query |
+
+### 13.3 Process
+
+1. Each team tags toil items in Jira with the `toil` label
+2. During sprint planning, at least one toil-reduction item is prioritized per sprint
+3. Monthly toil review in the Reliability Review Board — teams report toil percentage and reduction progress
+4. If a team exceeds 30% toil for two consecutive months, the engineering manager and platform team collaborate on an automation plan
+
+---
+
+## 14. SLO Adoption Scorecard
+
+### 14.1 Scorecard
+
+| Metric | Measurement | Target |
+|--------|-------------|--------|
+| % of Tier 1 services with SLOs defined | Backstage catalog query | 100% by Q4 |
+| % of Tier 2 services with SLOs defined | Backstage catalog query | 100% by Q4 |
+| % of Tier 3 services with SLOs defined | Backstage catalog query | 80% by Q4 |
+| SLOs tracked in Grafana dashboards | Dashboard audit | 100% of defined SLOs |
+| Error budget policy documented | Confluence page linked from Backstage | 100% of Tier 1–2 services |
+
+### 14.2 Cadence
+
+- Scorecard is tracked **quarterly** and reviewed at the Reliability Review Board
+- Published in **Backstage** under the platform health section
+- Services without SLOs are flagged to the owning tech lead with a 30-day remediation window
+
+---
+
+## 15. Incident Classification Matrix
+
+Use the following matrix to classify incident severity based on the intersection of **impact** (how many users are affected) and **urgency** (how quickly must we respond).
+
+| | **Immediate** | **Business Hours** | **Deferrable** |
+|---|---|---|---|
+| **Full** — all users affected, core function unavailable | **P1** | **P1** | **P2** |
+| **Partial** — subset of users affected or degraded performance | **P1** | **P2** | **P3** |
+| **None** — no current user impact, early warning or potential risk | **P2** | **P3** | **P4** |
+
+### Classification Guidelines
+
+| Factor | Immediate | Business Hours | Deferrable |
+|--------|-----------|----------------|------------|
+| Revenue impact | Active revenue loss | Potential revenue impact | No revenue impact |
+| User-facing | Users actively blocked | Users experiencing degradation | No user-visible effect |
+| Safety/compliance | Safety or compliance risk | Compliance deadline approaching | Informational |
+
+This matrix supplements the severity definitions in Section 5.3. When in doubt, classify higher — it is easier to downgrade than to upgrade mid-incident.
+
+---
+
+## 16. Synthetic Monitoring
+
+### 16.1 Standard
+
+All **Tier 1 API endpoints** must have CloudWatch Synthetics canaries running continuously in production.
+
+| Parameter | Value |
+|-----------|-------|
+| Tool | AWS CloudWatch Synthetics |
+| Cadence | Every 5 minutes |
+| Regions | Primary region + secondary region (multi-region) |
+| Alert condition | 2 consecutive failures trigger a P2 alert |
+| Escalation | If canary fails for > 15 minutes → P1 |
+
+### 16.2 Required Canary Scenarios
+
+| Scenario | What It Tests | Example |
+|----------|---------------|---------|
+| **Health check** | Service is reachable and healthy | `GET /actuator/health` returns 200 |
+| **Auth flow** | Authentication and token issuance work end-to-end | Obtain token via OAuth2 client credentials grant |
+| **Critical business flow** | Core business operation completes successfully | Create a synthetic order → verify 201 response and event published |
+
+### 16.3 Canary Configuration
+
+```yaml
+canary:
+  name: orders-service-health
+  schedule:
+    expression: rate(5 minutes)
+  locations:
+    - eu-west-1
+    - eu-central-1
+  steps:
+    - name: health-check
+      request:
+        method: GET
+        url: https://api.{company}.app/api/v1/orders/health
+      assertions:
+        - statusCode: 200
+        - responseTime: < 2000ms
+  alarm:
+    consecutiveFailures: 2
+    action: arn:aws:sns:eu-west-1:{account}:synthetic-monitoring-alerts
+```
+
+### 16.4 Ownership
+
+Canary definitions live in the service's infrastructure repository (Terraform). The owning team is responsible for maintaining canary scenarios and responding to canary alerts.
+
+---
+
+## 17. Service Ownership Enforcement
+
+### 17.1 Backstage Ownership Label
+
+Every service registered in Backstage must have an `owner` field in its `catalog-info.yaml`:
+
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: orders-service
+spec:
+  type: service
+  owner: team-orders
+  lifecycle: production
+```
+
+Services without an `owner` field are blocked from deployment by the CI pipeline.
+
+### 17.2 Orphan Scan
+
+| Parameter | Value |
+|-----------|-------|
+| Scan frequency | Monthly (automated) |
+| Definition of orphan | Service with no owner, or owner team that no longer exists |
+| Notification | Orphaned services reported to VP Engineering |
+| Remediation SLA | 14 calendar days to assign a new owner |
+
+### 17.3 Ownership Transfer
+
+Ownership transfers require a PR to the Backstage catalog that updates the `owner` field. The PR must be approved by both the outgoing and incoming team leads.
+
+Transfer checklist:
+
+- PagerDuty escalation policy updated to new team
+- Runbooks reviewed and transferred
+- On-call rotation includes members of the new owning team
+- Grafana dashboard ownership updated
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*

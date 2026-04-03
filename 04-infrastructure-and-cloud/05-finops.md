@@ -442,6 +442,41 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 
 ---
 
+## 13. Real-Time Cost Visibility
+
+Cost data should be accessible where engineers already work — not buried in a separate AWS console login. The platform embeds cost visibility into the tools teams use daily.
+
+### AWS Cost Explorer in Backstage
+
+AWS Cost Explorer dashboards are embedded directly in Backstage, segmented by team via the mandatory `Team` tag. Each team's Backstage home page includes a cost widget showing:
+
+- Month-to-date spend vs. budget
+- Daily spend trend (last 30 days)
+- Top 5 cost drivers by service (EC2, RDS, MSK, etc.)
+- Comparison to previous month
+
+### Daily Cost Anomaly Alerts
+
+Automated daily cost anomaly alerts flow through the following pipeline:
+
+```
+AWS Cost Anomaly Detection → SNS → Lambda (enrichment) → #finops-alerts Slack
+```
+
+Alerts include the anomaly amount, affected service/team (resolved via tags), and a direct link to the Cost Explorer filtered view. Teams are expected to acknowledge anomalies within 24 hours.
+
+### Per-Service Cost Tags in Grafana
+
+The FinOps Grafana dashboard includes a per-service cost panel that visualizes cost allocation using the mandatory `Service` tag. Engineers can filter by service name to see:
+
+- Daily and monthly cost for their service
+- Cost breakdown by AWS resource type
+- Cost trend over the last 90 days
+
+This enables service owners to correlate cost changes with deployments, traffic shifts, and scaling events.
+
+---
+
 > Building the platform that sets the standard for engineering excellence.
 
 ← [Back to section](./README.md) · [Back to root](../README.md)

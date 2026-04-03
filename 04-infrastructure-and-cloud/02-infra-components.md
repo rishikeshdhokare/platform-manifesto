@@ -320,4 +320,107 @@ The platform team publishes a **Platform Status Page** (internal) showing the he
 
 ---
 
+## 14. ArgoCD Service Onboarding
+
+To onboard a new service to ArgoCD, follow these steps in order:
+
+| Step | Action | Detail |
+|------|--------|--------|
+| 1 | **Create Application manifest** | Add a new `{service-name}.yaml` in `platform-config/apps/{env}/` for each target environment (dev, staging, production). Reference the shared `java-service` Helm chart and set service-specific values. |
+| 2 | **Add to app-of-apps** | Register the new Application manifest in `platform-config/argocd/app-of-apps.yaml` so ArgoCD discovers it automatically. |
+| 3 | **Configure sync policy** | Set `automated` sync with `selfHeal: true` for dev and staging. Production uses manual sync or automated with canary gates. Set `prune: true` to remove orphaned resources. |
+| 4 | **Verify in ArgoCD UI** | After merging the PR to `platform-config`, confirm the application appears in ArgoCD UI with status `Synced` and `Healthy`. Trigger a manual sync if needed. |
+| 5 | **Add to Backstage catalog** | Ensure the service's `catalog-info.yaml` includes the ArgoCD annotation (`argocd/app-name: {service-name}`) so the Backstage UI links directly to the ArgoCD application view. |
+
+---
+
+## 15. Platform Monitoring Ownership
+
+The Platform Engineering team is on-call for all shared infrastructure components. Stream-aligned teams are **not** responsible for platform component health — they are consumers.
+
+| Component | On-Call Owner |
+|-----------|--------------|
+| Amazon MSK (Kafka) | Platform Engineering |
+| ElastiCache (Redis) | Platform Engineering |
+| Aurora (shared infra databases) | Platform Engineering |
+| ArgoCD | Platform Engineering |
+| Backstage | Platform Engineering |
+| Grafana / Observability stack | Platform Engineering |
+| EKS Clusters | Platform Engineering |
+
+### Escalation Path
+
+```
+Platform Engineer on-call
+    → Platform PagerDuty (5 min)
+        → Platform Engineering Manager (15 min)
+            → VP Engineering (30 min)
+```
+
+Platform incidents escalate within the platform team. Stream-aligned teams report platform issues via `#platform-support` Slack channel or by paging the platform on-call directly.
+
+---
+
+## 16. Platform Incident Runbooks
+
+When a shared platform component fails, the platform on-call uses these runbooks as the first line of response.
+
+| Component | Failure Mode | Mitigation |
+|-----------|-------------|------------|
+| **ArgoCD** | UI or sync controller unavailable | Manual `kubectl apply` against `platform-config` manifests; restore ArgoCD pods from its own Helm chart |
+| **Grafana** | Dashboards inaccessible | Fall back to CloudWatch console for core metrics; Prometheus remains accessible via port-forward |
+| **Backstage** | Portal unavailable | Direct GitHub repository access for catalog, documentation, and API specs |
+| **MSK (Kafka)** | Broker failure or partition under-replication | FIS runbook: verify broker health, check ISR counts, trigger MirrorMaker failover if needed |
+| **ElastiCache (Redis)** | Primary node failure | Automatic failover to replica; verify application reconnection; monitor cache miss spike |
+| **Aurora** | Writer instance failure | Multi-AZ automatic failover; verify connection pool reconnection; check replication lag |
+| **EKS** | Control plane degradation | AWS-managed recovery; monitor node readiness; reschedule workloads if nodes are unhealthy |
+
+Detailed runbooks for each component are maintained in the platform team's Backstage TechDocs namespace.
+
+---
+
+## 17. Self-Service Boundaries
+
+The platform provides self-service capabilities for common operations while requiring tickets for changes that affect shared infrastructure or incur cost.
+
+| Category | Capability | Provisioning Method |
+|----------|-----------|-------------------|
+| **Self-serve** | Kubernetes namespaces | Backstage template |
+| **Self-serve** | Feature flags | LaunchDarkly UI |
+| **Self-serve** | Grafana dashboards | Dashboard JSON in service repo |
+| **Self-serve** | Service scaffolding | Backstage golden path template |
+| **Self-serve** | Preview environments | PR-triggered GitHub Actions |
+| **Ticket-based** | New databases (Aurora clusters) | Platform Jira ticket |
+| **Ticket-based** | New Kafka topics | Platform Jira ticket |
+| **Ticket-based** | New AWS accounts | Platform Jira ticket |
+| **Ticket-based** | Redis cluster changes | Platform Jira ticket |
+| **Ticket-based** | DNS record changes | Platform Jira ticket |
+
+**Platform SLA for ticket-based requests: 1 business day** for acknowledgement and initial assessment. Provisioning timelines vary by complexity and are communicated on the ticket.
+
+---
+
+## 18. Platform Capacity Planning
+
+The platform team runs a **quarterly capacity planning review** aligned with the product roadmap to ensure shared infrastructure scales ahead of demand.
+
+| Component | Metric | Headroom Target | Review Cadence |
+|-----------|--------|----------------|---------------|
+| **MSK (Kafka)** | Partition count, throughput (MB/s) | 30% headroom above peak | Quarterly |
+| **Aurora** | IOPS, storage, connection count | 30% headroom above peak | Quarterly |
+| **ElastiCache (Redis)** | Memory utilization, connection count | 30% headroom above peak | Quarterly |
+| **EKS** | Node count, CPU/memory reservation | 30% headroom above peak | Quarterly |
+| **S3** | Storage volume, request rate | Reviewed for cost, not capacity | Quarterly |
+
+### Process
+
+1. Product and engineering leadership share the **quarterly growth forecast** (projected transaction volume, new regions, expected user growth).
+2. Platform Engineering translates the forecast into infrastructure capacity requirements.
+3. Capacity gaps are identified and remediation is scheduled (scaling, upgrades, new clusters).
+4. Results are presented in the quarterly FinOps review alongside cost implications.
+
+The **30% headroom target** ensures the platform can absorb traffic spikes and seasonal peaks without emergency scaling.
+
+---
+
 *← [Back to section](./README.md) · [Back to root](../README.md)*
