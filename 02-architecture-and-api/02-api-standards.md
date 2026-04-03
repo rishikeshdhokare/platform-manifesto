@@ -1,12 +1,10 @@
-# REST API Standards
+# 🔌 REST API Standards
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Principles
+## 🎯 1. Principles
 
 Every API we expose is a product. It will be consumed by mobile apps, partner integrations, internal services, and tools we haven't built yet. APIs are versioned contracts — once published, they must not be broken.
 
@@ -18,7 +16,7 @@ Every API we expose is a product. It will be consumed by mobile apps, partner in
 
 ---
 
-## 2. URL Structure
+## 🌐 2. URL Structure
 
 ### 2.1 Base URL Pattern
 
@@ -61,7 +59,7 @@ These are acceptable — they represent state transitions, not arbitrary RPC.
 
 ---
 
-## 3. HTTP Methods
+## 📡 3. HTTP Methods
 
 | Method | Use | Idempotent | Body |
 |--------|-----|-----------|------|
@@ -96,7 +94,7 @@ The same storage and TTL semantics apply as for REST — the key is stored in th
 
 ---
 
-## 4. Versioning
+## 📏 4. Versioning
 
 ### 4.1 Strategy
 
@@ -129,7 +127,7 @@ Sunset: Sat, 31 Dec 2025 23:59:59 GMT
 
 ---
 
-## 5. Request & Response Standards
+## 📡 5. Request & Response Standards
 
 ### 5.1 Request Headers
 
@@ -168,7 +166,7 @@ Sunset: Sat, 31 Dec 2025 23:59:59 GMT
 
 ---
 
-## 6. Pagination
+## 📋 6. Pagination
 
 All list endpoints must be paginated. We use **cursor-based pagination** for all production APIs (offset pagination is only acceptable for internal/ops tools).
 
@@ -218,7 +216,7 @@ This limit exists to protect database performance — deep cursor-based paginati
 
 ---
 
-## 7. Error Handling
+## ⚠️ 7. Error Handling
 
 ### 7.1 Standard Error Shape
 
@@ -271,7 +269,7 @@ All errors — validation, auth, not found, server errors — use this shape:
 
 ---
 
-## 8. Authentication & Authorization
+## 🔒 8. Authentication & Authorization
 
 ### 8.1 Authentication
 
@@ -294,7 +292,7 @@ All errors — validation, auth, not found, server errors — use this shape:
 
 ---
 
-## 9. Rate Limiting
+## 🛡️ 9. Rate Limiting
 
 | Tier | Default Limit | Header |
 |------|-------------|--------|
@@ -356,7 +354,7 @@ All rate-limited responses return `429 Too Many Requests` with a `Retry-After` h
 
 ---
 
-## 10. OpenAPI Contract
+## 📜 10. OpenAPI Contract
 
 ### 10.1 API-First Process
 
@@ -381,7 +379,7 @@ Every endpoint in the spec must have:
 
 ---
 
-## 11. Filtering, Sorting & Searching
+## 📋 11. Filtering, Sorting & Searching
 
 ```
 GET /v1/orders?status=COMPLETED&fromDate=2024-01-01&toDate=2024-12-31
@@ -398,7 +396,7 @@ GET /v1/orders?q=premium                     # full-text search (where supported
 
 ---
 
-## 12. API Lifecycle Management
+## 📏 12. API Lifecycle Management
 
 Publishing an API version is easy. Managing its lifecycle — tracking consumers, enforcing deprecation, and sunsetting — is harder. These rules ensure we don't accumulate zombie API versions.
 
@@ -443,7 +441,7 @@ When a new version is released:
 
 ---
 
-## 13. GraphQL Policy
+## 📏 13. GraphQL Policy
 
 ### 13.1 Default Position
 
@@ -494,7 +492,7 @@ If a GraphQL service is approved, it must implement custom observability to matc
 
 ---
 
-## 14. Internal Authentication
+## 🔒 14. Internal Authentication
 
 ### 14.1 BFF-to-Service Authentication
 
@@ -521,4 +519,9 @@ For service-to-service calls within the mesh, Istio's **SPIFFE-based mTLS** prov
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

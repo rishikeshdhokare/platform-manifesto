@@ -1,12 +1,10 @@
-# 04 — Real-Time Architecture
+# ⚡ Real-Time Architecture
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Why Real-Time Matters
+## 🎯 1. Why Real-Time Matters
 
 The platform is inherently real-time. Customers need live provider location, providers need instant order offers, and both need immediate status updates. REST polling wastes bandwidth and battery, increases server load, and delivers stale data under load. This document defines **mandated patterns** for real-time communication across platform surfaces: customer and provider apps (`com.{company}`), internal tools, and partner integrations that consume `api.{company}.com` and related endpoints.
 
@@ -19,7 +17,7 @@ Goals:
 
 ---
 
-## 2. Communication Patterns Decision Guide
+## 🧭 2. Communication Patterns Decision Guide
 
 | Pattern | Direction | Connection | Best for | Avoid when |
 |--------|-----------|------------|----------|------------|
@@ -55,7 +53,7 @@ flowchart TD
 
 ---
 
-## 3. WebSocket Architecture
+## 📡 3. WebSocket Architecture
 
 ### Stack
 
@@ -131,7 +129,7 @@ sequenceDiagram
 
 ---
 
-## 4. Location Streaming Pipeline
+## 📡 4. Location Streaming Pipeline
 
 ### Flow
 
@@ -216,7 +214,7 @@ For **multi-pod** BFF deployments, prefer publishing to **Redis Pub/Sub** from a
 
 ---
 
-## 5. Push Notification Architecture
+## 📡 5. Push Notification Architecture
 
 ### Providers
 
@@ -278,7 +276,7 @@ flowchart TD
 
 ---
 
-## 6. Scaling WebSocket Connections
+## 🛡️ 6. Scaling WebSocket Connections
 
 ### Problem
 
@@ -328,7 +326,7 @@ flowchart TB
 
 ---
 
-## 7. Graceful Degradation
+## 🛡️ 7. Graceful Degradation
 
 | Failure | Behavior |
 |---------|----------|
@@ -351,7 +349,7 @@ flowchart TD
 
 ---
 
-## 8. Server-Sent Events (SSE)
+## 📡 8. Server-Sent Events (SSE)
 
 ### When to use
 
@@ -401,7 +399,7 @@ public class PriceEstimateStreamController {
 
 ---
 
-## 9. Observability
+## 👁️ 9. Observability
 
 ### Metrics
 
@@ -435,7 +433,7 @@ flowchart LR
 
 ---
 
-## 10. Security
+## 🔒 10. Security
 
 - **WebSocket** connections require a **valid JWT**, validated on **`CONNECT`** before subscriptions.
 - **Channel authorization:** middleware **must** verify the principal may access each requested destination (order ownership, provider id match, ops role).
@@ -445,4 +443,9 @@ flowchart LR
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

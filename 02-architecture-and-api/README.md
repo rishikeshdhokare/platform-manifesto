@@ -1,6 +1,8 @@
-# 02 — Architecture & API
+# 🏗️ 02 — Architecture & API
 
-How our system is structured and how services communicate with each other and the outside world.
+![Docs](https://img.shields.io/badge/docs-9-blue?style=flat-square)
+
+> How our system is structured and how services communicate with each other and the outside world.
 
 | Document | Description |
 |----------|-------------|
@@ -14,4 +16,9 @@ How our system is structured and how services communicate with each other and th
 | [08-event-schema-evolution.md](./08-event-schema-evolution.md) | Event schema evolution, Avro compatibility, partition keys, breaking change playbook |
 | [09-error-catalog.md](./09-error-catalog.md) | Error catalog, exception handling, error code registry, frontend error boundaries |
 
-← [Back to root](../README.md)
+---
+<div align="center">
+
+🏠 [Back to root](../README.md)
+
+</div>

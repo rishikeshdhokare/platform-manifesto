@@ -1,12 +1,10 @@
-# Error Catalog & Exception Handling
+# 🚨 Error Catalog & Exception Handling
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering / Architecture  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering / Architecture](https://img.shields.io/badge/owner-Platform_Engineering_/_Architecture-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Central Error Code Registry](#1-central-error-code-registry)
 2. [Registration Process](#2-registration-process)
@@ -19,7 +17,7 @@
 
 ---
 
-## 1. Central Error Code Registry
+## ⚠️ 1. Central Error Code Registry
 
 Every error surfaced by a {Company} service must have a registered error code in the central catalog. Error codes are globally unique, human-readable, and stable across releases.
 
@@ -68,7 +66,7 @@ Platform-level error codes:
 
 ---
 
-## 2. Registration Process
+## 📏 2. Registration Process
 
 ### 2.1 Workflow
 
@@ -130,7 +128,7 @@ The CI pipeline validates every PR to `error-catalog.yaml`:
 
 ---
 
-## 3. Error Code to Status Mapping
+## ⚠️ 3. Error Code to Status Mapping
 
 ### 3.1 Mapping Table
 
@@ -167,7 +165,7 @@ When a domain team registers a new error and is unsure which gRPC status to use,
 
 ---
 
-## 4. Global Exception Handler Standard
+## ⚠️ 4. Global Exception Handler Standard
 
 Every {Company} Spring Boot service must register a `@RestControllerAdvice` that catches `DomainException` subclasses and maps them to the standard error response body.
 
@@ -289,7 +287,7 @@ public class GlobalExceptionHandler {
 
 ---
 
-## 5. Domain Exception Hierarchy
+## 🧩 5. Domain Exception Hierarchy
 
 Each domain defines concrete exception classes that extend `DomainException`:
 
@@ -353,7 +351,7 @@ public class OrderService {
 
 ---
 
-## 6. Standard Error Response Body
+## 📡 6. Standard Error Response Body
 
 All {Company} APIs return errors in a consistent JSON structure defined in the [API Standards](./02-api-standards.md).
 
@@ -407,7 +405,7 @@ public record ErrorResponse(
 
 ---
 
-## 7. Frontend Error Handling
+## 🌐 7. Frontend Error Handling
 
 ### 7.1 Error Boundary Strategy
 
@@ -523,7 +521,7 @@ function parseApiError(error: unknown): ApiError | null {
 
 ---
 
-## 8. Cross-Reference: API Standards Error Shape
+## 📋 8. Cross-Reference: API Standards Error Shape
 
 The error response structure defined here aligns with the [API Standards](./02-api-standards.md) `error` envelope. Key alignment points:
 
@@ -559,4 +557,9 @@ throw status.asRuntimeException(metadata);
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

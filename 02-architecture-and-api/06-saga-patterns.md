@@ -1,12 +1,10 @@
-# Saga & Distributed Transaction Patterns
+# 🔄 Saga & Distributed Transaction Patterns
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. The Problem
+## 🎯 1. The Problem
 
 In the platform, completing an order touches multiple services: **Orders** (`com.{company}.orders`), **Payments** (`com.{company}.payments`), **Notifications** (`com.{company}.notifications`), and **Customer Profile** (`com.{company}.customerprofile`). A naïve design might mark the order complete, then capture payment, then notify the customer — each step in its own local transaction.
 
@@ -45,7 +43,7 @@ The diagram above contrasts a fictional atomic cross-service transaction with wh
 
 ---
 
-## 2. Saga Patterns
+## 🧩 2. Saga Patterns
 
 ### Choreography (Preferred)
 
@@ -114,7 +112,7 @@ sequenceDiagram
 
 ---
 
-## 3. Worked Example: Order Completion Saga (Choreography)
+## 🧩 3. Worked Example: Order Completion Saga (Choreography)
 
 End-to-end walkthrough for the happy path and payment failure. All events carry a **`correlationId`** (typically `orderId`) for tracing.
 
@@ -157,7 +155,7 @@ sequenceDiagram
 
 ---
 
-## 4. Compensation Patterns
+## 🧩 4. Compensation Patterns
 
 When a saga step **fails**, earlier **forward** effects must be **compensated** (semantic undo — not always a literal delete). Compensation is also triggered on **timeouts** (see §7).
 
@@ -187,7 +185,7 @@ flowchart TD
 
 ---
 
-## 5. Idempotency Requirements
+## 🛡️ 5. Idempotency Requirements
 
 **Every saga participant MUST be idempotent.** Kafka provides **at-least-once** delivery; the same event can be processed twice after a crash between business logic and offset commit.
 
@@ -237,7 +235,7 @@ public class OrderCompletedPaymentConsumer {
 
 ---
 
-## 6. Saga State Tracking
+## 👁️ 6. Saga State Tracking
 
 Observability for sagas is **not** optional.
 
@@ -267,7 +265,7 @@ flowchart LR
 
 ---
 
-## 7. Timeout Handling
+## 🛡️ 7. Timeout Handling
 
 | Step | Timeout (default) | On timeout |
 |------|-------------------|------------|
@@ -278,7 +276,7 @@ flowchart LR
 
 ---
 
-## 8. Dead Letter Handling
+## ⚠️ 8. Dead Letter Handling
 
 - Failed saga-related consumers after **3 retries** (with exponential backoff) **must** produce to a **dedicated DLQ topic** (e.g. `orders.order.completed.dlq`, `payments.saga.dlq`) with **original payload + error metadata**.
 - **Monitoring:** Page if **any** saga DLQ has **depth > 0** for **more than 5 minutes**.
@@ -286,7 +284,7 @@ flowchart LR
 
 ---
 
-## 9. Anti-Patterns
+## ❌ 9. Anti-Patterns
 
 | Anti-pattern | Why it hurts |
 |--------------|--------------|
@@ -298,7 +296,7 @@ flowchart LR
 
 ---
 
-## 10. Monitoring and Alerting
+## 👁️ 10. Monitoring and Alerting
 
 **Grafana dashboard panels (minimum):**
 
@@ -320,4 +318,9 @@ Tune thresholds per market and PSP; document overrides in the observability runb
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

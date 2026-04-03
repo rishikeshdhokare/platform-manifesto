@@ -1,12 +1,10 @@
-# Hexagonal Architecture Guide
+# 🔷 Hexagonal Architecture Guide
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. What Is Hexagonal Architecture and Why Do We Use It?
+## 🎯 1. What Is Hexagonal Architecture and Why Do We Use It?
 
 Hexagonal architecture (also called "Ports and Adapters") is a way of structuring a service so that **business logic is completely independent of infrastructure** — databases, Kafka, HTTP, AWS SDKs.
 
@@ -23,7 +21,7 @@ The rule is simple: **the domain knows nothing about the outside world.**
 
 ---
 
-## 2. The Three Layers
+## 🧩 2. The Three Layers
 
 ```
 ┌──────────────────────────────────────────────────────────┐
@@ -51,7 +49,7 @@ The rule is simple: **the domain knows nothing about the outside world.**
 
 ---
 
-## 3. Full Worked Example — Orders Service
+## 🧩 3. Full Worked Example — Orders Service
 
 Let's walk through the complete structure for the Orders Service.
 
@@ -448,7 +446,7 @@ public class OrderController {
 
 ---
 
-## 4. How to Test Each Layer
+## 🧪 4. How to Test Each Layer
 
 | Layer | Test Type | What You Mock |
 |-------|-----------|--------------|
@@ -483,7 +481,7 @@ class OrderServiceTest {
 
 ---
 
-## 5. Common Mistakes to Avoid
+## ❌ 5. Common Mistakes to Avoid
 
 | Mistake | Why It's Wrong | Fix |
 |---------|---------------|-----|
@@ -496,7 +494,7 @@ class OrderServiceTest {
 
 ---
 
-## 6. The ArchUnit Rules That Enforce This
+## 📏 6. The ArchUnit Rules That Enforce This
 
 These are pre-configured in the platform template:
 
@@ -534,4 +532,9 @@ If you violate the architecture, the build fails. This is intentional.
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

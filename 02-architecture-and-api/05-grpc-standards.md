@@ -1,12 +1,10 @@
-# gRPC Standards
+# 🔗 gRPC Standards
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. When to Use gRPC
+## 🧭 1. When to Use gRPC
 
 The platform uses **gRPC** for high-performance, typed, internal communication between platform services. **REST** remains the default for anything that crosses the public boundary or serves mobile and web clients through a BFF.
 
@@ -48,7 +46,7 @@ flowchart TD
 
 ---
 
-## 2. Proto File Conventions
+## 📜 2. Proto File Conventions
 
 The **{company}/api-protos** monorepo is the DEFAULT and ONLY source of truth for all proto definitions. Per-service `proto/` directories are NOT permitted. All services consume generated code from the published `api-protos` artifact (see Section 14 — Proto Management). The package layout conventions below apply to files within the monorepo.
 
@@ -109,7 +107,7 @@ message PriceQuote {
 
 ---
 
-## 3. Versioning Strategy
+## 📏 3. Versioning Strategy
 
 Versioning is **package-level**: `v1`, `v2`, … appear as the last segment of the protobuf package (e.g. `{company}.pricing.v2`).
 
@@ -145,7 +143,7 @@ flowchart LR
 
 ---
 
-## 4. Code Generation
+## 🧰 4. Code Generation
 
 Generated source **must not** be committed to Git. CI generates (or Gradle generates locally) into **`build/generated/source/proto`** (Gradle default for the protobuf plugin).
 
@@ -225,7 +223,7 @@ tasks.named<JavaCompile>("compileJava") {
 
 ---
 
-## 5. Spring Boot Integration
+## ☕ 5. Spring Boot Integration
 
 Use **`net.devh:grpc-spring-boot-starter`** for servers and clients unless Platform Engineering approves an alternative.
 
@@ -383,7 +381,7 @@ The Orders service `application.yml` includes the `grpc.client.pricing` block fr
 
 ---
 
-## 6. Error Handling
+## ⚠️ 6. Error Handling
 
 Map gRPC **status codes** to **domain exceptions** at the adapter boundary (incoming: map to HTTP or internal handling; outgoing: map from domain to status). Do not leak raw status messages to external REST clients.
 
@@ -427,7 +425,7 @@ Convention: prefix custom headers with **`x-{company}-`** (e.g. `x-{company}-err
 
 ---
 
-## 7. Deadlines and Timeouts
+## 🛡️ 7. Deadlines and Timeouts
 
 **Every outbound gRPC call MUST set a deadline.** Unbounded calls are forbidden: they tie up threads, hide slow dependencies, and break SLOs.
 
@@ -499,7 +497,7 @@ This preserves end-to-end budget: a slow caller does not silently give each hop 
 
 ---
 
-## 8. Health Checking
+## 👁️ 8. Health Checking
 
 Use the **gRPC Health Checking Protocol** (`grpc.health.v1.Health`) for Kubernetes probes when the workload speaks gRPC on the main port or a dedicated health port.
 
@@ -560,7 +558,7 @@ sequenceDiagram
 
 ---
 
-## 9. Observability
+## 👁️ 9. Observability
 
 ### 9.1 OpenTelemetry gRPC instrumentation
 
@@ -601,7 +599,7 @@ sequenceDiagram
 
 ---
 
-## 10. Testing
+## 🧪 10. Testing
 
 ### 10.1 Unit tests — `InProcessChannel` (no network)
 
@@ -693,7 +691,7 @@ For **Orders** testing **Pricing** integration, use **grpc-java testing** `Mutab
 
 ---
 
-## 11. Security
+## 🔒 11. Security
 
 ### 11.1 TLS and mTLS
 
@@ -712,7 +710,7 @@ Use **Istio `AuthorizationPolicy`** for **service-to-service** access control (e
 
 ---
 
-## 12. gRPC Load Balancing
+## 🛡️ 12. gRPC Load Balancing
 
 ### 12.1 Default: Istio/Envoy L7 balancing
 
@@ -783,7 +781,7 @@ Document the business justification in an ADR before enabling sticky sessions.
 
 ---
 
-## 13. Cancellation Propagation
+## 🧩 13. Cancellation Propagation
 
 When a client cancels a request, the server **MUST** observe the cancellation and stop processing promptly.
 
@@ -846,7 +844,7 @@ Log cancellations at **INFO** level with elapsed time for observability. Include
 
 ---
 
-## 14. Proto Management
+## 📏 14. Proto Management
 
 ### 14.1 Repository structure
 
@@ -906,4 +904,9 @@ This ensures changes are validated from both the producer and consumer perspecti
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

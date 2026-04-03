@@ -1,12 +1,10 @@
-# Service Decomposition Criteria
+# ✂️ Service Decomposition Criteria
 
-> **Status:** Guidance  
-> **Owner:** Principal Engineering  
-> **Last Updated:** 2025
+![Status: Guidance](https://img.shields.io/badge/status-guidance-orange?style=flat-square) ![Owner: Principal Engineering](https://img.shields.io/badge/owner-Principal_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. When to Split a Service
+## 🧭 1. When to Split a Service
 
 Splitting a service is expensive — it introduces network boundaries, distributed transactions, and operational overhead. Only split when the **cost of keeping things together** exceeds the cost of separation.
 
@@ -48,7 +46,7 @@ flowchart TD
 
 ---
 
-## 2. When to Merge Services
+## 🧭 2. When to Merge Services
 
 Merging is the reverse — and equally valid. Two services that should be one create unnecessary operational overhead, network calls, and deployment complexity.
 
@@ -73,7 +71,7 @@ Before merging, confirm:
 
 ---
 
-## 3. Conway's Law Alignment
+## 🧩 3. Conway's Law Alignment
 
 > *"Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations."* — Melvin Conway
 
@@ -140,7 +138,7 @@ If a service is co-owned by two teams, one of these is true:
 
 ---
 
-## 4. Bounded Context Validation
+## 🧩 4. Bounded Context Validation
 
 Each service should own a **cohesive set of entities** that belong to the same business domain. If a service manages entities from different domains, the boundary is wrong.
 
@@ -205,7 +203,7 @@ For each service, ask:
 
 ---
 
-## 5. Coupling Analysis
+## 🧩 5. Coupling Analysis
 
 Wrong service boundaries reveal themselves through coupling. If two services are tightly coupled, they are either one service pretending to be two, or the boundary is in the wrong place.
 
@@ -230,7 +228,7 @@ A properly decomposed service can:
 
 ---
 
-## 6. Decomposition Decision Flowchart
+## 🧭 6. Decomposition Decision Flowchart
 
 Use this flowchart when debating whether to split, merge, or leave a service boundary as-is.
 
@@ -267,7 +265,7 @@ flowchart TD
 
 ---
 
-## 7. Worked Example: Should Dynamic Pricing Be Separate?
+## 🧩 7. Worked Example: Should Dynamic Pricing Be Separate?
 
 **Question:** Should Dynamic Pricing be part of Pricing Service, or its own service?
 
@@ -302,7 +300,7 @@ Pricing Service caches the multiplier for 30 seconds to tolerate Dynamic Pricing
 
 ---
 
-## 8. The Split Process
+## 📏 8. The Split Process
 
 When the decision is made to split, follow this process to minimize disruption.
 
@@ -341,4 +339,9 @@ Every split must have a rollback plan. If the new service is not stable within 2
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

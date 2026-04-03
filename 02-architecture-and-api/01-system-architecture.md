@@ -1,12 +1,10 @@
-# System Architecture Blueprint
+# 🏛️ System Architecture Blueprint
 
-> **Status:** Mandated  
-> **Owner:** Principal Engineering / Platform  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Principal Engineering / Platform](https://img.shields.io/badge/owner-Principal_Engineering_/_Platform-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Architectural Philosophy
+## 🎯 1. Architectural Philosophy
 
 Our architecture is **domain-driven, event-native, and designed for independent deployability**. Every architectural decision should be evaluated against three questions:
 
@@ -18,7 +16,7 @@ If the answer to any of these is "no", the design needs to change.
 
 ---
 
-## 2. Domain Decomposition
+## 🧩 2. Domain Decomposition
 
 The platform naturally decomposes into the following bounded contexts. Each domain owns its data, its events, and its API contracts. **No domain may directly access another domain's database.**
 
@@ -66,7 +64,7 @@ The platform naturally decomposes into the following bounded contexts. Each doma
 
 ---
 
-## 3. Domain Ownership Map
+## 🧩 3. Domain Ownership Map
 
 | Domain | Core Responsibility | Key Entities | Owned Data Store |
 |--------|--------------------|--------------|--------------------|
@@ -83,7 +81,7 @@ The platform naturally decomposes into the following bounded contexts. Each doma
 
 ---
 
-## 4. Communication Patterns
+## 📡 4. Communication Patterns
 
 ### 4.1 Synchronous (Request/Response)
 
@@ -117,7 +115,7 @@ Is a real-time response required by the user?
 
 ---
 
-## 5. Event Backbone — Kafka Topics
+## 📨 5. Event Backbone — Kafka Topics
 
 ### 5.1 Topic Naming Convention
 
@@ -159,7 +157,7 @@ Example: notifications.order-completed.consumer
 
 ---
 
-## 6. API Gateway & BFF Pattern
+## 🌐 6. API Gateway & BFF Pattern
 
 ### 6.1 Why BFF
 
@@ -182,7 +180,7 @@ Each client surface has different data needs. A single API layer serving all cli
 
 ---
 
-## 7. Data Architecture Principles
+## 🗄️ 7. Data Architecture Principles
 
 ### 7.1 Database-per-Service
 
@@ -206,7 +204,7 @@ For read-heavy domains (order history, provider listings), implement CQRS:
 
 ---
 
-## 8. Resilience Patterns — Mandatory
+## 🛡️ 8. Resilience Patterns — Mandatory
 
 Every service must implement the following:
 
@@ -221,7 +219,7 @@ Every service must implement the following:
 
 ---
 
-## 9. Security Architecture
+## 🔒 9. Security Architecture
 
 - **Zero-trust networking:** No service trusts another based on network location alone
 - **mTLS:** All service-to-service gRPC calls use mutual TLS (Istio handles this)
@@ -231,7 +229,7 @@ Every service must implement the following:
 
 ---
 
-## 10. Architecture Decision Records (ADRs)
+## 📏 10. Architecture Decision Records (ADRs)
 
 Any deviation from this blueprint, or any significant architectural decision, must be recorded as an ADR in `docs/adr/` in the relevant repository.
 
@@ -258,7 +256,7 @@ What did we not pick, and why?
 
 ---
 
-## 11. Resilience Ownership Matrix
+## 🛡️ 11. Resilience Ownership Matrix
 
 Clear ownership of resilience concerns prevents two failure modes: gaps (nobody owns it) and conflicts (two layers both retry, both rate-limit, or both timeout with competing configurations).
 
@@ -286,7 +284,7 @@ Clear ownership of resilience concerns prevents two failure modes: gaps (nobody 
 
 ---
 
-## 12. Read-Your-Own-Writes
+## 🧩 12. Read-Your-Own-Writes
 
 ### 12.1 The Problem
 
@@ -345,4 +343,9 @@ It is **not required** for:
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

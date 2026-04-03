@@ -1,12 +1,10 @@
-# Event Schema Evolution & Kafka Patterns
+# 📐 Event Schema Evolution & Kafka Patterns
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Avro Compatibility Modes](#1-avro-compatibility-modes)
 2. [Allowed Schema Changes](#2-allowed-schema-changes)
@@ -19,7 +17,7 @@
 
 ---
 
-## 1. Avro Compatibility Modes
+## 📜 1. Avro Compatibility Modes
 
 All Kafka topics on the {Company} platform use **Avro** for message serialization with schemas registered in **AWS Glue Schema Registry**. The compatibility mode determines which schema changes are permitted without breaking existing consumers or producers.
 
@@ -46,7 +44,7 @@ All Kafka topics on the {Company} platform use **Avro** for message serializatio
 
 ---
 
-## 2. Allowed Schema Changes
+## 📜 2. Allowed Schema Changes
 
 The following changes are safe under the default BACKWARD compatibility mode and do not require an RFC or migration.
 
@@ -89,7 +87,7 @@ Adding a new type to a union is permitted under BACKWARD compatibility:
 
 ---
 
-## 3. Forbidden Schema Changes
+## ❌ 3. Forbidden Schema Changes
 
 The following changes are **never permitted** without following the breaking change playbook (§7). They will be rejected by the Glue Schema Registry compatibility check.
 
@@ -119,7 +117,7 @@ If the new schema is incompatible with the registered schema, the CI build fails
 
 ---
 
-## 4. Glue Schema Registry Configuration
+## 🧰 4. Glue Schema Registry Configuration
 
 ### 4.1 Registry Structure
 
@@ -162,7 +160,7 @@ aws glue update-schema \
 
 ---
 
-## 5. Partition Key Strategy
+## 📜 5. Partition Key Strategy
 
 ### 5.1 Mandatory Partition Keys
 
@@ -193,7 +191,7 @@ Partition keys with very high cardinality (e.g., `orderId` in a system processin
 
 ---
 
-## 6. Ordering Guarantees
+## 📜 6. Ordering Guarantees
 
 ### 6.1 What Kafka Guarantees
 
@@ -238,7 +236,7 @@ If service A must process event X before service B processes event Y, and X and 
 
 ---
 
-## 7. Breaking Change Playbook
+## 📏 7. Breaking Change Playbook
 
 When a schema change is fundamentally incompatible — a field type change, a field removal, or a semantic change that alters the meaning of existing fields — follow this playbook. There are no shortcuts.
 
@@ -314,7 +312,7 @@ The dual-publish is gated by a feature flag so it can be disabled once all consu
 
 ---
 
-## 8. Consumer Tolerance
+## 🛡️ 8. Consumer Tolerance
 
 All Kafka consumers on the {Company} platform must be **tolerant** of schema evolution. A consumer that crashes on an unknown field or a missing optional field is a bug.
 
@@ -362,4 +360,9 @@ void shouldHandleMissingOptionalFieldsGracefully() {
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

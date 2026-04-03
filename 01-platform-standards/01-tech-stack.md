@@ -1,18 +1,16 @@
-# Tech Stack & Standards
+# ⚙️ Tech Stack & Standards
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Overview
+## 🎯 1. Overview
 
 This document defines the approved technology stack for all new and replatformed services. Deviation from this stack requires an ADR and explicit approval from the Platform team. The goal is not uniformity for its own sake — it is to reduce cognitive overhead, enable rotation of engineers across teams, and concentrate platform investment in a small number of well-understood tools.
 
 ---
 
-## 2. Backend
+## ☕ 2. Backend
 
 ### 2.1 Language
 
@@ -50,7 +48,7 @@ This document defines the approved technology stack for all new and replatformed
 
 ---
 
-## 3. Frontend (Web)
+## 🌐 3. Frontend (Web)
 
 ### 3.1 Language & Framework
 
@@ -89,7 +87,7 @@ This document defines the approved technology stack for all new and replatformed
 
 ---
 
-## 4. Mobile
+## 📱 4. Mobile
 
 ### 4.1 Language & Framework
 
@@ -142,7 +140,7 @@ BFFs are written in **Java (Spring Boot)**, owned by the respective product team
 
 ---
 
-## 5. Language Strategy Beyond Java
+## ☕ 5. Language Strategy Beyond Java
 
 Java is our primary language and receives full platform support (golden path, BOM, Backstage templates, CI/CD templates). However, certain workloads are better served by other languages:
 
@@ -176,7 +174,7 @@ A non-Java language is justified when:
 
 ---
 
-## 6. Data Stores
+## 🗄️ 6. Data Stores
 
 ### 6.1 Relational Database
 
@@ -235,7 +233,7 @@ A non-Java language is justified when:
 
 ---
 
-## 7. Cloud Platform
+## ☁️ 7. Cloud Platform
 
 ### 7.1 Provider
 
@@ -266,7 +264,7 @@ A non-Java language is justified when:
 
 ---
 
-## 8. Messaging & Integration
+## 📨 8. Messaging & Integration
 
 | Pattern | Tool | When to Use |
 |---------|------|-------------|
@@ -278,7 +276,7 @@ A non-Java language is justified when:
 
 ---
 
-## 9. Observability Toolchain
+## 👁️ 9. Observability Toolchain
 
 | Concern | Tool |
 |---------|------|
@@ -291,7 +289,7 @@ A non-Java language is justified when:
 
 ---
 
-## 10. Developer Toolchain
+## 🧰 10. Developer Toolchain
 
 | Tool | Purpose | Mandatory? |
 |------|---------|-----------|
@@ -307,7 +305,7 @@ A non-Java language is justified when:
 
 ---
 
-## 11. Approved vs Unapproved — Quick Reference
+## 📋 11. Approved vs Unapproved — Quick Reference
 
 | Category | ✅ Approved | ❌ Not Approved |
 |----------|------------|----------------|
@@ -323,7 +321,7 @@ A non-Java language is justified when:
 
 ---
 
-## 12. Web Authentication Patterns
+## 🔒 12. Web Authentication Patterns
 
 ### 12.1 SPA Authentication (PKCE)
 
@@ -360,4 +358,9 @@ The BFF acts as a confidential client — it holds the client secret and exchang
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>
