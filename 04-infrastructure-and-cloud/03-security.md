@@ -1,12 +1,10 @@
-# Security Standards
+# 🔒 Security
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering + Security  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Security](https://img.shields.io/badge/owner-Platform_Engineering_+_Security-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Security is not a phase, a team, or a checklist. It is a practice that runs through every commit, every pipeline, and every architecture decision. **Shift left** — find and fix security issues at development time, not after they reach production.
 
@@ -14,7 +12,7 @@ The platform enforces security automatically where possible. Where human judgmen
 
 ---
 
-## 2. Secrets Management
+## 🔒 2. Secrets Management
 
 This is the most commonly violated security practice. Rules are absolute:
 
@@ -30,7 +28,7 @@ Secret violation = P1 security incident. Rotate immediately, then investigate.
 
 ---
 
-## 3. Shift-Left Security in CI
+## 🔒 3. Shift-Left Security in CI
 
 ### 3.1 Pipeline Security Stages (Mandatory)
 
@@ -63,7 +61,7 @@ Snyk PRs for dependency updates are automatically raised — teams must not igno
 
 ---
 
-## 4. Authentication & Authorisation
+## 🔒 4. Authentication & Authorisation
 
 ### 4.1 External Authentication
 
@@ -127,7 +125,7 @@ Example IRSA policy for orders-service:
 
 ---
 
-## 5. Data Security
+## 🔒 5. Data Security
 
 ### 5.1 Encryption
 
@@ -166,7 +164,7 @@ The platform handles customer and provider personal data. All engineers must und
 
 ---
 
-## 6. Network Security
+## 🔒 6. Network Security
 
 ### 6.1 Zero-Trust Posture
 
@@ -192,7 +190,7 @@ No service trusts another based on network location alone. Every request must be
 
 ---
 
-## 7. Security Testing
+## 🧪 7. Security Testing
 
 ### 7.1 SAST (Static Analysis)
 
@@ -218,7 +216,7 @@ No service trusts another based on network location alone. Every request must be
 
 ---
 
-## 8. Incident Response
+## 🚨 8. Incident Response
 
 ### 8.1 Security Incident Classification
 
@@ -249,7 +247,7 @@ GuardDuty HIGH/CRITICAL findings page on-call immediately via PagerDuty.
 
 ---
 
-## 9. Compliance
+## 📋 9. Compliance
 
 | Framework | Status | Scope |
 |-----------|--------|-------|
@@ -261,7 +259,7 @@ All compliance controls are mapped to the engineering practices in this manifest
 
 ---
 
-## 10. Secrets Rotation Policy
+## 🔒 10. Secrets Rotation Policy
 
 ### 10.1 Rotation schedules
 
@@ -301,7 +299,7 @@ All rotation schedules are tracked in a **Grafana dashboard** (`Security → Sec
 
 ---
 
-## 11. Container Runtime Security
+## 🔒 11. Container Runtime Security
 
 ### 11.1 Runtime threat detection — Falco
 
@@ -353,7 +351,7 @@ All rotation schedules are tracked in a **Grafana dashboard** (`Security → Sec
 
 ---
 
-## 12. Network Egress Control
+## 🔒 12. Network Egress Control
 
 ### 12.1 Default-deny egress
 
@@ -430,7 +428,7 @@ Unexpected destination alerts page the security on-call immediately.
 
 ---
 
-## 13. KMS Key Management
+## 🔒 13. KMS Key Management
 
 ### 13.1 Key Hierarchy
 
@@ -472,7 +470,7 @@ Key administrators **cannot** encrypt or decrypt data. Key users **cannot** mana
 
 ---
 
-## 14. Privileged Access Management
+## 🔒 14. Privileged Access Management
 
 ### 14.1 JIT (Just-In-Time) Access
 
@@ -524,4 +522,8 @@ Break-glass access triggers an automatic PagerDuty alert to the security team an
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,15 +1,10 @@
-# Multi-Tenancy Patterns
+# 🏢 Multi-Tenancy Patterns
 
-| Field | Value |
-|-------|-------|
-| **Status** | Guidance |
-| **Owner** | Platform Engineering / Architecture |
-| **Last Updated** | 2026 |
-| **Applies To** | B2B products, partner APIs, white-label deployments, shared infrastructure serving multiple business units |
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Platform Engineering / Architecture](https://img.shields.io/badge/owner-Platform_Engineering_/_Architecture-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [When Multi-Tenancy Applies](#1-when-multi-tenancy-applies)
 2. [Isolation Pattern Decision Tree](#2-isolation-pattern-decision-tree)
@@ -22,7 +17,7 @@
 
 ---
 
-## 1. When Multi-Tenancy Applies
+## 🎯 1. When Multi-Tenancy Applies
 
 Multi-tenancy is not a default. It is a deliberate architectural choice made when {Company} serves multiple distinct entities through shared infrastructure. The cost, complexity, and risk of multi-tenancy are only justified when the alternative (dedicated infrastructure per entity) is prohibitively expensive or operationally infeasible.
 
@@ -44,7 +39,7 @@ Multi-tenancy is not a default. It is a deliberate architectural choice made whe
 
 ---
 
-## 2. Isolation Pattern Decision Tree
+## 🏢 2. Isolation Pattern Decision Tree
 
 The choice of isolation pattern depends on four factors: compliance requirements, data isolation needs, performance isolation needs, and cost tolerance. This decision tree guides the selection.
 
@@ -73,7 +68,7 @@ flowchart TD
 
 ---
 
-## 3. Isolation Patterns
+## 🧩 3. Isolation Patterns
 
 ### 3.1 Pattern Comparison
 
@@ -190,7 +185,7 @@ Maximum isolation. Each tenant gets a dedicated EKS namespace (soft isolation) o
 
 ---
 
-## 4. Noisy-Neighbor Controls
+## ⚖️ 4. Noisy-Neighbor Controls
 
 In shared-resource patterns (RLS, schema per tenant), one tenant's traffic spike can degrade performance for all tenants. Noisy-neighbor controls prevent this.
 
@@ -235,7 +230,7 @@ spec:
 
 ---
 
-## 5. Per-Tenant Encryption
+## 🔒 5. Per-Tenant Encryption
 
 ### 5.1 Encryption Strategy
 
@@ -265,7 +260,7 @@ spec:
 
 ---
 
-## 6. Tenant-Aware Observability
+## 👁️ 6. Tenant-Aware Observability
 
 Observability without tenant context is useless in a multi-tenant system. Every metric, log, and trace must carry tenant identity so operators can diagnose issues per tenant and track per-tenant SLOs.
 
@@ -315,7 +310,7 @@ Each tenant with a contractual SLA has a corresponding SLO tracked in Grafana:
 
 ---
 
-## 7. Testing
+## 🧪 7. Testing
 
 Multi-tenant systems require specific testing to validate that tenant isolation is never violated. A cross-tenant data leak is a critical security incident.
 
@@ -367,7 +362,7 @@ flowchart LR
 
 ---
 
-## 8. Tenant Lifecycle
+## 🔄 8. Tenant Lifecycle
 
 ### 8.1 Lifecycle Stages
 
@@ -425,4 +420,8 @@ Tenant decommissioning follows a strict process to ensure data is exported (if r
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

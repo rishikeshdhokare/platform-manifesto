@@ -1,15 +1,10 @@
-# Privacy Engineering
+# 🛡️ Privacy Engineering
 
-| Field | Value |
-|---|---|
-| **Status** | Mandated |
-| **Owner** | Platform Engineering + Legal |
-| **Last Updated** | 2025 |
-| **Applies To** | All services on the platform that collect, process, or store personal data |
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Legal](https://img.shields.io/badge/owner-Platform_Engineering_+_Legal-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 **Privacy by design and by default.**
 
@@ -31,7 +26,7 @@ The platform handles **real-time location data for millions of people** — cust
 
 ---
 
-## 2. Data Classification
+## 🛡️ 2. Data Classification
 
 All data on the platform is classified into one of four levels. The classification determines the controls applied.
 
@@ -71,7 +66,7 @@ flowchart TD
 
 ---
 
-## 3. Privacy Impact Assessment (PIA)
+## 🛡️ 3. Privacy Impact Assessment (PIA)
 
 ### When Is a PIA Required?
 
@@ -105,7 +100,7 @@ A PIA is required for any change that:
 
 ---
 
-## 4. Anonymization Patterns
+## 🛡️ 4. Anonymization Patterns
 
 ### k-Anonymity for Analytics
 
@@ -131,7 +126,7 @@ For location-based analytics (heatmaps, demand forecasting):
 
 ---
 
-## 5. Data Retention & Deletion
+## 🛡️ 5. Data Retention & Deletion
 
 ### Retention Policies
 
@@ -171,7 +166,7 @@ flowchart TD
 
 ---
 
-## 6. Right to Erasure (GDPR Article 17)
+## 🛡️ 6. Right to Erasure (GDPR Article 17)
 
 When a customer requests deletion of their account and personal data, the platform executes a **cross-service cascade deletion**.
 
@@ -231,7 +226,7 @@ sequenceDiagram
 
 ---
 
-## 7. Consent Management
+## 🛡️ 7. Consent Management
 
 ### Consent Service Architecture
 
@@ -291,7 +286,7 @@ flowchart TD
 
 ---
 
-## 8. PII in Logs and Caches
+## ⚠️ 8. PII in Logs and Caches
 
 ### Logging Rules
 
@@ -329,7 +324,7 @@ flowchart TD
 
 ---
 
-## 9. Cross-Border Data Transfer
+## 🛡️ 9. Cross-Border Data Transfer
 
 ### Data Residency Rules
 
@@ -377,7 +372,7 @@ Before any new data flow that crosses regional boundaries, a **Transfer Impact A
 
 ---
 
-## 10. Audit Trail
+## 👁️ 10. Audit Trail
 
 ### What Is Logged
 
@@ -417,7 +412,7 @@ Every quarter, the Security team conducts an access review:
 
 ---
 
-## 11. Compliance Mapping
+## 📋 11. Compliance Mapping
 
 ### GDPR Compliance
 
@@ -466,7 +461,7 @@ Every quarter, the Security team conducts an access review:
 
 ---
 
-## 12. Compliance Frameworks & Audit Readiness
+## 📋 12. Compliance Frameworks & Audit Readiness
 
 ### 12.1 Framework Coverage
 
@@ -517,4 +512,10 @@ Automated evidence collection runs continuously for SOC 2 controls:
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

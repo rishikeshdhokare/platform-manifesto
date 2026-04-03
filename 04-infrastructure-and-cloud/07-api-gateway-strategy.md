@@ -1,15 +1,10 @@
-# API Gateway Strategy
+# 🚪 API Gateway Strategy
 
-| Field | Value |
-|---|---|
-| **Status** | Mandated |
-| **Owner** | Platform Engineering |
-| **Last Updated** | 2025 |
-| **Applies To** | All external-facing APIs on the platform |
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Overview
+## 🎯 1. Overview
 
 Amazon API Gateway sits at the edge of the platform. It is the **single entry point** for all external traffic — mobile apps, partner integrations, and internal operations dashboards alike.
 
@@ -29,7 +24,7 @@ API Gateway owns the following responsibilities at the edge:
 
 ---
 
-## 2. Architecture
+## 🚪 2. Architecture
 
 The following diagram shows the full request path from the internet to internal platform services, and where each cross-cutting concern is handled.
 
@@ -55,7 +50,7 @@ flowchart LR
 
 ---
 
-## 3. API Gateway Type Selection
+## 🚪 3. API Gateway Type Selection
 
 We use **two** API Gateway types for different purposes:
 
@@ -80,7 +75,7 @@ We use **two** API Gateway types for different purposes:
 
 ---
 
-## 4. Routing Configuration
+## 🚪 4. Routing Configuration
 
 ### Path-Based Routing
 
@@ -166,7 +161,7 @@ resource "aws_apigatewayv2_stage" "prod" {
 
 ---
 
-## 5. Authentication
+## 🔒 5. Authentication
 
 ### Lambda Authorizer
 
@@ -218,7 +213,7 @@ The authorizer returns an IAM policy document:
 
 ---
 
-## 6. Rate Limiting & Throttling
+## ⚖️ 6. Rate Limiting & Throttling
 
 ### Throttling Model
 
@@ -268,7 +263,7 @@ flowchart TD
 
 ---
 
-## 7. WAF Integration
+## 🔒 7. WAF Integration
 
 AWS WAF is attached to the CloudFront distribution that fronts API Gateway.
 
@@ -302,7 +297,7 @@ AWS WAF is attached to the CloudFront distribution that fronts API Gateway.
 
 ---
 
-## 8. Request/Response Transformation
+## 🚪 8. Request/Response Transformation
 
 ### Request Header Injection
 
@@ -336,7 +331,7 @@ API Gateway strips the following headers from responses before returning to clie
 
 ---
 
-## 9. Monitoring
+## 📡 9. Monitoring
 
 ### CloudWatch Metrics
 
@@ -387,7 +382,7 @@ flowchart TD
 
 ---
 
-## 10. Cost Optimization
+## 💰 10. Cost Optimization
 
 ### API Caching (GET Endpoints)
 
@@ -414,7 +409,7 @@ API Gateway response caching is enabled for selected GET endpoints to reduce bac
 
 ---
 
-## 11. Terraform Standards
+## ☁️ 11. Terraform Standards
 
 ### Rules
 
@@ -477,4 +472,8 @@ module "customer_bff_route" {
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

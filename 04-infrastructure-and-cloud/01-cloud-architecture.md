@@ -1,12 +1,10 @@
-# Cloud & Deployment Architecture
+# ☁️ Cloud Architecture
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Overview
+## 🎯 1. Overview
 
 Our cloud platform runs exclusively on **AWS**. All compute runs on **Amazon EKS**. All infrastructure is defined in **Terraform**. Nothing is provisioned by hand.
 
@@ -14,7 +12,7 @@ This document describes the target deployment architecture — network topology,
 
 ---
 
-## 2. AWS Account Structure
+## ☁️ 2. AWS Account Structure
 
 We use a **multi-account strategy** following AWS Organizations best practices:
 
@@ -46,7 +44,7 @@ AWS Organization (Root)
 
 ---
 
-## 3. Network Architecture
+## ☁️ 3. Network Architecture
 
 ### 3.1 VPC Design (Per Environment)
 
@@ -120,7 +118,7 @@ Internet
 
 ---
 
-## 4. Compute — Amazon EKS
+## ☁️ 4. Compute — Amazon EKS
 
 ### 4.1 Cluster Architecture
 
@@ -220,7 +218,7 @@ spec:
 
 ---
 
-## 5. Data Tier Architecture
+## ☁️ 5. Data Tier Architecture
 
 ### 5.1 Amazon Aurora PostgreSQL
 
@@ -262,7 +260,7 @@ spec:
 
 ---
 
-## 6. Infrastructure as Code
+## ☁️ 6. Infrastructure as Code
 
 ### 6.1 Repository Structure
 
@@ -312,7 +310,7 @@ Non-tagged resources trigger a Config compliance alert.
 
 ---
 
-## 7. Multi-Region & Disaster Recovery
+## 🔥 7. Multi-Region & Disaster Recovery
 
 ### 7.1 Current Posture: Active-Passive
 
@@ -340,7 +338,7 @@ Non-tagged resources trigger a Config compliance alert.
 
 ---
 
-## 8. Cost Management
+## 💰 8. Cost Management
 
 - All AWS costs are tagged and allocated to teams via cost center tags
 - Monthly cost review per team — anomalies trigger Slack alerts
@@ -352,7 +350,7 @@ Non-tagged resources trigger a Config compliance alert.
 
 ---
 
-## 9. Backup & Restore Strategy
+## 🔥 9. Backup & Restore Strategy
 
 ### Aurora PostgreSQL
 
@@ -405,4 +403,10 @@ Non-tagged resources trigger a Config compliance alert.
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+---
+
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

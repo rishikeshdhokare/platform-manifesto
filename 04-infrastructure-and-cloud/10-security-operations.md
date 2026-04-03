@@ -1,12 +1,10 @@
-# Security Operations
+# 🔐 Security Operations
 
-> **Status:** Mandated  
-> **Owner:** Security / Platform Engineering  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Security / Platform Engineering](https://img.shields.io/badge/owner-Security_/_Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Threat Modeling](#1-threat-modeling)
 2. [Vulnerability Management](#2-vulnerability-management)
@@ -26,7 +24,7 @@
 
 ---
 
-## 1. Threat Modeling
+## 🔐 1. Threat Modeling
 
 ### 1.1 STRIDE Per New Service
 
@@ -75,7 +73,7 @@ The Security team conducts a quarterly review of the platform threat landscape. 
 
 ---
 
-## 2. Vulnerability Management
+## 🔐 2. Vulnerability Management
 
 ### 2.1 CVE Triage Workflow
 
@@ -119,7 +117,7 @@ Snyk is the source of truth for all vulnerability data. Every repository has Sny
 
 ---
 
-## 3. SIEM & Security Analytics
+## 🔐 3. SIEM & Security Analytics
 
 ### 3.1 Architecture
 
@@ -151,7 +149,7 @@ The security team maintains a backlog of detection rules prioritized by MITRE AT
 
 ---
 
-## 4. Penetration Testing
+## 🧪 4. Penetration Testing
 
 ### 4.1 Schedule
 
@@ -177,7 +175,7 @@ Every Critical and High finding must be retested by the original tester (or an e
 
 ---
 
-## 5. Bug Bounty Program
+## 🔐 5. Bug Bounty Program
 
 ### 5.1 Platform
 
@@ -203,7 +201,7 @@ Every Critical and High finding must be retested by the original tester (or an e
 
 ---
 
-## 6. Supply Chain Security
+## 🔐 6. Supply Chain Security
 
 ### 6.1 SBOM Generation
 
@@ -254,7 +252,7 @@ If verification fails, the deployment is blocked and the security team is notifi
 
 ---
 
-## 7. Security Incident Response
+## 🚨 7. Security Incident Response
 
 Security incidents have a distinct playbook from operational incidents. The key differences are evidence preservation, potential law enforcement coordination, and regulatory notification requirements.
 
@@ -313,7 +311,7 @@ flowchart TD
 
 ---
 
-## 8. OWASP API Top 10 Control Mapping
+## 📋 8. OWASP API Top 10 Control Mapping
 
 | # | OWASP API Risk | {Company} Control |
 |---|---------------|-------------------|
@@ -330,7 +328,7 @@ flowchart TD
 
 ---
 
-## 9. Brute Force Protection
+## 🔐 9. Brute Force Protection
 
 ### 9.1 Account Lockout
 
@@ -360,7 +358,7 @@ flowchart TD
 
 ---
 
-## 10. Security Training
+## 🔐 10. Security Training
 
 ### 10.1 Mandatory Training
 
@@ -381,7 +379,7 @@ flowchart TD
 
 ---
 
-## 11. WAF Operations
+## 🔐 11. WAF Operations
 
 ### 11.1 Ownership
 
@@ -414,7 +412,7 @@ The **Security team** owns and operates WAF rules. Engineering teams escalate fa
 
 ---
 
-## 12. DDoS Protection
+## 🔐 12. DDoS Protection
 
 ### 12.1 Shield Advanced
 
@@ -451,7 +449,7 @@ Every DDoS event (confirmed or suspected) triggers a post-event review documenti
 
 ---
 
-## 13. Key Management (KMS)
+## 🔐 13. Key Management (KMS)
 
 ### 13.1 Key Hierarchy
 
@@ -483,7 +481,7 @@ For regulated customers requiring Bring-Your-Own-Key (BYOK):
 
 ---
 
-## 14. Privileged Access Management (PAM)
+## 🔐 14. Privileged Access Management (PAM)
 
 ### 14.1 JIT Access via AWS SSO
 
@@ -521,7 +519,7 @@ Every quarter, engineering managers certify that their team members' access is a
 
 ---
 
-## 15. Insider Threat Monitoring
+## 🔐 15. Insider Threat Monitoring
 
 ### 15.1 Universal Admin Action Logging
 
@@ -545,4 +543,8 @@ Every quarter, engineering managers certify that their team members' access is a
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

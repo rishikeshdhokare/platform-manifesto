@@ -1,12 +1,10 @@
-# Configuration Management Guide
+# ⚙️ Configuration Management
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. The Problem We're Solving
+## 🎯 1. The Problem We're Solving
 
 Configuration management fails in two common ways:
 
@@ -17,7 +15,7 @@ Our approach follows the **12-Factor App** principles: strict separation of conf
 
 ---
 
-## 2. Where Each Type of Config Lives
+## ⚙️ 2. Where Each Type of Config Lives
 
 | Config Type | Examples | Where It Lives | How It's Loaded |
 |-------------|---------|---------------|----------------|
@@ -31,7 +29,7 @@ Our approach follows the **12-Factor App** principles: strict separation of conf
 
 ---
 
-## 3. The Config Hierarchy
+## ⚙️ 3. The Config Hierarchy
 
 Spring Boot loads configuration in this order (later entries win):
 
@@ -45,7 +43,7 @@ Spring Boot loads configuration in this order (later entries win):
 
 ---
 
-## 4. application.yml — What Belongs Here
+## ⚙️ 4. application.yml — What Belongs Here
 
 Only values that are **safe to commit** and **the same in all environments**:
 
@@ -94,7 +92,7 @@ external:
 
 ---
 
-## 5. application-{profile}.yml — Profile Overrides
+## ⚙️ 5. application-{profile}.yml — Profile Overrides
 
 Use Spring profiles for local development defaults only:
 
@@ -126,7 +124,7 @@ launchdarkly:
 
 ---
 
-## 6. Secrets — AWS Secrets Manager
+## 🔒 6. Secrets — AWS Secrets Manager
 
 ### 6.1 How It Works
 
@@ -223,7 +221,7 @@ spring:
 
 ---
 
-## 7. Environment Config — AWS SSM Parameter Store
+## ⚙️ 7. Environment Config — AWS SSM Parameter Store
 
 Non-sensitive config that varies by environment (service URLs, Kafka brokers, etc.) lives in SSM:
 
@@ -273,7 +271,7 @@ external:
 
 ---
 
-## 8. Feature Flags — LaunchDarkly
+## ⚙️ 8. Feature Flags — LaunchDarkly
 
 Feature flags are the only type of config that changes **without a restart or deployment**.
 
@@ -357,7 +355,7 @@ public class TestLaunchDarklyConfig {
 
 ---
 
-## 9. The Config Checklist
+## 📋 9. The Config Checklist
 
 Before deploying a service, verify:
 
@@ -375,7 +373,7 @@ Before deploying a service, verify:
 
 ---
 
-## 10. Feature Flag Lifecycle
+## 🔄 10. Feature Flag Lifecycle
 
 Feature flags are powerful but accumulate quickly. Without active management, the codebase fills with dead toggles, and LaunchDarkly becomes unnavigable. These rules keep the flag inventory clean.
 
@@ -407,7 +405,7 @@ Flags that are past their **planned removal date** (set when the flag is created
 
 ---
 
-## 11. Troubleshooting Config
+## 🔍 11. Troubleshooting Config
 
 ```bash
 # See what config Spring Boot has loaded (run locally or in a pod)
@@ -429,4 +427,8 @@ kubectl -n orders-production exec -it {pod-name} -- cat /var/run/secrets/orders-
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

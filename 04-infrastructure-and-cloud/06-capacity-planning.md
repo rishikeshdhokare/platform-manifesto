@@ -1,16 +1,10 @@
-# 📈 Capacity Planning
+# 📊 Capacity Planning
 
-> **Platform Manifesto** · Infrastructure & Cloud
-
-| Field | Value |
-|-------|-------|
-| **Status** | Active |
-| **Owner** | Platform Engineering |
-| **Last Updated** | 2026-03-31 |
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026-03-31](https://img.shields.io/badge/updated-2026--03--31-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Why Capacity Planning Matters](#1-why-capacity-planning-matters)
 2. [Demand Modeling](#2-demand-modeling)
@@ -24,7 +18,7 @@
 
 ---
 
-## 1. Why Capacity Planning Matters
+## 🎯 1. Why Capacity Planning Matters
 
 Platform demand is **not random** — it is highly predictable. Rush hours, weekends, holidays, and promotional events create repeatable demand curves. Capacity planning exploits this predictability to ensure:
 
@@ -45,7 +39,7 @@ Platform demand is **not random** — it is highly predictable. Rush hours, week
 
 ---
 
-## 2. Demand Modeling
+## 📊 2. Demand Modeling
 
 ### Demand Pattern Lifecycle
 
@@ -106,7 +100,7 @@ flowchart TD
 
 ---
 
-## 3. Per-Service Capacity Model
+## 📊 3. Per-Service Capacity Model
 
 The capacity model translates **business demand** (orders/minute) into **infrastructure units** (pods → nodes).
 
@@ -141,7 +135,7 @@ Node capacity: 5 × 1000m / 3500m allocatable = 2 nodes (m6i.xlarge)
 
 ---
 
-## 4. Pre-Scaling Strategy
+## 📊 4. Pre-Scaling Strategy
 
 Kubernetes HPA reacts to load, but reaction time is too slow for demand spikes that ramp in minutes. We use **scheduled HPA overrides** for known demand events.
 
@@ -211,7 +205,7 @@ spec:
 
 ---
 
-## 5. Kafka Partition Planning
+## 📊 5. Kafka Partition Planning
 
 Kafka partitions determine parallelism. Under-partitioned topics become bottlenecks; over-partitioned topics waste broker resources and increase rebalance time.
 
@@ -243,7 +237,7 @@ Partitions = max(
 
 ---
 
-## 6. Database Capacity
+## 📊 6. Database Capacity
 
 ### Aurora PostgreSQL
 
@@ -277,7 +271,7 @@ Partitions = max(
 
 ---
 
-## 7. Load-Test-Driven Validation
+## 🧪 7. Load-Test-Driven Validation
 
 Every capacity model is validated by load testing before it is trusted. We use **Gatling** as the load testing framework.
 
@@ -330,7 +324,7 @@ Load test results are stored in S3 and published to the `#capacity-planning` Sla
 
 ---
 
-## 8. Capacity Review Cadence
+## 🔄 8. Capacity Review Cadence
 
 | Cadence | Activity | Participants |
 |---------|----------|--------------|
@@ -351,7 +345,7 @@ Load test results are stored in S3 and published to the `#capacity-planning` Sla
 
 ---
 
-## 9. New Region Capacity Model
+## 📊 9. New Region Capacity Model
 
 When the platform launches in a new region, the capacity model provides a **day-one infrastructure blueprint** based on projected demand.
 
@@ -397,6 +391,8 @@ flowchart TD
 
 ---
 
-> Building the platform that sets the standard for engineering excellence.
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

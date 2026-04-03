@@ -1,18 +1,16 @@
-# Common Infrastructure Components
+# 🧱 Infrastructure Components
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Overview
+## 🎯 1. Overview
 
 These are the platform-level infrastructure components that every service benefits from. Teams do not build these themselves — they consume them. Platform Engineering owns their operation, availability, and upgrade lifecycle.
 
 ---
 
-## 2. Service Mesh — Istio
+## ☁️ 2. Service Mesh — Istio
 
 ### 2.1 What It Does
 
@@ -36,7 +34,7 @@ Pods are automatically enrolled in the mesh via the `istio-injection: enabled` l
 
 ---
 
-## 3. Secrets Management — AWS Secrets Manager
+## 🔒 3. Secrets Management — AWS Secrets Manager
 
 ### 3.1 How Secrets Are Consumed
 
@@ -88,7 +86,7 @@ Examples:
 
 ---
 
-## 4. Configuration Management — AWS Systems Manager Parameter Store
+## ⚙️ 4. Configuration Management — AWS Systems Manager Parameter Store
 
 For **non-sensitive** configuration values (feature toggles backup, service URLs, tunable parameters):
 
@@ -106,7 +104,7 @@ Examples:
 
 ---
 
-## 5. Service Mesh Observability — Kiali
+## 👁️ 5. Service Mesh Observability — Kiali
 
 Kiali provides a topology view of the service mesh — which services are talking to which, with health and traffic metrics. It is deployed in the platform namespace and accessible to all engineers via SSO.
 
@@ -117,7 +115,7 @@ Use Kiali to:
 
 ---
 
-## 6. Internal Developer Portal — Backstage
+## ☁️ 6. Internal Developer Portal — Backstage
 
 Backstage is the central catalog of all services, APIs, documentation, and tooling.
 
@@ -166,7 +164,7 @@ spec:
 
 ---
 
-## 7. GitOps — ArgoCD
+## ☁️ 7. GitOps — ArgoCD
 
 ### 7.1 Access Model
 
@@ -226,7 +224,7 @@ env:
 
 ---
 
-## 8. Container Registry — Amazon ECR
+## ☁️ 8. Container Registry — Amazon ECR
 
 - One ECR repository per service: `{service-name}`
 - Images are tagged: `{git-sha}` (immutable), `{semver}`, `latest` (mutable, points to last main build)
@@ -236,7 +234,7 @@ env:
 
 ---
 
-## 9. Internal DNS & Service Discovery
+## ☁️ 9. Internal DNS & Service Discovery
 
 - **Internal DNS:** Route 53 Private Hosted Zone — `{service}.internal.{company}.com`
 - **In-cluster:** Kubernetes DNS + Istio service registry — services address each other as `http://orders-service.orders.svc.cluster.local`
@@ -244,7 +242,7 @@ env:
 
 ---
 
-## 10. Certificate Management
+## 🔒 10. Certificate Management
 
 - **External TLS:** AWS Certificate Manager (ACM) — certificates auto-renewed, attached to ALB/CloudFront
 - **Internal mTLS:** Istio manages certificates via its CA — teams never handle internal certs manually
@@ -252,7 +250,7 @@ env:
 
 ---
 
-## 11. Certificate Lifecycle Management
+## 🔒 11. Certificate Lifecycle Management
 
 ### 11.1 ACM Certificates
 
@@ -293,7 +291,7 @@ Any server certificate change that affects mobile clients requires coordination 
 
 ---
 
-## 12. Job Scheduling — Amazon EventBridge Scheduler
+## ☁️ 12. Job Scheduling — Amazon EventBridge Scheduler
 
 All scheduled tasks (previously cron jobs) are managed via EventBridge Scheduler:
 
@@ -304,7 +302,7 @@ All scheduled tasks (previously cron jobs) are managed via EventBridge Scheduler
 
 ---
 
-## 13. Platform Component Health
+## 👁️ 13. Platform Component Health
 
 The platform team publishes a **Platform Status Page** (internal) showing the health of all shared components. Teams can subscribe to incident notifications for components they depend on.
 
@@ -320,7 +318,7 @@ The platform team publishes a **Platform Status Page** (internal) showing the he
 
 ---
 
-## 14. ArgoCD Service Onboarding
+## 🔄 14. ArgoCD Service Onboarding
 
 To onboard a new service to ArgoCD, follow these steps in order:
 
@@ -334,7 +332,7 @@ To onboard a new service to ArgoCD, follow these steps in order:
 
 ---
 
-## 15. Platform Monitoring Ownership
+## 👁️ 15. Platform Monitoring Ownership
 
 The Platform Engineering team is on-call for all shared infrastructure components. Stream-aligned teams are **not** responsible for platform component health — they are consumers.
 
@@ -361,7 +359,7 @@ Platform incidents escalate within the platform team. Stream-aligned teams repor
 
 ---
 
-## 16. Platform Incident Runbooks
+## 🚨 16. Platform Incident Runbooks
 
 When a shared platform component fails, the platform on-call uses these runbooks as the first line of response.
 
@@ -379,7 +377,7 @@ Detailed runbooks for each component are maintained in the platform team's Backs
 
 ---
 
-## 17. Self-Service Boundaries
+## 🔄 17. Self-Service Boundaries
 
 The platform provides self-service capabilities for common operations while requiring tickets for changes that affect shared infrastructure or incur cost.
 
@@ -400,7 +398,7 @@ The platform provides self-service capabilities for common operations while requ
 
 ---
 
-## 18. Platform Capacity Planning
+## 📊 18. Platform Capacity Planning
 
 The platform team runs a **quarterly capacity planning review** aligned with the product roadmap to ensure shared infrastructure scales ahead of demand.
 
@@ -423,4 +421,10 @@ The **30% headroom target** ensures the platform can absorb traffic spikes and s
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+---
+
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

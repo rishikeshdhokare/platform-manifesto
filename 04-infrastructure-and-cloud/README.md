@@ -1,4 +1,6 @@
-# 04 — Infrastructure & Cloud
+# ☁️ 04 — Infrastructure & Cloud
+
+![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
 
 Our AWS platform — network topology, compute, data stores, security, and configuration management.
 
@@ -15,4 +17,10 @@ Our AWS platform — network topology, compute, data stores, security, and confi
 | [09-multi-tenancy.md](./09-multi-tenancy.md) | Multi-tenancy patterns — data isolation, noisy-neighbor controls, tenant-aware observability |
 | [10-security-operations.md](./10-security-operations.md) | Security operations — threat modeling, vulnerability management, SIEM, pen testing, supply chain |
 
-← [Back to root](../README.md)
+---
+
+<div align="center">
+
+🏠 [Back to root](../README.md)
+
+</div>

@@ -1,16 +1,10 @@
-# 💰 FinOps and Cost Management
+# 💰 FinOps
 
-> **Platform Manifesto** · Infrastructure & Cloud
-
-| Field | Value |
-|-------|-------|
-| **Status** | Active |
-| **Owner** | Platform Engineering |
-| **Last Updated** | 2026-03-31 |
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026-03-31](https://img.shields.io/badge/updated-2026--03--31-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [FinOps Philosophy](#1-finops-philosophy)
 2. [Cost Allocation & Mandatory Tagging](#2-cost-allocation--mandatory-tagging)
@@ -27,7 +21,7 @@
 
 ---
 
-## 1. FinOps Philosophy
+## 🎯 1. FinOps Philosophy
 
 **Every engineer is a cost stakeholder.** Cloud spending is not an ops problem — it is a product decision. We treat infrastructure cost the same way we treat latency or uptime: as a metric that every team owns.
 
@@ -41,7 +35,7 @@
 
 ---
 
-## 2. Cost Allocation & Mandatory Tagging
+## 💰 2. Cost Allocation & Mandatory Tagging
 
 Every AWS resource provisioned through Terraform **must** carry the following tags. The CI pipeline rejects any `terraform plan` that creates untagged resources.
 
@@ -76,7 +70,7 @@ flowchart TD
 
 ---
 
-## 3. Budget Alerts
+## 💰 3. Budget Alerts
 
 Each team has dedicated AWS Budgets with two threshold alerts:
 
@@ -119,7 +113,7 @@ resource "aws_budgets_budget" "matching_team" {
 
 ---
 
-## 4. Cost Monitoring Flow
+## 📡 4. Cost Monitoring Flow
 
 ```mermaid
 flowchart LR
@@ -158,7 +152,7 @@ flowchart LR
 
 ---
 
-## 5. Rightsizing Program
+## 💰 5. Rightsizing Program
 
 We run a **quarterly rightsizing review** as part of the FinOps cadence.
 
@@ -197,7 +191,7 @@ flowchart TD
 
 ---
 
-## 6. Savings Plans Strategy
+## 💰 6. Savings Plans Strategy
 
 We use **Compute Savings Plans**, not instance-family Savings Plans.
 
@@ -220,7 +214,7 @@ Steady-state compute (predictable)
 
 ---
 
-## 7. Spot Instances with Karpenter
+## ☁️ 7. Spot Instances with Karpenter
 
 Karpenter is the platform's node provisioner. It automatically selects the cheapest available instance type from a diversified pool and handles Spot interruptions gracefully.
 
@@ -268,7 +262,7 @@ spec:
 
 ---
 
-## 8. Dev/Staging Optimization
+## 💰 8. Dev/Staging Optimization
 
 Non-production environments do not need to run 24/7. We implement **scale-to-zero after hours** for dev and staging.
 
@@ -319,7 +313,7 @@ spec:
 
 ---
 
-## 9. Cost Anomaly Detection
+## 💰 9. Cost Anomaly Detection
 
 We use **AWS Cost Anomaly Detection** to catch unexpected spend spikes before they compound.
 
@@ -350,7 +344,7 @@ We use **AWS Cost Anomaly Detection** to catch unexpected spend spikes before th
 
 ---
 
-## 10. Cost per Transaction
+## 💰 10. Cost per Transaction
 
 **Cost per transaction** is the north-star FinOps metric. It connects infrastructure spend to business value.
 
@@ -384,7 +378,7 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 
 ---
 
-## 11. FinOps Review Cadence
+## 🔄 11. FinOps Review Cadence
 
 | Cadence | Activity | Attendees |
 |---------|----------|-----------|
@@ -405,7 +399,7 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 
 ---
 
-## 12. Cost Allocation Model
+## 💰 12. Cost Allocation Model
 
 ### Showback vs Chargeback
 
@@ -442,7 +436,7 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 
 ---
 
-## 13. Real-Time Cost Visibility
+## 📡 13. Real-Time Cost Visibility
 
 Cost data should be accessible where engineers already work — not buried in a separate AWS console login. The platform embeds cost visibility into the tools teams use daily.
 
@@ -477,6 +471,8 @@ This enables service owners to correlate cost changes with deployments, traffic 
 
 ---
 
-> Building the platform that sets the standard for engineering excellence.
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>
