@@ -1,41 +1,53 @@
 # {Company} Platform Engineering Manifesto
 
-> *The single source of truth for how we build, ship, and operate software at {Company}.*
-> *Opinionated by design. When in doubt, follow it. When you disagree, raise a PR.*
+### The operating system for how we build software.
+
+> **One manifesto. 83 documents. Every decision you shouldn't have to make twice.**
+>
+> Opinionated by design. When in doubt, follow it. When you disagree, raise a PR.
 
 ---
 
-## What This Is
+## Why This Exists
 
-This manifesto defines our target engineering platform — the standards, practices, tools, and architecture every team is expected to adopt. It exists because consistency compounds: every shared decision here is one fewer decision each team makes alone, and one more hour spent on product problems instead of infrastructure debates.
+Every hour an engineer spends debating "which database should I use?" or "how do I structure this service?" is an hour not spent solving customer problems. This manifesto exists to eliminate that tax.
+
+It is the **single source of truth** for our engineering platform — the standards, practices, tools, and architecture every team is expected to adopt. Consistency compounds: every shared decision here is one fewer decision each team makes alone.
 
 This is a **living document**. It evolves as our platform matures, as industry practices shift, and as we learn from running systems in production. All changes require a PR with at least one Staff Engineer approval.
 
 ---
 
-## Who This Is For
+## Who Should Read What
 
-| Audience | How to Use It |
-|----------|--------------|
-| **New joiners** | Start here. Read sections 1–3 and the Golden Path in your first week. |
-| **Engineers** | Primary audience. This tells you how to build things at {Company}. |
-| **Tech Leads** | Enforcer and contributor. You own sections relevant to your domain. |
-| **Engineering Managers** | Context. Helps you understand what "done right" looks like. |
+| You are... | Start here | Then read |
+|------------|-----------|-----------|
+| **Day 1 new joiner** | [`ONBOARDING.md`](./ONBOARDING.md) | Tech stack, Golden Path, Git workflow |
+| **Backend engineer** | [Spring Boot Standards](03-engineering-practices/09-spring-boot-standards.md) | Architecture, Kafka, Caching, Testing |
+| **Frontend engineer** | [Web Frontend Standards](09-mobile-and-frontend/02-web-frontend-standards.md) | Frontend CI/CD, Design System |
+| **Mobile engineer** | [Mobile Standards](09-mobile-and-frontend/01-mobile-standards.md) | Android / iOS / React Native guides |
+| **Tech lead** | [System Architecture](02-architecture-and-api/01-system-architecture.md) | Service Decomposition, Team Topology |
+| **Engineering manager** | [Engineering Management](07-ways-of-working/09-engineering-management.md) | Engineering Ladder, Metrics, Product Ops |
+| **On-call and panicking** | [Incident Management](05-operational-excellence/04-incident-management.md) | Debugging Guide, DR Playbook |
+
+> Don't know a term? Check the [`GLOSSARY.md`](./GLOSSARY.md).
 
 ---
 
-## Core Principles
+## The 8 Principles
 
-These principles underpin every decision in this manifesto:
+These aren't aspirations. They're constraints. Every technical decision in this manifesto traces back to one of these.
 
-1. **Pave the golden path, don't police the wilderness** — Make the right way the easy way. Teams should feel pulled toward standards, not pushed.
-2. **Ship artifacts, not code** — Promote built, tested, scanned containers through environments. Never rebuild.
-3. **Observable by default** — Every service ships with logs, metrics, and traces from day one. Observability is not a retrofit.
-4. **Own your data, respect boundaries** — Services own their data stores. Direct cross-service DB access is forbidden.
-5. **Everything in Git** — Infrastructure, config, runbooks, ADRs. If it's not in Git, it doesn't exist.
-6. **Automate the boring, document the interesting** — Repetitive tasks belong in pipelines. Human attention belongs on architecture and product problems.
-7. **Design for failure** — Assume every dependency will fail. Build circuit breakers, retries, fallbacks, and graceful degradation.
-8. **Security is not a phase** — It runs in every pipeline, in every environment, from the first commit.
+| # | Principle | In Practice |
+|---|-----------|-------------|
+| 1 | **Pave the golden path, don't police the wilderness** | Make the right way the easy way. Teams feel pulled toward standards, not pushed. |
+| 2 | **Ship artifacts, not code** | The same container image built in CI is the one running in production. Never rebuild. |
+| 3 | **Observable by default** | Every service ships with logs, metrics, and traces from day one. Not a retrofit. |
+| 4 | **Own your data, respect boundaries** | Services own their data stores. Direct cross-service DB access is forbidden. No exceptions. |
+| 5 | **Everything in Git** | Infrastructure, config, runbooks, ADRs. If it's not in Git, it doesn't exist. |
+| 6 | **Automate the boring, document the interesting** | Pipelines handle repetition. Humans handle architecture. |
+| 7 | **Design for failure** | Assume every dependency will fail. Circuit breakers, retries, fallbacks, graceful degradation. |
+| 8 | **Security is not a phase** | It runs in every pipeline, in every environment, from the first commit. |
 
 ---
 
@@ -108,218 +120,158 @@ flowchart TB
 
 ---
 
-## Getting Started
+## What's Inside
 
-| Document | Description |
-|----------|-------------|
-| [`ONBOARDING.md`](./ONBOARDING.md) | Step-by-step onboarding guide for new engineers — first day to first PR |
-| [`GLOSSARY.md`](./GLOSSARY.md) | Definitions for platform, architecture, and domain-specific terms used across this manifesto |
+**83 documents** across 11 sections. Each section is a folder. Each document is a self-contained standard you can read in 10-15 minutes.
 
----
+### [`01-platform-standards/`](01-platform-standards/) -- What We Build With
+The approved tech stack. Languages, frameworks, cloud services, data stores. If it's not here, it's not approved.
 
-## Structure
+| File | What You'll Learn |
+|------|-------------------|
+| `01-tech-stack.md` | Java 21, Spring Boot 3, React, React Native, AWS services, and why we chose them |
 
-The manifesto is organised into 11 sections. Each section is a folder containing related documents.
+### [`02-architecture-and-api/`](02-architecture-and-api/) -- How The System Fits Together
+Domain decomposition, communication patterns, API contracts, event schemas, and the error catalog.
 
----
+| File | What You'll Learn |
+|------|-------------------|
+| `01-system-architecture.md` | The domain map, event backbone, BFF pattern, and resilience ownership matrix |
+| `02-api-standards.md` | URL design, versioning, error shapes, pagination, rate limiting, idempotency |
+| `03-hexagonal-architecture.md` | Ports & adapters with a full worked example you can copy |
+| `04-real-time-architecture.md` | WebSocket, SSE, push notifications, and location streaming |
+| `05-grpc-standards.md` | Proto conventions, code generation, load balancing, cancellation |
+| `06-saga-patterns.md` | Distributed transactions, choreography, compensation patterns |
+| `07-service-decomposition.md` | When to split or merge services, with a decision framework |
+| `08-event-schema-evolution.md` | Avro compatibility rules, partition keys, and the breaking change playbook |
+| `09-error-catalog.md` | Central error registry, exception handling, and frontend error boundaries |
 
-### `01-platform-standards/`
-The foundational technology decisions — language, frameworks, cloud services, and approved tooling. **Start here to understand what we build with.**
+### [`03-engineering-practices/`](03-engineering-practices/) -- How We Write and Ship Code
+The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spring Boot platform.
 
-| File | Description |
-|------|-------------|
-| `01-tech-stack.md` | Approved languages, frameworks, AWS services, data stores, and toolchain |
+| File | What You'll Learn |
+|------|-------------------|
+| `01-testing-pyramid.md` | Unit, integration, contract, E2E, load tests -- with worked examples |
+| `02-ci-practices.md` | GitHub Actions pipelines, quality gates, DAST, Terraform testing |
+| `03-cd-practices.md` | GitOps, canary deployments, feature flags, change risk rubric |
+| `04-coding-standards.md` | Naming, error handling, null safety -- with before/after examples |
+| `05-git-workflow.md` | Trunk-based dev in practice |
+| `06-code-review-guide.md` | How to give and receive feedback that makes code better |
+| `07-ab-testing.md` | Experiment design, statistical rigor, guardrails, and product analytics |
+| `08-deprecation-lifecycle.md` | How we sunset APIs, events, services, and flags without breaking consumers |
+| `09-spring-boot-standards.md` | Logging, config, health checks, LaunchDarkly, virtual threads, versioning |
+| `10-frontend-ci-cd.md` | Frontend golden path, monorepo structure, preview environments |
+| `11-qa-standards.md` | Test environments, test data, bug triage severity, device matrix |
 
----
+### [`04-infrastructure-and-cloud/`](04-infrastructure-and-cloud/) -- The Platform Under The Platform
+AWS architecture, security, FinOps, multi-tenancy, and everything Terraform.
 
-### `02-architecture-and-api/`
-How our system is structured — domain decomposition, communication patterns, and the API contracts that tie it together.
-
-| File | Description |
-|------|-------------|
-| `01-system-architecture.md` | Domain map, event backbone, BFF pattern, resilience requirements |
-| `02-api-standards.md` | URL design, versioning, error shapes, pagination, auth, OpenAPI-first |
-| `03-hexagonal-architecture.md` | Ports & adapters — full worked example with domain, infrastructure, and API layers |
-| `04-real-time-architecture.md` | WebSocket, SSE, push notifications, location streaming patterns |
-| `05-grpc-standards.md` | Proto conventions, code generation, Spring Boot integration, testing |
-| `06-saga-patterns.md` | Distributed transactions — choreography, compensation, order lifecycle saga |
-| `07-service-decomposition.md` | When to split or merge services, boundary validation criteria |
-| `08-event-schema-evolution.md` | Avro compatibility, partition keys, breaking change playbook |
-| `09-error-catalog.md` | Error catalog, exception handling, error code registry, frontend error boundaries |
-
----
-
-### `03-engineering-practices/`
-How we write, review, test, and ship code. The day-to-day craft of engineering at {Company}.
-
-| File | Description |
-|------|-------------|
-| `01-testing-pyramid.md` | Unit, integration, contract, E2E, load tests — standards and worked examples |
-| `02-ci-practices.md` | GitHub Actions pipelines, quality gates, trunk-based development |
-| `03-cd-practices.md` | GitOps, canary deployments, feature flags, rollback strategy |
-| `04-coding-standards.md` | Naming, error handling, null handling, logging — with before/after examples |
-| `05-git-workflow.md` | Trunk-based dev in practice — daily workflow and common scenarios |
-| `06-code-review-guide.md` | How to give and receive feedback; good/bad comment examples |
-| `07-ab-testing.md` | A/B testing strategy — hypothesis, experiment design, statistical rigor, guardrails |
-| `08-deprecation-lifecycle.md` | Deprecation lifecycle for APIs, events, services, and flags |
-| `09-spring-boot-standards.md` | Spring Boot platform standards — logging, config, health checks, LaunchDarkly, virtual threads |
-| `10-frontend-ci-cd.md` | Frontend & mobile CI/CD — golden path, monorepo, preview environments, deployment |
-| `11-qa-standards.md` | QA standards — test environments, test data, bug triage, device testing |
-
----
-
-### `04-infrastructure-and-cloud/`
-Our AWS platform — network topology, compute, data stores, security, and configuration.
-
-| File | Description |
-|------|-------------|
-| `01-cloud-architecture.md` | AWS account structure, VPC topology, EKS, Aurora, MSK, Terraform standards |
-| `02-infra-components.md` | Istio, Backstage, ArgoCD, ECR, Secrets Manager — platform-managed components |
-| `03-security.md` | Shift-left security, IAM/IRSA, PII handling, incident response |
-| `04-configuration-management.md` | Secrets vs config vs flags — what lives where and how to load it |
-| `05-finops.md` | Cost allocation, budgets, rightsizing, FinOps practices |
+| File | What You'll Learn |
+|------|-------------------|
+| `01-cloud-architecture.md` | AWS accounts, VPC topology, EKS, Aurora, MSK, backup & restore |
+| `02-infra-components.md` | Istio, Backstage, ArgoCD, ECR -- and the self-service boundaries |
+| `03-security.md` | Shift-left security, IAM/IRSA, PII handling, KMS, egress control |
+| `04-configuration-management.md` | Secrets vs config vs flags -- what lives where |
+| `05-finops.md` | Cost allocation, rightsizing, reservations, real-time cost visibility |
 | `06-capacity-planning.md` | Demand modeling, pre-scaling, load test-driven validation |
-| `07-api-gateway-strategy.md` | API Gateway configuration, routing, throttling, WAF integration |
-| `08-privacy-engineering.md` | Data classification, PIA, anonymization, GDPR erasure, consent management |
-| `09-multi-tenancy.md` | Multi-tenancy patterns, data isolation, tenant-aware observability |
-| `10-security-operations.md` | Security operations — threat modeling, vulnerability management, SIEM, pen testing, supply chain |
+| `07-api-gateway-strategy.md` | API Gateway configuration, routing, throttling, WAF |
+| `08-privacy-engineering.md` | GDPR, PCI, SOC 2, ISO 27001, anonymization, consent |
+| `09-multi-tenancy.md` | Data isolation patterns, noisy-neighbor controls, tenant-aware observability |
+| `10-security-operations.md` | Threat modeling, SIEM, pen testing, SBOM, bug bounty, PAM |
 
----
+### [`05-operational-excellence/`](05-operational-excellence/) -- Keeping It Running
+Observability, resilience, incidents, chaos engineering, and what to do when things break.
 
-### `05-operational-excellence/`
-How we keep services healthy in production — observability, resilience, and incident response.
-
-| File | Description |
-|------|-------------|
-| `01-observability-standards.md` | Logging, metrics, tracing, alerting, SLOs — the standards |
-| `02-observability-in-practice.md` | Step-by-step setup: structured logging, correlation IDs, metrics, tracing |
-| `03-resilience-patterns.md` | Circuit breaker, retry, timeout, bulkhead — Resilience4j worked examples |
-| `04-incident-management.md` | Response playbook, roles, blameless PIR template, runbook template |
-| `05-load-shedding.md` | Priority tiers, backpressure, graceful degradation strategies |
-| `06-chaos-engineering.md` | Fault injection, game days, resilience validation program |
-| `07-disaster-recovery-playbook.md` | Region failover procedure, failback, data reconciliation |
+| File | What You'll Learn |
+|------|-------------------|
+| `01-observability-standards.md` | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
+| `02-observability-in-practice.md` | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
+| `03-resilience-patterns.md` | Circuit breaker, retry, timeout, bulkhead -- Resilience4j worked examples |
+| `04-incident-management.md` | Response playbook, on-call structure, PIR template, change management |
+| `05-load-shedding.md` | Priority tiers, backpressure, graceful degradation, auto-remediation |
+| `06-chaos-engineering.md` | Fault injection, game days, resilience validation |
+| `07-disaster-recovery-playbook.md` | Region failover, failback, DNS strategy, rollback SLAs |
 | `08-testing-in-production.md` | Synthetic monitoring, traffic mirroring, dark launches |
-| `09-debugging-guide.md` | Debugging guide — local, staging, log search, trace exploration, common scenarios |
+| `09-debugging-guide.md` | How to debug locally, in staging, and in production -- with real queries |
 
----
+### [`06-developer-guides/`](06-developer-guides/) -- Hands-On Playbooks
+The guides you keep open while writing code.
 
-### `06-developer-guides/`
-Hands-on guides for building things the right way. Reference these while writing code.
-
-| File | Description |
-|------|-------------|
-| `01-developer-experience.md` | Local dev setup, onboarding targets, inner loop speed, platform BOM |
-| `02-golden-path.md` | End-to-end walkthrough: scaffold → code → PR → production + compliance checklist |
-| `03-database-migrations.md` | Flyway, naming conventions, expand-contract pattern, large table migrations |
-| `04-kafka-patterns.md` | Producers, consumers, DLQ, idempotency, outbox pattern — with worked examples |
-| `05-data-platform.md` | Data ownership, CDC pipeline, geospatial patterns, analytics architecture |
-| `06-multi-region-patterns.md` | Region/tenant config, multi-currency, localization, regulatory compliance |
+| File | What You'll Learn |
+|------|-------------------|
+| `01-developer-experience.md` | Local setup, onboarding milestones, buddy program, documentation standards |
+| `02-golden-path.md` | Scaffold to production in one walkthrough |
+| `03-database-migrations.md` | Flyway, expand-contract, large table migrations |
+| `04-kafka-patterns.md` | Producers, consumers, DLQ, idempotency, topic creation, DLQ replay |
+| `05-data-platform.md` | CDC, Redshift conventions, Airflow orchestration, data access controls |
+| `06-multi-region-patterns.md` | Region config, i18n, localization, UX writing |
 | `07-distributed-locking.md` | Optimistic locking, Redis locks, preventing double-assignment |
-| `08-cache-patterns.md` | Cache-aside, TTL strategy, event-driven invalidation, stampede prevention |
-| `09-data-governance.md` | Data governance, quality SLAs, retention matrices, analytics contracts |
-| `10-local-development.md` | Local development — Docker Compose, seeding, secrets, first PR path, troubleshooting |
+| `08-cache-patterns.md` | Cache-aside, TTL, event-driven invalidation, Caffeine, stampede prevention |
+| `09-data-governance.md` | Data stewards, quality SLAs, retention matrices, analytics contracts |
+| `10-local-development.md` | Docker Compose, database seeding, your first PR |
 
----
+### [`07-ways-of-working/`](07-ways-of-working/) -- How We Work Together
+Team structure, decision-making, hiring, career growth, and knowledge sharing.
 
-### `07-ways-of-working/`
-Team structure, decision-making, and how we work together.
+| File | What You'll Learn |
+|------|-------------------|
+| `01-team-topology.md` | Stream-aligned teams, platform team, inner source, tech debt registry |
+| `02-engineering-ladder.md` | Engineer I to Principal -- expectations at every level |
+| `03-open-source-policy.md` | License compliance, contribution guidelines |
+| `04-product-engineering.md` | PM-engineering collaboration, discovery, rituals, user stories |
+| `05-rfc-process.md` | How to propose cross-cutting changes |
+| `06-technology-radar.md` | How we evaluate and adopt new technology |
+| `07-hiring-standards.md` | Interview loop, rubrics, bar-raiser, bias mitigation |
+| `08-knowledge-sharing.md` | Guilds, tech talks, architecture clinics |
+| `09-engineering-management.md` | 1:1s, reviews, team health, headcount, career development |
+| `10-product-operations.md` | Roadmap, OKRs, launch management, customer feedback loops |
 
-| File | Description |
-|------|-------------|
-| `01-team-topology.md` | Stream-aligned teams, platform team, ADR process, on-call, worked ADR example |
-| `02-engineering-ladder.md` | Career levels mapped to manifesto practices — Engineer I to Principal |
-| `03-open-source-policy.md` | License compliance, contribution guidelines, publishing policy |
-| `04-product-engineering.md` | Product-engineering collaboration, discovery, rituals, prioritization |
-| `05-rfc-process.md` | RFC process — template, stages, reviewers, timeout rules |
-| `06-technology-radar.md` | Technology radar — Adopt/Trial/Assess/Hold quadrants |
-| `07-hiring-standards.md` | Hiring & interview standards, rubrics, bar-raiser process |
-| `08-knowledge-sharing.md` | Knowledge sharing — guilds, tech talks, architecture clinics |
-| `09-engineering-management.md` | Engineering management — performance reviews, 1:1s, team health, headcount, career dev |
-| `10-product-operations.md` | Product operations — roadmap, OKRs, user stories, launch management, customer feedback |
+### [`08-program/`](08-program/) -- Where We Are and Where We're Going
+Maturity assessment, migration roadmap, metrics, and vendor management.
 
----
-
-### `08-program/`
-Where we are, where we're going, and how we measure progress.
-
-| File | Description |
-|------|-------------|
-| `01-maturity-model.md` | 11-dimension self-assessment rubric — L0 to L4 per practice area |
+| File | What You'll Learn |
+|------|-------------------|
+| `01-maturity-model.md` | Self-assessment rubric -- L0 to L4 across 11 dimensions |
 | `02-migration-roadmap.md` | Phased migration program, DORA targets, risk register |
-| `03-vendor-assessment.md` | AWS lock-in analysis, portability assessment, exit cost estimation |
-| `04-engineering-metrics.md` | Developer satisfaction, toil, platform adoption, tech debt quantification |
-| `05-vendor-intake.md` | Vendor & SaaS intake process, security review, procurement |
+| `03-vendor-assessment.md` | AWS lock-in analysis, portability, exit costs |
+| `04-engineering-metrics.md` | What we measure, what we don't, and why |
+| `05-vendor-intake.md` | How to evaluate and onboard new SaaS tools |
 
----
+### [`09-mobile-and-frontend/`](09-mobile-and-frontend/) -- Client Applications
+Everything for the engineers building what users actually see and touch.
 
-### `09-mobile-and-frontend/`
-Standards for the client applications that customers and providers interact with every day.
+| File | What You'll Learn |
+|------|-------------------|
+| `01-mobile-standards.md` | Offline-first, push, performance budgets, auth lifecycle, cert pinning |
+| `02-web-frontend-standards.md` | SPA/SSR, design system, a11y, Core Web Vitals, LaunchDarkly React |
+| `03-react-native-guide.md` | Turbo Modules, navigation, Hermes, CodePush, versioning |
+| `04-android-standards.md` | Gradle, Compose, Kotlin coroutines, Hilt, WorkManager |
+| `05-ios-standards.md` | SwiftUI, SPM, privacy manifest, extensions, dSYM |
+| `06-design-system.md` | Design-dev handoff, tokens, motion, dark mode, data visualization |
 
-| File | Description |
-|------|-------------|
-| `01-mobile-standards.md` | Offline-first, push notifications, performance budgets, accessibility, BFF patterns |
-| `02-web-frontend-standards.md` | Web frontend — SPA/SSR, design system, accessibility, Core Web Vitals |
-| `03-react-native-guide.md` | React Native guide — Turbo Modules, navigation, debugging, Hermes, CodePush |
-| `04-android-standards.md` | Android standards — Gradle, Compose, Kotlin, Hilt, WorkManager |
-| `05-ios-standards.md` | iOS standards — SwiftUI, SPM, privacy manifest, extensions, dSYM |
-| `06-design-system.md` | Design system — handoff, governance, tokens, motion, dark mode, data viz |
+### [`10-ai-ml-platform/`](10-ai-ml-platform/) -- AI & Machine Learning
+Model infrastructure, governance, and responsible AI.
 
----
+| File | What You'll Learn |
+|------|-------------------|
+| `01-ml-platform.md` | Model serving, feature stores, training pipelines, GPU governance |
+| `02-ai-governance.md` | Bias auditing, LLM guardrails, red-teaming, generative AI patterns |
 
-### `10-ai-ml-platform/`
-Machine learning infrastructure, AI governance, and responsible AI practices.
+### [`11-domain-catalog/`](11-domain-catalog/) -- The Bounded Contexts
+Detailed documentation for every domain service -- APIs, events, data models, SLOs, and failure modes.
 
-| File | Description |
-|------|-------------|
-| `01-ml-platform.md` | Model serving, feature stores, A/B testing, training pipelines, ML CI/CD |
-| `02-ai-governance.md` | Responsible AI, bias auditing, AI-assisted development, generative AI patterns |
-
----
-
-### `11-domain-catalog/`
-Detailed documentation for each bounded context — responsibilities, APIs, events, data models, and team ownership.
-
-| File | Description |
-|------|-------------|
-| `01-order-service.md` | Order lifecycle management — the central orchestrating domain |
-| `02-fulfillment-engine.md` | Provider-order assignment, geospatial algorithms |
+| File | What You'll Learn |
+|------|-------------------|
+| `01-order-service.md` | Order lifecycle -- the central orchestrating domain |
+| `02-fulfillment-engine.md` | Provider-order assignment and geospatial algorithms |
 | `03-pricing-service.md` | Price calculation, estimates, dynamic pricing integration |
 | `04-provider-profile.md` | Provider onboarding, documents, ratings, availability |
-| `05-customer-profile.md` | Customer account, preferences, payment methods, history |
-| `06-payment-service.md` | Payment processing, settlements, wallets, refunds |
+| `05-customer-profile.md` | Customer account, preferences, payment methods |
+| `06-payment-service.md` | Payments, settlements, wallets, refunds |
 | `07-notifications.md` | Push, SMS, email dispatch across all channels |
-| `08-geolocation-service.md` | ETA calculation, route planning, geocoding proxy |
-| `09-dynamic-pricing.md` | Supply/demand signals, zone management, multiplier calculation |
-| `10-fraud-engine.md` | Real-time fraud signals, risk scoring, blocking rules |
-
----
-
-## Quick Links by Role
-
-### I'm a new joiner — where do I start?
-1. `01-platform-standards/01-tech-stack.md` — understand what we build with
-2. `06-developer-guides/01-developer-experience.md` — get your laptop set up
-3. `06-developer-guides/02-golden-path.md` — ship your first service end-to-end
-4. `03-engineering-practices/05-git-workflow.md` — how we use Git day-to-day
-5. `03-engineering-practices/04-coding-standards.md` — how we write code
-
-### I'm building a new service — what do I need?
-1. `06-developer-guides/02-golden-path.md` — the complete checklist
-2. `02-architecture-and-api/03-hexagonal-architecture.md` — how to structure it
-3. `02-architecture-and-api/02-api-standards.md` — how to design the API
-4. `06-developer-guides/03-database-migrations.md` — how to manage the schema
-5. `05-operational-excellence/02-observability-in-practice.md` — how to make it observable
-
-### I'm on-call and something is broken — where do I go?
-1. `05-operational-excellence/04-incident-management.md` — the response playbook
-2. Your service's `docs/runbook.md` — service-specific steps
-3. `05-operational-excellence/02-observability-in-practice.md` — how to read the signals
-4. `05-operational-excellence/07-disaster-recovery-playbook.md` — if it's a region-level failure
-
-### I want to understand a domain
-1. `11-domain-catalog/` — detailed docs for every bounded context
-2. `02-architecture-and-api/01-system-architecture.md` — the system blueprint
-3. `07-ways-of-working/01-team-topology.md` — which team owns what
+| `08-geolocation-service.md` | ETA calculation, route planning, geocoding |
+| `09-dynamic-pricing.md` | Supply/demand signals, zone management, multipliers |
+| `10-fraud-engine.md` | Real-time risk scoring, blocking rules, ML fallbacks |
 
 ---
 
@@ -365,14 +317,17 @@ flowchart TB
 
 ## Governance
 
-- **Owner:** Platform Engineering team
-- **Changes:** PR required; at least one Staff Engineer or Principal approval
-- **Exceptions:** Any deviation from a standard requires an ADR documenting the rationale
-- **Review cadence:** Maturity model reviewed quarterly with all Tech Leads; manifesto reviewed bi-annually
+| Aspect | Rule |
+|--------|------|
+| **Owner** | Platform Engineering team |
+| **How to change it** | PR required; at least one Staff Engineer or Principal approval |
+| **How to deviate** | Any exception requires an ADR documenting the rationale |
+| **Review cadence** | Maturity model quarterly with Tech Leads; full manifesto bi-annually |
+| **How to disagree** | Start a discussion in `#engineering-discussions` or raise it at Architecture Clinic. Then open a PR. |
 
 ---
 
-## Document Count
+## By The Numbers
 
 | Section | Documents |
 |---------|-----------|
@@ -388,6 +343,8 @@ flowchart TB
 | AI/ML Platform | 2 |
 | Domain Catalog | 10 |
 | **Total** | **83 documents** |
+
+Plus [`ONBOARDING.md`](./ONBOARDING.md) and [`GLOSSARY.md`](./GLOSSARY.md) at the root.
 
 ---
 
