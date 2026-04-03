@@ -1,12 +1,10 @@
-# Frontend & Mobile CI/CD
+# 🌐 Frontend & Mobile CI/CD
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Frontend Golden Path](#1-frontend-golden-path)
 2. [Monorepo Structure](#2-monorepo-structure)
@@ -20,7 +18,7 @@
 
 ---
 
-## 1. Frontend Golden Path
+## 🎯 1. Frontend Golden Path
 
 The frontend golden path takes an engineer from zero to production deployment using standardized tooling:
 
@@ -61,7 +59,7 @@ Every scaffolded project includes:
 
 ---
 
-## 2. Monorepo Structure
+## 📏 2. Monorepo Structure
 
 {Company} frontend projects use **Turborepo** for monorepo management with a standard directory layout:
 
@@ -121,7 +119,7 @@ frontend/
 
 ---
 
-## 3. CI Pipeline Template
+## 🔄 3. CI Pipeline Template
 
 ### 3.1 Pipeline Flow
 
@@ -289,7 +287,7 @@ jobs:
 
 ---
 
-## 4. CD for Single-Page Applications
+## 🚀 4. CD for Single-Page Applications
 
 SPAs are deployed to **S3 + CloudFront** with immutable asset caching.
 
@@ -329,7 +327,7 @@ Only `index.html` needs invalidation on deploy. All other assets have new hashes
 
 ---
 
-## 5. CD for Next.js Applications
+## 🚀 5. CD for Next.js Applications
 
 Next.js applications with SSR/SSG run as containers deployed to **ECS or EKS** using rolling deploys.
 
@@ -376,7 +374,7 @@ CMD ["node", "server.js"]
 
 ---
 
-## 6. Preview Environments
+## 🚀 6. Preview Environments
 
 Every PR gets a preview environment so reviewers can see changes live.
 
@@ -430,7 +428,7 @@ jobs:
 
 ---
 
-## 7. Environment Variables
+## 📏 7. Environment Variables
 
 ### 7.1 Allowlist Convention
 
@@ -480,7 +478,7 @@ Environment variables are injected at build time, not at runtime. Each environme
 
 ---
 
-## 8. Source Maps
+## 🔒 8. Source Maps
 
 ### 8.1 Strategy
 
@@ -513,7 +511,7 @@ curl -I https://app.{company}.com/assets/index-a1b2c3.js.map
 
 ---
 
-## 9. Mobile CI Template
+## 🔄 9. Mobile CI Template
 
 ### 9.1 Pipeline Flow
 
@@ -612,5 +610,8 @@ end
 | **App Store / Play Store** | All users | Bi-weekly | PM + QA sign-off, staged rollout (10% → 50% → 100%) |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,12 +1,10 @@
-# A/B Testing Strategy
+# 🔬 A/B Testing Strategy
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering / Product Engineering  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering / Product Engineering](https://img.shields.io/badge/owner-Platform_Engineering_%2F_Product_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Purpose
+## 🎯 1. Purpose
 
 A/B testing is how we make product decisions with data instead of opinions. This document defines how {Company} runs feature experiments — hypothesis formation, test design, statistical rigor, and operational guardrails.
 
@@ -14,7 +12,7 @@ This is the **general product A/B testing standard**. For ML-specific experiment
 
 ---
 
-## 2. When to A/B Test
+## 🧪 2. When to A/B Test
 
 ### 2.1 Good Candidates
 
@@ -37,7 +35,7 @@ This is the **general product A/B testing standard**. For ML-specific experiment
 
 ---
 
-## 3. Experiment Lifecycle
+## 🔄 3. Experiment Lifecycle
 
 ```mermaid
 flowchart LR
@@ -62,7 +60,7 @@ flowchart LR
 
 ---
 
-## 4. Experiment Design
+## 📏 4. Experiment Design
 
 ### 4.1 Hypothesis Template
 
@@ -116,7 +114,7 @@ Always start with a small allocation to catch bugs and regressions before exposi
 
 ---
 
-## 5. Technical Implementation
+## 🔗 5. Technical Implementation
 
 ### 5.1 Feature Flag Integration
 
@@ -176,7 +174,7 @@ flowchart TB
 
 ---
 
-## 6. Running the Experiment
+## 🧪 6. Running the Experiment
 
 ### 6.1 Pre-Launch Checklist
 
@@ -206,7 +204,7 @@ flowchart TB
 
 ---
 
-## 7. Analysis and Decision
+## 📋 7. Analysis and Decision
 
 ### 7.1 Statistical Analysis
 
@@ -244,7 +242,7 @@ All experiments must be recorded in the shared experiment log:
 
 ---
 
-## 8. Anti-Patterns
+## ❌ 8. Anti-Patterns
 
 | Anti-Pattern | Why It's Harmful | What to Do Instead |
 |-------------|-----------------|-------------------|
@@ -257,7 +255,7 @@ All experiments must be recorded in the shared experiment log:
 
 ---
 
-## 9. Product Analytics (Non-Experiment)
+## 📋 9. Product Analytics (Non-Experiment)
 
 Not all product measurement requires an A/B test. Product metrics outside of experiments are tracked via **structured events** that flow through the analytics pipeline.
 
@@ -297,5 +295,8 @@ Product managers and analysts access analytics via **QuickSight** connected to R
 No direct Redshift access is granted outside the analytics team. All queries go through QuickSight or approved BI tooling.
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

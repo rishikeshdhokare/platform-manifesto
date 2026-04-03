@@ -1,10 +1,10 @@
-# Quality Assurance Standards
+# ✅ Quality Assurance Standards
 
-> **Status:** Mandated · **Owner:** Engineering Leadership · **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Engineering Leadership](https://img.shields.io/badge/owner-Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [QA Organisational Model](#1-qa-organisational-model)
 2. [Test Environments](#2-test-environments)
@@ -19,7 +19,7 @@
 
 ---
 
-## 1. QA Organisational Model
+## 🎯 1. QA Organisational Model
 
 ### 1.1 Philosophy
 
@@ -45,7 +45,7 @@ QA Engineers at {Company} focus on **test infrastructure**, not manual test exec
 
 ---
 
-## 2. Test Environments
+## 🧪 2. Test Environments
 
 ### 2.1 Environment Inventory
 
@@ -70,7 +70,7 @@ QA Engineers at {Company} focus on **test infrastructure**, not manual test exec
 
 ---
 
-## 3. Test Data Management
+## 📏 3. Test Data Management
 
 ### 3.1 Synthetic Data (Preferred)
 
@@ -122,7 +122,7 @@ For staging and pre-prod:
 
 ---
 
-## 4. Regression Testing
+## 🧪 4. Regression Testing
 
 ### 4.1 E2E Regression Suite
 
@@ -147,7 +147,7 @@ Each service team maintains an **E2E regression suite** covering their critical 
 
 ---
 
-## 5. Manual & Exploratory Testing
+## 🧪 5. Manual & Exploratory Testing
 
 ### 5.1 Scheduled Sessions
 
@@ -177,7 +177,7 @@ Device/browser: [specific target]
 
 ---
 
-## 6. Release Validation
+## 🚀 6. Release Validation
 
 ### 6.1 Automated Gates Only
 
@@ -218,7 +218,7 @@ Automated rollback triggers (configured in the CD pipeline):
 
 ---
 
-## 7. Bug Triage & Severity
+## 📏 7. Bug Triage & Severity
 
 ### 7.1 Severity Definitions
 
@@ -243,7 +243,7 @@ Automated rollback triggers (configured in the CD pipeline):
 
 ---
 
-## 8. Performance Testing
+## ⚡ 8. Performance Testing
 
 ### 8.1 Ownership
 
@@ -295,7 +295,7 @@ export default function () {
 
 ---
 
-## 9. Security Testing
+## 🔒 9. Security Testing
 
 ### 9.1 SAST — Static Application Security Testing
 
@@ -325,7 +325,7 @@ export default function () {
 
 ---
 
-## 10. Mobile Device Testing
+## 🧪 10. Mobile Device Testing
 
 ### 10.1 Platform: BrowserStack
 
@@ -357,5 +357,8 @@ Every **release candidate** must pass on the following matrix:
 - Device matrix is reviewed **quarterly** based on production analytics (devices representing >2% of active users are included).
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

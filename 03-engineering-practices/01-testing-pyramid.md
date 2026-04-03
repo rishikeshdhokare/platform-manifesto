@@ -1,12 +1,10 @@
-# Testing Pyramid
+# 🧪 Testing Pyramid
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Testing is not a phase that follows development — it is a design activity that happens concurrently with development. Tests are the first consumers of your code. If a unit is hard to test, the design is wrong.
 
@@ -42,7 +40,7 @@ Testing is not a phase that follows development — it is a design activity that
 
 ---
 
-## 2. Unit Tests
+## 🧪 2. Unit Tests
 
 ### 2.1 Definition
 
@@ -92,7 +90,7 @@ A unit test exercises a **single class or function in complete isolation**. All 
 
 ---
 
-## 3. Integration Tests
+## 🔗 3. Integration Tests
 
 ### 3.1 Definition
 
@@ -161,7 +159,7 @@ public abstract class BaseIntegrationTest {
 
 ---
 
-## 4. Contract Tests (Consumer-Driven)
+## 🔗 4. Contract Tests (Consumer-Driven)
 
 ### 4.1 Why Contract Tests
 
@@ -226,7 +224,7 @@ class OrderServicePactProviderTest {
 
 ---
 
-## 4.6 Kafka Event Contract Tests
+## 🔗 4.6 Kafka Event Contract Tests
 
 HTTP APIs are covered by Pact (see above). Kafka event schemas need equivalent protection — if the Orders Service changes the shape of `orders.order.completed`, the Payments consumer must not break silently.
 
@@ -311,7 +309,7 @@ Both must pass in CI. A provider deployment is blocked if either a schema compat
 
 ---
 
-## 5. End-to-End Tests
+## 🧪 5. End-to-End Tests
 
 ### 5.1 Scope
 
@@ -346,7 +344,7 @@ E2E tests exercise **complete user journeys** from the API layer through to real
 
 ---
 
-## 6. Architecture Tests (ArchUnit)
+## 📏 6. Architecture Tests (ArchUnit)
 
 ArchUnit tests enforce architectural rules at build time. Every service must include a standard set of architecture tests:
 
@@ -378,7 +376,7 @@ The platform template ships with a standard set of ArchUnit rules. Teams may add
 
 ---
 
-## 7. Performance & Load Tests
+## ⚡ 7. Performance & Load Tests
 
 ### 7.1 Tools
 
@@ -406,7 +404,7 @@ Every service must define and document its performance baseline in `docs/perform
 
 ---
 
-## 8. Flaky Test Policy
+## ❌ 8. Flaky Test Policy
 
 A flaky test is a test that passes and fails without code changes. Flaky tests are **treated as bugs**.
 
@@ -416,7 +414,7 @@ A flaky test is a test that passes and fails without code changes. Flaky tests a
 
 ---
 
-## 9. Accessibility Testing in CI
+## 🔄 9. Accessibility Testing in CI
 
 Accessibility is not an afterthought — it is tested in CI alongside functional tests.
 
@@ -440,7 +438,7 @@ See [09-mobile-and-frontend/02-web-frontend-standards.md](../09-mobile-and-front
 
 ---
 
-## 10. Shared Test Fixtures
+## 💡 10. Shared Test Fixtures
 
 ### 10.1 Fixture Library
 
@@ -480,7 +478,7 @@ Payment payment = PaymentFixture.aPayment()
 
 ---
 
-## 11. Mocking Infrastructure
+## 🔗 11. Mocking Infrastructure
 
 ### 11.1 Infrastructure Mocking by Technology
 
@@ -506,5 +504,8 @@ Each service must document its **test data shape** in `docs/performance.md`:
 | **Baseline metrics** | Expected p50, p95, p99 latency and throughput |
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

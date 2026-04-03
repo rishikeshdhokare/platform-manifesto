@@ -1,6 +1,8 @@
-# 03 — Engineering Practices
+# ⚙️ 03 — Engineering Practices
 
-How we write, review, test, and ship code. The day-to-day craft of engineering.
+![Docs](https://img.shields.io/badge/docs-11-blue?style=flat-square)
+
+> How we write, review, test, and ship code. The day-to-day craft of engineering.
 
 | Document | Description |
 |----------|-------------|
@@ -16,4 +18,9 @@ How we write, review, test, and ship code. The day-to-day craft of engineering.
 | [10-frontend-ci-cd.md](./10-frontend-ci-cd.md) | Frontend & mobile CI/CD — golden path, monorepo, preview environments, deployment |
 | [11-qa-standards.md](./11-qa-standards.md) | Quality assurance — test environments, test data, regression, bug triage, security testing |
 
-← [Back to root](../README.md)
+---
+<div align="center">
+
+🏠 [Back to root](../README.md)
+
+</div>

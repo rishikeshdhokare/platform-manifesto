@@ -1,12 +1,10 @@
-# CD Practices
+# 🚀 CD Practices
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 **Continuous Delivery** means every commit to `main` that passes CI is *capable* of being deployed to production. **Continuous Deployment** means it *is* deployed to production, automatically.
 
@@ -16,7 +14,7 @@ Our target state is **continuous deployment** to production for all services, wi
 
 ---
 
-## 2. Environments
+## 🚀 2. Environments
 
 | Environment | Purpose | Deployment Trigger | Access |
 |-------------|---------|-------------------|--------|
@@ -67,7 +65,7 @@ All environments are **structurally identical** — same Kubernetes manifests, s
 
 ---
 
-## 3. Deployment Tooling
+## 🚀 3. Deployment Tooling
 
 | Tool | Role |
 |------|------|
@@ -109,7 +107,7 @@ We follow a strict **GitOps** model:
 
 ---
 
-## 4. Deployment Pipeline Stages
+## 🔄 4. Deployment Pipeline Stages
 
 ### 4.1 Full Pipeline Flow
 
@@ -159,7 +157,7 @@ We follow a strict **GitOps** model:
 
 ---
 
-## 5. Progressive Delivery
+## 🚀 5. Progressive Delivery
 
 For a platform with real-time, safety-critical operations, progressive delivery is **non-negotiable**. We never go from 0% to 100% in one step in production.
 
@@ -210,7 +208,7 @@ For high-risk changes (schema migrations, major features), a manual approval gat
 
 ---
 
-## 6. Feature Flags
+## 📏 6. Feature Flags
 
 Feature flags are how we **decouple deployment from release**. Code ships to production disabled; features are enabled via flags without a deployment.
 
@@ -250,7 +248,7 @@ if (flagClient.boolVariation("fulfillment-ml-model-release", context, false)) {
 
 ---
 
-## 7. Rollback Strategy
+## 🔄 7. Rollback Strategy
 
 ### 7.1 Automated Rollback
 
@@ -307,7 +305,7 @@ We follow **expand-contract** pattern for database schema changes:
 
 ---
 
-## 8. Deployment Freeze & Governance
+## 📏 8. Deployment Freeze & Governance
 
 ### 8.1 Change Freeze
 
@@ -332,7 +330,7 @@ All production deployments post automatically to `#deployments` Slack channel:
 
 ---
 
-## 9. Service Readiness Checklist
+## 📋 9. Service Readiness Checklist
 
 Before a service is eligible for automated production deployment, it must have:
 
@@ -350,7 +348,7 @@ Before a service is eligible for automated production deployment, it must have:
 
 ---
 
-## 10. Change Risk Rubric
+## 📏 10. Change Risk Rubric
 
 Every production deployment carries risk. The following rubric classifies changes by risk level and defines the appropriate deployment method and approval requirements.
 
@@ -370,7 +368,7 @@ When in doubt, classify one level higher.
 
 ---
 
-## 11. Deploy Frequency Targets
+## 🚀 11. Deploy Frequency Targets
 
 Deployment frequency targets are aligned with the [Engineering Maturity Model](../08-program/01-maturity-model.md). Teams at higher maturity levels are expected to deploy more frequently with shorter lead times.
 
@@ -383,5 +381,8 @@ Deployment frequency targets are aligned with the [Engineering Maturity Model](.
 These targets are measured via ArgoCD deployment timestamps and reviewed in the monthly engineering metrics review. Teams that consistently miss their maturity-level target should investigate pipeline bottlenecks, test reliability, or approval process friction.
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

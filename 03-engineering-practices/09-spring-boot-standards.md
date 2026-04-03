@@ -1,12 +1,10 @@
-# Spring Boot Platform Standards
+# 🍃 Spring Boot Platform Standards
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Structured Logging](#1-structured-logging)
 2. [Configuration Layering](#2-configuration-layering)
@@ -24,7 +22,7 @@
 
 ---
 
-## 1. Structured Logging
+## 📏 1. Structured Logging
 
 All {Company} Spring Boot services emit logs as structured JSON. Plain-text logs are forbidden in deployed environments.
 
@@ -117,7 +115,7 @@ public class LoggingConfig {
 
 ---
 
-## 2. Configuration Layering
+## 📏 2. Configuration Layering
 
 {Company} services use a layered configuration model. Later sources override earlier ones.
 
@@ -167,7 +165,7 @@ spring:
 
 ---
 
-## 3. Database Connectivity
+## 🔗 3. Database Connectivity
 
 ### 3.1 RDS Proxy URL Pattern
 
@@ -233,7 +231,7 @@ spring:
 
 ---
 
-## 4. Actuator Configuration
+## 📏 4. Actuator Configuration
 
 ### 4.1 Enabled Endpoints in Production
 
@@ -276,7 +274,7 @@ management:
 
 ---
 
-## 5. Graceful Shutdown
+## 📏 5. Graceful Shutdown
 
 All {Company} services must shut down gracefully to drain in-flight requests before terminating.
 
@@ -322,7 +320,7 @@ spec:
 
 ---
 
-## 6. Health Checks
+## 📏 6. Health Checks
 
 ### 6.1 Liveness vs Readiness
 
@@ -389,7 +387,7 @@ public class CacheWarmUpHealthIndicator implements HealthIndicator {
 
 ---
 
-## 7. LaunchDarkly Java SDK
+## 🔗 7. LaunchDarkly Java SDK
 
 ### 7.1 Singleton LDClient as Spring Bean
 
@@ -495,7 +493,7 @@ void shouldUseNewCheckoutWhenFlagEnabled() {
 
 ---
 
-## 8. Internal Authentication
+## 🔒 8. Internal Authentication
 
 ### 8.1 BFF-to-Service Token Propagation
 
@@ -563,7 +561,7 @@ Internal service-to-service calls use mTLS enforced by the service mesh (Istio).
 
 ---
 
-## 9. Virtual Threads
+## ⚡ 9. Virtual Threads
 
 ### 9.1 Decision Guide
 
@@ -625,7 +623,7 @@ public class VirtualThreadConfig {
 
 ---
 
-## 10. JVM Options
+## 📏 10. JVM Options
 
 ### 10.1 Standard JVM Options Template
 
@@ -664,7 +662,7 @@ Container memory limit = JVM heap (75%) + Metaspace (~128 MB) + Thread stacks + 
 
 ---
 
-## 11. Metric Naming
+## 📏 11. Metric Naming
 
 ### 11.1 RED Pattern
 
@@ -741,7 +739,7 @@ public class OrderMetrics {
 
 ---
 
-## 12. Service Release Versioning
+## 📏 12. Service Release Versioning
 
 ### 12.1 Container Image Versioning
 
@@ -793,7 +791,7 @@ flowchart LR
 
 ---
 
-## 13. Auto-Configuration Exclusions
+## 📏 13. Auto-Configuration Exclusions
 
 The following Spring Boot auto-configurations are excluded by default in the platform starter to prevent unintended behavior:
 
@@ -831,5 +829,8 @@ public class OrderServiceApplication {
 Teams that need any of these auto-configurations can re-enable them by removing the exclusion and documenting the reason in their service's `README.md`.
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

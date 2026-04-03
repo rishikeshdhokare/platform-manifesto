@@ -1,12 +1,10 @@
-# Deprecation Lifecycle
+# 🗓️ Deprecation Lifecycle
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Scope](#1-scope)
 2. [Deprecation Timelines](#2-deprecation-timelines)
@@ -19,7 +17,7 @@
 
 ---
 
-## 1. Scope
+## 🎯 1. Scope
 
 This document governs the deprecation and sunset process for all shared platform artifacts at {Company}. Any artifact consumed by teams other than its owner must follow this lifecycle before removal.
 
@@ -35,7 +33,7 @@ This document governs the deprecation and sunset process for all shared platform
 
 ---
 
-## 2. Deprecation Timelines
+## 📏 2. Deprecation Timelines
 
 Every deprecated artifact has a defined **sunset window** — the period between the deprecation announcement and the removal date. The window length varies by artifact type to reflect the migration effort and blast radius.
 
@@ -85,7 +83,7 @@ gantt
 
 ---
 
-## 3. Communication Cadence
+## 📏 3. Communication Cadence
 
 Deprecation is not a one-time announcement. Consumers must be reminded at regular intervals to ensure no team is caught by surprise at sunset.
 
@@ -101,7 +99,7 @@ Deprecation is not a one-time announcement. Consumers must be reminded at regula
 
 ---
 
-## 4. Communication Channels
+## 📏 4. Communication Channels
 
 Deprecation notices must reach every consumer team through multiple channels. A Slack message alone is insufficient.
 
@@ -128,7 +126,7 @@ Consumers that parse these headers can automate deprecation detection and surfac
 
 ---
 
-## 5. Usage Tracking & Removal Gates
+## 🔄 5. Usage Tracking & Removal Gates
 
 No deprecated artifact may be removed while it still has active consumers. Usage is tracked automatically, and removal is gated on zero active consumers.
 
@@ -164,7 +162,7 @@ flowchart TD
 
 ---
 
-## 6. Consumer Migration Checklist
+## 📋 6. Consumer Migration Checklist
 
 The deprecating team is responsible for providing a migration path. Dropping an artifact without a replacement is not permitted unless the capability is being intentionally retired.
 
@@ -180,7 +178,7 @@ The deprecating team is responsible for providing a migration path. Dropping an 
 
 ---
 
-## 7. CI Enforcement
+## 🔄 7. CI Enforcement
 
 Deprecation is enforced programmatically, not just through communication. CI pipelines detect and surface deprecated dependencies.
 
@@ -221,7 +219,7 @@ Deprecation is enforced programmatically, not just through communication. CI pip
 
 ---
 
-## 8. Exception Process
+## 📏 8. Exception Process
 
 Deadlines exist for a reason. Extensions are granted only when the migration is genuinely infeasible within the sunset window, not because a team deprioritized the work.
 
@@ -245,5 +243,8 @@ Deadlines exist for a reason. Extensions are granted only when the migration is 
 All active exceptions are tracked in a shared tracker (linked from the Platform Engineering Backstage page) and reviewed monthly in the Platform Engineering review meeting.
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

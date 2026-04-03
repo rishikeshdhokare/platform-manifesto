@@ -1,12 +1,10 @@
-# Code Review Guide
+# 👀 Code Review Guide
 
-> **Status:** Guidance  
-> **Owner:** Engineering Leadership  
-> **Last Updated:** 2025
+![Status: Guidance](https://img.shields.io/badge/status-guidance-orange?style=flat-square) ![Owner: Engineering Leadership](https://img.shields.io/badge/owner-Engineering_Leadership-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Why Code Review Matters
+## 🎯 1. Why Code Review Matters
 
 Code review is the most effective quality gate we have — not because it catches all bugs (it doesn't), but because it:
 - Spreads knowledge about the codebase across the team
@@ -18,7 +16,7 @@ Done well, code review is a **collaborative and educational** experience. Done p
 
 ---
 
-## 2. For the Author: Before You Raise a PR
+## 📏 2. For the Author: Before You Raise a PR
 
 ### 2.1 Review Your Own Code First
 
@@ -79,7 +77,7 @@ likely need a different strategy for shared orders (RIDE-2001).
 
 ---
 
-## 3. For the Reviewer: How to Review Well
+## 📏 3. For the Reviewer: How to Review Well
 
 ### 3.1 Review SLA
 
@@ -124,7 +122,7 @@ Use prefixes to signal the weight of your comment:
 
 ---
 
-## 4. Comment Examples — Good and Bad
+## 💡 4. Comment Examples — Good and Bad
 
 ### Correctness
 
@@ -183,7 +181,7 @@ The atomic save + outbox write guarantees we never lose the event. Well done.
 
 ---
 
-## 5. Common Review Scenarios
+## 💡 5. Common Review Scenarios
 
 ### "I disagree with the reviewer's suggestion"
 
@@ -228,7 +226,7 @@ git diff {last-reviewed-sha}..HEAD
 
 ---
 
-## 6. Reviewing Security-Sensitive Changes
+## 🔒 6. Reviewing Security-Sensitive Changes
 
 Apply extra scrutiny when reviewing:
 - Authentication / authorisation changes
@@ -246,7 +244,7 @@ For these, ask specifically:
 
 ---
 
-## 7. The Approval Decision
+## 📏 7. The Approval Decision
 
 **Approve** when: You're satisfied the code is correct, tested, safe, and follows standards. Minor nits are fine to note even on approval.
 
@@ -261,7 +259,7 @@ For these, ask specifically:
 
 ---
 
-## 8. Self-Review Checklist (Run This Before Every PR)
+## 📋 8. Self-Review Checklist (Run This Before Every PR)
 
 ```
 Code
@@ -290,5 +288,8 @@ PR
 ```
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

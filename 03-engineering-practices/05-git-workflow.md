@@ -1,12 +1,10 @@
-# Git Workflow Guide
+# 🌿 Git Workflow
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Our Approach: Trunk-Based Development
+## 🎯 1. Our Approach: Trunk-Based Development
 
 We practice **trunk-based development (TBD)**. All engineers integrate their work into `main` frequently — at least once a day, ideally multiple times.
 
@@ -22,7 +20,7 @@ If you're coming from GitFlow or long-lived feature branches, this feels wrong a
 
 ---
 
-## 2. The Daily Workflow
+## 📏 2. The Daily Workflow
 
 ### 2.1 Start of Day
 
@@ -100,7 +98,7 @@ When your PR is approved:
 
 ---
 
-## 3. Common Scenarios
+## 💡 3. Common Scenarios
 
 ### Scenario 1: My feature will take more than 2 days
 
@@ -199,7 +197,7 @@ git reset --hard HEAD~1
 
 ---
 
-## 4. Commit Messages — Conventional Commits
+## 📏 4. Commit Messages — Conventional Commits
 
 Every commit must follow this format:
 
@@ -262,7 +260,7 @@ git commit -m "RIDE-1234"   # just a ticket number — no description
 
 ---
 
-## 5. Code Review Etiquette
+## 📏 5. Code Review Etiquette
 
 ### For the PR Author
 
@@ -278,7 +276,7 @@ See the full [Code Review Guide](./06-code-review-guide.md).
 
 ---
 
-## 6. Useful Git Commands
+## 📋 6. Useful Git Commands
 
 ```bash
 # See a clean log of recent commits
@@ -309,7 +307,7 @@ git push origin --delete feat/RIDE-1234-add-price-calculation
 
 ---
 
-## 7. Git Configuration Checklist
+## 📋 7. Git Configuration Checklist
 
 Every engineer should have these configured:
 
@@ -336,5 +334,8 @@ pre-commit install
 ```
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

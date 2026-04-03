@@ -1,12 +1,10 @@
-# Coding Standards & Style Guide
+# 📝 Coding Standards
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Code is read far more than it is written. Every decision in this guide optimises for **readability, predictability, and maintainability** — not brevity or cleverness.
 
@@ -14,7 +12,7 @@ When in doubt, ask: *"Will a colleague who has never seen this code understand i
 
 ---
 
-## 2. Automated Enforcement
+## 🔄 2. Automated Enforcement
 
 Most style rules are enforced automatically. You do not need to memorise them — your IDE and CI will tell you when you're wrong.
 
@@ -30,7 +28,7 @@ The rules below cover things tools **cannot** enforce — judgment calls that re
 
 ---
 
-## 3. Naming
+## 📏 3. Naming
 
 ### 3.1 General Rules
 
@@ -91,7 +89,7 @@ Set<String> activeZones;
 
 ---
 
-## 4. Classes
+## 📏 4. Classes
 
 ### 4.1 Single Responsibility
 
@@ -153,7 +151,7 @@ public final class OrderRequest {
 
 ---
 
-## 5. Methods
+## 📏 5. Methods
 
 ### 5.1 Method Length
 
@@ -248,7 +246,7 @@ if (status == OrderStatus.COMPLETED) { ... }
 
 ---
 
-## 6. Error Handling
+## ❌ 6. Error Handling
 
 ### 6.1 Use Typed Exceptions — Never Generic Ones
 
@@ -340,7 +338,7 @@ providerService.dispatch(providerId, orderId);
 
 ---
 
-## 7. Null Handling
+## 📏 7. Null Handling
 
 ### 7.1 Never Return Null from a Method
 
@@ -385,7 +383,7 @@ public @Nullable Provider findNearestAvailableProvider(Location location) { ... 
 
 ---
 
-## 8. Comments
+## 📏 8. Comments
 
 ### 8.1 Code Should Be Self-Documenting
 
@@ -436,7 +434,7 @@ Every `// TODO` comment must reference a Jira ticket:
 
 ---
 
-## 9. Use of Java Records
+## 💡 9. Use of Java Records
 
 Use Java Records for immutable data carriers (DTOs, value objects, parameters):
 
@@ -471,7 +469,7 @@ Do **not** use records for domain entities that have lifecycle and changing stat
 
 ---
 
-## 10. Logging in Code
+## 📏 10. Logging in Code
 
 Always use SLF4J. Never use `System.out.println`.
 
@@ -496,7 +494,7 @@ log.error("Failed to dispatch provider. orderId={}, providerId={}", orderId, pro
 
 ---
 
-## 11. Dependency Injection
+## 📏 11. Dependency Injection
 
 Always inject via constructor — never via field injection (`@Autowired` on fields).
 
@@ -536,7 +534,7 @@ public class OrderService {
 
 ---
 
-## 12. Quick Reference — Do / Don't
+## 📋 12. Quick Reference — Do / Don't
 
 | Do | Don't |
 |----|-------|
@@ -552,5 +550,8 @@ public class OrderService {
 | Reference a Jira ticket in every `// TODO` | Write `// TODO: fix later` |
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

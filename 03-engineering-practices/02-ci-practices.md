@@ -1,12 +1,10 @@
-# CI Practices
+# 🔄 CI Practices
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Continuous Integration means **integrating into the main branch continuously** — not once a sprint, not once a week, but multiple times a day. The CI pipeline is the guardian of main: nothing that breaks the build, fails tests, or violates quality gates gets in.
 
@@ -16,7 +14,7 @@ Continuous Integration means **integrating into the main branch continuously** �
 
 ---
 
-## 2. Source Control Strategy
+## 📏 2. Source Control Strategy
 
 ### 2.1 Trunk-Based Development
 
@@ -78,7 +76,7 @@ Commit messages are **linted in CI** — a PR with non-conforming commit message
 
 ---
 
-## 3. Pull Request Standards
+## 📏 3. Pull Request Standards
 
 ### 3.1 PR Size
 
@@ -128,7 +126,7 @@ Reviewers are **not** expected to enforce formatting — that is the linter's jo
 
 ---
 
-## 4. CI Pipeline
+## 🔄 4. CI Pipeline
 
 ### 4.1 Platform
 
@@ -231,7 +229,7 @@ Stage 6: Release notes generation (conventional-changelog)
 
 ---
 
-## 5. Quality Gates
+## 📏 5. Quality Gates
 
 These gates are **non-negotiable**. A PR cannot be merged if any of these fail:
 
@@ -250,7 +248,7 @@ These gates are **non-negotiable**. A PR cannot be merged if any of these fail:
 
 ---
 
-## 6. Build Performance
+## ⚡ 6. Build Performance
 
 ### 6.1 Gradle Caching
 
@@ -276,7 +274,7 @@ If a pipeline consistently exceeds its SLA, the team is expected to optimise it 
 
 ---
 
-## 7. Notifications & Visibility
+## 📋 7. Notifications & Visibility
 
 - **Slack:** CI failures on `main` post to `#ci-failures-{team}` channel immediately
 - **GitHub:** All checks visible on PR — no merge until green
@@ -284,7 +282,7 @@ If a pipeline consistently exceeds its SLA, the team is expected to optimise it 
 
 ---
 
-## 8. DAST in CI
+## 🔒 8. DAST in CI
 
 ### 8.1 OWASP ZAP Scans
 
@@ -308,7 +306,7 @@ Dynamic Application Security Testing is performed quarterly against the staging 
 
 ---
 
-## 9. Terraform Drift Detection
+## 🔄 9. Terraform Drift Detection
 
 ### 9.1 Scheduled Drift Check
 
@@ -327,7 +325,7 @@ Alerts include: environment, resource type, resource name, and a summary of the 
 
 ---
 
-## 10. Terraform Module Testing
+## 🧪 10. Terraform Module Testing
 
 ### 10.1 Terratest for Shared Modules
 
@@ -359,5 +357,8 @@ Each module must include tests that:
 | 4 | Merge to `main` → new module version tagged |
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>
