@@ -1,12 +1,10 @@
-# Open Source Policy
+# 📖 Open Source Policy
 
-> **Status:** Mandated  
-> **Owner:** CTO + Legal  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: CTO + Legal](https://img.shields.io/badge/owner-CTO_%2B_Legal-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 {Company} is built on open source. Our entire stack — Kubernetes, Kafka, PostgreSQL, Spring Boot, Terraform, ArgoCD, Grafana — exists because communities invested in building shared infrastructure.
 
@@ -21,7 +19,7 @@
 
 ---
 
-## 2. Consumption Governance
+## 📖 2. Consumption Governance
 
 ### 2.1 Approved Licenses
 
@@ -63,7 +61,7 @@ flowchart LR
 
 ---
 
-## 3. New Dependency Review
+## 📋 3. New Dependency Review
 
 Before adding any new dependency, engineers must evaluate:
 
@@ -102,7 +100,7 @@ flowchart TD
 
 ---
 
-## 4. Abandoned Project Risk
+## ❌ 4. Abandoned Project Risk
 
 A dependency is flagged as **at risk** when:
 
@@ -123,7 +121,7 @@ Platform Engineering runs a quarterly scan of all production dependencies:
 
 ---
 
-## 5. Contribution Guidelines
+## 🤝 5. Contribution Guidelines
 
 Engineers are encouraged to contribute to open source projects that {Company} depends on. Contributing upstream fixes is better than maintaining internal forks.
 
@@ -161,7 +159,7 @@ sequenceDiagram
 
 ---
 
-## 6. Publishing {Company} Open Source
+## 📖 6. Publishing {Company} Open Source
 
 If {Company} wants to release an internal tool or library as open source:
 
@@ -191,7 +189,7 @@ If {Company} wants to release an internal tool or library as open source:
 
 ---
 
-## 7. License Compliance Enforcement
+## 🔐 7. License Compliance Enforcement
 
 ### 7.1 CI Enforcement
 
@@ -214,7 +212,7 @@ If a team genuinely needs a GPL-licensed dependency:
 
 ---
 
-## 8. Decision Flowchart — Adding a New Dependency
+## 🎯 8. Decision Flowchart — Adding a New Dependency
 
 Use this flowchart every time you consider adding a new third-party library.
 
@@ -249,5 +247,8 @@ flowchart TD
 ```
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

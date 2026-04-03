@@ -1,12 +1,10 @@
-# Team Topology & Ways of Working
+# 🏘️ Team Topology & Ways of Working
 
-> **Status:** Guidance  
-> **Owner:** CTO / Engineering Leadership  
-> **Last Updated:** 2025
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: CTO / Engineering Leadership](https://img.shields.io/badge/owner-CTO_%2F_Engineering_Leadership-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Team Structure
+## 🏘️ 1. Team Structure
 
 We follow the **Team Topologies** model. There are two primary team types:
 
@@ -41,7 +39,7 @@ Platform team on-call is separate from stream-aligned team on-call. Platform Pag
 
 ---
 
-## 2. Ownership Model
+## 🏘️ 2. Ownership Model
 
 ### 2.1 Service Ownership
 
@@ -66,7 +64,7 @@ terraform/          @{company}/team-platform
 
 ---
 
-## 3. Ways of Working
+## 🛤️ 3. Ways of Working
 
 ### 3.1 Sprint Cadence
 
@@ -122,7 +120,7 @@ Technical debt is visible and tracked:
 
 ---
 
-## 4. Inner Source
+## 🤝 4. Inner Source
 
 Shared libraries and platform components follow an **inner source model**:
 - Any engineer can raise a PR against any repository
@@ -131,7 +129,7 @@ Shared libraries and platform components follow an **inner source model**:
 
 ---
 
-## 5. Worked Example ADR
+## 📋 5. Worked Example ADR
 
 This is what a real, well-written ADR looks like:
 
@@ -194,7 +192,7 @@ pipeline where it makes more sense at scale.
 
 ---
 
-## 6. Inner Source Standards
+## 📏 6. Inner Source Standards
 
 Any engineer may open a PR to any service they don't own. The following standards govern how inner source contributions are handled.
 
@@ -230,7 +228,7 @@ Inner source contributions count toward **engineering ladder progression** — s
 
 ---
 
-## 7. Technical Debt Registry
+## 📊 7. Technical Debt Registry
 
 ### Registry Location
 
@@ -281,5 +279,8 @@ Quarterly tech debt report to the CTO covering:
 - Trending (is debt growing or shrinking?)
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

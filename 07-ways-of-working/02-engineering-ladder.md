@@ -1,14 +1,10 @@
-# Engineering Ladder
+# 🪜 Engineering Ladder
 
-> *{Company} Platform Engineering Manifesto — how we grow engineers who build reliable platforms at scale.*
-
-> **Status:** Reference  
-> **Owner:** CTO + Engineering Leadership  
-> **Last Updated:** 2026
+![Status: Reference](https://img.shields.io/badge/status-Reference-yellow?style=flat-square) ![Owner: CTO + Engineering Leadership](https://img.shields.io/badge/owner-CTO_%2B_Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Purpose
+## 🎯 1. Purpose
 
 This ladder **maps individual engineering growth** to the standards defined in the {Company} Platform Manifesto — from the golden path and hexagonal architecture to observability, resilience, and platform governance.
 
@@ -16,7 +12,7 @@ It is **not** a performance review tool or a promotion checklist. It is a **grow
 
 ---
 
-## 2. Levels overview
+## 🪜 2. Levels overview
 
 Progression is defined by **expanding scope of impact**: from well-scoped tasks to organization-wide technical direction.
 
@@ -42,7 +38,7 @@ flowchart LR
 
 ---
 
-## 3. Engineer I expectations
+## 🪜 3. Engineer I expectations
 
 - Follows the **golden path** for new work (scaffolding, CI, deployment patterns documented in the manifesto).
 - Writes **unit tests** that meet the platform target of **≥ 80% coverage** on meaningful code paths.
@@ -53,7 +49,7 @@ flowchart LR
 
 ---
 
-## 4. Engineer II expectations
+## 🪜 4. Engineer II expectations
 
 - Contributes **integration tests** using **Testcontainers** (or equivalent manifesto-approved patterns) so tests exercise real dependencies, not only mocks.
 - Implements **resilience patterns** where appropriate: circuit breaker, retry with backoff, timeouts — aligned with operational excellence standards.
@@ -62,7 +58,7 @@ flowchart LR
 
 ---
 
-## 5. Senior Engineer expectations
+## 🪜 5. Senior Engineer expectations
 
 - **Contributes to manifesto standards** — proposes improvements, pilots changes, or helps document patterns from production experience.
 - **Mentors** others on code review quality, design, and operational thinking.
@@ -72,7 +68,7 @@ flowchart LR
 
 ---
 
-## 6. Staff Engineer expectations
+## 🪜 6. Staff Engineer expectations
 
 - **Shapes cross-service architecture** — aligns boundaries, contracts, and evolution paths across teams.
 - **Authors ADRs for domain-level** decisions that affect multiple services or teams.
@@ -82,7 +78,7 @@ flowchart LR
 
 ---
 
-## 7. Principal Engineer expectations
+## 🪜 7. Principal Engineer expectations
 
 - **Sets technical direction** across the platform in partnership with CTO and domain leaders.
 - **Makes build-vs-buy decisions** with clear criteria: cost, risk, time-to-value, and operational fit for {Company}'s scale.
@@ -92,7 +88,7 @@ flowchart LR
 
 ---
 
-## 8. Maturity model alignment
+## 📊 8. Maturity model alignment
 
 The [Engineering Maturity Model](../08-program/01-maturity-model.md) describes **team capabilities** across dimensions (source control, testing, CI/CD, observability, security, developer experience, etc.). This ladder describes **individual** expectations at each level. Together they answer: *what should the team be capable of?* and *what should a person at this level be able to lead or exemplify?*
 
@@ -128,7 +124,7 @@ flowchart TB
 
 ---
 
-## 9. Growth framework
+## 🪜 9. Growth framework
 
 ```mermaid
 flowchart LR
@@ -147,10 +143,13 @@ Promotion and compensation decisions remain **manager and HR processes**; this d
 
 ---
 
-## 10. Relationship to Performance Reviews
+## 👥 10. Relationship to Performance Reviews
 
 The engineering ladder informs performance reviews but does not replace them. For the performance review process, calibration cadence, and review templates, see [09-engineering-management.md](./09-engineering-management.md).
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,4 +1,6 @@
-# 07 — Ways of Working
+# 🤝 07 — Ways of Working
+
+![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
 
 Team structure, decision-making processes, and how we collaborate.
 
@@ -15,4 +17,9 @@ Team structure, decision-making processes, and how we collaborate.
 | [09-engineering-management.md](./09-engineering-management.md) | Engineering management — performance reviews, 1:1s, team health, headcount, career dev |
 | [10-product-operations.md](./10-product-operations.md) | Product operations — roadmap, OKRs, user stories, launch management, customer feedback |
 
-← [Back to root](../README.md)
+---
+<div align="center">
+
+🏠 [Back to root](../README.md)
+
+</div>

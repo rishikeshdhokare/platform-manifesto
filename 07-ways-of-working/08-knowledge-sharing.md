@@ -1,12 +1,10 @@
-# Knowledge Sharing
+# 🧠 Knowledge Sharing
 
-> **Status:** Guidance  
-> **Owner:** Engineering Leadership  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Engineering Leadership](https://img.shields.io/badge/owner-Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Code is written once and read many times. Decisions are made once and questioned forever — unless the context is captured. Knowledge sharing is not a nice-to-have side activity; it is core infrastructure for an engineering organization that scales.
 
@@ -14,7 +12,7 @@ Code is written once and read many times. Decisions are made once and questioned
 
 ---
 
-## 2. Guilds / Communities of Practice
+## 🧠 2. Guilds / Communities of Practice
 
 Guilds are cross-team groups organized around a technical discipline. They provide a space for engineers working on similar problems across different product teams to align, share patterns, and raise standards together.
 
@@ -56,7 +54,7 @@ flowchart LR
 
 ---
 
-## 3. Tech Talks
+## 🧠 3. Tech Talks
 
 Bi-weekly, 30-minute presentations open to all of engineering. Any engineer can present — there is no seniority requirement.
 
@@ -91,7 +89,7 @@ All past and upcoming talks are indexed in Backstage with:
 
 ---
 
-## 4. Architecture Clinics
+## 🧠 4. Architecture Clinics
 
 Monthly, drop-in sessions where Staff+ engineers make themselves available for 1:1 architecture review conversations.
 
@@ -117,7 +115,7 @@ flowchart TD
 
 ---
 
-## 5. Written Knowledge Artifacts
+## 🧠 5. Written Knowledge Artifacts
 
 Written documentation is the most scalable form of knowledge sharing. {Company} maintains several types of written artifacts:
 
@@ -140,7 +138,7 @@ Written documentation is the most scalable form of knowledge sharing. {Company} 
 
 ---
 
-## 6. Onboarding Reading List
+## 🧠 6. Onboarding Reading List
 
 New engineers receive a curated "start here" reading list that goes beyond the manifesto. The list is maintained by Engineering Leadership and reviewed quarterly.
 
@@ -165,7 +163,7 @@ New engineers receive a curated "start here" reading list that goes beyond the m
 
 ---
 
-## 7. Brown Bags
+## 🧠 7. Brown Bags
 
 Informal, team-initiated lunch sessions. No formal approval or scheduling process.
 
@@ -179,7 +177,7 @@ Informal, team-initiated lunch sessions. No formal approval or scheduling proces
 
 ---
 
-## 8. Knowledge Sharing Calendar
+## 📋 8. Knowledge Sharing Calendar
 
 | Activity | Frequency | Owner | Channel |
 |----------|-----------|-------|---------|
@@ -192,7 +190,7 @@ Informal, team-initiated lunch sessions. No formal approval or scheduling proces
 
 ---
 
-## 9. Measuring Effectiveness
+## 📊 9. Measuring Effectiveness
 
 | Metric | How We Measure | Target |
 |--------|---------------|--------|
@@ -203,5 +201,8 @@ Informal, team-initiated lunch sessions. No formal approval or scheduling proces
 | **PIR publication rate** | % of P1/P2 incidents with PIR published within 5 days | 100% |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

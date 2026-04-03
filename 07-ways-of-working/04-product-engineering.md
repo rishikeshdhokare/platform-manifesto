@@ -1,12 +1,10 @@
-# Product-Engineering Collaboration
+# 🤝 Product-Engineering Collaboration
 
-> **Status:** Guidance  
-> **Owner:** CTO / VP Engineering / VP Product  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: CTO / VP Engineering / VP Product](https://img.shields.io/badge/owner-CTO_%2F_VP_Engineering_%2F_VP_Product-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Great products emerge from tight collaboration between product managers and engineers. Product teams are not a "requirements factory" that throws work over a wall — they are a single unit where PM, engineering, and design work together to discover, decide, and deliver.
 
@@ -14,7 +12,7 @@ This document defines how product management and engineering collaborate at {Com
 
 ---
 
-## 2. The Product-Engineering Contract
+## 🤝 2. The Product-Engineering Contract
 
 ### 2.1 What Product Owns
 
@@ -47,7 +45,7 @@ This document defines how product management and engineering collaborate at {Com
 
 ---
 
-## 3. Discovery Process
+## 🛤️ 3. Discovery Process
 
 ### 3.1 Dual-Track Development
 
@@ -94,7 +92,7 @@ Before committing to a PRD, engineering provides a **feasibility assessment**:
 
 ---
 
-## 4. Rituals
+## 🤝 4. Rituals
 
 ### 4.1 Cadence
 
@@ -123,7 +121,7 @@ These are guidelines, not mandates. The PM and engineering lead negotiate alloca
 
 ---
 
-## 5. Prioritization Framework
+## 📋 5. Prioritization Framework
 
 ### 5.1 RICE Scoring
 
@@ -151,7 +149,7 @@ Regardless of RICE score, some work always takes priority:
 
 ---
 
-## 6. Communication Standards
+## 📏 6. Communication Standards
 
 ### 6.1 Decision Records
 
@@ -182,7 +180,7 @@ Disagreements that reach step 3 must be documented with both perspectives for or
 
 ---
 
-## 7. Anti-Patterns
+## ❌ 7. Anti-Patterns
 
 | Anti-Pattern | Why It's Harmful | What to Do Instead |
 |-------------|-----------------|-------------------|
@@ -195,7 +193,7 @@ Disagreements that reach step 3 must be documented with both perspectives for or
 
 ---
 
-## 8. User Story Standards
+## 📏 8. User Story Standards
 
 ### 8.1 Format
 
@@ -244,5 +242,8 @@ A user story is **done** when all of the following are satisfied:
 Stories that do not meet the Definition of Done are returned to "In Progress" and are not counted toward sprint velocity.
 
 ---
+<div align="center">
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

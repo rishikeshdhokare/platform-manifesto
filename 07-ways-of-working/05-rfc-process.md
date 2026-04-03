@@ -1,12 +1,10 @@
-# RFC Process
+# 📋 RFC Process
 
-> **Status:** Guidance  
-> **Owner:** Engineering Leadership  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Engineering Leadership](https://img.shields.io/badge/owner-Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Purpose
+## 🎯 1. Purpose
 
 An RFC (Request for Comments) is a lightweight decision document used when a technical decision affects multiple teams or the wider organization. It provides structured context, invites feedback from stakeholders, and produces a durable record of why a decision was made.
 
@@ -14,7 +12,7 @@ This document defines when to write an RFC, how to structure it, who reviews it,
 
 ---
 
-## 2. RFC vs ADR — When to Use Which
+## 📋 2. RFC vs ADR — When to Use Which
 
 | Dimension | ADR (Architecture Decision Record) | RFC (Request for Comments) |
 |-----------|-----------------------------------|-----------------------------|
@@ -29,7 +27,7 @@ This document defines when to write an RFC, how to structure it, who reviews it,
 
 ---
 
-## 3. RFC Numbering
+## 📋 3. RFC Numbering
 
 RFCs follow the format:
 
@@ -46,7 +44,7 @@ The RFC index in Backstage auto-assigns the next available number when a draft i
 
 ---
 
-## 4. RFC Template
+## 📋 4. RFC Template
 
 Every RFC must include the following sections:
 
@@ -105,7 +103,7 @@ Every RFC must include the following sections:
 
 ---
 
-## 5. RFC Stages
+## 📋 5. RFC Stages
 
 ```mermaid
 stateDiagram-v2
@@ -130,7 +128,7 @@ stateDiagram-v2
 
 ---
 
-## 6. Required Reviewers by Scope
+## 📋 6. Required Reviewers by Scope
 
 | Scope | Required Reviewers | Quorum |
 |-------|--------------------|--------|
@@ -142,7 +140,7 @@ Authors may add additional reviewers at their discretion. Reviewers who are adde
 
 ---
 
-## 7. Timeout and Escalation Rules
+## 📋 7. Timeout and Escalation Rules
 
 | Condition | Action |
 |-----------|--------|
@@ -154,7 +152,7 @@ Timeouts exist to prevent decision paralysis. Silence is not consent — if revi
 
 ---
 
-## 8. Decision Outcomes
+## 📋 8. Decision Outcomes
 
 | Outcome | What It Means |
 |---------|---------------|
@@ -165,7 +163,7 @@ Timeouts exist to prevent decision paralysis. Silence is not consent — if revi
 
 ---
 
-## 9. RFC Index and Registry
+## 📋 9. RFC Index and Registry
 
 All RFCs are indexed in **Backstage TechDocs** under the `Engineering RFCs` namespace.
 
@@ -183,7 +181,7 @@ The index is the single source of truth for all RFC statuses. Teams should check
 
 ---
 
-## 10. Best Practices
+## 📏 10. Best Practices
 
 | Practice | Why |
 |----------|-----|
@@ -196,10 +194,13 @@ The index is the single source of truth for all RFC statuses. Teams should check
 
 ---
 
-## 11. Scope Beyond Technical Decisions
+## 📋 11. Scope Beyond Technical Decisions
 
 RFCs are not limited to technical decisions. Process changes, organizational restructuring, and cross-team workflow proposals should also use the RFC process when they affect more than one team. Examples include changes to the on-call rotation model, sprint cadence adjustments across teams, or new cross-team review processes. The same template, review process, and decision framework apply.
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

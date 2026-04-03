@@ -1,12 +1,10 @@
-# Product Operations
+# 📈 Product Operations
 
-> **Status:** Guidance  
-> **Owner:** VP Product / Engineering Leadership  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: VP Product / Engineering Leadership](https://img.shields.io/badge/owner-VP_Product_%2F_Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Roadmap Process](#1-roadmap-process)
 2. [OKR Process](#2-okr-process)
@@ -20,7 +18,7 @@
 
 ---
 
-## 1. Roadmap Process
+## 📈 1. Roadmap Process
 
 ### 1.1 Quarterly Cycle
 
@@ -72,7 +70,7 @@ The roadmap lives in **Jira Advanced Roadmap** (or Productboard) and is the sing
 
 ---
 
-## 2. OKR Process
+## 📈 2. OKR Process
 
 ### 2.1 OKR Lifecycle
 
@@ -127,7 +125,7 @@ Quarter: Q2 2026
 
 ---
 
-## 3. User Stories & Acceptance Criteria
+## 📏 3. User Stories & Acceptance Criteria
 
 ### 3.1 User Story Format
 
@@ -184,7 +182,7 @@ Feature: Save payment method
 
 ---
 
-## 4. Stakeholder Communication
+## 📈 4. Stakeholder Communication
 
 ### 4.1 Weekly Status Email Template
 
@@ -241,7 +239,7 @@ Subject: [Team Name] Weekly Update — Week of [Date]
 
 ---
 
-## 5. Launch Management
+## 📈 5. Launch Management
 
 ### 5.1 Launch Readiness Checklist
 
@@ -292,7 +290,7 @@ Seven days after launch, the team conducts a post-launch review:
 
 ---
 
-## 6. Customer Feedback
+## 📈 6. Customer Feedback
 
 ### 6.1 Feedback Channels
 
@@ -328,7 +326,7 @@ flowchart LR
 
 ---
 
-## 7. Competitive Analysis
+## 📈 7. Competitive Analysis
 
 ### 7.1 Quarterly Competitive Brief
 
@@ -367,7 +365,7 @@ The PM team monitors competitor trigger events that should prompt immediate anal
 
 ---
 
-## 8. PM Analytics & Self-Serve Data
+## 📊 8. PM Analytics & Self-Serve Data
 
 ### 8.1 Self-Serve Analytics Stack
 
@@ -408,7 +406,7 @@ Each product area maintains a QuickSight dashboard with its key metrics:
 
 ---
 
-## 9. Dependency Management
+## 📈 9. Dependency Management
 
 ### 9.1 Jira Dependency Links
 
@@ -454,5 +452,8 @@ flowchart TD
 | **Red** | Dependency blocked or slipping > 2 weeks | EM escalation, scope discussion, potential de-scoping |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

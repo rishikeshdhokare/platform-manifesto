@@ -1,12 +1,10 @@
-# Engineering Management Guide
+# 👥 Engineering Management Guide
 
-> **Status:** Guidance  
-> **Owner:** VP Engineering  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: VP Engineering](https://img.shields.io/badge/owner-VP_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📋 Table of Contents
 
 1. [Performance Reviews](#1-performance-reviews)
 2. [One-on-Ones](#2-one-on-ones)
@@ -26,7 +24,7 @@
 
 ---
 
-## 1. Performance Reviews
+## 👥 1. Performance Reviews
 
 ### 1.1 Cadence
 
@@ -63,7 +61,7 @@ The [Engineering Ladder](./02-engineering-ladder.md) describes level expectation
 
 ---
 
-## 2. One-on-Ones
+## 👥 2. One-on-Ones
 
 ### 2.1 Standards
 
@@ -107,7 +105,7 @@ The [Engineering Ladder](./02-engineering-ladder.md) describes level expectation
 
 ---
 
-## 3. Team Health
+## 👥 3. Team Health
 
 ### 3.1 Quarterly Health Check
 
@@ -142,7 +140,7 @@ If a dimension is Red for two consecutive quarters:
 
 ---
 
-## 4. Headcount Planning
+## 👥 4. Headcount Planning
 
 ### 4.1 Triggers for New Headcount
 
@@ -193,7 +191,7 @@ flowchart LR
 
 ---
 
-## 5. Delivery Tracking
+## 📊 5. Delivery Tracking
 
 ### 5.1 OKR Progress
 
@@ -228,7 +226,7 @@ Cross-team dependencies are tracked on a shared dependency board (Jira filter) r
 
 ---
 
-## 6. Conflict Resolution
+## 👥 6. Conflict Resolution
 
 ### 6.1 Escalation Path
 
@@ -257,7 +255,7 @@ flowchart TD
 
 ---
 
-## 7. Remote & Hybrid Work
+## 👥 7. Remote & Hybrid Work
 
 ### 7.1 Core Principles
 
@@ -280,7 +278,7 @@ flowchart TD
 
 ---
 
-## 8. Career Development
+## 🪜 8. Career Development
 
 ### 8.1 Quarterly Career Conversations
 
@@ -328,7 +326,7 @@ Engineers are encouraged to explore roles across teams after 18 months in their 
 
 ---
 
-## 9. Recognition
+## 👥 9. Recognition
 
 ### 9.1 Channels
 
@@ -349,7 +347,7 @@ Engineers are encouraged to explore roles across teams after 18 months in their 
 
 ---
 
-## 10. New EM Onboarding
+## 👥 10. New EM Onboarding
 
 ### 10.1 30/60/90 Day Plan
 
@@ -380,7 +378,7 @@ New EMs have a skip-level 1:1 with the VP Engineering in Week 2 to:
 
 ---
 
-## 11. Budget & Tooling
+## 👥 11. Budget & Tooling
 
 ### 11.1 Training Budget
 
@@ -410,7 +408,7 @@ Tooling RFCs follow the standard [RFC Process](./05-rfc-process.md) with additio
 
 ---
 
-## 12. Attrition Management
+## 👥 12. Attrition Management
 
 ### 12.1 Stay Interviews
 
@@ -444,7 +442,7 @@ Stay interviews are conducted at the 12-month mark and annually thereafter:
 
 ---
 
-## 13. Cross-Functional RACI
+## 📋 13. Cross-Functional RACI
 
 | Activity | EM | PM | Tech Lead | Designer | QA |
 |----------|----|----|-----------|----------|-----|
@@ -463,7 +461,7 @@ Stay interviews are conducted at the 12-month mark and annually thereafter:
 
 ---
 
-## 14. Team Composition
+## 🏘️ 14. Team Composition
 
 ### 14.1 Ideal Team Size
 
@@ -485,7 +483,7 @@ Stay interviews are conducted at the 12-month mark and annually thereafter:
 
 ---
 
-## 15. Decision RACI Matrix
+## 📋 15. Decision RACI Matrix
 
 | Decision | EM | VP Eng | Tech Lead | PM | HR |
 |----------|----|---------|-----------|----|-----|
@@ -507,5 +505,8 @@ Stay interviews are conducted at the 12-month mark and annually thereafter:
 **Legend:** R = Responsible, A = Accountable, C = Consulted, I = Informed
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

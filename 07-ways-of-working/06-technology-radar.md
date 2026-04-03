@@ -1,12 +1,10 @@
-# Technology Radar
+# 🔭 Technology Radar
 
-> **Status:** Guidance  
-> **Owner:** Principal Engineering  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Principal Engineering](https://img.shields.io/badge/owner-Principal_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Purpose
+## 🎯 1. Purpose
 
 The {Company} Technology Radar is a curated, opinionated guide to the technologies, tools, frameworks, and techniques we use — or deliberately avoid. It helps teams make consistent technology choices without requiring a heavyweight approval process for every decision.
 
@@ -16,7 +14,7 @@ The radar answers two questions:
 
 ---
 
-## 2. Quadrant Definitions
+## 🔭 2. Quadrant Definitions
 
 | Quadrant | Definition | What It Means for Teams |
 |----------|-----------|------------------------|
@@ -36,7 +34,7 @@ flowchart LR
 
 ---
 
-## 3. Relationship to Approved Tech Stack
+## 🔭 3. Relationship to Approved Tech Stack
 
 The radar and the [approved tech stack](../01-platform-standards/01-tech-stack.md) are complementary:
 
@@ -50,7 +48,7 @@ The radar and the [approved tech stack](../01-platform-standards/01-tech-stack.m
 
 ---
 
-## 4. Quarterly Review Cadence
+## 📋 4. Quarterly Review Cadence
 
 The radar is reviewed and updated every quarter.
 
@@ -70,7 +68,7 @@ The radar is reviewed and updated every quarter.
 
 ---
 
-## 5. Proposing New Technology
+## 🔭 5. Proposing New Technology
 
 Any engineer can propose adding a technology to the radar. Proposals follow a lightweight RFC format.
 
@@ -113,7 +111,7 @@ sequenceDiagram
 
 ---
 
-## 6. Current Radar Snapshot
+## 🔭 6. Current Radar Snapshot
 
 > *This is a living document. The canonical version is published in Backstage.*  
 > *Last updated: Q1 2026*
@@ -150,7 +148,7 @@ sequenceDiagram
 
 ---
 
-## 7. Versioning and History
+## 📋 7. Versioning and History
 
 Each quarterly update is versioned as `YYYY-QN` (e.g., `2026-Q1`). Previous versions are retained in Backstage for historical reference.
 
@@ -162,7 +160,7 @@ The full change history is available in the Backstage TechDocs version archive.
 
 ---
 
-## 8. Anti-Patterns
+## ❌ 8. Anti-Patterns
 
 | Anti-Pattern | Why It's Harmful | What to Do Instead |
 |-------------|-----------------|-------------------|
@@ -172,5 +170,8 @@ The full change history is available in the Backstage TechDocs version archive.
 | Keeping Trial items indefinitely | Signals indecision; teams don't know if they can rely on it | Promote to Adopt or move to Hold within 2 quarters |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

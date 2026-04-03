@@ -1,12 +1,10 @@
-# Hiring & Interview Standards
+# 🎯 Hiring & Interview Standards
 
-> **Status:** Guidance  
-> **Owner:** VP Engineering / People  
-> **Last Updated:** 2026
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: VP Engineering / People](https://img.shields.io/badge/owner-VP_Engineering_%2F_People-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Philosophy
+## 🎯 1. Philosophy
 
 Hiring is the highest-leverage activity in engineering. A great hire compounds for years; a bad hire drains the team. {Company} optimizes for **signal over speed** — we invest in structured, evidence-based interviews that predict on-the-job success and minimize bias.
 
@@ -14,7 +12,7 @@ Every candidate, regardless of outcome, should leave the process thinking: "That
 
 ---
 
-## 2. Interview Loop Structure
+## 🎯 2. Interview Loop Structure
 
 ```mermaid
 flowchart LR
@@ -37,7 +35,7 @@ flowchart LR
 
 ---
 
-## 3. Technical Rubrics by Level
+## 📏 3. Technical Rubrics by Level
 
 Rubrics are aligned to the [engineering ladder](./02-engineering-ladder.md). Each round uses the same scoring dimensions, with expectations scaled to the target level.
 
@@ -71,7 +69,7 @@ Design scope scales to the candidate level:
 
 ---
 
-## 4. Coding Round Format
+## 🎯 4. Coding Round Format
 
 ### 4.1 Live Coding (Default)
 
@@ -100,7 +98,7 @@ Take-home assignments are offered only if the candidate requests an alternative 
 
 ---
 
-## 5. Bar-Raiser
+## 🎯 5. Bar-Raiser
 
 Every onsite loop includes one **bar-raiser** — an interviewer from outside the hiring team.
 
@@ -114,7 +112,7 @@ Every onsite loop includes one **bar-raiser** — an interviewer from outside th
 
 ---
 
-## 6. Bias Mitigation
+## 🎯 6. Bias Mitigation
 
 | Practice | How We Implement It |
 |----------|-------------------|
@@ -139,7 +137,7 @@ A candidate needs an average score of **≥ 2.5** across all dimensions with **n
 
 ---
 
-## 7. Calibration Sessions
+## 📏 7. Calibration Sessions
 
 | Aspect | Detail |
 |--------|--------|
@@ -158,7 +156,7 @@ The committee compares candidates against:
 
 ---
 
-## 8. Offer Approval Chain
+## 📋 8. Offer Approval Chain
 
 | Candidate Level | Approvers |
 |----------------|-----------|
@@ -171,7 +169,7 @@ Offers above band or with non-standard terms (sign-on bonus, accelerated vesting
 
 ---
 
-## 9. Candidate Experience Standards
+## 📏 9. Candidate Experience Standards
 
 | Standard | Target |
 |----------|--------|
@@ -184,7 +182,7 @@ Offers above band or with non-standard terms (sign-on bonus, accelerated vesting
 
 ---
 
-## 10. Anti-Patterns
+## ❌ 10. Anti-Patterns
 
 | Anti-Pattern | Why It's Harmful | What to Do Instead |
 |-------------|-----------------|-------------------|
@@ -195,5 +193,8 @@ Offers above band or with non-standard terms (sign-on bonus, accelerated vesting
 | Hiring for "brilliance" over collaboration | Toxic contributors destroy teams | Culture & values round explicitly evaluates collaboration and empathy |
 
 ---
+<div align="center">
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>
