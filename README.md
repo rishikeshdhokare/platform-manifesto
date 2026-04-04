@@ -9,7 +9,7 @@
 [![Last Updated](https://img.shields.io/badge/last_updated-2026-orange?style=for-the-badge)](.)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](.)
 
-**One manifesto. 83 documents. Every decision you shouldn't have to make twice.**
+**One manifesto. 87 documents. Every decision you shouldn't have to make twice.**
 
 *Opinionated by design. When in doubt, follow it. When you disagree, raise a PR.*
 
