@@ -1,10 +1,10 @@
-# Android Platform Standards
+# 🤖 Android Platform Standards
 
-> **Status:** Mandated · **Owner:** Mobile Engineering · **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Mobile Engineering](https://img.shields.io/badge/owner-Mobile_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Gradle Configuration](#1-gradle-configuration)
 2. [Build Variants](#2-build-variants)
@@ -20,7 +20,7 @@
 
 ---
 
-## 1. Gradle Configuration
+## ⚙️ 1. Gradle Configuration
 
 ### 1.1 Kotlin DSL
 
@@ -89,7 +89,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 ---
 
-## 2. Build Variants
+## 🔀 2. Build Variants
 
 ### 2.1 Standard Variants
 
@@ -149,7 +149,7 @@ class BuildConfigModule(reactContext: ReactApplicationContext) : NativeBuildConf
 
 ---
 
-## 3. Architecture
+## 🏗️ 3. Architecture
 
 ### 3.1 MVVM for Native Modules
 
@@ -193,7 +193,7 @@ MainActivity (AppCompatActivity)
 
 ---
 
-## 4. Jetpack Compose
+## 🎨 4. Jetpack Compose
 
 ### 4.1 Default for New Native UI
 
@@ -231,7 +231,7 @@ Register as a Fabric component via the `@ReactModule` annotation and a correspon
 
 ---
 
-## 5. ProGuard / R8
+## 🛡️ 5. ProGuard / R8
 
 ### 5.1 Ownership
 
@@ -275,7 +275,7 @@ Shared Android libraries (`@{company}/mobile-*` AAR modules) include their own `
 
 ---
 
-## 6. Kotlin Standards
+## 📝 6. Kotlin Standards
 
 ### 6.1 Coroutines as Default
 
@@ -322,7 +322,7 @@ class OrderViewModel @Inject constructor(
 
 ---
 
-## 7. Multi-Module Structure
+## 📦 7. Multi-Module Structure
 
 ### 7.1 Module Hierarchy
 
@@ -368,7 +368,7 @@ flowchart TD
 
 ---
 
-## 8. CI Pipeline
+## 🔄 8. CI Pipeline
 
 ### 8.1 Pipeline Stages
 
@@ -403,7 +403,7 @@ Instrumented tests run on emulators at the following API levels:
 
 ---
 
-## 9. Dependency Injection
+## 💉 9. Dependency Injection
 
 ### 9.1 Hilt as Default
 
@@ -445,7 +445,7 @@ object RepositoryModule {
 
 ---
 
-## 10. WorkManager
+## ⏰ 10. WorkManager
 
 ### 10.1 Use Cases
 
@@ -481,7 +481,7 @@ WorkManager.getInstance(context).enqueueUniqueWork(
 
 ---
 
-## 11. Deep Linking
+## 🔗 11. Deep Linking
 
 ### 11.1 App Links (Android)
 
@@ -552,4 +552,8 @@ flowchart TD
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

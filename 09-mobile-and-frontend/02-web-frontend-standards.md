@@ -1,10 +1,10 @@
-# Web Frontend Standards
+# 🌐 Web Frontend Standards
 
-> **Status:** Mandated · **Owner:** Platform Engineering · **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [SPA vs SSR Decision Guide](#1-spa-vs-ssr-decision-guide)
 2. [Microfrontend Strategy](#2-microfrontend-strategy)
@@ -29,7 +29,7 @@
 
 ---
 
-## 1. SPA vs SSR Decision Guide
+## 🖥️ 1. SPA vs SSR Decision Guide
 
 Not every web surface has the same requirements. The rendering strategy should be chosen based on the nature of the content, SEO needs, and interactivity model.
 
@@ -71,7 +71,7 @@ When in doubt, prefer **SPA** for authenticated internal surfaces and **Next.js 
 
 ---
 
-## 2. Microfrontend Strategy
+## 🧩 2. Microfrontend Strategy
 
 ### 2.1 When Microfrontends Are Justified
 
@@ -122,7 +122,7 @@ The **default** for all new web projects is a monorepo managed with **Nx** or **
 
 ---
 
-## 3. Design System
+## 🎨 3. Design System
 
 ### 3.1 Shared Component Library
 
@@ -216,7 +216,7 @@ flowchart LR
 
 ---
 
-## 4. Core Web Vitals
+## 📊 4. Core Web Vitals
 
 ### 4.1 Targets
 
@@ -263,7 +263,7 @@ PRs that regress Lighthouse performance score below **0.9** or violate any Core 
 
 ---
 
-## 5. Accessibility
+## ♿ 5. Accessibility
 
 ### 5.1 Compliance Target
 
@@ -309,7 +309,7 @@ test('dashboard has no accessibility violations', async ({ page }) => {
 
 ---
 
-## 6. Browser Support
+## 🌍 6. Browser Support
 
 ### 6.1 Support Matrix
 
@@ -340,7 +340,7 @@ not ie 11
 
 ---
 
-## 7. CSP & Frontend Security
+## 🔐 7. CSP & Frontend Security
 
 ### 7.1 Content Security Policy
 
@@ -392,7 +392,7 @@ SRI hashes are generated during the build pipeline and injected automatically. M
 
 ---
 
-## 8. Bundle Size Budget
+## 📦 8. Bundle Size Budget
 
 ### 8.1 Thresholds
 
@@ -438,7 +438,7 @@ If the bundle exceeds the limit, the PR is blocked with a clear message showing 
 
 ---
 
-## 9. State Management
+## 🗄️ 9. State Management
 
 ### 9.1 Standard Stack
 
@@ -478,7 +478,7 @@ const { data, isLoading, error } = useQuery({
 
 ---
 
-## 10. Testing Strategy
+## 🧪 10. Testing Strategy
 
 ### 10.1 Testing Layers
 
@@ -520,7 +520,7 @@ test('submitting the form calls onSubmit with form data', async () => {
 
 ---
 
-## 11. Error Tracking
+## 🐛 11. Error Tracking
 
 ### 11.1 Sentry Integration
 
@@ -573,7 +573,7 @@ function App() {
 
 ---
 
-## 12. BFF Client Generation
+## ⚙️ 12. BFF Client Generation
 
 ### 12.1 Standard
 
@@ -601,7 +601,7 @@ Generated clients are imported in application code and wrapped with TanStack Que
 
 ---
 
-## 13. Web Authentication
+## 🔑 13. Web Authentication
 
 ### 13.1 SPA Authentication (PKCE)
 
@@ -649,7 +649,7 @@ queryClient.getQueryCache().subscribe((event) => {
 
 ---
 
-## 14. Routing Conventions
+## 🗺️ 14. Routing Conventions
 
 ### 14.1 Framework-Specific Patterns
 
@@ -695,7 +695,7 @@ const router = createBrowserRouter([
 
 ---
 
-## 15. Form Error Mapping
+## 📝 15. Form Error Mapping
 
 ### 15.1 Server Error Mapping
 
@@ -730,7 +730,7 @@ Server validation errors are displayed inline next to the relevant form field, n
 
 ---
 
-## 16. SEO
+## 🔍 16. SEO
 
 ### 16.1 Metadata
 
@@ -762,7 +762,7 @@ A `sitemap.xml` is generated for all public-facing pages and submitted to search
 
 ---
 
-## 17. API Mocking (MSW)
+## 🎭 17. API Mocking (MSW)
 
 ### 17.1 Standard
 
@@ -803,7 +803,7 @@ afterAll(() => server.close());
 
 ---
 
-## 18. LaunchDarkly for React
+## 🚩 18. LaunchDarkly for React
 
 ### 18.1 Setup
 
@@ -873,7 +873,7 @@ jest.mock('launchdarkly-react-client-sdk', () => ({
 
 ---
 
-## 19. Web i18n
+## 🌏 19. Web i18n
 
 ### 19.1 Standard
 
@@ -920,7 +920,7 @@ Translation file (`en.json`):
 
 ---
 
-## 20. WebSocket Client
+## 🔌 20. WebSocket Client
 
 ### 20.1 Standard
 
@@ -959,4 +959,8 @@ On reconnection, the client invalidates relevant queries to ensure data consiste
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

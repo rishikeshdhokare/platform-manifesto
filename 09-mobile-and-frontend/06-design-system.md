@@ -1,10 +1,10 @@
-# Design System & UX Standards
+# 🎨 Design System & UX Standards
 
-> **Status:** Mandated · **Owner:** Design / Frontend Engineering · **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Design / Frontend Engineering](https://img.shields.io/badge/owner-Design_%2F_Frontend_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Design-to-Dev Handoff](#1-design-to-dev-handoff)
 2. [Design System Governance](#2-design-system-governance)
@@ -24,7 +24,7 @@
 
 ---
 
-## 1. Design-to-Dev Handoff
+## 🤝 1. Design-to-Dev Handoff
 
 ### 1.1 Required States
 
@@ -76,7 +76,7 @@ Every component and screen design must include **all** of the following states b
 
 ---
 
-## 2. Design System Governance
+## 🏛️ 2. Design System Governance
 
 ### 2.1 Team Composition
 
@@ -113,7 +113,7 @@ Before adding a new component to `@{company}/ui`:
 
 ---
 
-## 3. Design Review Process
+## 🔍 3. Design Review Process
 
 ### 3.1 Mandate
 
@@ -135,7 +135,7 @@ Before adding a new component to `@{company}/ui`:
 
 ---
 
-## 4. Prototyping
+## 🧪 4. Prototyping
 
 ### 4.1 Tool Selection
 
@@ -153,7 +153,7 @@ Before adding a new component to `@{company}/ui`:
 
 ---
 
-## 5. User Research Ops
+## 👥 5. User Research Ops
 
 ### 5.1 Scheduling
 
@@ -183,7 +183,7 @@ Before adding a new component to `@{company}/ui`:
 
 ---
 
-## 6. Accessibility in Design
+## ♿ 6. Accessibility in Design
 
 ### 6.1 Annotated Focus Order
 
@@ -217,7 +217,7 @@ Before marking any design "Ready for development", the designer must complete:
 
 ---
 
-## 7. Motion & Animation
+## 🎬 7. Motion & Animation
 
 ### 7.1 Duration Scale
 
@@ -260,7 +260,7 @@ Components that animate must check this flag and provide a static alternative.
 
 ---
 
-## 8. Responsive Breakpoints
+## 📐 8. Responsive Breakpoints
 
 ### 8.1 Breakpoint Scale
 
@@ -308,7 +308,7 @@ Container queries are preferred for reusable components in `@{company}/ui`.
 
 ---
 
-## 9. Design Tokens
+## 🪙 9. Design Tokens
 
 ### 9.1 Naming Convention
 
@@ -337,7 +337,7 @@ Token compilation uses **Style Dictionary** with platform-specific transforms. T
 
 ---
 
-## 10. Icon System
+## 🖼️ 10. Icon System
 
 ### 10.1 Grid & Sizing
 
@@ -375,7 +375,7 @@ import { Icon } from '@{company}/mobile-ui';
 
 ---
 
-## 11. Content & UX Writing
+## ✍️ 11. Content & UX Writing
 
 ### 11.1 Tone
 
@@ -407,7 +407,7 @@ import { Icon } from '@{company}/mobile-ui';
 
 ---
 
-## 12. Design QA
+## ✅ 12. Design QA
 
 ### 12.1 Mandate
 
@@ -437,7 +437,7 @@ A PR with UI changes **cannot be merged** without this sign-off.
 
 ---
 
-## 13. Multi-Platform Consistency
+## 📱 13. Multi-Platform Consistency
 
 ### 13.1 Shared Patterns
 
@@ -464,7 +464,7 @@ Where platform Human Interface Guidelines (HIG) diverge, follow the platform:
 
 ---
 
-## 14. Dark Mode
+## 🌙 14. Dark Mode
 
 ### 14.1 Semantic Tokens
 
@@ -499,7 +499,7 @@ const illustration = colorScheme === 'dark'
 
 ---
 
-## 15. Data Visualization
+## 📊 15. Data Visualization
 
 ### 15.1 Library Selection
 
@@ -532,4 +532,8 @@ The data visualization palette is designed to be distinguishable by users with c
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

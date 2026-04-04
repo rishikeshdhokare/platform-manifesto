@@ -1,10 +1,10 @@
-# iOS Platform Standards
+# 🍎 iOS Platform Standards
 
-> **Status:** Mandated · **Owner:** Mobile Engineering · **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Mobile Engineering](https://img.shields.io/badge/owner-Mobile_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Xcode & Dependency Management](#1-xcode--dependency-management)
 2. [Architecture](#2-architecture)
@@ -20,7 +20,7 @@
 
 ---
 
-## 1. Xcode & Dependency Management
+## 🛠️ 1. Xcode & Dependency Management
 
 ### 1.1 Workspace Structure
 
@@ -78,7 +78,7 @@ Internal native SDKs are distributed as **XCFrameworks** via the internal Swift 
 
 ---
 
-## 2. Architecture
+## 🏗️ 2. Architecture
 
 ### 2.1 MVVM + Coordinator
 
@@ -121,7 +121,7 @@ final class NativeScreenCoordinator {
 
 ---
 
-## 3. Swift Concurrency
+## ⚡ 3. Swift Concurrency
 
 ### 3.1 async/await as Default
 
@@ -158,7 +158,7 @@ Combine is permitted **only** in existing code. New reactive streams must use `A
 
 ---
 
-## 4. SwiftUI
+## 🎨 4. SwiftUI
 
 ### 4.1 Default for New Native UI
 
@@ -202,7 +202,7 @@ struct MapViewRepresentable: UIViewRepresentable {
 
 ---
 
-## 5. Memory Management
+## 🧠 5. Memory Management
 
 ### 5.1 weak / unowned Standards
 
@@ -246,7 +246,7 @@ viewModel.onComplete = { result in
 
 ---
 
-## 6. CI Pipeline
+## 🔄 6. CI Pipeline
 
 ### 6.1 Toolchain
 
@@ -306,7 +306,7 @@ Tests must pass on both versions. Failures on either are blocking.
 
 ---
 
-## 7. Privacy Manifest
+## 🔒 7. Privacy Manifest
 
 ### 7.1 Required Reason API Inventory
 
@@ -335,7 +335,7 @@ When integrating third-party SDKs:
 
 ---
 
-## 8. App Extensions
+## 🧩 8. App Extensions
 
 ### 8.1 Supported Extensions
 
@@ -388,7 +388,7 @@ struct DeliveryActivityAttributes: ActivityAttributes {
 
 ---
 
-## 9. Keychain
+## 🔑 9. Keychain
 
 ### 9.1 Access Groups
 
@@ -431,7 +431,7 @@ final class KeychainManager {
 
 ---
 
-## 10. Push Notifications
+## 🔔 10. Push Notifications
 
 ### 10.1 APNs Auth Key Management
 
@@ -488,7 +488,7 @@ class NotificationService: UNNotificationServiceExtension {
 
 ---
 
-## 11. dSYM Management
+## 📋 11. dSYM Management
 
 ### 11.1 Generation in CI
 
@@ -535,4 +535,8 @@ If a crash report appears unsymbolicated and the dSYM is missing from Crashlytic
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

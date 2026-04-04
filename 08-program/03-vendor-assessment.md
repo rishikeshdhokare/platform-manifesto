@@ -1,14 +1,12 @@
-# Vendor Lock-in Assessment
+# 🔍 Vendor Assessment
 
 > *{Company} Platform Engineering Manifesto — knowing our dependencies so we can leverage AWS effectively without blind spots.*
 
-> **Status:** Reference  
-> **Owner:** CTO + Platform Engineering  
-> **Last Updated:** 2026
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Platform Engineering](https://img.shields.io/badge/owner-CTO_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Purpose
+## 🎯 1. Purpose
 
 This document helps us **understand dependency on AWS and other vendors** across the {Company} platform.
 
@@ -16,7 +14,7 @@ This document helps us **understand dependency on AWS and other vendors** across
 
 ---
 
-## 2. AWS dependency inventory
+## ☁️ 2. AWS dependency inventory
 
 | AWS service | What it does for {Company} | Portability | Exit effort |
 |-------------|------------------------|-------------|-------------|
@@ -38,7 +36,7 @@ This document helps us **understand dependency on AWS and other vendors** across
 
 ---
 
-## 3. Portability analysis
+## 🔄 3. Portability analysis
 
 Application **domain logic** stays inside the hexagon; **adapters** talk to vendors. The **platform layer** (cluster provisioning, IAM linking, registry glue) is where cloud coupling concentrates.
 
@@ -85,7 +83,7 @@ flowchart LR
 
 ---
 
-## 4. Exit cost estimation
+## 💰 4. Exit cost estimation
 
 | Component | Alternative | Migration effort | Risk |
 |-----------|-------------|------------------|------|
@@ -103,7 +101,7 @@ flowchart LR
 
 ---
 
-## 5. Abstraction assessment
+## 🏗️ 5. Abstraction assessment
 
 **What hexagonal architecture protects**
 
@@ -117,7 +115,7 @@ flowchart LR
 
 ---
 
-## 6. Risk mitigation
+## 🛡️ 6. Risk mitigation
 
 - **Avoid AWS-only APIs** where **Kubernetes-standard** or **open-protocol** alternatives exist (CSI drivers, standard Ingress, CNCF tooling).
 - **Prefer OpenTelemetry** over **X-Ray**-centric instrumentation for new work; export to the backend we standardize on.
@@ -126,7 +124,7 @@ flowchart LR
 
 ---
 
-## 7. Third-party vendor inventory
+## 📋 7. Third-party vendor inventory
 
 | Vendor / category | Role at {Company} | Lock-in assessment | Alternatives / notes |
 |-------------------|---------------|--------------------|----------------------|
@@ -142,7 +140,7 @@ flowchart LR
 
 ---
 
-## 8. Annual review process
+## 📅 8. Annual review process
 
 ### What to review
 
@@ -175,4 +173,8 @@ flowchart TD
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

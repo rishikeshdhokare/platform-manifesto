@@ -1,10 +1,10 @@
-# 01 — Mobile & Frontend Standards
+# 📱 Mobile Standards
 
-> **Status:** Mandated · **Owner:** Platform Engineering · **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Philosophy](#1-philosophy)
 2. [Mobile Tech Stack](#2-mobile-tech-stack)
@@ -27,7 +27,7 @@
 
 ---
 
-## 1. Philosophy
+## 💡 1. Philosophy
 
 Mobile apps **are** the product for {Company} customers and providers. Every interaction — placing an order, tracking a delivery, completing a transaction — happens on a phone in variable network conditions, in bright sunlight, on the move. There is no second chance to make a good impression.
 
@@ -40,7 +40,7 @@ Mobile apps **are** the product for {Company} customers and providers. Every int
 
 ---
 
-## 2. Mobile Tech Stack
+## 🛠️ 2. Mobile Tech Stack
 
 | Layer | Technology | Rationale |
 |-------|-----------|-----------|
@@ -59,7 +59,7 @@ Mobile apps **are** the product for {Company} customers and providers. Every int
 
 ---
 
-## 3. BFF Pattern for Mobile
+## 🔗 3. BFF Pattern for Mobile
 
 Each mobile client has a dedicated **Backend-for-Frontend (BFF)** that acts as its API gateway. The BFF is owned by the mobile team and exists to serve the mobile client's exact needs.
 
@@ -126,7 +126,7 @@ Each sub-BFF owns a URL prefix (`/orders/*`, `/payments/*`, `/profile/*`) and is
 
 ---
 
-## 4. API Contract Patterns
+## 📄 4. API Contract Patterns
 
 ### Sparse Fieldsets
 
@@ -177,7 +177,7 @@ Cursors are opaque, base64-encoded tokens. The client passes `?cursor=<token>` t
 
 ---
 
-## 5. Offline-First Design
+## 📴 5. Offline-First Design
 
 {Company} apps must remain functional when the network drops. Customers should see their current order, and providers should see their active tasks, even in tunnels or dead zones.
 
@@ -242,7 +242,7 @@ When network connectivity is restored:
 
 ---
 
-## 6. Push Notification Standards
+## 🔔 6. Push Notification Standards
 
 ### Notification Flow
 
@@ -303,7 +303,7 @@ Silent pushes must not be sent more than **3 times per hour** to avoid OS thrott
 
 ---
 
-## 7. Performance Budgets
+## ⚡ 7. Performance Budgets
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
@@ -336,7 +336,7 @@ If a feature does not meet budgets on the low-end device, it does not ship.
 
 ---
 
-## 8. App Versioning
+## 🏷️ 8. App Versioning
 
 ### Minimum Supported Version
 
@@ -385,7 +385,7 @@ This decouples feature delivery from app releases. A feature can be shipped in a
 
 ---
 
-## 9. Deep Linking
+## 🔗 9. Deep Linking
 
 ### URL Scheme
 
@@ -423,7 +423,7 @@ For install-then-navigate flows (e.g., a referral link clicked by someone withou
 
 ---
 
-## 10. Accessibility
+## ♿ 10. Accessibility
 
 ### Compliance Target
 
@@ -459,7 +459,7 @@ For install-then-navigate flows (e.g., a referral link clicked by someone withou
 
 ---
 
-## 11. Mobile CI/CD
+## 🔄 11. Mobile CI/CD
 
 ### Pipeline
 
@@ -498,7 +498,7 @@ flowchart LR
 
 ---
 
-## 12. Error Handling UX
+## ⚠️ 12. Error Handling UX
 
 ### Network Timeout Patterns
 
@@ -533,7 +533,7 @@ Error screens follow a consistent structure:
 
 ---
 
-## 13. App Store Compliance
+## 🏪 13. App Store Compliance
 
 ### 13.1 Apple privacy manifest
 
@@ -577,7 +577,7 @@ Before every App Store / Play Store submission:
 
 ---
 
-## 14. Authentication Lifecycle
+## 🔐 14. Authentication Lifecycle
 
 ### 14.1 Token storage
 
@@ -646,7 +646,7 @@ Token expiry validation includes a **30-second clock skew tolerance** to account
 
 ---
 
-## 15. Certificate Pinning
+## 📌 15. Certificate Pinning
 
 ### 15.1 Scope
 
@@ -711,7 +711,7 @@ Certificate pinning is **disabled** in debug builds to allow proxy-based debuggi
 
 ---
 
-## 16. Android-Specific Monitoring
+## 🤖 16. Android-Specific Monitoring
 
 ### 16.1 ANR targets
 
@@ -760,7 +760,7 @@ The release dashboard tracks key Play vitals metrics:
 
 ---
 
-## 17. Native Binary Size
+## 📦 17. Native Binary Size
 
 ### 17.1 Size budgets
 
@@ -799,7 +799,7 @@ Binary size is tracked in CI on every PR:
 
 ---
 
-## 18. Feature Parity
+## ⚖️ 18. Feature Parity
 
 ### 18.1 Default: simultaneous delivery
 
@@ -833,7 +833,7 @@ If one platform falls behind by **more than 2 features** (features shipped on on
 
 ---
 
-## 19. Network Retry Classification
+## 🔁 19. Network Retry Classification
 
 Not all failed requests should be retried. Retrying non-idempotent or client-error requests wastes resources, duplicates side effects, and degrades user experience. The following classification governs retry behavior in the mobile networking layer.
 
@@ -865,7 +865,7 @@ const retryConfig = {
 
 ---
 
-## 20. WebSocket on Mobile
+## 🌐 20. WebSocket on Mobile
 
 Real-time features (live order tracking, provider location updates, chat) use WebSocket connections managed by the `@{company}/ws-client` wrapper library.
 
@@ -910,4 +910,8 @@ const ws = useWsClient({
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

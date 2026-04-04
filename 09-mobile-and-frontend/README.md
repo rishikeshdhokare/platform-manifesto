@@ -1,4 +1,6 @@
-# 09 — Mobile & Frontend
+# 📱 09 — Mobile & Frontend
+
+![Docs](https://img.shields.io/badge/docs-6-blue?style=flat-square)
 
 Standards for the client applications that customers and providers interact with every day.
 
@@ -11,4 +13,10 @@ Standards for the client applications that customers and providers interact with
 | [05-ios-standards.md](./05-ios-standards.md) | iOS platform — Xcode, Swift concurrency, SwiftUI, Keychain, push, dSYM |
 | [06-design-system.md](./06-design-system.md) | Design system & UX — handoff, tokens, icons, motion, dark mode, data viz |
 
-← [Back to root](../README.md)
+---
+
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

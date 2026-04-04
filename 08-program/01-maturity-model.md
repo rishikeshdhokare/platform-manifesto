@@ -1,13 +1,10 @@
-# Engineering Maturity Model
+# 📊 Maturity Model
 
-> **Status:** Reference  
-> **Owner:** Platform Engineering + CTO  
-> **Last Updated:** 2025  
-> **Review Cadence:** Quarterly
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: Platform Engineering + CTO](https://img.shields.io/badge/owner-Platform_Engineering_%2B_CTO-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## Overview
+## 📋 Overview
 
 This maturity model allows teams to **self-assess their engineering practices** against the platform standard. It is not a performance review tool — it is a diagnostic tool to identify where to invest next.
 
@@ -25,7 +22,7 @@ Each capability has four levels:
 
 ---
 
-## Dimension 1: Source Control & Branching
+## 🔀 Dimension 1: Source Control & Branching
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -36,7 +33,7 @@ Each capability has four levels:
 
 ---
 
-## Dimension 2: Testing
+## 🧪 Dimension 2: Testing
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -50,7 +47,7 @@ Each capability has four levels:
 
 ---
 
-## Dimension 3: CI / Build
+## 🔨 Dimension 3: CI / Build
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -63,7 +60,7 @@ Each capability has four levels:
 
 ---
 
-## Dimension 4: Continuous Delivery
+## 🚀 Dimension 4: Continuous Delivery
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -77,7 +74,7 @@ Each capability has four levels:
 
 ---
 
-## Dimension 5: Observability
+## 👁️ Dimension 5: Observability
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -91,7 +88,7 @@ Each capability has four levels:
 
 ---
 
-## Dimension 6: Security
+## 🔐 Dimension 6: Security
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -104,7 +101,7 @@ Each capability has four levels:
 
 ---
 
-## Dimension 7: Developer Experience
+## 🧑‍💻 Dimension 7: Developer Experience
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -117,7 +114,7 @@ Each capability has four levels:
 
 ---
 
-## How to Self-Assess
+## 📝 How to Self-Assess
 
 ### Quarterly Process
 
@@ -140,7 +137,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## Dimension 8: Real-Time & Mobile
+## 📱 Dimension 8: Real-Time & Mobile
 
 | Practice | L1 | L2 | L3 Target | L4 |
 |----------|----|----|-----------|-----|
@@ -151,7 +148,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## Dimension 9: Resilience Validation
+## 🛡️ Dimension 9: Resilience Validation
 
 | Practice | L1 | L2 | L3 Target | L4 |
 |----------|----|----|-----------|-----|
@@ -162,7 +159,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## Dimension 10: Cost Management
+## 💰 Dimension 10: Cost Management
 
 | Practice | L1 | L2 | L3 Target | L4 |
 |----------|----|----|-----------|-----|
@@ -173,7 +170,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## Dimension 11: AI/ML Maturity
+## 🤖 Dimension 11: AI/ML Maturity
 
 | Practice | L1 | L2 | L3 Target | L4 |
 |----------|----|----|-----------|-----|
@@ -184,7 +181,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## Platform Target State
+## 🎯 Platform Target State
 
 The platform is designed to make **Level 3 the default** — if you follow the golden path, you hit Level 3 automatically. Level 4 requires deliberate investment by teams.
 
@@ -197,4 +194,8 @@ The platform is designed to make **Level 3 the default** — if you follow the g
 
 ---
 
-*← [Back to section](./README.md) · [Back to root](../README.md)*
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

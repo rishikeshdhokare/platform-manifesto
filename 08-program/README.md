@@ -1,4 +1,6 @@
-# 08 — Program
+# 📈 08 — Program
+
+![Docs](https://img.shields.io/badge/docs-5-blue?style=flat-square)
 
 Where we are, where we're going, and how we measure progress.
 
@@ -10,4 +12,10 @@ Where we are, where we're going, and how we measure progress.
 | [04-engineering-metrics.md](./04-engineering-metrics.md) | Developer satisfaction, toil, platform adoption, tech debt quantification |
 | [05-vendor-intake.md](./05-vendor-intake.md) | Vendor & SaaS intake process, security review, procurement, pilot criteria |
 
-← [Back to root](../README.md)
+---
+
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

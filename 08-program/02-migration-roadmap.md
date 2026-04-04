@@ -1,12 +1,10 @@
-# Migration Roadmap
+# 🗺️ Migration Roadmap
 
-> **Status:** Active Program  
-> **Owner:** CTO / Platform Engineering  
-> **Last Updated:** 2025
+![Status: Active Program](https://img.shields.io/badge/status-Active_Program-blue?style=flat-square) ![Owner: CTO / Platform Engineering](https://img.shields.io/badge/owner-CTO_%2F_Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## Overview
+## 📋 Overview
 
 This document defines the **prioritised, phased program** to migrate the organisation from the current state to the target platform defined in this manifesto.
 
@@ -16,7 +14,7 @@ The migration follows a **strangler fig pattern** — we do not rewrite everythi
 
 ---
 
-## Principles
+## 🧭 Principles
 
 1. **Platform before services** — build the target platform first; migrate services second
 2. **Prove it with one service** — the golden path service validates the full platform before broad rollout
@@ -26,7 +24,7 @@ The migration follows a **strangler fig pattern** — we do not rewrite everythi
 
 ---
 
-## Phase 0: Foundation (Weeks 1–6)
+## 🏗️ Phase 0: Foundation (Weeks 1–6)
 
 **Goal:** The new platform exists and can run one service end-to-end.
 
@@ -76,7 +74,7 @@ The migration follows a **strangler fig pattern** — we do not rewrite everythi
 
 ---
 
-## Phase 1: Golden Path (Weeks 5–10)
+## ✨ Phase 1: Golden Path (Weeks 5–10)
 
 **Goal:** Migrate **one real, non-critical service** end-to-end through the new platform. This is the proof point.
 
@@ -111,7 +109,7 @@ The migration follows a **strangler fig pattern** — we do not rewrite everythi
 
 ---
 
-## Phase 2: Critical Path Services (Weeks 8–20)
+## ⚡ Phase 2: Critical Path Services (Weeks 8–20)
 
 **Goal:** Migrate the core services that form the critical path for a completed order.
 
@@ -174,7 +172,7 @@ Shadow mode testing (write to both, read from old) where safe.
 
 ---
 
-## Phase 3: Remaining Services (Weeks 18–36)
+## 📦 Phase 3: Remaining Services (Weeks 18–36)
 
 **Goal:** Migrate all remaining services to the new platform.
 
@@ -211,7 +209,7 @@ At this phase, each team owns their migration with a checklist:
 
 ---
 
-## Phase 4: Optimise (Month 10+)
+## 🔧 Phase 4: Optimise (Month 10+)
 
 **Goal:** Continuous improvement — push teams from L3 to L4.
 
@@ -225,7 +223,7 @@ At this phase, each team owns their migration with a checklist:
 
 ---
 
-## DORA Metrics — Baseline & Target
+## 📊 DORA Metrics — Baseline & Target
 
 We will track **DORA (DevOps Research and Assessment) metrics** as the primary measure of platform health.
 
@@ -240,7 +238,7 @@ DORA metrics are tracked in the engineering health dashboard (Grafana) and revie
 
 ---
 
-## Migration Risk Register
+## ⚠️ Migration Risk Register
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|-----------|--------|-----------|
@@ -254,7 +252,7 @@ DORA metrics are tracked in the engineering health dashboard (Grafana) and revie
 
 ---
 
-## Governance & Reporting
+## 🏛️ Governance & Reporting
 
 - **Weekly:** Platform Engineering standup (internal) — migration progress, blockers
 - **Bi-weekly:** Migration status report to CTO — services migrated, DORA metrics, risks
@@ -263,7 +261,7 @@ DORA metrics are tracked in the engineering health dashboard (Grafana) and revie
 
 ---
 
-## Contacts
+## 👥 Contacts
 
 | Role | Person | Responsibility |
 |------|--------|---------------|
@@ -275,3 +273,11 @@ DORA metrics are tracked in the engineering health dashboard (Grafana) and revie
 ---
 
 *This is a living document. Update migration progress weekly. When a service is migrated, mark it complete and capture lessons learned.*
+
+---
+
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

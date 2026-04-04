@@ -1,12 +1,10 @@
-# Vendor & SaaS Intake Process
+# 📝 Vendor & SaaS Intake Process
 
-> **Status:** Mandated  
-> **Owner:** Engineering Leadership / Security  
-> **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Engineering Leadership / Security](https://img.shields.io/badge/owner-Engineering_Leadership_%2F_Security-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## 1. Purpose
+## 🎯 1. Purpose
 
 This document defines the process for evaluating, approving, and onboarding new third-party SaaS products, managed services, or paid tools at {Company}. It exists to ensure that every vendor relationship is evaluated for security, cost, and strategic fit before production data or significant spend is committed.
 
@@ -14,7 +12,7 @@ This document defines the process for evaluating, approving, and onboarding new 
 
 ---
 
-## 2. When This Process Applies
+## ✅ 2. When This Process Applies
 
 | Scenario | This Process? | Notes |
 |----------|:------------:|-------|
@@ -27,7 +25,7 @@ This document defines the process for evaluating, approving, and onboarding new 
 
 ---
 
-## 3. Intake Form
+## 📋 3. Intake Form
 
 Before any evaluation begins, the requesting team submits an intake form.
 
@@ -46,7 +44,7 @@ Before any evaluation begins, the requesting team submits an intake form.
 
 ---
 
-## 4. Security Review Checklist
+## 🔐 4. Security Review Checklist
 
 Every new vendor must pass the security review before production data is shared or the tool is integrated into production systems.
 
@@ -91,7 +89,7 @@ sequenceDiagram
 
 ---
 
-## 5. Procurement Approval Chain
+## 💳 5. Procurement Approval Chain
 
 | Estimated Annual Cost | Required Approvers |
 |----------------------|-------------------|
@@ -103,7 +101,7 @@ All approvals are recorded in the vendor registry. Contracts > $50K/yr require L
 
 ---
 
-## 6. Pilot Criteria
+## 🧪 6. Pilot Criteria
 
 Before committing to a full contract, teams may run a time-boxed pilot.
 
@@ -133,7 +131,7 @@ flowchart TD
 
 ---
 
-## 7. Vendor Registry
+## 📦 7. Vendor Registry
 
 All approved vendors are tracked in Backstage under the `Vendor Registry` namespace.
 
@@ -151,7 +149,7 @@ All approved vendors are tracked in Backstage under the `Vendor Registry` namesp
 
 ---
 
-## 8. Ongoing Review
+## 🔄 8. Ongoing Review
 
 Approved vendors are not approved forever. {Company} conducts ongoing reviews to ensure continued compliance and value.
 
@@ -174,7 +172,7 @@ Approved vendors are not approved forever. {Company} conducts ongoing reviews to
 
 ---
 
-## 9. Relationship to Other Documents
+## 🔗 9. Relationship to Other Documents
 
 | Document | Relationship |
 |----------|-------------|
@@ -186,7 +184,7 @@ Approved vendors are not approved forever. {Company} conducts ongoing reviews to
 
 ---
 
-## 10. Anti-Patterns
+## ⚠️ 10. Anti-Patterns
 
 | Anti-Pattern | Why It's Harmful | What to Do Instead |
 |-------------|-----------------|-------------------|
@@ -198,4 +196,8 @@ Approved vendors are not approved forever. {Company} conducts ongoing reviews to
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

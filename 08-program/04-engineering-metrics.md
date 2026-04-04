@@ -1,12 +1,10 @@
-# Engineering Health Metrics
+# 📈 Engineering Metrics
 
-> **Status:** Reference  
-> **Owner:** CTO + Platform Engineering  
-> **Last Updated:** 2025
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Platform Engineering](https://img.shields.io/badge/owner-CTO_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
 
 ---
 
-## 1. Beyond DORA
+## 🎯 1. Beyond DORA
 
 DORA metrics are **necessary but not sufficient**. They tell you how fast you ship and how stable your releases are — but they say nothing about developer happiness, platform adoption, technical debt accumulation, or onboarding friction.
 
@@ -24,7 +22,7 @@ DORA metrics are **necessary but not sufficient**. They tell you how fast you sh
 
 ---
 
-## 2. DORA Metrics Recap
+## 📊 2. DORA Metrics Recap
 
 These are already tracked via the CI/CD pipeline and Grafana. Included here for completeness.
 
@@ -61,7 +59,7 @@ graph LR
 
 ---
 
-## 3. Developer Satisfaction Survey
+## 😊 3. Developer Satisfaction Survey
 
 Run **quarterly** via a short, anonymous survey. NPS-style scoring (1–10) with free-text follow-ups.
 
@@ -94,7 +92,7 @@ Results are published to all-hands within 2 weeks of survey close. Action items 
 
 ---
 
-## 4. Toil Measurement
+## ⚙️ 4. Toil Measurement
 
 **Toil** = repetitive, manual, automatable work that scales linearly with service count. It produces no lasting value.
 
@@ -122,7 +120,7 @@ When a toil category exceeds 5% of total engineering time, it is escalated to th
 
 ---
 
-## 5. Platform Adoption Metrics
+## 📈 5. Platform Adoption Metrics
 
 These metrics tell us whether teams are actually using the platform — or working around it.
 
@@ -159,7 +157,7 @@ Non-adoption is not punished — it is investigated. If teams are working around
 
 ---
 
-## 6. Technical Debt Quantification
+## 🏗️ 6. Technical Debt Quantification
 
 ### 6.1 Metrics
 
@@ -192,7 +190,7 @@ If a team consistently spends < 10% on debt, leadership will review whether feat
 
 ---
 
-## 7. Onboarding Velocity
+## 🚀 7. Onboarding Velocity
 
 **Metric:** Time from a new hire's first day to their first production deployment.
 
@@ -217,7 +215,7 @@ If onboarding takes longer than end of Week 1 to first deploy, the platform team
 
 ---
 
-## 8. CI/CD Health
+## 🔄 8. CI/CD Health
 
 | Metric | Definition | Target | Red Line |
 |--------|-----------|--------|----------|
@@ -236,7 +234,7 @@ If onboarding takes longer than end of Week 1 to first deploy, the platform team
 
 ---
 
-## 9. Engineering Health Dashboard
+## 🖥️ 9. Engineering Health Dashboard
 
 All metrics feed into a single Grafana dashboard accessible to every engineer and visible on engineering area TVs.
 
@@ -304,7 +302,7 @@ graph TB
 
 ---
 
-## 10. Review Cadence
+## 📅 10. Review Cadence
 
 | Review | Frequency | Audience | Format |
 |--------|-----------|----------|--------|
@@ -332,7 +330,7 @@ graph TB
 
 ---
 
-## 11. Metrics We Do Not Use
+## 🚫 11. Metrics We Do Not Use
 
 The following metrics are **explicitly excluded** from engineering evaluation at {Company}. They are vanity metrics that incentivize the wrong behaviours, reward activity over impact, and damage team culture when used in comparisons or reviews.
 
@@ -356,7 +354,7 @@ If any of these metrics appear in a dashboard or review, report it to the CTO of
 
 ---
 
-## 12. MTTx Metrics
+## ⏱️ 12. MTTx Metrics
 
 In addition to DORA's MTTR, the platform tracks the full suite of MTTx (Mean Time to X) metrics to provide a complete picture of incident response effectiveness.
 
@@ -375,4 +373,8 @@ In addition to DORA's MTTR, the platform tracks the full suite of MTTx (Mean Tim
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,10 +1,10 @@
-# React Native Engineering Guide
+# ⚛️ React Native Engineering Guide
 
-> **Status:** Mandated · **Owner:** Mobile Engineering · **Last Updated:** 2026
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Mobile Engineering](https://img.shields.io/badge/owner-Mobile_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Bridge vs Turbo Module Decision Guide](#1-bridge-vs-turbo-module-decision-guide)
 2. [Navigation Architecture](#2-navigation-architecture)
@@ -19,7 +19,7 @@
 
 ---
 
-## 1. Bridge vs Turbo Module Decision Guide
+## 🌉 1. Bridge vs Turbo Module Decision Guide
 
 {Company} mandates the **New Architecture (Fabric + Turbo Modules)** for all new native modules. The legacy Bridge is permitted only for third-party libraries that have not yet migrated.
 
@@ -67,7 +67,7 @@ export default TurboModuleRegistry.getEnforcing<Spec>('LocationTracker');
 
 ---
 
-## 2. Navigation Architecture
+## 🧭 2. Navigation Architecture
 
 ### 2.1 Stack & Structure
 
@@ -138,7 +138,7 @@ flowchart TD
 
 ---
 
-## 3. Debugging
+## 🐛 3. Debugging
 
 ### 3.1 Toolchain
 
@@ -175,7 +175,7 @@ module.exports = {
 
 ---
 
-## 4. Hermes Tuning
+## ⚡ 4. Hermes Tuning
 
 Hermes is the **mandated JS engine** for all {Company} React Native apps. V8 is not permitted.
 
@@ -211,7 +211,7 @@ Load the `.cpuprofile` in Chrome DevTools → Performance tab to identify hot fu
 
 ---
 
-## 5. API Codegen
+## 🔧 5. API Codegen
 
 ### 5.1 OpenAPI-Generated TypeScript Client
 
@@ -249,7 +249,7 @@ packages/
 
 ---
 
-## 6. Testing
+## 🧪 6. Testing
 
 ### 6.1 Framework Decision Matrix
 
@@ -302,7 +302,7 @@ All release candidates run through BrowserStack before submission:
 
 ---
 
-## 7. App Versioning
+## 🏷️ 7. App Versioning
 
 ### 7.1 Single Source of Truth
 
@@ -339,7 +339,7 @@ Version information lives in **one place** and is read by both platforms:
 
 ---
 
-## 8. Repo Layout
+## 📁 8. Repo Layout
 
 ### 8.1 Monorepo Structure
 
@@ -382,7 +382,7 @@ mobile/
 
 ---
 
-## 9. CodePush Operations
+## 🚀 9. CodePush Operations
 
 ### 9.1 Environment Keys
 
@@ -436,7 +436,7 @@ flowchart TD
 
 ---
 
-## 10. Accessibility — VoiceOver & TalkBack
+## ♿ 10. Accessibility — VoiceOver & TalkBack
 
 ### 10.1 Mandate
 
@@ -469,4 +469,8 @@ Every release must pass **screen reader tests** on both platforms. An accessibil
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>
