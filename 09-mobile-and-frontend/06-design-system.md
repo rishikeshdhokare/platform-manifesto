@@ -98,6 +98,16 @@ Before adding a new component to `@{company}/ui`:
 3. The Design System team reviews in the **bi-weekly sync** (30 min).
 4. Approved components are assigned a sprint for implementation.
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Propose[Propose Component] --> Review[RFC-lite Review]
+    Review --> Build[Build in UI Lib]
+    Build --> Publish[Publish to npm]
+    Publish --> Consume[Apps Consume]
+```
+
 ### 2.3 Versioning
 
 - The design system package (`@{company}/ui`) follows **semantic versioning**.
@@ -334,6 +344,16 @@ Design tokens are defined once and compiled to platform-specific formats:
 | **Android (native)** | Compose Color/Dp values | `{Company}Theme.colors.backgroundPrimary` |
 
 Token compilation uses **Style Dictionary** with platform-specific transforms. The token source lives in `packages/@{company}/design-tokens/tokens/`.
+
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    Figma[Figma Tokens] --> Export[Tokens Studio Export]
+    Export --> Transform[Style Dictionary]
+    Transform --> CSS[CSS Variables]
+    Transform --> RN[RN StyleSheet]
+```
 
 ---
 
