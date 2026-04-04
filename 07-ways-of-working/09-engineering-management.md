@@ -57,7 +57,7 @@ Calibration sessions ensure consistency across teams:
 
 ### 1.4 Ladder as Input, Not the Review
 
-The [Engineering Ladder](./02-engineering-ladder.md) describes level expectations. It is an input to the review conversation — not a checklist. Managers assess impact, growth trajectory, and behaviors holistically, referencing the ladder for calibration.
+The [Engineering Ladder](./02-engineering-ladder.md) describes level expectations. It is an input to the review conversation - not a checklist. Managers assess impact, growth trajectory, and behaviors holistically, referencing the ladder for calibration.
 
 ---
 
@@ -75,7 +75,7 @@ The [Engineering Ladder](./02-engineering-ladder.md) describes level expectation
 ### 2.2 Suggested Agenda Template
 
 ```markdown
-## 1:1 — [Name] & [Manager] — [Date]
+## 1:1 - [Name] & [Manager] - [Date]
 
 ### How are you doing? (5 min)
 - Energy level / blockers / personal check-in
@@ -91,7 +91,7 @@ The [Engineering Ladder](./02-engineering-ladder.md) describes level expectation
 - Feedback (both directions)
 
 ### Action Items
-- [ ] [Owner] — [Action] — [Due date]
+- [ ] [Owner] - [Action] - [Due date]
 ```
 
 ### 2.3 Anti-Patterns
@@ -250,7 +250,7 @@ flowchart TD
 | **Assume positive intent** | Start from the assumption that the other person has good intentions |
 | **Focus on behavior, not character** | "In the last code review, the feedback felt dismissive" vs "You're always rude" |
 | **Seek to understand first** | Ask questions before stating your position |
-| **Resolve promptly** | Address within 1 week — conflicts worsen with time |
+| **Resolve promptly** | Address within 1 week - conflicts worsen with time |
 | **Document outcomes** | Agreements are written down and shared with both parties |
 
 ---
@@ -294,7 +294,7 @@ Career conversations happen quarterly, separate from performance reviews. They a
 ### 8.2 Individual Development Plan (IDP) Template
 
 ```markdown
-## IDP — [Name] — [Year]
+## IDP - [Name] - [Year]
 
 ### Career Aspiration (1–3 years)
 (Where do you want to be? IC track? Management? Specialization?)
@@ -401,10 +401,10 @@ New EMs have a skip-level 1:1 with the VP Engineering in Week 2 to:
 
 Tooling RFCs follow the standard [RFC Process](./05-rfc-process.md) with additional sections:
 
-- **Cost analysis** — annual cost, per-seat vs. flat pricing
-- **Security review** — data handling, SOC 2 compliance, SSO support
-- **Overlap assessment** — does this duplicate an existing tool?
-- **Migration plan** — if replacing an existing tool, timeline and effort
+- **Cost analysis** - annual cost, per-seat vs. flat pricing
+- **Security review** - data handling, SOC 2 compliance, SSO support
+- **Overlap assessment** - does this duplicate an existing tool?
+- **Migration plan** - if replacing an existing tool, timeline and effort
 
 ---
 
@@ -426,7 +426,7 @@ Stay interviews are conducted at the 12-month mark and annually thereafter:
 
 | Aspect | Standard |
 |--------|---------|
-| **Mandatory** | Yes — for all voluntary departures |
+| **Mandatory** | Yes - for all voluntary departures |
 | **Conducted by** | HR partner (not the direct manager) |
 | **Timing** | Last week of employment |
 | **Data aggregation** | Themes reported quarterly to VP Engineering |

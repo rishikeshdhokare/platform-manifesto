@@ -8,7 +8,7 @@
 
 This document defines the **prioritised, phased program** to migrate the organisation from the current state to the target platform defined in this manifesto.
 
-The migration follows a **strangler fig pattern** — we do not rewrite everything at once. We build the new platform alongside the existing system, migrate services incrementally, and decommission the old as we go.
+The migration follows a **strangler fig pattern** - we do not rewrite everything at once. We build the new platform alongside the existing system, migrate services incrementally, and decommission the old as we go.
 
 **The golden rule:** Production reliability is non-negotiable. The migration must not increase operational risk.
 
@@ -16,11 +16,11 @@ The migration follows a **strangler fig pattern** — we do not rewrite everythi
 
 ## 🧭 Principles
 
-1. **Platform before services** — build the target platform first; migrate services second
-2. **Prove it with one service** — the golden path service validates the full platform before broad rollout
-3. **Automate the migration path** — manual migrations don't scale; build the tooling
-4. **No big bangs** — every phase delivers working software to production
-5. **Measure everything** — track migration progress, platform stability, and developer velocity
+1. **Platform before services** - build the target platform first; migrate services second
+2. **Prove it with one service** - the golden path service validates the full platform before broad rollout
+3. **Automate the migration path** - manual migrations don't scale; build the tooling
+4. **No big bangs** - every phase delivers working software to production
+5. **Measure everything** - track migration progress, platform stability, and developer velocity
 
 **Visual overview:**
 
@@ -134,7 +134,7 @@ gantt
 
 **Goal:** Migrate the core services that form the critical path for a completed order.
 
-**Sequence (order matters — lower risk / fewer dependencies first):**
+**Sequence (order matters - lower risk / fewer dependencies first):**
 
 | Order | Service | Risk | Key Dependencies | Est. Duration |
 |-------|---------|------|-----------------|--------------|
@@ -204,7 +204,7 @@ At this point, the migration pattern is proven and the platform is mature. Teams
 ### Remaining Service Categories
 
 - [ ] **BFF services** (Customer App BFF, Provider App BFF, Ops BFF)
-- [ ] **Payment services** (Payment Service, Payout Service) — requires extra care: PCI-DSS scope
+- [ ] **Payment services** (Payment Service, Payout Service) - requires extra care: PCI-DSS scope
 - [ ] **Analytics services** (Reporting service, data pipeline components)
 - [ ] **Supporting services** (Maps proxy, SMS gateway, push notification workers)
 - [ ] **Admin tooling** (Ops portal backend)
@@ -232,7 +232,7 @@ At this phase, each team owns their migration with a checklist:
 
 ## 🔧 Phase 4: Optimise (Month 10+)
 
-**Goal:** Continuous improvement — push teams from L3 to L4.
+**Goal:** Continuous improvement - push teams from L3 to L4.
 
 - [ ] Load testing program: weekly automated load tests for all Tier 1 services
 - [ ] SLO program: all services have defined and tracked SLOs
@@ -244,7 +244,7 @@ At this phase, each team owns their migration with a checklist:
 
 ---
 
-## 📊 DORA Metrics — Baseline & Target
+## 📊 DORA Metrics - Baseline & Target
 
 We will track **DORA (DevOps Research and Assessment) metrics** as the primary measure of platform health.
 
@@ -275,9 +275,9 @@ DORA metrics are tracked in the engineering health dashboard (Grafana) and revie
 
 ## 🏛️ Governance & Reporting
 
-- **Weekly:** Platform Engineering standup (internal) — migration progress, blockers
-- **Bi-weekly:** Migration status report to CTO — services migrated, DORA metrics, risks
-- **Monthly:** Engineering all-hands — maturity model scores, platform wins, what's next
+- **Weekly:** Platform Engineering standup (internal) - migration progress, blockers
+- **Bi-weekly:** Migration status report to CTO - services migrated, DORA metrics, risks
+- **Monthly:** Engineering all-hands - maturity model scores, platform wins, what's next
 - **Quarterly:** Maturity model review with all Tech Leads
 
 ---

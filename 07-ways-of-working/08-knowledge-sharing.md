@@ -6,7 +6,7 @@
 
 ## 🎯 1. Philosophy
 
-Code is written once and read many times. Decisions are made once and questioned forever — unless the context is captured. Knowledge sharing is not a nice-to-have side activity; it is core infrastructure for an engineering organization that scales.
+Code is written once and read many times. Decisions are made once and questioned forever - unless the context is captured. Knowledge sharing is not a nice-to-have side activity; it is core infrastructure for an engineering organization that scales.
 
 {Company} invests in multiple knowledge-sharing channels because people learn differently: some prefer reading, some prefer watching, some prefer conversation. We meet engineers where they are.
 
@@ -56,7 +56,7 @@ flowchart LR
 
 ## 🧠 3. Tech Talks
 
-Bi-weekly, 30-minute presentations open to all of engineering. Any engineer can present — there is no seniority requirement.
+Bi-weekly, 30-minute presentations open to all of engineering. Any engineer can present - there is no seniority requirement.
 
 ### 3.1 Format
 
@@ -171,7 +171,7 @@ Informal, team-initiated lunch sessions. No formal approval or scheduling proces
 |--------|--------|
 | **Format** | Casual, conversational, 30–45 min over lunch |
 | **Initiation** | Any team can organize; post in `#engineering` or team channel |
-| **Topics** | Anything the team finds interesting — new tool, conference takeaway, side project, book review |
+| **Topics** | Anything the team finds interesting - new tool, conference takeaway, side project, book review |
 | **Recording** | Optional; most are not recorded to encourage open discussion |
 | **Approval** | None required |
 
@@ -208,14 +208,14 @@ A curated list of foundational reading for engineers at {Company}. These resourc
 
 | Resource | Topic | Why It Matters |
 |----------|-------|----------------|
-| **The Twelve-Factor App** ([12factor.net](https://12factor.net)) | Service design | Foundation for cloud-native service architecture — config, dependencies, statelessness, and disposability |
+| **The Twelve-Factor App** ([12factor.net](https://12factor.net)) | Service design | Foundation for cloud-native service architecture - config, dependencies, statelessness, and disposability |
 | **Designing Data-Intensive Applications** (Kleppmann) | Data & distributed systems | Required reading for anyone building event-driven systems, working with replication, or designing for consistency |
-| **Building Microservices** (Newman) | Service decomposition | Aligns with our architecture philosophy — bounded contexts, independent deployability, and evolutionary design |
-| **Site Reliability Engineering** (Google) | Operations | Foundation for our SRE and observability practices — SLOs, error budgets, toil reduction, and incident response |
-| **Accelerate** (Forsgren, Humble, Kim) | Engineering metrics | The research behind our DORA metrics adoption — deployment frequency, lead time, MTTR, and change failure rate |
-| **Release It!** (Nygard) | Resilience | Patterns behind our circuit breaker and stability patterns — bulkheads, timeouts, and designing for production |
-| **Team Topologies** (Skelton, Pais) | Organization | The model behind our team structure — stream-aligned teams, platform teams, and interaction modes |
-| **Clean Architecture** (Martin) | Hexagonal architecture | Principles behind our ports & adapters approach — dependency inversion, separation of concerns, and testability |
+| **Building Microservices** (Newman) | Service decomposition | Aligns with our architecture philosophy - bounded contexts, independent deployability, and evolutionary design |
+| **Site Reliability Engineering** (Google) | Operations | Foundation for our SRE and observability practices - SLOs, error budgets, toil reduction, and incident response |
+| **Accelerate** (Forsgren, Humble, Kim) | Engineering metrics | The research behind our DORA metrics adoption - deployment frequency, lead time, MTTR, and change failure rate |
+| **Release It!** (Nygard) | Resilience | Patterns behind our circuit breaker and stability patterns - bulkheads, timeouts, and designing for production |
+| **Team Topologies** (Skelton, Pais) | Organization | The model behind our team structure - stream-aligned teams, platform teams, and interaction modes |
+| **Clean Architecture** (Martin) | Hexagonal architecture | Principles behind our ports & adapters approach - dependency inversion, separation of concerns, and testability |
 
 > This is not a mandatory reading list. Start with what's relevant to your current work. Ask in `#book-club` for recommendations.
 

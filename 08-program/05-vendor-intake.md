@@ -108,7 +108,7 @@ Before committing to a full contract, teams may run a time-boxed pilot.
 | Criterion | Requirement |
 |-----------|-------------|
 | **Maximum duration** | 90 days |
-| **Success metrics** | Defined upfront in the intake form — measurable and objective |
+| **Success metrics** | Defined upfront in the intake form - measurable and objective |
 | **Data restrictions** | No production data without completed security review |
 | **Exit plan** | Documented before pilot begins: data export mechanism, migration path, account deletion |
 | **Pilot scope** | Limited to the requesting team; no org-wide rollout during pilot |

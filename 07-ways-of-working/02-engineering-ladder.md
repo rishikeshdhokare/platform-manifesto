@@ -6,7 +6,7 @@
 
 ## 🎯 1. Purpose
 
-This ladder **maps individual engineering growth** to the standards defined in the {Company} Platform Manifesto — from the golden path and hexagonal architecture to observability, resilience, and platform governance.
+This ladder **maps individual engineering growth** to the standards defined in the {Company} Platform Manifesto - from the golden path and hexagonal architecture to observability, resilience, and platform governance.
 
 It is **not** a performance review tool or a promotion checklist. It is a **growth guide**: a shared vocabulary for engineers and managers about what “great” looks like at each scope, and how that connects to how we build, ship, and operate software at {Company}.
 
@@ -44,7 +44,7 @@ flowchart LR
 - Writes **unit tests** that meet the platform target of **≥ 80% coverage** on meaningful code paths.
 - Follows **coding standards** and repository conventions (branching, commits, PR hygiene).
 - Raises **PRs under ~400 lines** where practical; splits work when larger changes are needed.
-- Understands **hexagonal architecture** — ports, adapters, and keeping domain logic free of infrastructure details.
+- Understands **hexagonal architecture** - ports, adapters, and keeping domain logic free of infrastructure details.
 - **Participates in code review** as author and reviewer, using the code review guide as the baseline.
 
 ---
@@ -52,7 +52,7 @@ flowchart LR
 ## 🪜 4. Engineer II expectations
 
 - Contributes **integration tests** using **Testcontainers** (or equivalent manifesto-approved patterns) so tests exercise real dependencies, not only mocks.
-- Implements **resilience patterns** where appropriate: circuit breaker, retry with backoff, timeouts — aligned with operational excellence standards.
+- Implements **resilience patterns** where appropriate: circuit breaker, retry with backoff, timeouts - aligned with operational excellence standards.
 - Writes **ADRs for service-level** technical decisions (new dependency, non-trivial API or data shape, operational trade-offs).
 - **Debugs production issues** using **runbooks**, logs, metrics, and traces; escalates with clear hypotheses and evidence.
 
@@ -60,20 +60,20 @@ flowchart LR
 
 ## 🪜 5. Senior Engineer expectations
 
-- **Contributes to manifesto standards** — proposes improvements, pilots changes, or helps document patterns from production experience.
+- **Contributes to manifesto standards** - proposes improvements, pilots changes, or helps document patterns from production experience.
 - **Mentors** others on code review quality, design, and operational thinking.
 - **Owns service reliability** for their area: **SLOs**, error budgets, and actionable alerting.
 - **Drives maturity model improvements** for their team (testing, CI/CD, observability, security dimensions as applicable).
-- **Participates in on-call rotation** and **leads incident response** when their services or domain are involved — communication, mitigation, and post-incident follow-up.
+- **Participates in on-call rotation** and **leads incident response** when their services or domain are involved - communication, mitigation, and post-incident follow-up.
 
 ---
 
 ## 🪜 6. Staff Engineer expectations
 
-- **Shapes cross-service architecture** — aligns boundaries, contracts, and evolution paths across teams.
+- **Shapes cross-service architecture** - aligns boundaries, contracts, and evolution paths across teams.
 - **Authors ADRs for domain-level** decisions that affect multiple services or teams.
-- **Contributes to the platform BOM and golden path** — templates, shared libraries, and paved-road tooling.
-- **Drives or sustains the chaos engineering program** — game days, experiments, and learning loops tied to resilience goals.
+- **Contributes to the platform BOM and golden path** - templates, shared libraries, and paved-road tooling.
+- **Drives or sustains the chaos engineering program** - game days, experiments, and learning loops tied to resilience goals.
 - **Reviews critical PRs across teams** where blast radius or architectural consistency is high.
 
 ---
@@ -82,9 +82,9 @@ flowchart LR
 
 - **Sets technical direction** across the platform in partnership with CTO and domain leaders.
 - **Makes build-vs-buy decisions** with clear criteria: cost, risk, time-to-value, and operational fit for {Company}'s scale.
-- **Owns manifesto governance** — review cadence, approval bar for material changes, and coherence across sections.
+- **Owns manifesto governance** - review cadence, approval bar for material changes, and coherence across sections.
 - **Drives the migration roadmap** and major technical programs so execution matches strategy.
-- **Represents engineering externally** — conferences, partners, or critical technical discussions — with a consistent story about how we build.
+- **Represents engineering externally** - conferences, partners, or critical technical discussions - with a consistent story about how we build.
 
 ---
 
@@ -108,12 +108,12 @@ The [Engineering Maturity Model](../08-program/01-maturity-model.md) describes *
 
 ```mermaid
 flowchart TB
-    subgraph team [Team level — Maturity Model]
+    subgraph team [Team level - Maturity Model]
         D1[Dimensions L0–L4]
         D2[Quarterly self-assessment]
         D3[Improvement goals per quarter]
     end
-    subgraph individual [Individual level — Engineering Ladder]
+    subgraph individual [Individual level - Engineering Ladder]
         L1[Level expectations I → Principal]
         L2[1:1 and growth conversations]
         L3[Promotion readiness ≠ checklist]
@@ -135,9 +135,9 @@ flowchart LR
 
 ### How to use this ladder
 
-1. **Self-assessment** — Periodically read the level above yours. Note gaps that are **skills**, **scope**, or **visibility** (not all gaps require a level change to address).
-2. **1:1 conversations with your manager** — Use the ladder as shared language: which expectations are already met, which are stretch goals, and what opportunities (projects, reviews, incidents) will accelerate growth.
-3. **Quarterly review** — Align individual growth goals with team objectives and maturity improvements so development work and platform health move together.
+1. **Self-assessment** - Periodically read the level above yours. Note gaps that are **skills**, **scope**, or **visibility** (not all gaps require a level change to address).
+2. **1:1 conversations with your manager** - Use the ladder as shared language: which expectations are already met, which are stretch goals, and what opportunities (projects, reviews, incidents) will accelerate growth.
+3. **Quarterly review** - Align individual growth goals with team objectives and maturity improvements so development work and platform health move together.
 
 Promotion and compensation decisions remain **manager and HR processes**; this document informs **expectations and development**, not titles alone.
 

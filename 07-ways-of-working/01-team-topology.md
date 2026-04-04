@@ -10,7 +10,7 @@ We follow the **Team Topologies** model. There are two primary team types:
 
 ### 1.1 Stream-Aligned Teams
 
-Product engineering teams aligned to a domain or user journey. They own services end-to-end — development, deployment, and operation.
+Product engineering teams aligned to a domain or user journey. They own services end-to-end - development, deployment, and operation.
 
 | Team | Domain | Services |
 |------|--------|---------|
@@ -23,7 +23,7 @@ Product engineering teams aligned to a domain or user journey. They own services
 
 ### 1.2 Platform Team (Enabling Team)
 
-The Platform Engineering team exists to **reduce cognitive load on stream-aligned teams** — not to be a bottleneck. Their job is to build and maintain the golden path so teams can move fast safely.
+The Platform Engineering team exists to **reduce cognitive load on stream-aligned teams** - not to be a bottleneck. Their job is to build and maintain the golden path so teams can move fast safely.
 
 Platform team responsibilities:
 - EKS cluster management and upgrades
@@ -35,7 +35,7 @@ Platform team responsibilities:
 
 **Platform team is not** a gatekeeper for deployments. Teams deploy themselves.
 
-Platform team on-call is separate from stream-aligned team on-call. Platform PagerDuty escalation policy is distinct — platform incidents escalate within the platform team, not to product engineering managers.
+Platform team on-call is separate from stream-aligned team on-call. Platform PagerDuty escalation policy is distinct - platform incidents escalate within the platform team, not to product engineering managers.
 
 **Visual overview:**
 
@@ -63,11 +63,11 @@ flowchart TB
 ### 2.1 Service Ownership
 
 Every service has:
-- **One owning team** — accountable for reliability, security, and evolution
-- **One Tech Lead** — accountable for technical decisions in the service
-- **On-call rotation** — the owning team is on-call for their services
+- **One owning team** - accountable for reliability, security, and evolution
+- **One Tech Lead** - accountable for technical decisions in the service
+- **On-call rotation** - the owning team is on-call for their services
 
-Ownership is declared in `catalog-info.yaml` and cannot be "shared" — shared ownership means no ownership.
+Ownership is declared in `catalog-info.yaml` and cannot be "shared" - shared ownership means no ownership.
 
 ### 2.2 CODEOWNERS
 
@@ -89,7 +89,7 @@ terraform/          @{company}/team-platform
 
 - **2-week sprints** with sprint planning, review, and retrospective
 - Backlog refinement mid-sprint
-- **No sprint gates on deployments** — merge to main deploys to production continuously
+- **No sprint gates on deployments** - merge to main deploys to production continuously
 
 ### 3.2 Architecture Decision Records (ADRs)
 
@@ -126,7 +126,7 @@ What was evaluated and why it was not chosen.
 
 Technical debt is visible and tracked:
 - All tech debt is tagged `tech-debt` in Jira
-- Each team allocates **20% of sprint capacity** to tech debt reduction — non-negotiable
+- Each team allocates **20% of sprint capacity** to tech debt reduction - non-negotiable
 - Tech debt items blocking security or reliability are treated as P2 bugs
 - Quarterly tech debt review with all Tech Leads
 
@@ -144,7 +144,7 @@ Technical debt is visible and tracked:
 Shared libraries and platform components follow an **inner source model**:
 - Any engineer can raise a PR against any repository
 - The owning team reviews and merges
-- Platform libraries welcome contributions — the Platform team does not have to build everything
+- Platform libraries welcome contributions - the Platform team does not have to build everything
 
 ---
 
@@ -162,8 +162,8 @@ This is what a real, well-written ADR looks like:
 ## Context
 
 The Orders Service must publish an `orders.order.completed` Kafka event every time an order 
-is completed. The naive implementation — save the order to the database, then publish 
-to Kafka — has a critical flaw: if the service crashes between the DB save and the 
+is completed. The naive implementation - save the order to the database, then publish 
+to Kafka - has a critical flaw: if the service crashes between the DB save and the 
 Kafka publish, the order is saved but the event is never published.
 
 This means downstream services (Payments, Notifications) never receive the completion 
@@ -178,13 +178,13 @@ We will implement the Transactional Outbox pattern:
 2. A separate outbox publisher reads unpublished events from the table and publishes 
    them to Kafka, then marks them as published.
 
-This guarantees that if the order is saved, the event will eventually be published — 
+This guarantees that if the order is saved, the event will eventually be published - 
 even if the service crashes mid-operation.
 
 ## Consequences
 
 **Positive:**
-- Event publishing is reliable — no lost events due to crashes
+- Event publishing is reliable - no lost events due to crashes
 - The outbox provides a natural audit trail of all published events
 - At-least-once delivery is maintained (Kafka consumers must still be idempotent)
 
@@ -243,7 +243,7 @@ The **owning team** remains on-call for inner source contributions. Contributors
 
 ### Recognition
 
-Inner source contributions count toward **engineering ladder progression** — specifically the "collaboration" and "impact beyond team" dimensions. Contributions are tracked via GitHub PR metadata.
+Inner source contributions count toward **engineering ladder progression** - specifically the "collaboration" and "impact beyond team" dimensions. Contributions are tracked via GitHub PR metadata.
 
 ---
 
@@ -283,7 +283,7 @@ Higher score = higher priority. Scoring values:
 
 - **Monthly:** Top 5 items by score reviewed in engineering leadership sync
 - **Quarterly:** Each team must include the top item from their backlog in their sprint
-- **20% capacity:** Each team allocates 20% of sprint capacity to tech debt reduction — this is non-negotiable (see Section 3.3)
+- **20% capacity:** Each team allocates 20% of sprint capacity to tech debt reduction - this is non-negotiable (see Section 3.3)
 
 ### Executive Escalation
 

@@ -6,7 +6,7 @@
 
 ## 🎯 1. Philosophy
 
-Great products emerge from tight collaboration between product managers and engineers. Product teams are not a "requirements factory" that throws work over a wall — they are a single unit where PM, engineering, and design work together to discover, decide, and deliver.
+Great products emerge from tight collaboration between product managers and engineers. Product teams are not a "requirements factory" that throws work over a wall - they are a single unit where PM, engineering, and design work together to discover, decide, and deliver.
 
 This document defines how product management and engineering collaborate at {Company}. It exists because the default without structure is chaos: unclear priorities, last-minute scope changes, and engineers building things nobody asked for.
 
@@ -28,17 +28,17 @@ This document defines how product management and engineering collaborate at {Com
 
 | Responsibility | Description |
 |---------------|-------------|
-| **Technical solution** | Decide *how* to build it — architecture, tech choices, trade-offs |
+| **Technical solution** | Decide *how* to build it - architecture, tech choices, trade-offs |
 | **Feasibility and estimates** | Provide honest effort estimates with uncertainty ranges |
 | **Quality** | Ensure code quality, test coverage, observability, and operational readiness |
 | **Technical debt** | Identify, communicate, and advocate for paying down debt |
-| **Production operation** | Own the service in production — monitoring, incidents, on-call |
+| **Production operation** | Own the service in production - monitoring, incidents, on-call |
 
 ### 2.3 What They Own Together
 
 | Responsibility | Description |
 |---------------|-------------|
-| **Scope** | Negotiate scope to fit timelines — not the other way around |
+| **Scope** | Negotiate scope to fit timelines - not the other way around |
 | **Trade-offs** | Jointly decide when to cut scope, accept tech debt, or delay |
 | **Discovery** | Collaborate on user research, prototyping, and validation |
 | **Release strategy** | Feature flags, gradual rollout, A/B testing, rollback criteria |
@@ -49,7 +49,7 @@ This document defines how product management and engineering collaborate at {Com
 
 ### 3.1 Dual-Track Development
 
-We run discovery and delivery in parallel. Discovery is not a phase that precedes delivery — it runs continuously.
+We run discovery and delivery in parallel. Discovery is not a phase that precedes delivery - it runs continuously.
 
 ```
 ┌──────────────────────────────────┐
@@ -95,7 +95,7 @@ Every significant initiative (> 1 sprint of work) must have a PRD before enginee
 | **Risks** | What could go wrong? Dependencies? |
 | **Open questions** | What do we still need to learn? |
 
-The PRD is not a specification — it describes the *problem* and *desired outcome*, not the technical implementation. Engineering writes the technical design in an ADR or design doc.
+The PRD is not a specification - it describes the *problem* and *desired outcome*, not the technical implementation. Engineering writes the technical design in an ADR or design doc.
 
 ### 3.3 Technical Feasibility Review
 
@@ -103,7 +103,7 @@ Before committing to a PRD, engineering provides a **feasibility assessment**:
 
 - **T-shirt size estimate** (S/M/L/XL) with assumptions
 - **Technical risks** (new infrastructure, third-party dependencies, performance concerns)
-- **Proposed approach** (high-level — not a full design doc)
+- **Proposed approach** (high-level - not a full design doc)
 - **Dependencies** on other teams or platform capabilities
 
 ---
@@ -158,10 +158,10 @@ RICE Score = (Reach × Impact × Confidence) / Effort
 
 Regardless of RICE score, some work always takes priority:
 
-1. **Security vulnerabilities** — P0 incidents, critical CVEs
-2. **Production outages** — anything affecting customers right now
-3. **Regulatory compliance** — legal deadlines, data protection requirements
-4. **SLO breaches** — services falling below their error budget
+1. **Security vulnerabilities** - P0 incidents, critical CVEs
+2. **Production outages** - anything affecting customers right now
+3. **Regulatory compliance** - legal deadlines, data protection requirements
+4. **SLO breaches** - services falling below their error budget
 
 ---
 
@@ -217,7 +217,7 @@ All user stories follow the standard format:
 
 > **As a** [persona], **I want** [action], **so that** [outcome]
 
-The persona must be a specific, named persona from the team's user research (e.g., "customer placing a first order", "operations manager monitoring SLAs") — not a generic "user."
+The persona must be a specific, named persona from the team's user research (e.g., "customer placing a first order", "operations manager monitoring SLAs") - not a generic "user."
 
 ### 8.2 Acceptance Criteria
 

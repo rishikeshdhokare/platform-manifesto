@@ -6,7 +6,7 @@
 
 ## 🎯 1. Philosophy
 
-Hiring is the highest-leverage activity in engineering. A great hire compounds for years; a bad hire drains the team. {Company} optimizes for **signal over speed** — we invest in structured, evidence-based interviews that predict on-the-job success and minimize bias.
+Hiring is the highest-leverage activity in engineering. A great hire compounds for years; a bad hire drains the team. {Company} optimizes for **signal over speed** - we invest in structured, evidence-based interviews that predict on-the-job success and minimize bias.
 
 Every candidate, regardless of outcome, should leave the process thinking: "That was fair, well-organized, and respectful of my time."
 
@@ -28,9 +28,9 @@ flowchart LR
 |-------|----------|-------------|-------|
 | **Recruiter screen** | 30 min | Recruiter | Role fit, expectations, logistics, compensation range |
 | **Technical phone screen** | 60 min | Engineer (IC3+) | Core technical competency, communication, problem-solving approach |
-| **Onsite — Coding** | 60 min | 2 Engineers | Code quality, testing instincts, pragmatism, collaboration |
-| **Onsite — System Design** | 60 min | Staff+ Engineer | Architecture thinking, trade-off analysis, scaled to candidate level |
-| **Onsite — Culture & Values** | 45 min | Engineering Manager + cross-functional partner | Collaboration, ownership, growth mindset, culture add |
+| **Onsite - Coding** | 60 min | 2 Engineers | Code quality, testing instincts, pragmatism, collaboration |
+| **Onsite - System Design** | 60 min | Staff+ Engineer | Architecture thinking, trade-off analysis, scaled to candidate level |
+| **Onsite - Culture & Values** | 45 min | Engineering Manager + cross-functional partner | Collaboration, ownership, growth mindset, culture add |
 | **Debrief** | 60 min | All interviewers + hiring manager | Structured scoring review, level calibration, hire/no-hire decision |
 
 ---
@@ -78,10 +78,10 @@ Live coding is the default format. Candidates use their own IDE or a shared onli
 | Guideline | Detail |
 |-----------|--------|
 | **Language** | Candidate's choice from our supported languages |
-| **Problem type** | Real-world problems (API design, data transformation, concurrency) — not puzzle/trick questions |
-| **Internet access** | Allowed — we hire engineers who know how to use documentation |
+| **Problem type** | Real-world problems (API design, data transformation, concurrency) - not puzzle/trick questions |
+| **Internet access** | Allowed - we hire engineers who know how to use documentation |
 | **AI tooling** | Not permitted during the interview |
-| **Evaluation** | Process over perfection — how candidates think, communicate, and iterate matters more than a complete solution |
+| **Evaluation** | Process over perfection - how candidates think, communicate, and iterate matters more than a complete solution |
 
 ### 4.2 Take-Home (By Request Only)
 
@@ -100,13 +100,13 @@ Take-home assignments are offered only if the candidate requests an alternative 
 
 ## 🎯 5. Bar-Raiser
 
-Every onsite loop includes one **bar-raiser** — an interviewer from outside the hiring team.
+Every onsite loop includes one **bar-raiser** - an interviewer from outside the hiring team.
 
 | Aspect | Detail |
 |--------|--------|
 | **Purpose** | Prevent localized hiring bias; maintain company-wide quality bar |
 | **Selection** | Trained senior engineer (IC3+) from a different team |
-| **Authority** | Has veto power — a bar-raiser "no-hire" requires hiring manager + VP to override |
+| **Authority** | Has veto power - a bar-raiser "no-hire" requires hiring manager + VP to override |
 | **Focus** | Evaluates against the {Company}-wide rubric, not team-specific needs |
 | **Training** | Bar-raisers complete a 4-hour calibration workshop before joining the rotation |
 
@@ -131,10 +131,10 @@ flowchart LR
 |----------|-------------------|
 | **Structured scoring** | Every dimension scored 1–4 independently before debrief discussion |
 | **Diverse panels** | Minimum 2 different backgrounds across the interview panel (gender, ethnicity, tenure, team) |
-| **No "culture fit"** | Replaced with **"culture add"** — what unique perspective does this candidate bring? |
+| **No "culture fit"** | Replaced with **"culture add"** - what unique perspective does this candidate bring? |
 | **Blind resume screen** | Recruiter removes name, photo, school name before presenting to hiring manager |
 | **Standardized questions** | All candidates for the same role/level receive equivalent questions (not identical, but calibrated) |
-| **Written feedback first** | Each interviewer submits written scores before the debrief begins — no anchoring |
+| **Written feedback first** | Each interviewer submits written scores before the debrief begins - no anchoring |
 | **Debrief protocol** | Discuss scores dimension by dimension, not interviewer by interviewer |
 
 ### 6.1 Scoring Scale

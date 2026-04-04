@@ -6,13 +6,13 @@
 
 ## 🎯 1. Philosophy
 
-{Company} is built on open source. Our entire stack — Kubernetes, Kafka, PostgreSQL, Spring Boot, Terraform, ArgoCD, Grafana — exists because communities invested in building shared infrastructure.
+{Company} is built on open source. Our entire stack - Kubernetes, Kafka, PostgreSQL, Spring Boot, Terraform, ArgoCD, Grafana - exists because communities invested in building shared infrastructure.
 
 **We respect this.** We consume responsibly, contribute where we can, and ensure license compliance is not an afterthought but a CI gate.
 
 | Principle | What It Means |
 |-----------|--------------|
-| **Consume responsibly** | Every dependency is a liability — vet before adopting |
+| **Consume responsibly** | Every dependency is a liability - vet before adopting |
 | **Respect licenses** | Comply with the letter and spirit of every license we use |
 | **Contribute back** | Engineers are encouraged to fix bugs upstream, not fork and patch |
 | **Protect our IP** | Never expose proprietary logic, internal URLs, or secrets |
@@ -29,10 +29,10 @@
 | **MIT** | ✅ Approved | Permissive, widely used |
 | **BSD (2-clause, 3-clause)** | ✅ Approved | Permissive |
 | **ISC** | ✅ Approved | Functionally equivalent to MIT |
-| **MPL 2.0** | ⚠️ Conditional | File-level copyleft — approved for runtime dependencies, not for modification |
-| **LGPL** | ⚠️ Conditional | Dynamic linking only — requires legal review |
-| **GPL v2/v3** | 🔴 Legal review required | Copyleft — may impose obligations on {Company}'s proprietary code |
-| **AGPL** | 🔴 Likely blocked | Network copyleft — using AGPL software in a SaaS product triggers copyleft obligations |
+| **MPL 2.0** | ⚠️ Conditional | File-level copyleft - approved for runtime dependencies, not for modification |
+| **LGPL** | ⚠️ Conditional | Dynamic linking only - requires legal review |
+| **GPL v2/v3** | 🔴 Legal review required | Copyleft - may impose obligations on {Company}'s proprietary code |
+| **AGPL** | 🔴 Likely blocked | Network copyleft - using AGPL software in a SaaS product triggers copyleft obligations |
 | **SSPL** | 🛑 Blocked | Not OSI-approved; restrictive terms |
 | **Unlicensed / No License** | 🛑 Blocked | No license = no permission to use |
 
@@ -83,13 +83,13 @@ flowchart TD
     B -->|"No"| D{"GPL or<br/>AGPL?"}
 
     D -->|"GPL"| E["Submit to Legal<br/>for review<br/>(SLA: 3 business days)"]
-    D -->|"AGPL"| F["Likely blocked —<br/>escalate to CTO"]
+    D -->|"AGPL"| F["Likely blocked - <br/>escalate to CTO"]
     D -->|"Unknown"| G["Submit to Legal<br/>for license identification"]
 
     C -->|"Yes"| H{"Known critical<br/>CVEs?"}
-    C -->|"No"| I["⚠️ Abandoned project —<br/>document risk & seek alternative"]
+    C -->|"No"| I["⚠️ Abandoned project - <br/>document risk & seek alternative"]
 
-    H -->|"No"| J["✅ Approved —<br/>add to project"]
+    H -->|"No"| J["✅ Approved - <br/>add to project"]
     H -->|"Yes"| K["Check if patches<br/>available, else seek alternative"]
 
     E -->|"Approved with conditions"| J
@@ -170,7 +170,7 @@ If {Company} wants to release an internal tool or library as open source:
 | **CTO approval** | Written approval from CTO |
 | **License** | Apache 2.0 (our default for published projects) |
 | **No internal references** | No internal URLs, hostnames, secrets, or proprietary config |
-| **Security review** | Security team sign-off — no leaked credentials, tokens, or PII |
+| **Security review** | Security team sign-off - no leaked credentials, tokens, or PII |
 | **Documentation** | README, CONTRIBUTING.md, LICENSE file, getting started guide |
 | **Maintenance commitment** | Team commits to **12 months minimum** of maintenance (issue triage, security patches, dependency updates) |
 | **CI/CD** | Public CI pipeline (GitHub Actions) with tests, lint, security scan |
@@ -179,7 +179,7 @@ If {Company} wants to release an internal tool or library as open source:
 
 - [ ] CTO approval obtained
 - [ ] All internal URLs, secrets, and config removed
-- [ ] Git history reviewed — no secrets in commit history (use `git filter-repo` if needed)
+- [ ] Git history reviewed - no secrets in commit history (use `git filter-repo` if needed)
 - [ ] Apache 2.0 LICENSE file added
 - [ ] CONTRIBUTING.md with DCO requirement
 - [ ] README with installation, usage, and contact info
@@ -208,30 +208,30 @@ If a team genuinely needs a GPL-licensed dependency:
 2. Legal reviews the specific GPL obligations
 3. CTO approves or rejects
 4. If approved, the exception is recorded in a `LICENSE_EXCEPTIONS.md` file in the repository root
-5. Exception is reviewed annually — if the dependency can be replaced, it should be
+5. Exception is reviewed annually - if the dependency can be replaced, it should be
 
 ---
 
-## 🎯 8. Decision Flowchart — Adding a New Dependency
+## 🎯 8. Decision Flowchart - Adding a New Dependency
 
 Use this flowchart every time you consider adding a new third-party library.
 
 ```mermaid
 flowchart TD
     Start["🆕 New Dependency<br/>Proposed"] --> A{"Is it actually<br/>needed?"}
-    A -->|"No — stdlib<br/>or existing dep<br/>covers it"| Stop["🛑 Don't add it"]
+    A -->|"No - stdlib<br/>or existing dep<br/>covers it"| Stop["🛑 Don't add it"]
     A -->|"Yes"| B{"License?"}
 
     B -->|"Apache 2.0 / MIT /<br/>BSD / ISC"| C{"Actively<br/>maintained?"}
     B -->|"MPL / LGPL"| D["⚠️ Legal review<br/>(conditional approval)"]
     B -->|"GPL v2/v3"| E["🔴 Legal review<br/>(likely restricted)"]
-    B -->|"AGPL"| F["🔴 Likely blocked —<br/>CTO escalation"]
-    B -->|"SSPL / No License"| G["🛑 Blocked —<br/>find alternative"]
+    B -->|"AGPL"| F["🔴 Likely blocked - <br/>CTO escalation"]
+    B -->|"SSPL / No License"| G["🛑 Blocked - <br/>find alternative"]
 
     C -->|"Yes (commits < 6mo)"| H{"Known critical<br/>CVEs?"}
-    C -->|"No (12+ months<br/>inactive)"| I["⚠️ Document risk —<br/>seek alternative"]
+    C -->|"No (12+ months<br/>inactive)"| I["⚠️ Document risk - <br/>seek alternative"]
 
-    H -->|"No"| J["✅ Approved —<br/>add dependency"]
+    H -->|"No"| J["✅ Approved - <br/>add dependency"]
     H -->|"Yes, patched"| J
     H -->|"Yes, unpatched"| K["🔴 Blocked until<br/>patched or replaced"]
 

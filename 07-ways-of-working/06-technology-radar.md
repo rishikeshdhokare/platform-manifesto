@@ -6,11 +6,11 @@
 
 ## 🎯 1. Purpose
 
-The {Company} Technology Radar is a curated, opinionated guide to the technologies, tools, frameworks, and techniques we use — or deliberately avoid. It helps teams make consistent technology choices without requiring a heavyweight approval process for every decision.
+The {Company} Technology Radar is a curated, opinionated guide to the technologies, tools, frameworks, and techniques we use - or deliberately avoid. It helps teams make consistent technology choices without requiring a heavyweight approval process for every decision.
 
 The radar answers two questions:
-1. **"Can I use X?"** — check the quadrant.
-2. **"Should I consider Y?"** — see what's in Trial or Assess.
+1. **"Can I use X?"** - check the quadrant.
+2. **"Should I consider Y?"** - see what's in Trial or Assess.
 
 ---
 
@@ -62,8 +62,8 @@ The radar is reviewed and updated every quarter.
 ### 4.1 Review Meeting Agenda
 
 1. Review new nominations (10 min per nomination)
-2. Re-evaluate existing Trial items — promote to Adopt or move to Hold (5 min each)
-3. Re-evaluate Hold items — any that should be removed from radar entirely (5 min)
+2. Re-evaluate existing Trial items - promote to Adopt or move to Hold (5 min each)
+3. Re-evaluate Hold items - any that should be removed from radar entirely (5 min)
 4. Update the published radar and notify teams
 
 ---

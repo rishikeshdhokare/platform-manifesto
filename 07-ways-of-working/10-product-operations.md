@@ -89,7 +89,7 @@ flowchart LR
 |-------|---------------|--------|
 | **0.0 – 0.3** | Failed to make meaningful progress | Post-mortem: why did we miss? |
 | **0.4 – 0.6** | Meaningful progress but short of target | Acceptable if stretch goal; investigate if committed |
-| **0.7** | Target achieved | This is the sweet spot — "0.7 = good" |
+| **0.7** | Target achieved | This is the sweet spot - "0.7 = good" |
 | **0.8 – 1.0** | Exceeded expectations | Was the target too conservative? Celebrate, then calibrate. |
 
 ### 2.3 OKR Template
@@ -103,9 +103,9 @@ Quarter: Q2 2026
 
 | # | Key Result | Baseline | Target | Current | Score |
 |---|-----------|----------|--------|---------|-------|
-| 1 | Reduce checkout abandonment rate | 35% | 20% | — | — |
-| 2 | Increase average order value | $42 | $50 | — | — |
-| 3 | Achieve 4.5★ app store rating | 4.1★ | 4.5★ | — | — |
+| 1 | Reduce checkout abandonment rate | 35% | 20% | - | - |
+| 2 | Increase average order value | $42 | $50 | - | - |
+| 3 | Achieve 4.5★ app store rating | 4.1★ | 4.5★ | - | - |
 
 ### Initiatives
 - [Epic 1: Streamlined checkout flow]
@@ -187,18 +187,18 @@ Feature: Save payment method
 ### 4.1 Weekly Status Email Template
 
 ```markdown
-Subject: [Team Name] Weekly Update — Week of [Date]
+Subject: [Team Name] Weekly Update - Week of [Date]
 
 ## Highlights
 - ✅ [Shipped: feature X to 100% of users]
 - ✅ [Completed: API integration with partner Y]
 
 ## In Progress
-- 🔄 [Feature Z — 70% complete, on track for [date]]
-- 🔄 [Performance optimization — load testing this week]
+- 🔄 [Feature Z - 70% complete, on track for [date]]
+- 🔄 [Performance optimization - load testing this week]
 
 ## Risks & Blockers
-- ⚠️ [Dependency on Team A for API change — at risk, need by [date]]
+- ⚠️ [Dependency on Team A for API change - at risk, need by [date]]
 - 🛑 [Blocked: awaiting legal review on data processing agreement]
 
 ## Metrics
@@ -228,14 +228,14 @@ Subject: [Team Name] Weekly Update — Week of [Date]
 
 | Slide | Content |
 |-------|---------|
-| 1 | Quarter summary — key accomplishments |
-| 2 | OKR scorecard — final scores |
-| 3 | Product metrics — quarter-over-quarter trends |
-| 4 | Customer highlights — feedback themes, NPS |
-| 5 | Technical health — uptime, latency, incidents |
-| 6 | Team — hires, departures, health check summary |
-| 7 | Next quarter — committed OKRs and roadmap |
-| 8 | Risks and asks — resource needs, strategic decisions |
+| 1 | Quarter summary - key accomplishments |
+| 2 | OKR scorecard - final scores |
+| 3 | Product metrics - quarter-over-quarter trends |
+| 4 | Customer highlights - feedback themes, NPS |
+| 5 | Technical health - uptime, latency, incidents |
+| 6 | Team - hires, departures, health check summary |
+| 7 | Next quarter - committed OKRs and roadmap |
+| 8 | Risks and asks - resource needs, strategic decisions |
 
 ---
 
@@ -339,7 +339,7 @@ The PM team produces a quarterly competitive brief covering:
 | **Pricing changes** | Any pricing moves by competitors |
 | **Product launches** | Notable features shipped by competitors |
 | **Win/loss analysis** | Sales win/loss data by competitor |
-| **Strategic implications** | "So what?" — what should we do differently? |
+| **Strategic implications** | "So what?" - what should we do differently? |
 
 ### 7.2 Competitive Feature Matrix
 
@@ -448,7 +448,7 @@ flowchart TD
 | Risk Level | Definition | Action |
 |-----------|-----------|--------|
 | **Green** | Dependency on track, no concerns | Track in board, no action |
-| **Yellow** | Dependency at risk — timeline may slip by 1–2 weeks | PM-to-PM discussion, contingency plan |
+| **Yellow** | Dependency at risk - timeline may slip by 1–2 weeks | PM-to-PM discussion, contingency plan |
 | **Red** | Dependency blocked or slipping > 2 weeks | EM escalation, scope discussion, potential de-scoping |
 
 ---

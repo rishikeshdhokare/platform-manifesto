@@ -12,7 +12,7 @@ This document defines when to write an RFC, how to structure it, who reviews it,
 
 ---
 
-## 📋 2. RFC vs ADR — When to Use Which
+## 📋 2. RFC vs ADR - When to Use Which
 
 | Dimension | ADR (Architecture Decision Record) | RFC (Request for Comments) |
 |-----------|-----------------------------------|-----------------------------|
@@ -35,8 +35,8 @@ RFCs follow the format:
 RFC-YYYY-NNN
 ```
 
-- `YYYY` — year the RFC was created
-- `NNN` — sequential number within the year, zero-padded to three digits
+- `YYYY` - year the RFC was created
+- `NNN` - sequential number within the year, zero-padded to three digits
 
 Examples: `RFC-2026-001`, `RFC-2026-042`.
 
@@ -55,12 +55,12 @@ Every RFC must include the following sections:
 | **Author(s)** | Names and teams |
 | **Status** | Draft / In Review / Accepted / Rejected / Superseded |
 | **Date** | Date the RFC entered the current status |
-| **Context** | Background — what is the current state and why is this decision needed now? |
+| **Context** | Background - what is the current state and why is this decision needed now? |
 | **Problem** | What specific problem does this RFC address? Who is affected? |
 | **Proposal** | The recommended approach, with enough detail for reviewers to evaluate trade-offs |
 | **Alternatives considered** | At least two alternatives with pros/cons for each |
 | **Decision** | The final decision (filled in after review closes) |
-| **Consequences** | What changes as a result — new standards, migration work, deprecated patterns |
+| **Consequences** | What changes as a result - new standards, migration work, deprecated patterns |
 
 ### 4.1 Template (Markdown)
 
@@ -148,7 +148,7 @@ Authors may add additional reviewers at their discretion. Reviewers who are adde
 | **No decision after 14 business days** | RFC auto-escalates to the next level in the reviewer chain |
 | **Escalated RFC not decided within 7 business days** | VP Engineering makes the final call |
 
-Timeouts exist to prevent decision paralysis. Silence is not consent — if reviewers do not respond, the escalation path ensures a decision is made.
+Timeouts exist to prevent decision paralysis. Silence is not consent - if reviewers do not respond, the escalation path ensures a decision is made.
 
 ---
 
@@ -210,7 +210,7 @@ A Technical Design Document (TDD) is required for any feature or change estimate
 
 | Dimension | Technical Design Document (TDD) | RFC |
 |-----------|--------------------------------|-----|
-| **Scope** | Team-scoped — within one service or domain | Cross-team or org-wide |
+| **Scope** | Team-scoped - within one service or domain | Cross-team or org-wide |
 | **Audience** | Team members, tech lead | Affected teams, Staff+, leadership |
 | **Approval** | Tech lead reviews and approves | Formal review period with named reviewers (see RFC process above) |
 | **Location** | `docs/design/` in the service repository | Backstage TechDocs |
@@ -245,15 +245,15 @@ The Jira ticket links to the TDD. The TDD links back to the Jira ticket.
 
 - The team's **tech lead reviews and approves** the TDD before implementation begins
 - For TDDs that touch shared infrastructure or cross-domain contracts, the tech lead may escalate to Staff Engineering review
-- Review happens via a PR against the service repository — the same code review tooling and process applies
+- Review happens via a PR against the service repository - the same code review tooling and process applies
 
 ### 12.6 Lifecycle
 
 | Phase | TDD State |
 |-------|-----------|
 | **Before implementation** | Draft → reviewed → approved |
-| **During implementation** | Living document — updated as decisions evolve or scope changes |
-| **After completion** | Archived (not deleted) — remains in `docs/design/` as historical context |
+| **During implementation** | Living document - updated as decisions evolve or scope changes |
+| **After completion** | Archived (not deleted) - remains in `docs/design/` as historical context |
 
 ### 12.7 Relationship to ADR
 

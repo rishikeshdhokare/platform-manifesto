@@ -6,7 +6,7 @@
 
 ## 🎯 1. Beyond DORA
 
-DORA metrics are **necessary but not sufficient**. They tell you how fast you ship and how stable your releases are — but they say nothing about developer happiness, platform adoption, technical debt accumulation, or onboarding friction.
+DORA metrics are **necessary but not sufficient**. They tell you how fast you ship and how stable your releases are - but they say nothing about developer happiness, platform adoption, technical debt accumulation, or onboarding friction.
 
 {Company} tracks DORA as the **baseline floor**. This document defines the full set of engineering health metrics that together give leadership a complete picture of engineering effectiveness.
 
@@ -35,7 +35,7 @@ These are already tracked via the CI/CD pipeline and Grafana. Included here for 
 
 ```mermaid
 graph LR
-    subgraph DORA["📊 DORA Metrics — Already Tracked"]
+    subgraph DORA["📊 DORA Metrics - Already Tracked"]
         DF["Deployment<br/>Frequency"]
         LT["Lead Time<br/>for Changes"]
         CFR["Change<br/>Failure Rate"]
@@ -83,7 +83,7 @@ Run **quarterly** via a short, anonymous survey. NPS-style scoring (1–10) with
 | Score Range | Label | Action |
 |-------------|-------|--------|
 | 9–10 | Promoter | Celebrate and learn from these areas |
-| 7–8 | Passive | Monitor — no immediate action |
+| 7–8 | Passive | Monitor - no immediate action |
 | 1–6 | Detractor | Requires investigation and action plan |
 
 **Target:** Engineering NPS ≥ 40 (measured as % Promoters − % Detractors).
@@ -108,7 +108,7 @@ Results are published to all-hands within 2 weeks of survey close. Action items 
 
 ### 4.2 Measurement
 
-Teams log toil hours weekly in a shared spreadsheet (lightweight — 2 min/week). Platform Engineering aggregates and reports monthly.
+Teams log toil hours weekly in a shared spreadsheet (lightweight - 2 min/week). Platform Engineering aggregates and reports monthly.
 
 | Metric | Target | Red Line |
 |--------|--------|----------|
@@ -122,7 +122,7 @@ When a toil category exceeds 5% of total engineering time, it is escalated to th
 
 ## 📈 5. Platform Adoption Metrics
 
-These metrics tell us whether teams are actually using the platform — or working around it.
+These metrics tell us whether teams are actually using the platform - or working around it.
 
 | Metric | Definition | Target | Measurement |
 |--------|-----------|--------|-------------|
@@ -153,7 +153,7 @@ graph TD
     Score -->|"< 70%"| Red["🔴 Action Required"]
 ```
 
-Non-adoption is not punished — it is investigated. If teams are working around the platform, the platform team needs to understand why and fix the gap.
+Non-adoption is not punished - it is investigated. If teams are working around the platform, the platform team needs to understand why and fix the gap.
 
 ---
 
@@ -174,17 +174,17 @@ Non-adoption is not punished — it is investigated. If teams are working around
 ```mermaid
 flowchart TD
     A["Tech Debt<br/>Identified"] --> B{"Security<br/>Implication?"}
-    B -->|Yes| C["P1 — Fix within<br/>current sprint"]
+    B -->|Yes| C["P1 - Fix within<br/>current sprint"]
     B -->|No| D{"Blocks<br/>Feature Work?"}
-    D -->|Yes| E["P2 — Schedule in<br/>next sprint"]
+    D -->|Yes| E["P2 - Schedule in<br/>next sprint"]
     D -->|No| F{"Age > 90<br/>days?"}
-    F -->|Yes| G["P3 — Must be<br/>scheduled this quarter"]
-    F -->|No| H["P4 — Track in<br/>backlog, review quarterly"]
+    F -->|Yes| G["P3 - Must be<br/>scheduled this quarter"]
+    F -->|No| H["P4 - Track in<br/>backlog, review quarterly"]
 ```
 
 ### 6.3 Debt Budgets
 
-Each team is expected to spend **15–20% of sprint capacity** on technical debt reduction. This is tracked as a first-class metric — not a nice-to-have.
+Each team is expected to spend **15–20% of sprint capacity** on technical debt reduction. This is tracked as a first-class metric - not a nice-to-have.
 
 If a team consistently spends < 10% on debt, leadership will review whether feature pressure is unsustainable.
 
@@ -211,7 +211,7 @@ Every new hire follows the onboarding golden path in Backstage:
 4. Push, watch CI, get a review, merge, deploy
 5. Observe the deployment in Grafana
 
-If onboarding takes longer than end of Week 1 to first deploy, the platform team investigates — the problem is the platform, not the person.
+If onboarding takes longer than end of Week 1 to first deploy, the platform team investigates - the problem is the platform, not the person.
 
 ---
 
@@ -256,7 +256,7 @@ graph TB
         Custom["Custom<br/>Metrics Exporter"]
     end
 
-    subgraph Dashboard["📊 Grafana — Engineering Health Dashboard"]
+    subgraph Dashboard["📊 Grafana - Engineering Health Dashboard"]
         DORA["DORA<br/>Metrics"]
         DevSat["Developer<br/>Satisfaction"]
         Toil["Toil<br/>Index"]

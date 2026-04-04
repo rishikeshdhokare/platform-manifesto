@@ -6,7 +6,7 @@
 
 ## 📋 Overview
 
-This maturity model allows teams to **self-assess their engineering practices** against the platform standard. It is not a performance review tool — it is a diagnostic tool to identify where to invest next.
+This maturity model allows teams to **self-assess their engineering practices** against the platform standard. It is not a performance review tool - it is a diagnostic tool to identify where to invest next.
 
 Each capability has four levels:
 
@@ -121,7 +121,7 @@ Each capability has four levels:
 1. **Before the quarter review:** Tech Lead fills in the self-assessment worksheet (link in team wiki)
 2. **In the review (1 hour, all Tech Leads + Platform team):**
    - Each team presents their self-assessment (10 min each)
-   - Peer calibration — teams challenge each other's scores
+   - Peer calibration - teams challenge each other's scores
    - Platform team highlights patterns across teams
 3. **Output:** Each team commits to 2-3 improvement goals for the next quarter
 4. **Tracking:** Improvement goals tracked as Jira epics; reviewed at next quarterly
@@ -183,7 +183,7 @@ The goal is an accurate picture, not a high score.
 
 ## 🎯 Platform Target State
 
-The platform is designed to make **Level 3 the default** — if you follow the golden path, you hit Level 3 automatically. Level 4 requires deliberate investment by teams.
+The platform is designed to make **Level 3 the default** - if you follow the golden path, you hit Level 3 automatically. Level 4 requires deliberate investment by teams.
 
 | Timeline | Target |
 |----------|--------|
