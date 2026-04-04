@@ -10,7 +10,7 @@
 
 This document helps us **understand dependency on AWS and other vendors** across the {Company} platform.
 
-**Multi-cloud is not the goal.** Running the same stack in three clouds “just in case” is usually expensive and slow. Our goal is **awareness and contingency planning**: we know what would hurt to change, what is standard and portable, and where we deliberately accept coupling for speed or capability.
+**Multi-cloud is not the goal.** Running the same stack in three clouds "just in case" is usually expensive and slow. Our goal is **awareness and contingency planning**: we know what would hurt to change, what is standard and portable, and where we deliberately accept coupling for speed or capability.
 
 ---
 
@@ -110,7 +110,7 @@ flowchart LR
 
 **Where coupling remains**
 
-- **Platform layer**: Terraform modules, **IRSA** wiring, **Glue Schema Registry** integration, and other “how the cluster and AWS account work together” concerns.
+- **Platform layer**: Terraform modules, **IRSA** wiring, **Glue Schema Registry** integration, and other "how the cluster and AWS account work together" concerns.
 - **Edge and control planes**: API Gateway, CloudFront, Route 53, and WAF are not inside the service hexagon; they are **environment topology** decisions with real switching costs.
 
 ---

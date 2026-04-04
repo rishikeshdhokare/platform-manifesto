@@ -8,7 +8,7 @@
 
 This ladder **maps individual engineering growth** to the standards defined in the {Company} Platform Manifesto - from the golden path and hexagonal architecture to observability, resilience, and platform governance.
 
-It is **not** a performance review tool or a promotion checklist. It is a **growth guide**: a shared vocabulary for engineers and managers about what “great” looks like at each scope, and how that connects to how we build, ship, and operate software at {Company}.
+It is **not** a performance review tool or a promotion checklist. It is a **growth guide**: a shared vocabulary for engineers and managers about what "great" looks like at each scope, and how that connects to how we build, ship, and operate software at {Company}.
 
 ---
 
