@@ -334,6 +334,79 @@ pre-commit install
 ```
 
 ---
+
+## 📝 8. Changelog Standard
+
+### 8.1 Requirement
+
+Every service repository must maintain a `CHANGELOG.md` at the repository root. The changelog is a human-readable record of notable changes to the service, organized by release version.
+
+### 8.2 Format
+
+Follow [Keep a Changelog](https://keepachangelog.com/) with these section headings:
+
+| Section | Content |
+|---------|---------|
+| **Added** | New features or capabilities |
+| **Changed** | Changes to existing functionality |
+| **Deprecated** | Features that will be removed in a future release |
+| **Removed** | Features that have been removed |
+| **Fixed** | Bug fixes |
+| **Security** | Vulnerability fixes or security improvements |
+
+### 8.3 Versioning
+
+Entries are grouped by release version (semver) with dates:
+
+```markdown
+## [Unreleased]
+
+### Added
+- Multi-stop order support (RIDE-2345)
+
+## [1.4.0] - 2026-03-15
+
+### Added
+- Dynamic pricing multiplier endpoint
+
+### Fixed
+- Null pointer when provider location is missing (RIDE-2301)
+
+## [1.3.2] - 2026-03-01
+
+### Security
+- Upgrade Jackson to 2.17.1 to address CVE-2024-XXXXX
+```
+
+### 8.4 Unreleased Section
+
+The `[Unreleased]` section at the top of the changelog captures changes that have been merged to `main` but not yet included in a tagged release. When a release is cut, the unreleased entries move under the new version heading.
+
+### 8.5 When to Update
+
+Every PR that changes **observable behavior** must include a `CHANGELOG.md` entry. This is enforced via the PR template checklist:
+
+- New feature or API endpoint → `Added`
+- Changed behavior, response format, or configuration → `Changed`
+- Bug fix → `Fixed`
+- Dependency update with security implications → `Security`
+
+PRs that do not change observable behavior (pure refactoring, test additions, CI changes) do not require a changelog entry.
+
+### 8.6 Auto-Generation
+
+Tools like `conventional-changelog` can generate changelog entries from commit messages. This is **optional** — human-curated entries are preferred for clarity and readability. Auto-generated changelogs tend to include noise (every commit) rather than signal (meaningful changes).
+
+### 8.7 Audience
+
+| Reader | What They Need From the Changelog |
+|--------|-----------------------------------|
+| **Other teams consuming your API or events** | Breaking changes, new endpoints, deprecated fields |
+| **On-call engineers investigating regressions** | Recent changes that might explain new errors |
+| **PMs tracking what shipped** | Features and fixes included in each release |
+| **Future engineers on your team** | Historical context for why the service changed |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
