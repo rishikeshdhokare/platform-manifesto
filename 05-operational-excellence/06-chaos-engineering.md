@@ -75,9 +75,6 @@ graph TB
         end
     end
 
-    style FIS fill:#FF9900,color:#000
-    style LITMUS fill:#326CE5,color:#fff
-    style TOXI fill:#2ECC71,color:#000
 ```
 
 | Tool | Layer | Managed By | Fault Types |
@@ -284,10 +281,6 @@ graph LR
     FIX3 -.-> L2
     FIX4 -.-> L3
 
-    style L1 fill:#E3F2FD,stroke:#1565C0,color:#000
-    style L2 fill:#FFF3E0,stroke:#E65100,color:#000
-    style L3 fill:#FFF3E0,stroke:#E65100,color:#000
-    style L4 fill:#FFEBEE,stroke:#B71C1C,color:#000
 ```
 
 ### Level Requirements

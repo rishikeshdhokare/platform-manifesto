@@ -113,10 +113,6 @@ flowchart TD
     Q3 -->|Yes| Rules[In-service<br/>Rule Engine]
     Q3 -->|No| SMRT2[SageMaker<br/>Real-time Endpoint]
 
-    style SMRT fill:#e8f5e9,stroke:#4caf50
-    style SMBT fill:#e3f2fd,stroke:#2196f3
-    style TFS fill:#fff3e0,stroke:#ff9800
-    style Rules fill:#f3e5f5,stroke:#9c27b0
 ```
 
 ### Serving Patterns
@@ -201,8 +197,6 @@ flowchart TB
     Redis ~~~ F2
     Redis ~~~ F3
 
-    style online fill:#e8f5e9,stroke:#4caf50
-    style offline fill:#e3f2fd,stroke:#2196f3
 ```
 
 ### Key Online Features
@@ -261,8 +255,6 @@ flowchart LR
     Decision -->|Yes| Promote[Promote to<br/>Champion/Challenger split]
     Decision -->|No| Iterate[Iterate on model]
 
-    style Champion fill:#e8f5e9,stroke:#4caf50
-    style Challenger fill:#fff3e0,stroke:#ff9800
 ```
 
 ### Statistical Requirements
@@ -323,9 +315,6 @@ flowchart TD
     MetricGate -->|Yes| Register[6. Register Model<br/>MLflow / SageMaker Registry]
     Register --> Notify[Notify team<br/>ready for deployment]
 
-    style Extract fill:#e3f2fd,stroke:#2196f3
-    style Train fill:#fff3e0,stroke:#ff9800
-    style Register fill:#e8f5e9,stroke:#4caf50
 ```
 
 ### Trigger Cadence
@@ -446,9 +435,6 @@ flowchart TD
 
     Fallback --> Alert[Alert: ML fallback<br/>activated P2]
 
-    style Return fill:#e8f5e9,stroke:#4caf50
-    style Rules fill:#fff3e0,stroke:#ff9800
-    style Alert fill:#ffebee,stroke:#f44336
 ```
 
 ### Fallback Rules per Model

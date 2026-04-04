@@ -127,10 +127,6 @@ flowchart TB
     B --> C["Environment Variables<br/>(injected by K8s / ECS)"]
     C --> D["AWS Secrets Manager<br/>(sensitive values)"]
 
-    style A fill:#e8f5e9
-    style B fill:#fff3e0
-    style C fill:#e3f2fd
-    style D fill:#fce4ec
 ```
 
 | Layer | Example | Source | Overrides Previous? |

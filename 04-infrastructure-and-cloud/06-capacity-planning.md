@@ -65,11 +65,6 @@ flowchart LR
         S3 --> S1
     end
 
-    style H1 fill:#6C3FC5,stroke:#fff,color:#fff
-    style H5 fill:#6C3FC5,stroke:#fff,color:#fff
-    style W2 fill:#E53935,stroke:#fff,color:#fff
-    style S2 fill:#FF9800,stroke:#fff,color:#fff
-    style S3 fill:#E53935,stroke:#fff,color:#fff
 ```
 
 ### Demand Forecast Pipeline
@@ -84,9 +79,6 @@ flowchart TD
     F --> G[Pod Count\nNode Count\nDB Connections]
     G --> H[HPA Scheduled Overrides]
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style D fill:#6C3FC5,stroke:#fff,color:#fff
-    style H fill:#06AC38,stroke:#fff,color:#fff
 ```
 
 ### Data Sources
@@ -364,9 +356,6 @@ flowchart TD
     H -->|No| J[Adjust Blueprint\nRe-test]
     J --> G
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style I fill:#06AC38,stroke:#fff,color:#fff
-    style J fill:#E53935,stroke:#fff,color:#fff
 ```
 
 ### Region T-Shirt Sizing

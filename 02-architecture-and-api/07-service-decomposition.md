@@ -123,8 +123,6 @@ graph TB
     TrustSafety --> SS
     Platform --> Infra
 
-    style Teams fill:#e3f2fd
-    style Services fill:#f1f8e9
 ```
 
 ### 3.2 Anti-Pattern: Cross-Team Service Ownership
@@ -183,11 +181,6 @@ graph TD
     Price -->|"applies"| PricingMultiplier
     Order -->|"settles via"| PaymentTxn
 
-    style OrdersDomain fill:#e8f5e9
-    style Fulfillment fill:#e3f2fd
-    style Pricing fill:#fff3e0
-    style DynamicPricing fill:#fce4ec
-    style Payment fill:#f3e5f5
 ```
 
 ### 4.2 Validation Questions

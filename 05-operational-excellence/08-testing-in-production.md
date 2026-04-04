@@ -220,11 +220,6 @@ flowchart TD
     E --> K["✅ Auto-rollback<br/>on failure"]
     G --> L["📈 Shift traffic<br/>5% → 25% → 50% → 100%"]
 
-    style B fill:#e8f5e9
-    style F fill:#e3f2fd
-    style D fill:#fff3e0
-    style E fill:#f3e5f5
-    style G fill:#fce4ec
 ```
 
 ### 8.1 Technique Summary

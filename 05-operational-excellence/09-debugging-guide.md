@@ -238,8 +238,6 @@ flowchart LR
     D --> F["Inventory Service"]
     D --> G["Kafka → Notification Service"]
 
-    style A fill:#e1f5fe
-    style G fill:#fff3e0
 ```
 
 **Finding a trace:**

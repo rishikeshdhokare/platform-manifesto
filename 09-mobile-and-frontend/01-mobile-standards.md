@@ -197,8 +197,6 @@ flowchart TD
     J -- Yes --> F
     J -- No --> E
 
-    style H fill:#fff3cd,stroke:#856404
-    style I fill:#f8d7da,stroke:#721c24
 ```
 
 ### Optimistic Updates
@@ -473,10 +471,6 @@ flowchart LR
     F -- Beta --> G["TestFlight /\nPlay Console\n(Internal Track)"]
     F -- Production --> H["App Store /\nPlay Store\n(Staged Rollout)"]
 
-    style A fill:#e3f2fd,stroke:#1565c0
-    style E fill:#fff3e0,stroke:#e65100
-    style G fill:#e8f5e9,stroke:#2e7d32
-    style H fill:#e8f5e9,stroke:#2e7d32
 ```
 
 ### Build Automation (Fastlane)

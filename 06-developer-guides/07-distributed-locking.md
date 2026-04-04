@@ -416,10 +416,6 @@ flowchart TD
     D --> H[Add @Retryable\nfor conflict handling]
     F --> I[Set waitTime + leaseTime\nUnlock in finally block]
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style B fill:#06AC38,stroke:#fff,color:#fff
-    style D fill:#1976D2,stroke:#fff,color:#fff
-    style F fill:#E53935,stroke:#fff,color:#fff
 ```
 
 ### Quick Reference

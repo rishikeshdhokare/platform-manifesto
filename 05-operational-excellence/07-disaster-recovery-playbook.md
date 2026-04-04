@@ -64,8 +64,6 @@ graph TB
     EKS_S --> MSK_S
     EKS_S --> Redis_S
 
-    style Primary fill:#E8F5E9,stroke:#4CAF50
-    style Secondary fill:#FFF8E1,stroke:#FFC107
 ```
 
 ### Replication Summary
@@ -169,9 +167,6 @@ flowchart TD
     Approved -->|"No"| Escalate["Escalate to CEO<br/>for business decision"]
     Approved -->|"Yes"| Execute["🔄 Execute failover<br/>procedure (Section 5)"]
 
-    style Detect fill:#F44336,color:#fff
-    style Execute fill:#FF9800,color:#fff
-    style NoFailover fill:#4CAF50,color:#fff
 ```
 
 ---

@@ -49,9 +49,6 @@ flowchart TD
     D --> E[Store result in cache\nwith TTL]
     E --> F[Return value]
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style C fill:#06AC38,stroke:#fff,color:#fff
-    style F fill:#06AC38,stroke:#fff,color:#fff
 ```
 
 ### Spring Cache + Redis Implementation
@@ -137,9 +134,6 @@ flowchart TD
     F -->|Yes - safety/money| G[Don't cache.\nRead from source.]
     F -->|No - UX only| H[Short TTL is fine]
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style G fill:#E53935,stroke:#fff,color:#fff
-    style H fill:#06AC38,stroke:#fff,color:#fff
 ```
 
 ---
@@ -510,11 +504,6 @@ flowchart TD
     H --> J
     I --> K[Use @Cacheable\n+ CacheWarmer\n+ Kafka invalidation listener]
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style B fill:#E53935,stroke:#fff,color:#fff
-    style F fill:#E53935,stroke:#fff,color:#fff
-    style J fill:#06AC38,stroke:#fff,color:#fff
-    style K fill:#06AC38,stroke:#fff,color:#fff
 ```
 
 ### Quick Reference Table

@@ -43,10 +43,6 @@ flowchart TD
     CO --> CI["Region Overrides\n/{env}/regions/{region}/*"]
     CI --> SVC["Service reads\nmerged config"]
 
-    style G fill:#e3f2fd,stroke:#1565c0
-    style CO fill:#fff3e0,stroke:#e65100
-    style CI fill:#fce4ec,stroke:#c62828
-    style SVC fill:#e8f5e9,stroke:#2e7d32
 ```
 
 ### SSM Parameter Store Structure
@@ -160,10 +156,6 @@ flowchart LR
     SVC --> BFF
     BFF --> APP
 
-    style SSM fill:#e3f2fd,stroke:#1565c0
-    style SVC fill:#fff3e0,stroke:#e65100
-    style BFF fill:#f3e5f5,stroke:#7b1fa2
-    style APP fill:#e8f5e9,stroke:#2e7d32
 ```
 
 ### Service Type Configuration Structure
@@ -302,10 +294,6 @@ flowchart LR
     MB -->|"Localized message"| NS
     NS -->|"Push: Su pedido ha llegado"| APP
 
-    style APP fill:#e8f5e9,stroke:#2e7d32
-    style BFF fill:#fff3e0,stroke:#e65100
-    style NS fill:#e3f2fd,stroke:#1565c0
-    style MB fill:#f3e5f5,stroke:#7b1fa2
 ```
 
 ### Message Bundle Structure
@@ -475,12 +463,6 @@ flowchart TD
     EU_U --> EU_S3
     EU_U --> EU_ES
 
-    style AM_DB fill:#e8f5e9,stroke:#2e7d32
-    style AM_S3 fill:#e8f5e9,stroke:#2e7d32
-    style AM_ES fill:#e8f5e9,stroke:#2e7d32
-    style EU_DB fill:#e3f2fd,stroke:#1565c0
-    style EU_S3 fill:#e3f2fd,stroke:#1565c0
-    style EU_ES fill:#e3f2fd,stroke:#1565c0
 ```
 
 ### Rules

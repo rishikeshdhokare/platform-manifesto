@@ -57,9 +57,6 @@ flowchart TD
     D --> E[Per-Team Dashboard in Grafana]
     C --> F[Monthly Chargeback Report]
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style E fill:#6C3FC5,stroke:#fff,color:#fff
-    style F fill:#6C3FC5,stroke:#fff,color:#fff
 ```
 
 ### Enforcement
@@ -145,9 +142,6 @@ flowchart LR
     GF -->|weekly report| SL
     CAD -->|auto-ticket| JR
 
-    style GF fill:#6C3FC5,stroke:#fff,color:#fff
-    style SL fill:#4A154B,stroke:#fff,color:#fff
-    style PD fill:#06AC38,stroke:#fff,color:#fff
 ```
 
 ---
@@ -169,9 +163,6 @@ flowchart TD
     G -->|Yes| H[Promote to production]
     G -->|No| I[Revert - investigate]
 
-    style A fill:#6C3FC5,stroke:#fff,color:#fff
-    style H fill:#06AC38,stroke:#fff,color:#fff
-    style I fill:#E53935,stroke:#fff,color:#fff
 ```
 
 ### Data Sources

@@ -58,9 +58,6 @@ flowchart TD
     PassCheck -->|Yes| Document[Document Findings<br/>& Deploy]
     PassCheck -->|No| Escalate[Escalate to<br/>AI Ethics Review Board]
 
-    style Deploy fill:#e8f5e9,stroke:#4caf50
-    style Document fill:#e8f5e9,stroke:#4caf50
-    style Escalate fill:#ffebee,stroke:#f44336
 ```
 
 ### Remediation Toolbox
@@ -114,7 +111,6 @@ flowchart LR
         estimated_total: 24.65
     "]
 
-    style Breakdown fill:#f5f5f5,stroke:#999,text-align:left
 ```
 
 ### Internal Explainability (SHAP/LIME)
@@ -175,8 +171,6 @@ flowchart TD
     QualityCheck -->|Yes| Merge[Merge]
     QualityCheck -->|No| RequestChanges[Request Changes]
 
-    style Merge fill:#e8f5e9,stroke:#4caf50
-    style RequestChanges fill:#fff3e0,stroke:#ff9800
 ```
 
 ---
@@ -221,8 +215,6 @@ flowchart LR
 
     Safety --> Response([Response to User])
 
-    style Safety fill:#ffebee,stroke:#f44336
-    style Response fill:#e8f5e9,stroke:#4caf50
 ```
 
 ### RAG Implementation Guidelines

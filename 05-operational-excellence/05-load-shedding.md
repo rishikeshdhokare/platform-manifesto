@@ -135,11 +135,6 @@ flowchart TD
     T2 -->|"CPU < 65% AND<br/>p99 latency < 2s<br/>for 5 minutes"| T1
     T1 -->|"All metrics nominal<br/>for 10 minutes"| T0
 
-    style T0 fill:#4CAF50,color:#fff
-    style T1 fill:#FFC107,color:#000
-    style T2 fill:#FF9800,color:#fff
-    style T3 fill:#F44336,color:#fff
-    style T4 fill:#9C27B0,color:#fff
 ```
 
 ### Tier Escalation Criteria
@@ -583,9 +578,6 @@ flowchart TD
     FinalCheck -->|No| Reduce
     FinalCheck -->|Yes| Done["✅ Recovery complete<br/>Post incident summary"]
 
-    style Start fill:#F44336,color:#fff
-    style Done fill:#4CAF50,color:#fff
-    style Escalate fill:#FF9800,color:#fff
 ```
 
 ### Recovery Checklist
