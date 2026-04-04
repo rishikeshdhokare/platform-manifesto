@@ -4,7 +4,7 @@
 
 ### The operating system for how we build software.
 
-[![Docs](https://img.shields.io/badge/docs-83_documents-blue?style=for-the-badge)](.)
+[![Docs](https://img.shields.io/badge/docs-87_documents-blue?style=for-the-badge)](.)
 [![Sections](https://img.shields.io/badge/sections-11-green?style=for-the-badge)](.)
 [![Last Updated](https://img.shields.io/badge/last_updated-2026-orange?style=for-the-badge)](.)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](.)
@@ -134,18 +134,22 @@ flowchart TB
 
 ## 📚 What's Inside
 
-**83 documents** across 11 sections. Click any section to expand.
+**87 documents** across 11 sections. Click any section to expand.
 
 <details>
-<summary><b>📐 01 — Platform Standards</b> &nbsp;·&nbsp; <i>What we build with</i> &nbsp;·&nbsp; <code>1 doc</code></summary>
+<summary><b>📐 01 — Platform Standards</b> &nbsp;·&nbsp; <i>What we build with and how we name things</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
 
 <br/>
 
-The approved tech stack. Languages, frameworks, cloud services, data stores. If it's not here, it's not approved.
+The approved tech stack, naming conventions, repository structure, service catalog, and container standards. The foundation everything else builds on.
 
 | File | What You'll Learn |
 |------|-------------------|
 | [`01-tech-stack.md`](01-platform-standards/01-tech-stack.md) | Java 21, Spring Boot 3, React, React Native, AWS services, and why we chose them |
+| [`02-naming-conventions.md`](01-platform-standards/02-naming-conventions.md) | How to name everything — services, repos, packages, topics, buckets, metrics, flags |
+| [`03-repository-standards.md`](01-platform-standards/03-repository-standards.md) | Required files, README template, branch protection, PR template, repo lifecycle |
+| [`04-service-catalog.md`](01-platform-standards/04-service-catalog.md) | Backstage catalog-info.yaml spec, lifecycle states, scorecards, ownership |
+| [`05-container-standards.md`](01-platform-standards/05-container-standards.md) | Base images, Dockerfile standards, tagging, size limits, signing, ECR |
 
 </details>
 
@@ -409,7 +413,7 @@ flowchart TB
 
 | Section | Documents |
 |:--------|:---------:|
-| Platform Standards | 1 |
+| Platform Standards | 5 |
 | Architecture & API | 9 |
 | Engineering Practices | 11 |
 | Infrastructure & Cloud | 10 |
@@ -420,7 +424,7 @@ flowchart TB
 | Mobile & Frontend | 6 |
 | AI/ML Platform | 2 |
 | Domain Catalog | 10 |
-| **Total** | **83** |
+| **Total** | **87** |
 
 Plus [`ONBOARDING.md`](./ONBOARDING.md) and [`GLOSSARY.md`](./GLOSSARY.md) at the root.
 
