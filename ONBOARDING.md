@@ -1,6 +1,6 @@
 # 🚀 New Joiner Onboarding Guide
 
-Welcome to {Company} engineering! This is your single starting page. Everything you need to get productive — from laptop setup to your first PR to going on-call — is linked from here. If something is missing or confusing, open a PR against this file. Making onboarding better is one of the most impactful things you can do.
+Welcome to {Company} engineering! This is your single starting page. Everything you need to get productive - from laptop setup to your first PR to going on-call - is linked from here. If something is missing or confusing, open a PR against this file. Making onboarding better is one of the most impactful things you can do.
 
 ---
 
@@ -18,19 +18,19 @@ Welcome to {Company} engineering! This is your single starting page. Everything 
 
 ## ✅ 1. Day 1 Checklist
 
-- [ ] **Laptop setup** — Run the bootstrap script:
+- [ ] **Laptop setup** - Run the bootstrap script:
   ```bash
   curl -fsSL https://setup.internal.{company}.com/setup.sh | bash
   ```
   This installs Homebrew, Node.js, Docker, AWS CLI, kubectl, and clones the golden-path template repos. Takes ~30 minutes.
 
-- [ ] **Meet your onboarding buddy** — Your manager has assigned a buddy who will be your go-to person for the first month. Reach out on Slack to say hello and schedule a 30-minute intro chat.
+- [ ] **Meet your onboarding buddy** - Your manager has assigned a buddy who will be your go-to person for the first month. Reach out on Slack to say hello and schedule a 30-minute intro chat.
 
-- [ ] **Join Slack channels** — Your buddy will invite you to the relevant channels. At minimum, join `#engineering`, `#your-team-name`, `#incidents`, and `#platform-support`.
+- [ ] **Join Slack channels** - Your buddy will invite you to the relevant channels. At minimum, join `#engineering`, `#your-team-name`, `#incidents`, and `#platform-support`.
 
-- [ ] **Set up 2FA** — Enable two-factor authentication on GitHub, AWS SSO, and Jira before the end of day 1. This is a security requirement.
+- [ ] **Set up 2FA** - Enable two-factor authentication on GitHub, AWS SSO, and Jira before the end of day 1. This is a security requirement.
 
-- [ ] **Read this onboarding guide** — You're doing it right now. Keep going.
+- [ ] **Read this onboarding guide** - You're doing it right now. Keep going.
 
 **Visual overview:**
 
@@ -76,9 +76,9 @@ These five documents give you the essential context to start contributing:
 
 | # | Document | Why |
 |---|----------|-----|
-| 1 | [README.md](./README.md) | The big picture — principles, platform overview, team structure |
+| 1 | [README.md](./README.md) | The big picture - principles, platform overview, team structure |
 | 2 | [01-tech-stack.md](./01-platform-standards/01-tech-stack.md) | What languages, frameworks, and tools we use and why |
-| 3 | [05-git-workflow.md](./03-engineering-practices/05-git-workflow.md) | How we branch, commit, and merge — your daily workflow |
+| 3 | [05-git-workflow.md](./03-engineering-practices/05-git-workflow.md) | How we branch, commit, and merge - your daily workflow |
 | 4 | [06-code-review-guide.md](./03-engineering-practices/06-code-review-guide.md) | How to give and receive PR feedback |
 | 5 | [02-golden-path.md](./06-developer-guides/02-golden-path.md) | The "right way" to create a new service or feature |
 
@@ -122,7 +122,7 @@ Use this table to track your progress. Share it with your buddy and manager in y
 
 It's completely normal for some milestones to slip. If you're blocked:
 
-1. Tell your buddy — that's what they're there for.
+1. Tell your buddy - that's what they're there for.
 2. Raise it in your 1:1 with your manager.
 3. Post in `#platform-support` if it's a tooling or access issue.
 
@@ -132,15 +132,15 @@ It's completely normal for some milestones to slip. If you're blocked:
 
 {Company} engineering values **constructive disagreement**. If you think a standard in this manifesto is wrong, outdated, or doesn't apply to your situation, here's how to push back:
 
-1. **Start a conversation** — Post in `#engineering-discussions` on Slack or bring it up in the **Architecture Clinic** (bi-weekly, Thursdays). Get a feel for whether others share your perspective.
+1. **Start a conversation** - Post in `#engineering-discussions` on Slack or bring it up in the **Architecture Clinic** (bi-weekly, Thursdays). Get a feel for whether others share your perspective.
 
-2. **Write it down** — If there's support for the change, open a PR against the relevant manifesto file with your proposed change and a clear rationale in the description.
+2. **Write it down** - If there's support for the change, open a PR against the relevant manifesto file with your proposed change and a clear rationale in the description.
 
-3. **Get review** — PRs to the manifesto require at least **one Staff Engineer** approval. Significant changes (new standards, removal of existing ones) go through the Architecture Clinic for group discussion.
+3. **Get review** - PRs to the manifesto require at least **one Staff Engineer** approval. Significant changes (new standards, removal of existing ones) go through the Architecture Clinic for group discussion.
 
-4. **Don't go rogue** — While your PR is in review, follow the existing standard. Consistency matters more than any individual preference.
+4. **Don't go rogue** - While your PR is in review, follow the existing standard. Consistency matters more than any individual preference.
 
-> "Strong opinions, weakly held" — It's okay to feel strongly. It's also okay to change your mind when presented with better information.
+> "Strong opinions, weakly held" - It's okay to feel strongly. It's also okay to change your mind when presented with better information.
 
 ---
 

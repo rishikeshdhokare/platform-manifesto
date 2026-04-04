@@ -21,7 +21,7 @@
 
 Every hour an engineer spends debating *"which database should I use?"* or *"how do I structure this service?"* is an hour not spent solving customer problems. This manifesto exists to **eliminate that tax**.
 
-It is the **single source of truth** for our engineering platform — the standards, practices, tools, and architecture every team is expected to adopt. Consistency compounds: every shared decision here is one fewer decision each team makes alone.
+It is the **single source of truth** for our engineering platform - the standards, practices, tools, and architecture every team is expected to adopt. Consistency compounds: every shared decision here is one fewer decision each team makes alone.
 
 > 📖 This is a **living document**. It evolves as our platform matures, as industry practices shift, and as we learn from running systems in production. All changes require a PR with at least one Staff Engineer approval.
 
@@ -137,7 +137,7 @@ flowchart TB
 **87 documents** across 11 sections. Click any section to expand.
 
 <details>
-<summary><b>📐 01 — Platform Standards</b> &nbsp;·&nbsp; <i>What we build with and how we name things</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
+<summary><b>📐 01 - Platform Standards</b> &nbsp;·&nbsp; <i>What we build with and how we name things</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
 
 <br/>
 
@@ -146,7 +146,7 @@ The approved tech stack, naming conventions, repository structure, service catal
 | File | What You'll Learn |
 |------|-------------------|
 | [`01-tech-stack.md`](01-platform-standards/01-tech-stack.md) | Java 21, Spring Boot 3, React, React Native, AWS services, and why we chose them |
-| [`02-naming-conventions.md`](01-platform-standards/02-naming-conventions.md) | How to name everything — services, repos, packages, topics, buckets, metrics, flags |
+| [`02-naming-conventions.md`](01-platform-standards/02-naming-conventions.md) | How to name everything - services, repos, packages, topics, buckets, metrics, flags |
 | [`03-repository-standards.md`](01-platform-standards/03-repository-standards.md) | Required files, README template, branch protection, PR template, repo lifecycle |
 | [`04-service-catalog.md`](01-platform-standards/04-service-catalog.md) | Backstage catalog-info.yaml spec, lifecycle states, scorecards, ownership |
 | [`05-container-standards.md`](01-platform-standards/05-container-standards.md) | Base images, Dockerfile standards, tagging, size limits, signing, ECR |
@@ -154,7 +154,7 @@ The approved tech stack, naming conventions, repository structure, service catal
 </details>
 
 <details>
-<summary><b>🏛️ 02 — Architecture & API</b> &nbsp;·&nbsp; <i>How the system fits together</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
+<summary><b>🏛️ 02 - Architecture & API</b> &nbsp;·&nbsp; <i>How the system fits together</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
 
 <br/>
 
@@ -175,7 +175,7 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 </details>
 
 <details>
-<summary><b>⚙️ 03 — Engineering Practices</b> &nbsp;·&nbsp; <i>How we write and ship code</i> &nbsp;·&nbsp; <code>11 docs</code></summary>
+<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>How we write and ship code</i> &nbsp;·&nbsp; <code>11 docs</code></summary>
 
 <br/>
 
@@ -183,10 +183,10 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spr
 
 | File | What You'll Learn |
 |------|-------------------|
-| [`01-testing-pyramid.md`](03-engineering-practices/01-testing-pyramid.md) | Unit, integration, contract, E2E, load tests — with worked examples |
+| [`01-testing-pyramid.md`](03-engineering-practices/01-testing-pyramid.md) | Unit, integration, contract, E2E, load tests - with worked examples |
 | [`02-ci-practices.md`](03-engineering-practices/02-ci-practices.md) | GitHub Actions pipelines, quality gates, DAST, Terraform testing |
 | [`03-cd-practices.md`](03-engineering-practices/03-cd-practices.md) | GitOps, canary deployments, feature flags, change risk rubric |
-| [`04-coding-standards.md`](03-engineering-practices/04-coding-standards.md) | Naming, error handling, null safety — with before/after examples |
+| [`04-coding-standards.md`](03-engineering-practices/04-coding-standards.md) | Naming, error handling, null safety - with before/after examples |
 | [`05-git-workflow.md`](03-engineering-practices/05-git-workflow.md) | Trunk-based dev in practice |
 | [`06-code-review-guide.md`](03-engineering-practices/06-code-review-guide.md) | How to give and receive feedback that makes code better |
 | [`07-ab-testing.md`](03-engineering-practices/07-ab-testing.md) | Experiment design, statistical rigor, guardrails, product analytics |
@@ -198,7 +198,7 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spr
 </details>
 
 <details>
-<summary><b>☁️ 04 — Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The platform under the platform</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The platform under the platform</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
@@ -207,9 +207,9 @@ AWS architecture, security, FinOps, multi-tenancy, and everything Terraform.
 | File | What You'll Learn |
 |------|-------------------|
 | [`01-cloud-architecture.md`](04-infrastructure-and-cloud/01-cloud-architecture.md) | AWS accounts, VPC topology, EKS, Aurora, MSK, backup & restore |
-| [`02-infra-components.md`](04-infrastructure-and-cloud/02-infra-components.md) | Istio, Backstage, ArgoCD, ECR — and the self-service boundaries |
+| [`02-infra-components.md`](04-infrastructure-and-cloud/02-infra-components.md) | Istio, Backstage, ArgoCD, ECR - and the self-service boundaries |
 | [`03-security.md`](04-infrastructure-and-cloud/03-security.md) | Shift-left security, IAM/IRSA, PII handling, KMS, egress control |
-| [`04-configuration-management.md`](04-infrastructure-and-cloud/04-configuration-management.md) | Secrets vs config vs flags — what lives where |
+| [`04-configuration-management.md`](04-infrastructure-and-cloud/04-configuration-management.md) | Secrets vs config vs flags - what lives where |
 | [`05-finops.md`](04-infrastructure-and-cloud/05-finops.md) | Cost allocation, rightsizing, reservations, real-time cost visibility |
 | [`06-capacity-planning.md`](04-infrastructure-and-cloud/06-capacity-planning.md) | Demand modeling, pre-scaling, load test-driven validation |
 | [`07-api-gateway-strategy.md`](04-infrastructure-and-cloud/07-api-gateway-strategy.md) | API Gateway configuration, routing, throttling, WAF |
@@ -220,7 +220,7 @@ AWS architecture, security, FinOps, multi-tenancy, and everything Terraform.
 </details>
 
 <details>
-<summary><b>🚨 05 — Operational Excellence</b> &nbsp;·&nbsp; <i>Keeping it running</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
+<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>Keeping it running</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
 
 <br/>
 
@@ -230,18 +230,18 @@ Observability, resilience, incidents, chaos engineering, and what to do when thi
 |------|-------------------|
 | [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
 | [`02-observability-in-practice.md`](05-operational-excellence/02-observability-in-practice.md) | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
-| [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead — Resilience4j worked examples |
+| [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - Resilience4j worked examples |
 | [`04-incident-management.md`](05-operational-excellence/04-incident-management.md) | Response playbook, on-call structure, PIR template, change management |
 | [`05-load-shedding.md`](05-operational-excellence/05-load-shedding.md) | Priority tiers, backpressure, graceful degradation, auto-remediation |
 | [`06-chaos-engineering.md`](05-operational-excellence/06-chaos-engineering.md) | Fault injection, game days, resilience validation |
 | [`07-disaster-recovery-playbook.md`](05-operational-excellence/07-disaster-recovery-playbook.md) | Region failover, failback, DNS strategy, rollback SLAs |
 | [`08-testing-in-production.md`](05-operational-excellence/08-testing-in-production.md) | Synthetic monitoring, traffic mirroring, dark launches |
-| [`09-debugging-guide.md`](05-operational-excellence/09-debugging-guide.md) | How to debug locally, in staging, and in production — with real queries |
+| [`09-debugging-guide.md`](05-operational-excellence/09-debugging-guide.md) | How to debug locally, in staging, and in production - with real queries |
 
 </details>
 
 <details>
-<summary><b>🛠️ 06 — Developer Guides</b> &nbsp;·&nbsp; <i>Hands-on playbooks</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🛠️ 06 - Developer Guides</b> &nbsp;·&nbsp; <i>Hands-on playbooks</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
@@ -263,7 +263,7 @@ The guides you keep open while writing code.
 </details>
 
 <details>
-<summary><b>🤝 07 — Ways of Working</b> &nbsp;·&nbsp; <i>How we work together</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>How we work together</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
@@ -272,7 +272,7 @@ Team structure, decision-making, hiring, career growth, and knowledge sharing.
 | File | What You'll Learn |
 |------|-------------------|
 | [`01-team-topology.md`](07-ways-of-working/01-team-topology.md) | Stream-aligned teams, platform team, inner source, tech debt registry |
-| [`02-engineering-ladder.md`](07-ways-of-working/02-engineering-ladder.md) | Engineer I to Principal — expectations at every level |
+| [`02-engineering-ladder.md`](07-ways-of-working/02-engineering-ladder.md) | Engineer I to Principal - expectations at every level |
 | [`03-open-source-policy.md`](07-ways-of-working/03-open-source-policy.md) | License compliance, contribution guidelines |
 | [`04-product-engineering.md`](07-ways-of-working/04-product-engineering.md) | PM-engineering collaboration, discovery, rituals, user stories |
 | [`05-rfc-process.md`](07-ways-of-working/05-rfc-process.md) | How to propose cross-cutting changes |
@@ -285,7 +285,7 @@ Team structure, decision-making, hiring, career growth, and knowledge sharing.
 </details>
 
 <details>
-<summary><b>📈 08 — Program</b> &nbsp;·&nbsp; <i>Where we are and where we're going</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
+<summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>Where we are and where we're going</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
 
 <br/>
 
@@ -293,7 +293,7 @@ Maturity assessment, migration roadmap, metrics, and vendor management.
 
 | File | What You'll Learn |
 |------|-------------------|
-| [`01-maturity-model.md`](08-program/01-maturity-model.md) | Self-assessment rubric — L0 to L4 across 11 dimensions |
+| [`01-maturity-model.md`](08-program/01-maturity-model.md) | Self-assessment rubric - L0 to L4 across 11 dimensions |
 | [`02-migration-roadmap.md`](08-program/02-migration-roadmap.md) | Phased migration program, DORA targets, risk register |
 | [`03-vendor-assessment.md`](08-program/03-vendor-assessment.md) | AWS lock-in analysis, portability, exit costs |
 | [`04-engineering-metrics.md`](08-program/04-engineering-metrics.md) | What we measure, what we don't, and why |
@@ -302,7 +302,7 @@ Maturity assessment, migration roadmap, metrics, and vendor management.
 </details>
 
 <details>
-<summary><b>📱 09 — Mobile & Frontend</b> &nbsp;·&nbsp; <i>What users actually see and touch</i> &nbsp;·&nbsp; <code>6 docs</code></summary>
+<summary><b>📱 09 - Mobile & Frontend</b> &nbsp;·&nbsp; <i>What users actually see and touch</i> &nbsp;·&nbsp; <code>6 docs</code></summary>
 
 <br/>
 
@@ -320,7 +320,7 @@ Everything for the engineers building client applications.
 </details>
 
 <details>
-<summary><b>🤖 10 — AI/ML Platform</b> &nbsp;·&nbsp; <i>Model infrastructure and responsible AI</i> &nbsp;·&nbsp; <code>2 docs</code></summary>
+<summary><b>🤖 10 - AI/ML Platform</b> &nbsp;·&nbsp; <i>Model infrastructure and responsible AI</i> &nbsp;·&nbsp; <code>2 docs</code></summary>
 
 <br/>
 
@@ -332,15 +332,15 @@ Everything for the engineers building client applications.
 </details>
 
 <details>
-<summary><b>🗂️ 11 — Domain Catalog</b> &nbsp;·&nbsp; <i>Every bounded context, documented</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🗂️ 11 - Domain Catalog</b> &nbsp;·&nbsp; <i>Every bounded context, documented</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
-Detailed documentation for every domain service — APIs, events, data models, SLOs, and failure modes.
+Detailed documentation for every domain service - APIs, events, data models, SLOs, and failure modes.
 
 | File | What You'll Learn |
 |------|-------------------|
-| [`01-order-service.md`](11-domain-catalog/01-order-service.md) | Order lifecycle — the central orchestrating domain |
+| [`01-order-service.md`](11-domain-catalog/01-order-service.md) | Order lifecycle - the central orchestrating domain |
 | [`02-fulfillment-engine.md`](11-domain-catalog/02-fulfillment-engine.md) | Provider-order assignment and geospatial algorithms |
 | [`03-pricing-service.md`](11-domain-catalog/03-pricing-service.md) | Price calculation, estimates, dynamic pricing integration |
 | [`04-provider-profile.md`](11-domain-catalog/04-provider-profile.md) | Provider onboarding, documents, ratings, availability |
@@ -400,7 +400,7 @@ flowchart TB
 | | Aspect | Rule |
 |:-:|--------|------|
 | 👤 | **Owner** | Platform Engineering team |
-| 🔀 | **How to change it** | PR required — at least one Staff Engineer or Principal approval |
+| 🔀 | **How to change it** | PR required - at least one Staff Engineer or Principal approval |
 | 📋 | **How to deviate** | Any exception requires an ADR documenting the rationale |
 | 🗓️ | **Review cadence** | Maturity model quarterly with Tech Leads; full manifesto bi-annually |
 | 💬 | **How to disagree** | Start in `#engineering-discussions` or raise it at Architecture Clinic → then open a PR |
@@ -430,6 +430,6 @@ Plus [`ONBOARDING.md`](./ONBOARDING.md) and [`GLOSSARY.md`](./GLOSSARY.md) at th
 
 ---
 
-*Built with ❤️ by {Company} Platform Engineering — 2026*
+*Built with ❤️ by {Company} Platform Engineering - 2026*
 
 </div>

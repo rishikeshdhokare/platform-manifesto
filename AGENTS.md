@@ -6,7 +6,7 @@ These rules apply to any AI agent (Cursor, Copilot, or similar) making changes t
 
 ## Writing Style
 
-- NEVER use em-dashes ("—"). Use regular dashes with spaces (" - ") or rewrite the sentence.
+- NEVER use em-dashes (" - "). Use regular dashes with spaces (" - ") or rewrite the sentence.
 - Use straight quotes, not curly/smart quotes.
 - Use `{Company}` as the company name placeholder everywhere. Never use a real company name.
 - Write in second person ("you") or first person plural ("we").
@@ -100,7 +100,7 @@ When adding, removing, or renaming ANY document:
 
 ## Pre-Commit Checklist
 
-- [ ] No em-dashes ("—") in changed files
+- [ ] No em-dashes (" - ") in changed files
 - [ ] No ride-hailing or company-specific terminology
 - [ ] All internal markdown links resolve
 - [ ] Section README lists all files in the directory
