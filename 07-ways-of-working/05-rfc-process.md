@@ -199,6 +199,67 @@ The index is the single source of truth for all RFC statuses. Teams should check
 RFCs are not limited to technical decisions. Process changes, organizational restructuring, and cross-team workflow proposals should also use the RFC process when they affect more than one team. Examples include changes to the on-call rotation model, sprint cadence adjustments across teams, or new cross-team review processes. The same template, review process, and decision framework apply.
 
 ---
+
+## 📐 12. Technical Design Documents
+
+### 12.1 When to Write a TDD
+
+A Technical Design Document (TDD) is required for any feature or change estimated at **>1 week of engineering effort**. If the work is smaller than a week, a well-written Jira ticket description or a brief ADR is sufficient.
+
+### 12.2 TDD vs RFC
+
+| Dimension | Technical Design Document (TDD) | RFC |
+|-----------|--------------------------------|-----|
+| **Scope** | Team-scoped — within one service or domain | Cross-team or org-wide |
+| **Audience** | Team members, tech lead | Affected teams, Staff+, leadership |
+| **Approval** | Tech lead reviews and approves | Formal review period with named reviewers (see RFC process above) |
+| **Location** | `docs/design/` in the service repository | Backstage TechDocs |
+| **Examples** | "Add retry logic to payment capture flow" | "Adopt gRPC as default for internal communication" |
+
+### 12.3 Template
+
+Every TDD must include the following sections:
+
+| Section | Content |
+|---------|---------|
+| **Problem statement** | What problem are we solving? Why now? |
+| **Proposed solution** | Detailed approach with architecture diagrams where applicable |
+| **Alternatives considered** | At least two alternatives with trade-off analysis |
+| **Data model changes** | New tables, columns, indexes, or schema migrations |
+| **API changes** | New or modified endpoints, request/response shapes, breaking changes |
+| **Migration plan** | How to move from current state to proposed state without downtime |
+| **Rollback plan** | How to revert if the change causes issues in production |
+| **Open questions** | Unresolved decisions that need input during review |
+
+### 12.4 Where It Lives
+
+TDDs live in `docs/design/` in the service repository, named with the Jira ticket number:
+
+```
+docs/design/RIDE-1234-payment-retry-logic.md
+```
+
+The Jira ticket links to the TDD. The TDD links back to the Jira ticket.
+
+### 12.5 Review and Approval
+
+- The team's **tech lead reviews and approves** the TDD before implementation begins
+- For TDDs that touch shared infrastructure or cross-domain contracts, the tech lead may escalate to Staff Engineering review
+- Review happens via a PR against the service repository — the same code review tooling and process applies
+
+### 12.6 Lifecycle
+
+| Phase | TDD State |
+|-------|-----------|
+| **Before implementation** | Draft → reviewed → approved |
+| **During implementation** | Living document — updated as decisions evolve or scope changes |
+| **After completion** | Archived (not deleted) — remains in `docs/design/` as historical context |
+
+### 12.7 Relationship to ADR
+
+If the TDD results in a significant architectural decision (e.g., choosing a particular data store, adopting a new pattern, or making a trade-off that future engineers will question), **extract an ADR** from it. The ADR captures the decision and rationale in the standard `docs/adr/` format; the TDD retains the full design context.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
