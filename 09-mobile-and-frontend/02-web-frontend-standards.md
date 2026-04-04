@@ -444,7 +444,7 @@ If the bundle exceeds the limit, the PR is blocked with a clear message showing 
 
 | State Type | Tool | Use Case |
 |------------|------|----------|
-| **Server state** | TanStack Query (React Query) | API data fetching, caching, background refetching, optimistic updates |
+| **Server state** | TanStack Query | API data fetching, caching, background refetching, optimistic updates |
 | **Client state** | Zustand | UI state, form state, local preferences, ephemeral state |
 | **URL state** | React Router search params | Filters, pagination cursors, tab selection - anything linkable |
 | **Form state** | React Hook Form + Zod | Complex forms with validation |

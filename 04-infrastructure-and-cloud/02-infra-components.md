@@ -149,38 +149,7 @@ Backstage is the central catalog of all services, APIs, documentation, and tooli
 
 ### 6.2 Service Registration (Mandatory)
 
-Every service must have a `catalog-info.yaml` at the repo root:
-
-```yaml
-apiVersion: backstage.io/v1alpha1
-kind: Component
-metadata:
-  name: orders-service
-  description: Manages the lifecycle of an order
-  tags:
-    - java
-    - spring-boot
-    - kafka
-  links:
-    - url: https://grafana.{company}.internal/d/orders
-      title: Grafana Dashboard
-    - url: https://wiki.{company}.internal/runbooks/orders-service
-      title: Runbook
-  annotations:
-    github.com/project-slug: {company}/orders-service
-    backstage.io/techdocs-ref: dir:.
-    pagerduty.com/service-id: P1234567
-spec:
-  type: service
-  lifecycle: production
-  owner: team-orders
-  system: platform
-  dependsOn:
-    - component:payments-service
-    - component:provider-profile-service
-  providesApis:
-    - orders-api-v1
-```
+Every service must have a `catalog-info.yaml` per the service catalog standards (see [`01-platform-standards/04-service-catalog.md`](../01-platform-standards/04-service-catalog.md) for the full specification and required fields).
 
 ---
 

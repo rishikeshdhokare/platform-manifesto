@@ -72,7 +72,7 @@ This document defines the approved technology stack for all new and replatformed
 
 | Concern | Tool | Notes |
 |---------|------|-------|
-| Server state | **TanStack Query (React Query)** | Caching, invalidation, optimistic updates |
+| Server state | **TanStack Query** | Caching, invalidation, optimistic updates |
 | Client state | **Zustand** or **React Context** | Keep it minimal; most state is server state |
 | Forms | **React Hook Form + Zod** | Validation at the edge |
 | API client | **OpenAPI-generated client** | Auto-generated from the BFF's OpenAPI spec |
