@@ -29,6 +29,28 @@ A new engineer must be able to reach these milestones independently:
 
 If these targets are not met, it is a **platform problem**, not an engineer problem.
 
+**Visual overview:**
+
+```mermaid
+gantt
+    title Onboarding Journey
+    dateFormat X
+    axisFormat %s
+    section Week 1
+        Laptop setup            :done, d1, 0, 1d
+        First PR merged         :done, d2, 1d, 2d
+        Local service running   :done, d3, 2d, 2d
+    section Week 2
+        Feature PR merged       :active, d4, 5d, 3d
+        Sprint ceremonies       :d5, 5d, 5d
+    section Week 3
+        On-call shadow          :d6, 10d, 3d
+        Domain deep-dive        :d7, 12d, 2d
+    section Week 4
+        Solo on-call eligible   :d8, 15d, 3d
+        Buddy graduation        :d9, 18d, 2d
+```
+
 ---
 
 ## 💻 3. Local Development

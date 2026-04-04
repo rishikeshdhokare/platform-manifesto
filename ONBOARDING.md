@@ -32,6 +32,17 @@ Welcome to {Company} engineering! This is your single starting page. Everything 
 
 - [ ] **Read this onboarding guide** — You're doing it right now. Keep going.
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Setup[Setup Laptop] --> Access[Request Access]
+    Access --> Clone[Clone Team Repo]
+    Clone --> Change[Make Small Change]
+    Change --> PR[Open First PR]
+    PR --> Buddy[Meet Your Buddy]
+```
+
 ---
 
 ## 🔑 2. Access Requests
