@@ -504,6 +504,67 @@ Each service must document its **test data shape** in `docs/performance.md`:
 | **Baseline metrics** | Expected p50, p95, p99 latency and throughput |
 
 ---
+
+## 🧬 12. Mutation Testing
+
+### 12.1 Purpose
+
+Code coverage tells you which lines were executed by tests — it does not tell you whether the tests actually **verified correct behavior**. Mutation testing fills this gap by introducing small code changes (mutations) into the production code and checking whether the test suite detects them. If a mutation survives (tests still pass), the tests are not asserting strongly enough.
+
+### 12.2 Tool
+
+**PIT (Pitest)** for Java — integrated as a Gradle plugin in the platform BOM.
+
+```kotlin
+// build.gradle.kts
+plugins {
+    id("info.solidsoft.pitest") version "1.15.0"
+}
+
+pitest {
+    targetClasses.set(setOf("com.{company}.orders.domain.*"))
+    targetTests.set(setOf("com.{company}.orders.domain.*"))
+    mutators.set(setOf("DEFAULTS"))
+    outputFormats.set(setOf("HTML", "XML"))
+    timestampedReports.set(false)
+}
+```
+
+### 12.3 When to Use
+
+| Scope | Mutation Testing Required? |
+|-------|---------------------------|
+| **Tier 1 services** (payments, orders, fulfillment) | Yes — critical business logic must be mutation-tested |
+| **Critical business logic** (pricing calculations, order state machines, payment processing) | Yes — these are the highest-risk code paths |
+| **Tier 2/3 services** | Recommended but not required |
+| **All services universally** | No — mutation testing is slow and computationally expensive; apply it where the risk justifies the cost |
+
+### 12.4 Mutation Score Target
+
+- **>70% mutation score** for critical domains (pricing, payments, order lifecycle)
+- This is **not a hard gate in CI** — it is tracked and reviewed during code reviews and quarterly quality assessments
+- A low mutation score in critical code paths should trigger a conversation about test quality, not a blind push for higher numbers
+
+### 12.5 How to Run
+
+| Context | Command | Frequency |
+|---------|---------|-----------|
+| **Local development** | `./gradlew pitest` | On demand, before raising a PR that touches critical logic |
+| **CI (Tier 1 services)** | Scheduled CI job | Weekly (not on every PR — too slow) |
+| **Results dashboard** | Pitest HTML report published to build artifacts | Reviewed in sprint retrospectives |
+
+### 12.6 Interpreting Results
+
+| Result | Meaning | Action |
+|--------|---------|--------|
+| **Killed mutant** | A test detected the mutation and failed — the test is effective | No action needed |
+| **Survived mutant** | Tests still passed despite the mutation — assertions are too weak | Strengthen test assertions; the test may be exercising the code but not verifying the output |
+| **No coverage mutant** | No test covers this line at all | Add test coverage for the uncovered code |
+| **Timed out mutant** | The mutation caused an infinite loop detected by Pitest's timeout | Generally treated as "killed" — the mutation was detected |
+
+Survived mutants indicate **weak test assertions**, not necessarily missing tests. A test that calls the method but only asserts `assertNotNull(result)` will show high code coverage but low mutation score.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
