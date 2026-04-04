@@ -66,6 +66,22 @@ We run discovery and delivery in parallel. Discovery is not a phase that precede
 └──────────────────────────────────┘
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    subgraph discovery [Discovery Track]
+        Research[Research] --> Prototype[Prototype]
+        Prototype --> Validate[Validate]
+    end
+    subgraph delivery [Delivery Track]
+        BuildIt[Build] --> TestIt[Test]
+        TestIt --> Ship[Ship]
+        Ship --> Measure[Measure]
+    end
+    Validate -->|"Validated ideas"| BuildIt
+```
+
 ### 3.2 Product Requirements Documents (PRDs)
 
 Every significant initiative (> 1 sprint of work) must have a PRD before engineering work begins. The PRD template:

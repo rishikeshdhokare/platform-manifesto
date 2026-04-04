@@ -22,6 +22,27 @@ The migration follows a **strangler fig pattern** — we do not rewrite everythi
 4. **No big bangs** — every phase delivers working software to production
 5. **Measure everything** — track migration progress, platform stability, and developer velocity
 
+**Visual overview:**
+
+```mermaid
+gantt
+    title Migration Roadmap
+    dateFormat YYYY-Q
+    axisFormat %Y-Q%q
+    section Foundation
+        Platform setup          :done, p0, 2026-Q1, 90d
+        Golden path             :done, p1, 2026-Q1, 90d
+    section Migrate
+        Tier 1 services         :active, m1, 2026-Q2, 90d
+        Tier 2 services         :m2, 2026-Q3, 90d
+    section Optimize
+        Performance tuning      :o1, 2026-Q4, 90d
+        Cost optimization       :o2, 2026-Q4, 90d
+    section Scale
+        Multi-region            :s1, 2027-Q1, 90d
+        Platform maturity       :s2, 2027-Q1, 90d
+```
+
 ---
 
 ## 🏗️ Phase 0: Foundation (Weeks 1–6)

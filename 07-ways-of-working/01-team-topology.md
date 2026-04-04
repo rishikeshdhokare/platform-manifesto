@@ -37,6 +37,25 @@ Platform team responsibilities:
 
 Platform team on-call is separate from stream-aligned team on-call. Platform PagerDuty escalation policy is distinct — platform incidents escalate within the platform team, not to product engineering managers.
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    subgraph platform [Platform Team]
+        GoldenPath[Golden Path]
+        Infra[Infrastructure]
+        Tooling[Developer Tooling]
+    end
+    subgraph stream [Stream-Aligned Teams]
+        OrdersTeam[Orders]
+        ProvidersTeam[Providers]
+        CustomersTeam[Customers]
+        PaymentsTeam[Payments]
+        CommercialTeam[Commercial]
+    end
+    platform -->|"X-as-a-Service"| stream
+```
+
 ---
 
 ## 🏘️ 2. Ownership Model
