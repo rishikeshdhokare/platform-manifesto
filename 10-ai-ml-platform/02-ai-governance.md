@@ -13,9 +13,9 @@
 | Principle | Commitment | Example |
 |-----------|-----------|---------|
 | **Fairness** | Fulfillment and pricing algorithms must not discriminate based on protected characteristics | Dynamic pricing must not systematically disadvantage specific neighborhoods correlated with ethnicity or income |
-| **Transparency** | Customers and providers understand the key factors behind decisions that affect them | Price breakdowns show distance, time, dynamic pricing adjustment, and fees — not a black-box number |
+| **Transparency** | Customers and providers understand the key factors behind decisions that affect them | Price breakdowns show distance, time, dynamic pricing adjustment, and fees - not a black-box number |
 | **Accountability** | Every algorithmic decision is auditable and traceable to a model version, input features, and timestamp | Dispute resolution can replay exactly why a price was calculated or a provider was matched |
-| **Safety** | AI systems fail gracefully — a model failure must never leave a customer stranded or a provider unmatched | All ML-powered paths have deterministic fallbacks (see [01-ml-platform.md](./01-ml-platform.md#9-fallback-strategy)) |
+| **Safety** | AI systems fail gracefully - a model failure must never leave a customer stranded or a provider unmatched | All ML-powered paths have deterministic fallbacks (see [01-ml-platform.md](./01-ml-platform.md#9-fallback-strategy)) |
 
 > **Governance mandate:** No AI feature ships to production without review against these four principles. The review is lightweight (checklist + data science lead sign-off) but mandatory.
 
@@ -85,9 +85,9 @@ Customers and providers deserve to understand the decisions that affect their ex
 | **Price estimate** | Breakdown: base price, distance, time, dynamic pricing multiplier, fees, discounts | Price API response includes itemized components |
 | **Dynamic pricing** | "Prices are higher due to increased demand in your area" | Dynamic pricing service returns multiplier + reason code |
 | **Fulfillment** | Provider sees dispatch priority factors (proximity, rating, acceptance rate) | Fulfillment service returns top-3 ranking factors |
-| **Fraud block** | "Your order could not be completed. Contact support." | Generic message — details available to support agents |
+| **Fraud block** | "Your order could not be completed. Contact support." | Generic message - details available to support agents |
 
-### Price Estimate API — Explainability Integration
+### Price Estimate API - Explainability Integration
 
 ```mermaid
 flowchart LR
@@ -152,7 +152,7 @@ SHAP values are computed during model evaluation and stored in the model registr
 | AI-generated code passes the same review bar as human-written code | Quality is quality, regardless of origin |
 | Security-sensitive logic (auth, encryption, PII handling) requires explicit human review annotation in PR | AI may generate plausible but subtly insecure patterns |
 | No proprietary code pasted into public AI tools | Data loss prevention |
-| Developer must understand and be able to explain every line of AI-generated code | Accountability — "Copilot wrote it" is not a valid defense |
+| Developer must understand and be able to explain every line of AI-generated code | Accountability - "Copilot wrote it" is not a valid defense |
 | AI-generated tests must be reviewed for false confidence (tests that pass but don't actually validate behavior) | AI often generates tests that look comprehensive but test implementation details |
 
 ### Code Review Flow for AI-Assisted PRs
@@ -183,7 +183,7 @@ flowchart TD
 
 ## 🤖 5. Generative AI Patterns
 
-{Company} uses generative AI in controlled, well-architected patterns — never as unguarded direct model access.
+{Company} uses generative AI in controlled, well-architected patterns - never as unguarded direct model access.
 
 ### Use Cases
 
@@ -404,7 +404,7 @@ Quarterly, with ad-hoc sessions for urgent reviews.
 
 ### Overflow Handling
 
-- If input exceeds the token limit, **truncate with summarization** — never hard-cutoff mid-sentence or mid-document
+- If input exceeds the token limit, **truncate with summarization** - never hard-cutoff mid-sentence or mid-document
 - All truncation events are logged with the original input length, truncated length, and summarization method
 - Truncation logs are reviewed weekly for patterns that indicate a limit needs adjustment
 
@@ -447,9 +447,9 @@ Every red-teaming exercise must test for:
 
 ### Red Team Composition
 
-- **Security team** — adversarial testing expertise
-- **ML team** — model behavior and prompt engineering knowledge
-- **External contractor** — fresh perspective, rotated annually
+- **Security team** - adversarial testing expertise
+- **ML team** - model behavior and prompt engineering knowledge
+- **External contractor** - fresh perspective, rotated annually
 
 ### Tooling
 
@@ -460,14 +460,14 @@ Every red-teaming exercise must test for:
 ### Allowlisted Tools
 
 - For internal LLM assistants that support tool/API calling, the set of tools the LLM may invoke must be **explicitly allowlisted**
-- Default: **NONE** — no tool access unless explicitly granted and reviewed
+- Default: **NONE** - no tool access unless explicitly granted and reviewed
 - Each tool grant requires security review and is documented in the LLM feature's architecture decision record
 
 ### Incident Response
 
 | Trigger | Action | SLA |
 |---------|--------|-----|
-| LLM produces harmful, biased, or unsafe output | **Kill switch** — disable feature flag immediately | Immediate |
+| LLM produces harmful, biased, or unsafe output | **Kill switch** - disable feature flag immediately | Immediate |
 | Kill switch activated | Post-incident review (PIR) | Within 48 hours |
 | PIR completed | Remediation deployed + adversarial test added | Within 1 week |
 

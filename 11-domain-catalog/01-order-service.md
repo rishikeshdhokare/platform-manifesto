@@ -39,19 +39,19 @@ flowchart TB
         PBFF[Provider BFF]
     end
 
-    subgraph orders [Order Service — com.{company}.orders]
+    subgraph orders [Order Service - com.{company}.orders]
         API[REST API]
         ORCH[Lifecycle orchestration]
-        DB[(Aurora — orders)]
+        DB[(Aurora - orders)]
         OUT[Outbox → Kafka]
     end
 
-    subgraph sync [Synchronous peers — gRPC]
+    subgraph sync [Synchronous peers - gRPC]
         PR[Pricing Service]
         FE[Fulfillment Engine]
     end
 
-    subgraph async [Asynchronous peers — Kafka]
+    subgraph async [Asynchronous peers - Kafka]
         PAY[Payments]
         NOT[Notifications]
     end
@@ -183,7 +183,7 @@ Additional internal or versioned endpoints (e.g. provider **start** actions) are
 
 ## 📤 5. Events Published
 
-Producer application: `com.{company}.orders` — Avro schemas in Schema Registry under subject prefix `orders.order`.
+Producer application: `com.{company}.orders` - Avro schemas in Schema Registry under subject prefix `orders.order`.
 
 | Topic | Payload summary | Key consumers | Retention |
 |-------|-----------------|---------------|-----------|
@@ -217,12 +217,12 @@ flowchart LR
         T[com.{company}.orders]
     end
 
-    subgraph sync_dep [Synchronous — gRPC]
+    subgraph sync_dep [Synchronous - gRPC]
         P[Pricing Service\nGetPrice / ValidatePrice]
         M[Fulfillment Engine\nRequestAssignment / Release]
     end
 
-    subgraph async_dep [Asynchronous — Kafka]
+    subgraph async_dep [Asynchronous - Kafka]
         KIN[(Kafka consume)]
         KOUT[(Kafka produce)]
         PAY_TOPIC[payments.payment.*]
@@ -237,7 +237,7 @@ flowchart LR
     FULFILL_TOPIC --> KIN
 ```
 
-Orders **does not** open JDBC connections to Pricing, Fulfillment, or Payments databases — only APIs and events, per platform boundaries (`11-domain-catalog/README.md`).
+Orders **does not** open JDBC connections to Pricing, Fulfillment, or Payments databases - only APIs and events, per platform boundaries (`11-domain-catalog/README.md`).
 
 ---
 
@@ -288,10 +288,10 @@ Instrumentation: OpenTelemetry traces from `com.{company}.orders`, Prometheus me
 
 | Item | Detail |
 |------|--------|
-| Team | **Team Orders** — Slack `@{company}/team-orders`, GitHub `{company}/order-service` |
+| Team | **Team Orders** - Slack `@{company}/team-orders`, GitHub `{company}/order-service` |
 | On-call | Primary / secondary rotation in PagerDuty |
-| Service catalog | [Backstage — Order Service](https://backstage.{company}.internal/catalog/default/component/order-service) *(internal URL — replace with live link)* |
-| PagerDuty | Service **order-service** — escalation to Team Orders manager after 15 minutes unacknowledged |
+| Service catalog | [Backstage - Order Service](https://backstage.{company}.internal/catalog/default/component/order-service) *(internal URL - replace with live link)* |
+| PagerDuty | Service **order-service** - escalation to Team Orders manager after 15 minutes unacknowledged |
 
 For cross-domain changes, use the platform RFC process and notify **Payments** and **Fulfillment** for contract changes on consumed/produced topics.
 

@@ -147,7 +147,7 @@ func fetchOrder(id: String) async throws -> Order {
 | `async let` | Parallel independent requests |
 | `TaskGroup` | Dynamic number of parallel tasks |
 | `Task { }` | Bridge from synchronous context (e.g., `viewDidLoad`) |
-| `Task.detached` | **Banned** — use structured alternatives |
+| `Task.detached` | **Banned** - use structured alternatives |
 
 - Every `Task` must be stored and cancelled in `deinit` or `onDisappear`.
 - `@MainActor` is required on all ViewModel classes and any property that drives UI.
@@ -208,7 +208,7 @@ struct MapViewRepresentable: UIViewRepresentable {
 
 | Keyword | When to Use | Risk |
 |---------|------------|------|
-| `weak` | Delegates, closures capturing `self` when `self` may be deallocated | Safe — becomes `nil` |
+| `weak` | Delegates, closures capturing `self` when `self` may be deallocated | Safe - becomes `nil` |
 | `unowned` | Only when the referenced object is **guaranteed** to outlive the reference (e.g., parent → child) | Crash if violated |
 
 **Default to `weak`** unless the lifetime guarantee is architecturally provable and documented.
@@ -224,7 +224,7 @@ viewModel.onComplete = { [weak self] result in
     self.updateUI(with: result)
 }
 
-// Forbidden — implicit strong capture
+// Forbidden - implicit strong capture
 viewModel.onComplete = { result in
     self.updateUI(with: result) // retain cycle risk
 }
@@ -242,7 +242,7 @@ viewModel.onComplete = { result in
 |--------|-----------|--------|
 | App launch memory | < 80 MB | Warning if exceeded |
 | Steady-state memory (foreground) | < 200 MB | Warning > 200 MB, blocker > 300 MB |
-| Background memory | < 50 MB | Hard limit — OS will terminate |
+| Background memory | < 50 MB | Hard limit - OS will terminate |
 
 ---
 
@@ -314,10 +314,10 @@ Apple requires a **Privacy Manifest** (`PrivacyInfo.xcprivacy`) declaring all re
 
 | API Category | Required Reason | Used By |
 |-------------|----------------|---------|
-| `NSPrivacyAccessedAPICategoryUserDefaults` | `CA92.1` — app functionality | Auth token caching |
-| `NSPrivacyAccessedAPICategoryFileTimestamp` | `C617.1` — file management | Cache invalidation |
-| `NSPrivacyAccessedAPICategorySystemBootTime` | `35F9.1` — measure elapsed time | Performance monitoring |
-| `NSPrivacyAccessedAPICategoryDiskSpace` | `E174.1` — check available space | Offline tile caching |
+| `NSPrivacyAccessedAPICategoryUserDefaults` | `CA92.1` - app functionality | Auth token caching |
+| `NSPrivacyAccessedAPICategoryFileTimestamp` | `C617.1` - file management | Cache invalidation |
+| `NSPrivacyAccessedAPICategorySystemBootTime` | `35F9.1` - measure elapsed time | Performance monitoring |
+| `NSPrivacyAccessedAPICategoryDiskSpace` | `E174.1` - check available space | Offline tile caching |
 
 ### 7.2 SDK Manifest Merge
 
@@ -350,7 +350,7 @@ When integrating third-party SDKs:
 
 - Each extension has its own **scheme** in Xcode.
 - CI builds and archives all extensions as part of the main app archive.
-- Extension binary sizes are tracked independently — a widget exceeding **5 MB** triggers a review.
+- Extension binary sizes are tracked independently - a widget exceeding **5 MB** triggers a review.
 
 ### 8.3 Entitlements
 
@@ -411,8 +411,8 @@ Access Group: $(AppIdentifierPrefix)com.{company}.shared-keychain
 
 | Value | Use Case |
 |-------|---------|
-| `AfterFirstUnlockThisDeviceOnly` | Default for most tokens — accessible in background after first unlock, never migrated to new device |
-| `WhenPasscodeSetThisDeviceOnly` | Biometric-protected secrets — deleted if passcode is removed |
+| `AfterFirstUnlockThisDeviceOnly` | Default for most tokens - accessible in background after first unlock, never migrated to new device |
+| `WhenPasscodeSetThisDeviceOnly` | Biometric-protected secrets - deleted if passcode is removed |
 | `WhenUnlockedThisDeviceOnly` | Highly sensitive data that should only be accessible while the user is actively using the device |
 
 ### 9.4 Keychain Wrapper
@@ -509,7 +509,7 @@ lane :upload_dsyms do
 end
 ```
 
-CI uploads dSYMs immediately after a successful archive. A failed upload is a **non-blocking warning** — the on-call engineer is notified via Slack and must manually re-upload within 24 hours.
+CI uploads dSYMs immediately after a successful archive. A failed upload is a **non-blocking warning** - the on-call engineer is notified via Slack and must manually re-upload within 24 hours.
 
 ### 11.3 Retention Policy
 

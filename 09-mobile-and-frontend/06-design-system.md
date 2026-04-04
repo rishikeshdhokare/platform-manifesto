@@ -157,7 +157,7 @@ flowchart LR
 
 ### 4.2 Prototype Lifecycle
 
-- Prototypes are **throwaway** — they are never promoted to production code.
+- Prototypes are **throwaway** - they are never promoted to production code.
 - Code prototypes live in `apps/prototype/` in the monorepo and are excluded from CI.
 - Figma prototypes are archived after the feature ships.
 
@@ -364,7 +364,7 @@ flowchart TB
 - All icons are designed on a **24×24 px** grid.
 - Stroke width: **1.5 px** (consistent across all icons).
 - Available sizes: **16, 20, 24, 32** px.
-- Icons are **monochrome** — they inherit `currentColor` (web) or tint color (mobile).
+- Icons are **monochrome** - they inherit `currentColor` (web) or tint color (mobile).
 
 ### 10.2 Web Delivery
 
@@ -436,7 +436,7 @@ A designer must review the implemented UI **before every release** that includes
 ### 12.2 Tolerance
 
 - Spacing, sizing, and alignment must match the Figma spec within **2 px**.
-- Colour values must be exact (validated via design tokens — no hardcoded hex).
+- Colour values must be exact (validated via design tokens - no hardcoded hex).
 - Typography must match the token value (no manual font size overrides).
 
 ### 12.3 Pre-Ship Sign-Off

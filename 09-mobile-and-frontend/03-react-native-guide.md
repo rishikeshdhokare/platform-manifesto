@@ -15,7 +15,7 @@
 7. [App Versioning](#7-app-versioning)
 8. [Repo Layout](#8-repo-layout)
 9. [CodePush Operations](#9-codepush-operations)
-10. [Accessibility — VoiceOver & TalkBack](#10-accessibility--voiceover--talkback)
+10. [Accessibility - VoiceOver & TalkBack](#10-accessibility--voiceover--talkback)
 
 ---
 
@@ -84,7 +84,7 @@ RootNavigator (Stack)
 │   ├── OrdersStack
 │   ├── WalletStack
 │   └── ProfileStack
-└── ModalStack (Group — presentation: modal)
+└── ModalStack (Group - presentation: modal)
     ├── SupportChat
     └── RatingFlow
 ```
@@ -206,7 +206,7 @@ Load the `.cpuprofile` in Chrome DevTools → Performance tab to identify hot fu
 | Flag | Value | Rationale |
 |------|-------|-----------|
 | `hermesFlags` | `"-O"` | Optimised bytecode for release builds |
-| `enableHermes` | `true` | Mandatory — enforced by CI lint |
+| `enableHermes` | `true` | Mandatory - enforced by CI lint |
 | `hermesFlagsDebug` | `""` | No optimisation in debug for accurate profiling |
 
 ---
@@ -245,7 +245,7 @@ packages/
 ### 5.3 Codegen CI Rule
 
 - Codegen output is committed to the repo (not `.gitignore`-d) so that PRs show type diffs.
-- A CI step regenerates and runs `git diff --exit-code src/api/generated/` — if the output differs, the PR fails with a message directing the developer to re-run codegen.
+- A CI step regenerates and runs `git diff --exit-code src/api/generated/` - if the output differs, the PR fails with a message directing the developer to re-run codegen.
 
 ---
 
@@ -265,7 +265,7 @@ packages/
 ### 6.2 Component Testing
 
 - **Jest + React Native Testing Library (RNTL)** for all React components.
-- Tests must render components, simulate user interactions, and assert on screen output — not implementation details.
+- Tests must render components, simulate user interactions, and assert on screen output - not implementation details.
 - Coverage gate: **80%** line coverage on `src/components/` and `src/screens/`.
 
 ```typescript
@@ -335,7 +335,7 @@ Version information lives in **one place** and is read by both platforms:
 
 - CodePush bundles embed the `version` from `package.json` as a label.
 - The app checks `codePushVersion === nativeBinaryVersion` on startup; mismatch triggers a full binary update prompt.
-- The `minSupportedVersion` field gates API access — the BFF returns `426 Upgrade Required` if the client version is below this threshold.
+- The `minSupportedVersion` field gates API access - the BFF returns `426 Upgrade Required` if the client version is below this threshold.
 
 ---
 
@@ -378,7 +378,7 @@ mobile/
 - Shared packages are published to the **internal npm registry** (`@{company}/mobile-*`).
 - Apps import shared packages via workspace protocol: `"@{company}/mobile-ui": "workspace:*"`.
 - Each package has its own `tsconfig.json` extending a root `tsconfig.base.json`.
-- Native dependencies (pods, Gradle modules) are hoisted to the app level — shared packages must not contain native code directly.
+- Native dependencies (pods, Gradle modules) are hoisted to the app level - shared packages must not contain native code directly.
 
 ---
 
@@ -436,7 +436,7 @@ flowchart TD
 
 ---
 
-## ♿ 10. Accessibility — VoiceOver & TalkBack
+## ♿ 10. Accessibility - VoiceOver & TalkBack
 
 ### 10.1 Mandate
 

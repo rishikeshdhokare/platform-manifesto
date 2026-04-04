@@ -22,19 +22,19 @@ The **Payment Service** is the bounded context responsible for **payment process
 
 ### 1.2 PCI-DSS scope boundaries
 
-Cardholder data is **never** persisted in platform systems in raw form. **Tokenization and vaulting** are delegated to the payment provider; the platform stores only **provider tokens**, **last4**, **brand**, and **expiry metadata** where permitted. The **PCI-DSS assessment scope** for application infrastructure is limited to **token handling** and **provider API integration**—not full card data processing.
+Cardholder data is **never** persisted in platform systems in raw form. **Tokenization and vaulting** are delegated to the payment provider; the platform stores only **provider tokens**, **last4**, **brand**, and **expiry metadata** where permitted. The **PCI-DSS assessment scope** for application infrastructure is limited to **token handling** and **provider API integration** - not full card data processing.
 
 ```mermaid
 flowchart LR
-    subgraph platform_pci [{Company} — reduced PCI scope]
+    subgraph platform_pci [{Company} - reduced PCI scope]
         PS[Payment Service]
         API[REST APIs]
-        DB[(Aurora — tokens & ledger)]
+        DB[(Aurora - tokens & ledger)]
         PS --> API
         PS --> DB
     end
 
-    subgraph provider_pci [Payment Provider — full PCI scope]
+    subgraph provider_pci [Payment Provider - full PCI scope]
         TOK[Tokenization / vault]
         CHD[Cardholder data zone]
         CHD --> TOK
@@ -249,7 +249,7 @@ Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header 
 
 | Aspect | Choice |
 |--------|--------|
-| **Primary database** | **Amazon Aurora PostgreSQL** — ACID guarantees for ledger, payouts, and wallet balances. |
+| **Primary database** | **Amazon Aurora PostgreSQL** - ACID guarantees for ledger, payouts, and wallet balances. |
 | **Monetary amounts** | **Integer cents** everywhere (DB columns, APIs, events); single currency per row where applicable. |
 
 ### 8.1 Core tables
@@ -318,7 +318,7 @@ erDiagram
 
 ```mermaid
 flowchart TB
-    subgraph daily [Daily reconciliation job — com.{company}.payments]
+    subgraph daily [Daily reconciliation job - com.{company}.payments]
         J[L internal ledger<br/>payments / payouts]
         P[Provider reports<br/>settlements / fees]
         J --> C[Compare totals & line items]

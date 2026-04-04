@@ -52,7 +52,7 @@ android {
 
 - Keystore files are stored in **AWS Secrets Manager** and injected into CI.
 - Debug builds use the default Android debug keystore.
-- Release signing is performed **only in CI** — developers never possess production keystores.
+- Release signing is performed **only in CI** - developers never possess production keystores.
 
 ### 1.4 Dependency BoM & Version Catalog
 
@@ -84,7 +84,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ```
 
-- All version declarations live in `libs.versions.toml` — hardcoded versions in `build.gradle.kts` are a CI lint failure.
+- All version declarations live in `libs.versions.toml` - hardcoded versions in `build.gradle.kts` are a CI lint failure.
 - Renovate Bot auto-creates PRs for dependency updates weekly.
 
 ---
@@ -182,7 +182,7 @@ Navigation between native fragments uses **Jetpack Navigation** with a `NavHostF
 
 ```
 MainActivity (AppCompatActivity)
-├── ReactRootView (RN app — owns most screens)
+├── ReactRootView (RN app - owns most screens)
 └── NavHostFragment (native screens)
     ├── MapFragment
     └── CameraFragment
@@ -240,19 +240,19 @@ The `proguard-rules.pro` file at the app module root is owned by the **Mobile Pl
 ### 5.2 Keep Rules for React Native & SDKs
 
 ```proguard
-# React Native — do not obfuscate bridge classes
+# React Native - do not obfuscate bridge classes
 -keep class com.facebook.react.** { *; }
 -keep class com.facebook.hermes.** { *; }
 -keep class com.facebook.jni.** { *; }
 
-# Turbo Modules — codegen-generated classes
+# Turbo Modules - codegen-generated classes
 -keep class com.{company}.app.turbomodules.** { *; }
 
-# Crashlytics — preserve stack traces
+# Crashlytics - preserve stack traces
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
 
-# Retrofit — preserve generic signatures for Gson/Moshi
+# Retrofit - preserve generic signatures for Gson/Moshi
 -keepattributes Signature
 -keep class com.{company}.app.api.models.** { *; }
 ```
@@ -328,16 +328,16 @@ class OrderViewModel @Inject constructor(
 
 ```
 app/
-├── app/                    # Application module — DI wiring, Application class
-├── feature-orders/         # Feature module — order list, detail, tracking
-├── feature-payments/       # Feature module — payment flow, wallet
-├── feature-profile/        # Feature module — user profile, settings
-├── feature-onboarding/     # Feature module — login, OTP, onboarding
-├── core-network/           # Core module — Retrofit, interceptors
-├── core-database/          # Core module — Room DB, DAOs, migrations
-├── core-ui/                # Core module — Compose theme, shared components
-├── core-common/            # Core module — extensions, utilities
-└── core-testing/           # Core module — test fixtures, fakes
+├── app/                    # Application module - DI wiring, Application class
+├── feature-orders/         # Feature module - order list, detail, tracking
+├── feature-payments/       # Feature module - payment flow, wallet
+├── feature-profile/        # Feature module - user profile, settings
+├── feature-onboarding/     # Feature module - login, OTP, onboarding
+├── core-network/           # Core module - Retrofit, interceptors
+├── core-database/          # Core module - Room DB, DAOs, migrations
+├── core-ui/                # Core module - Compose theme, shared components
+├── core-common/            # Core module - extensions, utilities
+└── core-testing/           # Core module - test fixtures, fakes
 ```
 
 ### 7.2 Dependency Rules
@@ -397,9 +397,9 @@ Instrumented tests run on emulators at the following API levels:
 
 | API Level | Android Version | Purpose |
 |-----------|----------------|---------|
-| 24 | 7.0 (Nougat) | `minSdk` — ensures baseline compatibility |
+| 24 | 7.0 (Nougat) | `minSdk` - ensures baseline compatibility |
 | 28 | 9.0 (Pie) | Mid-range devices in production fleet |
-| 34 | 14 | `targetSdk` — latest behaviour changes |
+| 34 | 14 | `targetSdk` - latest behaviour changes |
 
 ---
 
@@ -441,7 +441,7 @@ object RepositoryModule {
 ### 9.3 Testing with Hilt
 
 - Use `@HiltAndroidTest` and `@UninstallModules` to swap real implementations for fakes in instrumented tests.
-- Unit tests use constructor injection directly — no Hilt test runner needed.
+- Unit tests use constructor injection directly - no Hilt test runner needed.
 
 ---
 
@@ -459,7 +459,7 @@ object RepositoryModule {
 ### 10.2 Conventions
 
 - All workers extend `CoroutineWorker` (not `Worker` or `ListenableWorker`).
-- Input/output data is serialized via `workDataOf()` — avoid passing large payloads (>10 KB).
+- Input/output data is serialized via `workDataOf()` - avoid passing large payloads (>10 KB).
 - Unique work names follow the pattern: `{company}_{feature}_{action}` (e.g., `{company}_orders_sync`).
 
 ### 10.3 Expedited Jobs

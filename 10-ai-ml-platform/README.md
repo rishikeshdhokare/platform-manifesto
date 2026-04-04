@@ -1,4 +1,4 @@
-# 🤖 10 — AI/ML Platform
+# 🤖 10 - AI/ML Platform
 
 ![Docs](https://img.shields.io/badge/docs-2-blue?style=flat-square)
 

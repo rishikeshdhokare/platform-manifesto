@@ -38,9 +38,9 @@ Not every web surface has the same requirements. The rendering strategy should b
 | Criterion | SPA (Vite + React) | SSR (Next.js) |
 |-----------|-------------------|---------------|
 | **Primary use case** | App-like experiences: dashboards, internal tools, ops consoles | Content-heavy pages: marketing site, help center, blog |
-| **SEO requirement** | None or minimal — behind authentication | Critical — pages must be crawlable and indexable |
-| **Interactivity** | High — complex state, real-time updates, drag-and-drop | Moderate — mostly read, occasional forms |
-| **First Contentful Paint** | Acceptable delay (user is authenticated, expects app loading) | Must be fast — users arrive from search engines |
+| **SEO requirement** | None or minimal - behind authentication | Critical - pages must be crawlable and indexable |
+| **Interactivity** | High - complex state, real-time updates, drag-and-drop | Moderate - mostly read, occasional forms |
+| **First Contentful Paint** | Acceptable delay (user is authenticated, expects app loading) | Must be fast - users arrive from search engines |
 | **Data fetching** | Client-side via TanStack Query | Server-side via `getServerSideProps` / React Server Components |
 | **Deployment** | Static assets to S3 + CloudFront | Containerized (ECS/EKS) or Vercel |
 
@@ -67,7 +67,7 @@ flowchart TD
 
 ### 1.3 Default
 
-When in doubt, prefer **SPA** for authenticated internal surfaces and **Next.js SSR** for public-facing surfaces. Hybrid is permitted — a Next.js app can serve SSR marketing pages alongside client-rendered dashboard routes.
+When in doubt, prefer **SPA** for authenticated internal surfaces and **Next.js SSR** for public-facing surfaces. Hybrid is permitted - a Next.js app can serve SSR marketing pages alongside client-rendered dashboard routes.
 
 ---
 
@@ -116,7 +116,7 @@ The **default** for all new web projects is a monorepo managed with **Nx** or **
 |------|--------|
 | Shell app | One shell app owns the layout, routing, and authentication |
 | Remote contracts | Each remote exposes a typed interface; breaking changes follow the deprecation lifecycle |
-| Shared dependencies | React, React DOM, and the design system are shared singletons — never bundled per remote |
+| Shared dependencies | React, React DOM, and the design system are shared singletons - never bundled per remote |
 | Versioning | Each remote is independently versioned and deployed |
 | Fallback | If a remote fails to load, the shell renders a graceful fallback, not a white screen |
 
@@ -193,7 +193,7 @@ Design tokens are the single source of truth for visual consistency. They are de
 | Story coverage | 100% of exported components must have at least one story |
 | Interaction tests | All interactive components (forms, modals, dropdowns) include Storybook interaction tests |
 | Visual regression | Chromatic runs on every PR; visual diffs require approval |
-| Accessibility addon | `@storybook/addon-a11y` enabled — violations fail the CI build |
+| Accessibility addon | `@storybook/addon-a11y` enabled - violations fail the CI build |
 | Hosted instance | Storybook is deployed to an internal URL, linked from Backstage |
 
 ### 3.4 Figma-to-Code Workflow
@@ -210,8 +210,8 @@ flowchart LR
 ```
 
 **Rules:**
-- Designers use only design tokens defined in the shared Figma library — no one-off colors or spacing values.
-- Developers reference CSS custom properties (`var(--color-brand-primary)`) or TypeScript token constants — never hardcoded hex values.
+- Designers use only design tokens defined in the shared Figma library - no one-off colors or spacing values.
+- Developers reference CSS custom properties (`var(--color-brand-primary)`) or TypeScript token constants - never hardcoded hex values.
 - New tokens require design system team approval.
 
 ---
@@ -222,10 +222,10 @@ flowchart LR
 
 | Metric | Target | What It Measures |
 |--------|--------|-----------------|
-| **Largest Contentful Paint (LCP)** | < 2.5 seconds | Loading performance — when the main content becomes visible |
-| **First Input Delay (FID)** | < 100 ms | Interactivity — delay between user input and browser response |
-| **Cumulative Layout Shift (CLS)** | < 0.1 | Visual stability — unexpected layout shifts during loading |
-| **Interaction to Next Paint (INP)** | < 200 ms | Responsiveness — latency of all user interactions |
+| **Largest Contentful Paint (LCP)** | < 2.5 seconds | Loading performance - when the main content becomes visible |
+| **First Input Delay (FID)** | < 100 ms | Interactivity - delay between user input and browser response |
+| **Cumulative Layout Shift (CLS)** | < 0.1 | Visual stability - unexpected layout shifts during loading |
+| **Interaction to Next Paint (INP)** | < 200 ms | Responsiveness - latency of all user interactions |
 
 ### 4.2 Monitoring
 
@@ -274,8 +274,8 @@ PRs that regress Lighthouse performance score below **0.9** or violate any Core 
 | Layer | Tool | Enforcement |
 |-------|------|-------------|
 | **Component development** | `@storybook/addon-a11y` (axe-core) | Violations visible during development |
-| **CI — static** | `eslint-plugin-jsx-a11y` | Lint errors block PR merge |
-| **CI — runtime** | axe-core via `@axe-core/playwright` | Automated axe scan in E2E test suite; violations fail the build |
+| **CI - static** | `eslint-plugin-jsx-a11y` | Lint errors block PR merge |
+| **CI - runtime** | axe-core via `@axe-core/playwright` | Automated axe scan in E2E test suite; violations fail the build |
 | **E2E tests** | Playwright a11y assertions | `expect(page).toPassAxe()` assertion in critical user flows |
 | **Manual audit** | Third-party audit | Annual audit by certified accessibility consultants |
 
@@ -354,7 +354,7 @@ All {Company} web applications enforce a **strict Content Security Policy** via 
 | `img-src` | `'self' data: https://cdn.{company}.app` | Allow images from CDN and data URIs |
 | `font-src` | `'self' https://fonts.gstatic.com` | Google Fonts or self-hosted |
 | `connect-src` | `'self' https://api.{company}.com wss://ws.{company}.app` | API and WebSocket endpoints |
-| `frame-ancestors` | `'none'` | Prevent clickjacking — no embedding in iframes |
+| `frame-ancestors` | `'none'` | Prevent clickjacking - no embedding in iframes |
 | `base-uri` | `'self'` | Prevent `<base>` tag injection |
 
 ### 7.2 Additional Security Headers
@@ -387,7 +387,7 @@ SRI hashes are generated during the build pipeline and injected automatically. M
 |---------|---------------|
 | No `dangerouslySetInnerHTML` | Lint rule blocks usage; exceptions require security team review |
 | Input sanitization | All user input rendered via React's built-in escaping; DOMPurify for rich-text rendering |
-| URL validation | `href` attributes validated against allowlist schemes (`https:`, `mailto:`) — no `javascript:` |
+| URL validation | `href` attributes validated against allowlist schemes (`https:`, `mailto:`) - no `javascript:` |
 | CSP as safety net | Even if a bypass occurs, strict CSP blocks execution of injected scripts |
 
 ---
@@ -431,7 +431,7 @@ If the bundle exceeds the limit, the PR is blocked with a clear message showing 
 | Technique | Detail |
 |-----------|--------|
 | **Code splitting** | React.lazy + Suspense for route-level splitting; dynamic imports for heavy components |
-| **Tree shaking** | Only import what you use — `import { Button } from '@{company}/ui'`, not `import * as UI` |
+| **Tree shaking** | Only import what you use - `import { Button } from '@{company}/ui'`, not `import * as UI` |
 | **Image optimization** | WebP/AVIF formats, responsive `srcset`, lazy loading via `loading="lazy"` |
 | **Font subsetting** | Only include character ranges actually used; `font-display: swap` |
 | **Dependency audit** | `bundlephobia` check before adding any new dependency; prefer smaller alternatives |
@@ -446,7 +446,7 @@ If the bundle exceeds the limit, the PR is blocked with a clear message showing 
 |------------|------|----------|
 | **Server state** | TanStack Query (React Query) | API data fetching, caching, background refetching, optimistic updates |
 | **Client state** | Zustand | UI state, form state, local preferences, ephemeral state |
-| **URL state** | React Router search params | Filters, pagination cursors, tab selection — anything linkable |
+| **URL state** | React Router search params | Filters, pagination cursors, tab selection - anything linkable |
 | **Form state** | React Hook Form + Zod | Complex forms with validation |
 
 ### 9.2 What Not to Use
@@ -471,10 +471,10 @@ const { data, isLoading, error } = useQuery({
 
 | Convention | Rule |
 |------------|------|
-| Query keys | Structured arrays: `[resource, filters]` — never plain strings |
+| Query keys | Structured arrays: `[resource, filters]` - never plain strings |
 | Stale time | Set explicitly per query; default `0` is rarely appropriate |
 | Error handling | Global error handler via `QueryClient` for 401/403; per-query for domain errors |
-| Mutations | Use `useMutation` with `onSuccess` invalidation — never manually set query data after mutation |
+| Mutations | Use `useMutation` with `onSuccess` invalidation - never manually set query data after mutation |
 
 ---
 
@@ -494,7 +494,7 @@ const { data, isLoading, error } = useQuery({
 
 - **Test behavior, not implementation.** Query by accessible roles and labels (`getByRole`, `getByLabelText`), not by CSS class or test ID.
 - **No snapshot tests.** They are brittle and produce meaningless diffs. Use Chromatic for visual regression instead.
-- **Mock at the network boundary.** Use MSW (Mock Service Worker) for API mocking in unit and integration tests — never mock internal modules.
+- **Mock at the network boundary.** Use MSW (Mock Service Worker) for API mocking in unit and integration tests - never mock internal modules.
 - **Playwright for E2E.** Playwright runs in CI against staging. Tests cover the top 5 user journeys per web surface.
 
 ### 10.3 RTL Example
@@ -597,7 +597,7 @@ npx openapi-typescript-codegen \
   --useOptions
 ```
 
-Generated clients are imported in application code and wrapped with TanStack Query hooks. Do not modify generated files — changes will be overwritten on regeneration.
+Generated clients are imported in application code and wrapped with TanStack Query hooks. Do not modify generated files - changes will be overwritten on regeneration.
 
 ---
 

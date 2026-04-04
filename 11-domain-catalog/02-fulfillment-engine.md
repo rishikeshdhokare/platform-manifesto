@@ -22,7 +22,7 @@ The **Fulfillment Engine** (`com.{company}.fulfillment`) is the real-time subsys
 | Concern | Owning domain |
 | --- | --- |
 | Order lifecycle | Order orchestration (`com.{company}.orders`) |
-| Provider profile data | Provider Profile (`com.{company}.providers`) — ratings, documents, long-lived attributes |
+| Provider profile data | Provider Profile (`com.{company}.providers`) - ratings, documents, long-lived attributes |
 
 ```mermaid
 flowchart LR
@@ -206,7 +206,7 @@ All topics live under the Kafka namespace `{company}.fulfillment` (logical); pay
 
 ## 💾 7. Data Store
 
-Fulfillment Engine persistence is **ephemeral only** — no relational database for assignment state.
+Fulfillment Engine persistence is **ephemeral only** - no relational database for assignment state.
 
 | Store | Usage | Conventions |
 | --- | --- | --- |
@@ -215,7 +215,7 @@ Fulfillment Engine persistence is **ephemeral only** — no relational database 
 | `provider:locations` | Logical key pattern for GEO set(s); may be sharded e.g. `{company}:fulfillment:assignment:provider:locations:{region}` | Updated from `providers.provider.location-updated` |
 | `active_assignments` | Redis `HASH` (or hash per shard): `order_id` → serialized assignment metadata | TTL aligned with request TTL; cleared on terminal status |
 
-**Not used:** PostgreSQL, MySQL, or other durable OLTP for assignment rows — Order domain owns durable order records after handoff.
+**Not used:** PostgreSQL, MySQL, or other durable OLTP for assignment rows - Order domain owns durable order records after handoff.
 
 ---
 
@@ -281,7 +281,7 @@ flowchart LR
 | Item | Detail |
 | --- | --- |
 | **Team** | **Team Orders** |
-| **Service** | Fulfillment Engine — `com.{company}.fulfillment` |
+| **Service** | Fulfillment Engine - `com.{company}.fulfillment` |
 | **On-call** | Orders PagerDuty rotation (primary), platform Redis/Kafka escalations as secondary |
 
 ---

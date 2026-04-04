@@ -36,7 +36,7 @@ flowchart TB
         OTH[Other callers]
     end
 
-    GS[Geolocation Service — com.{company}.geolocation]
+    GS[Geolocation Service - com.{company}.geolocation]
     R[(Redis cache)]
 
     subgraph external [External providers]
@@ -116,11 +116,11 @@ classDiagram
 
 ## 🔌 4. Provider abstraction (hexagonal)
 
-The **domain port** defines operations (calculate route, ETA, geocode, matrix). **Adapters** implement that port per vendor (**Google**, **HERE**), making provider switches a configuration and adapter concern—not a rewrite of platform logic.
+The **domain port** defines operations (calculate route, ETA, geocode, matrix). **Adapters** implement that port per vendor (**Google**, **HERE**), making provider switches a configuration and adapter concern - not a rewrite of platform logic.
 
 ```mermaid
 flowchart LR
-    subgraph domain [Domain core — com.{company}.geolocation]
+    subgraph domain [Domain core - com.{company}.geolocation]
         P[MappingPort interface]
     end
 
@@ -206,7 +206,7 @@ flowchart TD
 
 ## 👥 10. Team
 
-**Team Orders** — owns Geolocation Service, provider contracts, and cache/resilience behavior for the platform experience.
+**Team Orders** - owns Geolocation Service, provider contracts, and cache/resilience behavior for the platform experience.
 
 ---
 
@@ -253,8 +253,8 @@ flowchart TD
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
-| **Redis** — route cache | Computed routes (polyline, distance, duration) | 5 minutes TTL | Automatic TTL expiry |
-| **Redis** — geocoding cache | Address ↔ coordinate mappings | 24 hours TTL | Automatic TTL expiry |
+| **Redis** - route cache | Computed routes (polyline, distance, duration) | 5 minutes TTL | Automatic TTL expiry |
+| **Redis** - geocoding cache | Address ↔ coordinate mappings | 24 hours TTL | Automatic TTL expiry |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 Geolocation Service has **no relational database** and no long-term data retention. All cached data is ephemeral and reconstructible by re-calling external providers.

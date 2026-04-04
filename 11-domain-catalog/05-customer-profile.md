@@ -147,7 +147,7 @@ Base path: **`/v1/customers`**. Clients use the Customer BFF; internal callers u
 
 ## 📤 5. Events Published
 
-Producer: `com.{company}.customers` — subject prefix `customers.customer`.
+Producer: `com.{company}.customers` - subject prefix `customers.customer`.
 
 | Topic / event | Payload summary | Consumers |
 |---------------|-----------------|-----------|
@@ -161,7 +161,7 @@ Producer: `com.{company}.customers` — subject prefix `customers.customer`.
 
 | Topic | Description | Handler behavior |
 |-------|-------------|------------------|
-| `orders.order.completed` | Order completed | Append or update **order history** projection for the customer (order id, time, price summary—no payment PAN). |
+| `orders.order.completed` | Order completed | Append or update **order history** projection for the customer (order id, time, price summary - no payment PAN). |
 | `payments.payment.captured` | Successful capture | Link **receipt** reference on history row or separate projection for "receipt available". |
 
 ---
@@ -191,7 +191,7 @@ Producer: `com.{company}.customers` — subject prefix `customers.customer`.
 
 1. Customer requests deletion (app or DSR ticket).  
 2. Customer Profile **queues erasure job**: stop marketing prefs, anonymize or delete PII columns per retention policy.  
-3. **Payment Service** and **Orders** may retain legal/financial records per finance policy—Customer Profile publishes `customers.customer.deleted` and stops being source of truth for **new** customer-facing reads.  
+3. **Payment Service** and **Orders** may retain legal/financial records per finance policy - Customer Profile publishes `customers.customer.deleted` and stops being source of truth for **new** customer-facing reads.  
 4. Confirmation returned when profile row is tombstoned or removed per jurisdictional rules.
 
 ```mermaid
@@ -223,18 +223,18 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    subgraph cp [Customer Profile — com.{company}.customers]
+    subgraph cp [Customer Profile - com.{company}.customers]
         API[REST API]
         DB[(RDS PostgreSQL)]
         OUT[Kafka produce]
         IN[Kafka consume]
     end
 
-    subgraph pay [Payments — async only]
+    subgraph pay [Payments - async only]
         PAY[payments.payment.captured]
     end
 
-    subgraph orders [Orders — async only]
+    subgraph orders [Orders - async only]
         ORD[orders.order.completed]
     end
 
@@ -286,7 +286,7 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 |-----------------|-------------|-------------------|
 | **Profile DB read unavailable** | Customer cannot view their profile, saved places, or preferences | Return cached profile from Redis (stale read, TTL 5 min); customer app shows last-known profile state |
 | **Profile DB write unavailable** | Preference updates, saved place edits fail | Queue update via outbox pattern; return 503 with `Retry-After`; preference updates are **queued** and applied when DB recovers |
-| **Payment method token write failure** | Customer cannot add/update payment methods | Return user-friendly error; tokenization is idempotent via PSP reference — client can retry safely |
+| **Payment method token write failure** | Customer cannot add/update payment methods | Return user-friendly error; tokenization is idempotent via PSP reference - client can retry safely |
 | **Kafka producer failure** | Downstream consumers (Analytics, Fraud) miss registration/update events | Outbox table ensures events are persisted to DB first; outbox poller retries publishing |
 | **Order history projection lag** | Customer sees stale order history | Acceptable up to 5 minutes; projection is eventually consistent by design; stale indicator shown if lag > 2 min |
 
@@ -310,12 +310,12 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
-| **RDS PostgreSQL** — `customers` table | Customer profile, status, auth subject | Until account deletion (GDPR erasure) | Erasure job: redact PII, tombstone row |
-| **RDS PostgreSQL** — `payment_methods` | Tokenized payment references | Until customer removes method or account deletion | DELETE on customer action; cascade on erasure |
-| **RDS PostgreSQL** — `saved_places` | Saved locations (PII — addresses) | Until customer removes or account deletion | DELETE on customer action; cascade on erasure |
-| **RDS PostgreSQL** — `customer_preferences` | Locale, notification, marketing prefs | Until account deletion | Cascade on erasure |
-| **RDS PostgreSQL** — `order_history` | Denormalized order projection | 7 years (tax/regulatory) — anonymized on erasure | Anonymize `customerId` on erasure; archive after 7 years |
-| **Kafka** — `customers.customer.*` topics | Customer domain events | 14 days (platform default) | Kafka topic retention policy |
+| **RDS PostgreSQL** - `customers` table | Customer profile, status, auth subject | Until account deletion (GDPR erasure) | Erasure job: redact PII, tombstone row |
+| **RDS PostgreSQL** - `payment_methods` | Tokenized payment references | Until customer removes method or account deletion | DELETE on customer action; cascade on erasure |
+| **RDS PostgreSQL** - `saved_places` | Saved locations (PII - addresses) | Until customer removes or account deletion | DELETE on customer action; cascade on erasure |
+| **RDS PostgreSQL** - `customer_preferences` | Locale, notification, marketing prefs | Until account deletion | Cascade on erasure |
+| **RDS PostgreSQL** - `order_history` | Denormalized order projection | 7 years (tax/regulatory) - anonymized on erasure | Anonymize `customerId` on erasure; archive after 7 years |
+| **Kafka** - `customers.customer.*` topics | Customer domain events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---

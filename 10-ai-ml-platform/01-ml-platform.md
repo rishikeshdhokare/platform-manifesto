@@ -8,7 +8,7 @@
 
 ## 📋 1. ML Use Cases at {Company}
 
-Machine learning is integral to {Company}'s core product — every order involves multiple ML-powered decisions. The table below catalogues our current ML portfolio.
+Machine learning is integral to {Company}'s core product - every order involves multiple ML-powered decisions. The table below catalogues our current ML portfolio.
 
 | Use Case | Owning Team | Model Type | Latency Requirement | Serving Strategy |
 |----------|-------------|------------|---------------------|------------------|
@@ -18,7 +18,7 @@ Machine learning is integral to {Company}'s core product — every order involve
 | ETA Prediction | Maps & Routing | Deep neural network (TensorFlow) | < 100 ms | TensorFlow Serving on EKS |
 | Demand Forecasting | Business Intelligence | Prophet / LightGBM | Batch (hourly) | SageMaker Batch Transform |
 
-> **Principle:** Every ML model must have a rule-based fallback. ML enhances decisions — it must never be the only path.
+> **Principle:** Every ML model must have a rule-based fallback. ML enhances decisions - it must never be the only path.
 
 ---
 
@@ -148,7 +148,7 @@ endpoint:
 
 ## 🗄️ 4. Feature Store
 
-Features are the lifeblood of ML models. {Company} operates a dual-store architecture — an **online store** for real-time inference and an **offline store** for training.
+Features are the lifeblood of ML models. {Company} operates a dual-store architecture - an **online store** for real-time inference and an **offline store** for training.
 
 ```mermaid
 flowchart TB
@@ -230,7 +230,7 @@ Feature deprecation requires 30 days notice and migration of all consumers.
 
 ## 🧪 5. A/B Testing for Algorithms
 
-Algorithm changes — fulfillment heuristics, pricing models, fraud rules — are tested with the same rigor as product features. {Company} uses **LaunchDarkly experiment flags** to manage algorithm variants.
+Algorithm changes - fulfillment heuristics, pricing models, fraud rules - are tested with the same rigor as product features. {Company} uses **LaunchDarkly experiment flags** to manage algorithm variants.
 
 ### Testing Modes
 
@@ -295,7 +295,7 @@ Before promoting a challenger to champion:
 
 ## ⚙️ 6. Training Pipeline
 
-All model training runs through **SageMaker Pipelines** — no ad-hoc notebook training in production.
+All model training runs through **SageMaker Pipelines** - no ad-hoc notebook training in production.
 
 ```mermaid
 flowchart TD
@@ -380,9 +380,9 @@ Model updates follow the same canary strategy as service deployments:
 |-------|---------|----------|-----------------|
 | Canary | 5% | 30 minutes | Prediction quality drop > 2% |
 | Partial | 25% | 2 hours | Prediction quality drop > 1% |
-| Full | 100% | — | Ongoing monitoring |
+| Full | 100% | - | Ongoing monitoring |
 
-Rollback is automatic — SageMaker endpoint reverts to the previous model version if quality metrics breach thresholds.
+Rollback is automatic - SageMaker endpoint reverts to the previous model version if quality metrics breach thresholds.
 
 ---
 
@@ -423,7 +423,7 @@ Every ML model has a Grafana dashboard showing:
 
 ## 🔄 9. Fallback Strategy
 
-Every ML-powered decision has a deterministic fallback. If the ML model is unavailable — endpoint down, latency exceeds threshold, or predictions look anomalous — the system degrades to rule-based heuristics.
+Every ML-powered decision has a deterministic fallback. If the ML model is unavailable - endpoint down, latency exceeds threshold, or predictions look anomalous - the system degrades to rule-based heuristics.
 
 ```mermaid
 flowchart TD
@@ -620,7 +620,7 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ### Feedback Loop
 
-- Model predictions are used as **pre-labels** to accelerate annotation — annotators correct rather than label from scratch
+- Model predictions are used as **pre-labels** to accelerate annotation - annotators correct rather than label from scratch
 - Disagreements between model pre-labels and annotator labels are flagged for **expert review**
 
 ### Data Versioning
@@ -663,16 +663,16 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ### Stop-Loss
 
-- All SageMaker training jobs **must** set `MaxRuntimeInSeconds` (default: 86,400 — 24 hours)
+- All SageMaker training jobs **must** set `MaxRuntimeInSeconds` (default: 86,400 - 24 hours)
 - Jobs exceeding the team's per-job budget trigger an alert to the team lead
 - Runaway training jobs are automatically terminated after `MaxRuntimeInSeconds`
 
 ### Cost Attribution
 
 - Every training job must be tagged with:
-  - `project` — the business initiative
-  - `team` — the owning team
-  - `model-name` — the model being trained
+  - `project` - the business initiative
+  - `team` - the owning team
+  - `model-name` - the model being trained
 - Monthly cost review per model in the FinOps sync meeting
 
 ### Idle Resource Cleanup

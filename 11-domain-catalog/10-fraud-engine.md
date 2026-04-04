@@ -22,8 +22,8 @@ The **Fraud Engine** (`com.{company}.fraud`) provides **real-time fraud detectio
 
 | Concern | Owning domain |
 | --- | --- |
-| User account management | **Profile services** (customer/provider) — identity, KYC containers; Fraud **signals** into those flows. |
-| Payment disputes/chargebacks | **Payment Service** — settlement and dispute workflows; Fraud may **open cases** but does not own money movement. |
+| User account management | **Profile services** (customer/provider) - identity, KYC containers; Fraud **signals** into those flows. |
+| Payment disputes/chargebacks | **Payment Service** - settlement and dispute workflows; Fraud may **open cases** but does not own money movement. |
 
 ---
 
@@ -138,7 +138,7 @@ flowchart TD
 
 ## 🔌 5. API Surface
 
-### 5.1 gRPC (internal — `com.{company}.fraud.v1`)
+### 5.1 gRPC (internal - `com.{company}.fraud.v1`)
 
 | RPC | Purpose |
 | --- | --- |
@@ -167,8 +167,8 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 **Payload highlights (conceptual)**
 
-- `fraud.signal.raised` — `signalId`, `entityId`, `eventType`, `outcome` (ALLOW/FLAG/BLOCK), `correlationId`.
-- `fraud.case.opened` / `fraud.case.resolved` — `caseId`, `entityId`, `status`, timestamps, resolver reference.
+- `fraud.signal.raised` - `signalId`, `entityId`, `eventType`, `outcome` (ALLOW/FLAG/BLOCK), `correlationId`.
+- `fraud.case.opened` / `fraud.case.resolved` - `caseId`, `entityId`, `status`, timestamps, resolver reference.
 
 ---
 
@@ -189,7 +189,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 | Store | Role |
 | --- | --- |
 | **Aurora PostgreSQL** | **Fraud cases**, **rules**, **investigation history**, audit and resolution records (authoritative). |
-| **Redis** | **Real-time feature cache** — device fingerprint lookups, **velocity counters**, short-lived evaluation context. |
+| **Redis** | **Real-time feature cache** - device fingerprint lookups, **velocity counters**, short-lived evaluation context. |
 
 ---
 
@@ -222,7 +222,7 @@ The primary **fraud scoring model** is served from an **AWS SageMaker** endpoint
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
-| **Availability** | 99.95% (measured monthly) — higher than standard due to critical-path role | Successful gRPC responses / total requests |
+| **Availability** | 99.95% (measured monthly) - higher than standard due to critical-path role | Successful gRPC responses / total requests |
 | **Risk scoring latency (p99)** | < 200ms for `EvaluateRisk` | Prometheus histogram on gRPC handler duration (includes rule engine + optional ML call) |
 | **Risk score lookup latency (p99)** | < 50ms for `GetRiskScore` | Prometheus histogram on gRPC handler duration (Redis/cache read path) |
 | **Error rate** | < 0.05% 5xx / gRPC INTERNAL errors | Application error counters per RPC method |
@@ -260,7 +260,7 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 
 | Resource | Configuration |
 |----------|--------------|
-| **Min replicas** | 5 (production) — higher minimum due to Tier 1 criticality |
+| **Min replicas** | 5 (production) - higher minimum due to Tier 1 criticality |
 | **Max replicas** | 30 (HPA) |
 | **HPA target** | 50% CPU utilization (aggressive scaling due to latency sensitivity) |
 | **Aurora connection pool** | 20 connections per pod (RDS Proxy) |
@@ -275,13 +275,13 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
-| **Aurora PostgreSQL** — `fraud_signals` | Individual fraud signal records | 2 years | Scheduled archival job → S3; deleted from Aurora after archival |
-| **Aurora PostgreSQL** — `fraud_cases` | Investigation cases and resolution records | 7 years (regulatory/legal) | Archived to S3 after 2 years; deleted after 7 years |
-| **Aurora PostgreSQL** — `fraud_rules` | Rule definitions and versions | Indefinite (versioned, never hard-deleted) | Soft-delete deprecated rules |
-| **Aurora PostgreSQL** — `risk_scores` | Historical risk scores per entity | 1 year | Scheduled cleanup job; aggregate metrics retained indefinitely |
-| **Redis** — feature cache | Device fingerprints, velocity counters | Variable TTL (1 hour – 24 hours depending on feature) | Automatic TTL expiry |
-| **Kafka** — `fraud.*` topics | Published fraud signals and case events | 14 days (platform default) | Kafka topic retention policy |
-| **Kafka** — consumed event topics | Order, payment, registration events | 14 days (platform default) | Kafka topic retention policy |
+| **Aurora PostgreSQL** - `fraud_signals` | Individual fraud signal records | 2 years | Scheduled archival job → S3; deleted from Aurora after archival |
+| **Aurora PostgreSQL** - `fraud_cases` | Investigation cases and resolution records | 7 years (regulatory/legal) | Archived to S3 after 2 years; deleted after 7 years |
+| **Aurora PostgreSQL** - `fraud_rules` | Rule definitions and versions | Indefinite (versioned, never hard-deleted) | Soft-delete deprecated rules |
+| **Aurora PostgreSQL** - `risk_scores` | Historical risk scores per entity | 1 year | Scheduled cleanup job; aggregate metrics retained indefinitely |
+| **Redis** - feature cache | Device fingerprints, velocity counters | Variable TTL (1 hour – 24 hours depending on feature) | Automatic TTL expiry |
+| **Kafka** - `fraud.*` topics | Published fraud signals and case events | 14 days (platform default) | Kafka topic retention policy |
+| **Kafka** - consumed event topics | Order, payment, registration events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 90 days (extended for fraud investigation) | CloudWatch log group retention policy |
 
 ---

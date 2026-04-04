@@ -29,7 +29,7 @@
 
 ## 💡 1. Philosophy
 
-Mobile apps **are** the product for {Company} customers and providers. Every interaction — placing an order, tracking a delivery, completing a transaction — happens on a phone in variable network conditions, in bright sunlight, on the move. There is no second chance to make a good impression.
+Mobile apps **are** the product for {Company} customers and providers. Every interaction - placing an order, tracking a delivery, completing a transaction - happens on a phone in variable network conditions, in bright sunlight, on the move. There is no second chance to make a good impression.
 
 **Guiding principles:**
 
@@ -151,7 +151,7 @@ All BFF responses use **gzip** compression (`Content-Encoding: gzip`). Typical p
 
 ### Cursor-Based Pagination
 
-All list endpoints use cursor-based pagination — never offset-based:
+All list endpoints use cursor-based pagination - never offset-based:
 
 ```json
 {
@@ -228,7 +228,7 @@ For write operations (e.g., rating an order, updating profile), the app applies 
 - On sync, the client sends its local version; the server compares `updatedAt`.
 - If the server version is newer, the server version wins. The client is updated.
 - If the client version is newer (server was behind), the client version is accepted.
-- For critical data (payments, order state), the **server is always authoritative** — no client-side conflict resolution.
+- For critical data (payments, order state), the **server is always authoritative** - no client-side conflict resolution.
 
 ### Sync on Reconnect
 
@@ -446,7 +446,7 @@ For install-then-navigate flows (e.g., a referral link clicked by someone withou
 
 - Text on backgrounds: minimum **4.5:1** contrast ratio (AA).
 - Large text (18sp+): minimum **3:1** contrast ratio.
-- Interactive elements: do not rely on color alone — pair with icons or labels.
+- Interactive elements: do not rely on color alone - pair with icons or labels.
 - The {Company} brand primary color is validated against both light and dark backgrounds.
 
 ### RTL Support (Arabic)
@@ -513,11 +513,11 @@ flowchart LR
 
 Error screens follow a consistent structure:
 
-1. **Illustration** — a branded, friendly illustration (not a raw error code).
-2. **Title** — human-readable ("We couldn't load your orders").
-3. **Description** — actionable ("Check your internet connection and try again.").
-4. **Primary action** — "Try Again" button that retries the failed request.
-5. **Secondary action** — "Go Home" or "Contact Support" where relevant.
+1. **Illustration** - a branded, friendly illustration (not a raw error code).
+2. **Title** - human-readable ("We couldn't load your orders").
+3. **Description** - actionable ("Check your internet connection and try again.").
+4. **Primary action** - "Try Again" button that retries the failed request.
+5. **Secondary action** - "Go Home" or "Contact Support" where relevant.
 
 **Never show** raw HTTP status codes, stack traces, or internal error IDs to users. Log them to Crashlytics instead.
 
@@ -537,7 +537,7 @@ Error screens follow a consistent structure:
 
 ### 13.1 Apple privacy manifest
 
-A **privacy manifest** (`PrivacyInfo.xcprivacy`) is maintained in the Xcode project. It declares all API usage reasons and data collection categories. The manifest is updated with every dependency change — new third-party SDKs must declare their privacy API usage before integration.
+A **privacy manifest** (`PrivacyInfo.xcprivacy`) is maintained in the Xcode project. It declares all API usage reasons and data collection categories. The manifest is updated with every dependency change - new third-party SDKs must declare their privacy API usage before integration.
 
 ### 13.2 Privacy labels
 
@@ -551,7 +551,7 @@ Privacy labels are reviewed by the security team before submission. CI validates
 ### 13.3 App Tracking Transparency (ATT)
 
 - The ATT prompt is displayed **before** any tracking occurs (iOS 14.5+).
-- If the user declines, **no tracking is performed** — analytics fall back to aggregated, non-identifiable metrics.
+- If the user declines, **no tracking is performed** - analytics fall back to aggregated, non-identifiable metrics.
 - The ATT prompt is shown at a contextually appropriate moment (not on first launch), with a pre-prompt screen explaining the value exchange.
 
 ### 13.4 Account deletion
@@ -607,7 +607,7 @@ sequenceDiagram
 ```
 
 - Access token expires in **15 minutes**.
-- The SDK auto-refreshes using the refresh token transparently — the user never sees an auth prompt during active use.
+- The SDK auto-refreshes using the refresh token transparently - the user never sees an auth prompt during active use.
 - If the refresh fails (token revoked, expired, or network error after retries), the user is redirected to the login screen.
 
 ### 14.3 Token rotation
@@ -691,7 +691,7 @@ The backup pin ensures continuity if the primary CA is compromised or revoked.
 
 If pin validation fails:
 
-1. **Block the request** — do not fall back to unpinned TLS.
+1. **Block the request** - do not fall back to unpinned TLS.
 2. Log the failure locally and send a diagnostic report to the analytics endpoint (via a separate, unpinned reporting channel if necessary).
 3. Alert the security team via the backend reporting pipeline.
 4. Show the user a network error screen (not a security-specific message that could aid attackers).
@@ -707,7 +707,7 @@ When a CA certificate is approaching expiry:
 
 ### 15.6 Debug builds
 
-Certificate pinning is **disabled** in debug builds to allow proxy-based debugging tools (Charles Proxy, mitmproxy) during development. This is controlled by a build-time flag — never by a runtime toggle.
+Certificate pinning is **disabled** in debug builds to allow proxy-based debugging tools (Charles Proxy, mitmproxy) during development. This is controlled by a build-time flag - never by a runtime toggle.
 
 ---
 
@@ -745,7 +745,7 @@ if (BuildConfig.DEBUG) {
 }
 ```
 
-- **All network and database calls** must execute on background threads — enforced by StrictMode in debug and by code review in CI.
+- **All network and database calls** must execute on background threads - enforced by StrictMode in debug and by code review in CI.
 
 ### 16.4 Play vitals integration
 
@@ -767,7 +767,7 @@ The release dashboard tracks key Play vitals metrics:
 | Artifact | Budget | Guideline |
 |----------|--------|-----------|
 | AAB (Android App Bundle) | **<30 MB** download size | Per Google Play guidelines for optimal install conversion |
-| IPA (iOS) | **<200 MB** OTA download | Apple cellular download threshold — larger apps require Wi-Fi |
+| IPA (iOS) | **<200 MB** OTA download | Apple cellular download threshold - larger apps require Wi-Fi |
 
 ### 17.2 ABI coverage (Android)
 
@@ -794,8 +794,8 @@ Binary size is tracked in CI on every PR:
 | Android | **ProGuard / R8** code shrinking and obfuscation | Reduces DEX size by 20–40% |
 | Android | **Resource shrinking** (`shrinkResources true`) | Removes unused drawables, layouts |
 | React Native | **Hermes bytecode compilation** | Reduces JS bundle size, improves startup |
-| Both | **Asset optimization** — compress PNGs, use WebP, vector drawables where possible | Reduces asset payload |
-| Both | **Dependency audit** — review new dependencies for size impact before adding | Prevents bloat |
+| Both | **Asset optimization** - compress PNGs, use WebP, vector drawables where possible | Reduces asset payload |
+| Both | **Dependency audit** - review new dependencies for size impact before adding | Prevents bloat |
 
 ---
 
@@ -842,7 +842,7 @@ Not all failed requests should be retried. Retrying non-idempotent or client-err
 | `429 Too Many Requests` | Retry with exponential backoff (honor `Retry-After` header) | Server is rate-limiting; backing off allows recovery |
 | `503 Service Unavailable` | Retry with exponential backoff (max 3 attempts) | Transient server overload; likely recovers quickly |
 | Network timeout | Retry with exponential backoff (max 3 attempts) | Transient network condition; worth retrying |
-| `4xx` (except 429) | Do **not** retry | Client error — retrying will produce the same result |
+| `4xx` (except 429) | Do **not** retry | Client error - retrying will produce the same result |
 | Payment-adjacent requests | Require idempotency key; retry only with key attached | Prevents duplicate charges or refunds |
 
 ### Captive Portal Detection
@@ -893,7 +893,7 @@ When WebSocket connections are unreliable (poor network, frequent disconnects), 
 | 20–50% | Poor | 30 seconds |
 | < 20% | Any | 60 seconds |
 
-The fallback is transparent to the consuming code — components subscribe to the same event stream regardless of the underlying transport.
+The fallback is transparent to the consuming code - components subscribe to the same event stream regardless of the underlying transport.
 
 ### Usage
 

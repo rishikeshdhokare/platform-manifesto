@@ -12,9 +12,9 @@ The **Pricing Service** (`com.{company}.pricing`) is the system of record for **
 
 **Core responsibilities**
 
-- **Price calculation** — Combine base price, distance, and time according to published rules for the customer's market and service type.
-- **Estimates** — Produce pre-order price ranges and point estimates for order planning and customer consent.
-- **Final price computation** — Reconcile estimated logic with actual distance/duration (and policy) after order completion to produce the billed amount consumed by billing and receipts.
+- **Price calculation** - Combine base price, distance, and time according to published rules for the customer's market and service type.
+- **Estimates** - Produce pre-order price ranges and point estimates for order planning and customer consent.
+- **Final price computation** - Reconcile estimated logic with actual distance/duration (and policy) after order completion to produce the billed amount consumed by billing and receipts.
 
 **This domain owns**
 
@@ -28,8 +28,8 @@ The **Pricing Service** (`com.{company}.pricing`) is the system of record for **
 
 | Concern | Owning domain |
 | --- | --- |
-| Dynamic pricing multipliers | **Dynamic Pricing** — defines and publishes current multipliers; Pricing **consumes** them. |
-| Payment collection | **Payments / Billing** — charges cards, wallets, and settlement. |
+| Dynamic pricing multipliers | **Dynamic Pricing** - defines and publishes current multipliers; Pricing **consumes** them. |
+| Payment collection | **Payments / Billing** - charges cards, wallets, and settlement. |
 
 ---
 

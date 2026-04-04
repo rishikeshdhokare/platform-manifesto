@@ -23,8 +23,8 @@ The **Dynamic Pricing** domain (`com.{company}.dynamicpricing`) balances **suppl
 
 | Concern | Owning domain |
 | --- | --- |
-| Base price calculation | **Pricing Service** (`com.{company}.pricing`) — composes base + distance + time; **consumes** pricing multipliers. |
-| Order lifecycle | **Order Service** — assignment, state, completion; Dynamic Pricing **reads** order events for signals only. |
+| Base price calculation | **Pricing Service** (`com.{company}.pricing`) - composes base + distance + time; **consumes** pricing multipliers. |
+| Order lifecycle | **Order Service** - assignment, state, completion; Dynamic Pricing **reads** order events for signals only. |
 
 ---
 
@@ -111,9 +111,9 @@ flowchart TB
         C --> H3[H3 resolution partition\nHexagonal cells]
     end
 
-    H3 --> ZA[Zone A — h3 cell\nMultiplier λₐ]
-    H3 --> ZB[Zone B — h3 cell\nMultiplier λᵦ]
-    H3 --> ZC[Zone C — h3 cell\nMultiplier λᶜ]
+    H3 --> ZA[Zone A - h3 cell\nMultiplier λₐ]
+    H3 --> ZB[Zone B - h3 cell\nMultiplier λᵦ]
+    H3 --> ZC[Zone C - h3 cell\nMultiplier λᶜ]
 
     ZA -.->|independent| M[Per-zone pricing engine]
     ZB -.-> M
@@ -124,7 +124,7 @@ flowchart TB
 
 ## 🔌 5. API Surface
 
-### 5.1 gRPC (internal — `com.{company}.dynamicpricing.v1`)
+### 5.1 gRPC (internal - `com.{company}.dynamicpricing.v1`)
 
 | RPC | Purpose |
 | --- | --- |
@@ -155,9 +155,9 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 | Event | Source | Purpose in Dynamic Pricing |
 | --- | --- | --- |
-| `orders.order.requested` | Order Service | **Demand signal** — increment / roll up order requests per zone per minute. |
-| `providers.provider.location-updated` | Provider location pipeline | **Supply signal** — infer available providers per zone (with eligibility rules). |
-| `orders.order.started` | Order Service | **Demand fulfilled** — reduce outstanding demand pressure for assignment context. |
+| `orders.order.requested` | Order Service | **Demand signal** - increment / roll up order requests per zone per minute. |
+| `providers.provider.location-updated` | Provider location pipeline | **Supply signal** - infer available providers per zone (with eligibility rules). |
+| `orders.order.started` | Order Service | **Demand fulfilled** - reduce outstanding demand pressure for assignment context. |
 
 ---
 
@@ -165,7 +165,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 | Store | Role |
 | --- | --- |
-| **Redis** | **Real-time multiplier values** — key per zone (or composite key), **TTL ~5 minutes** so stale pricing auto-expires without manual cleanup. |
+| **Redis** | **Real-time multiplier values** - key per zone (or composite key), **TTL ~5 minutes** so stale pricing auto-expires without manual cleanup. |
 | **RDS** | **Zone configuration** (geometry refs, H3 resolution, curve ids) and **pricing history** (multiplier time series, audit) for analytics and replay. |
 
 ---
@@ -205,7 +205,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 | Failure Scenario | User Impact | Fallback Strategy |
 |-----------------|-------------|-------------------|
-| **Redis unavailable (multiplier store)** | Cannot retrieve current multiplier for a zone | **Fallback to 1.0x multiplier** (base pricing only) — customers see standard pricing; no dynamic component. Alert fires immediately. |
+| **Redis unavailable (multiplier store)** | Cannot retrieve current multiplier for a zone | **Fallback to 1.0x multiplier** (base pricing only) - customers see standard pricing; no dynamic component. Alert fires immediately. |
 | **Multiplier computation pipeline stalled** | Stale multipliers remain in Redis past their TTL | Multipliers auto-expire via Redis TTL (~5 min); after expiry, `GetCurrentMultiplier` returns 1.0x default. Stale zone data is tolerated for up to the TTL window. |
 | **Demand/supply signal consumer lag** | Multipliers do not reflect current demand accurately | Multipliers are computed from last-available signals; acceptable staleness up to 2 minutes. Beyond that, consumer lag alert fires and the pipeline is investigated. |
 | **RDS (zone config) unavailable** | Cannot load or update zone configurations | Zone configs are cached in-memory at startup and refreshed periodically; cached config continues to serve. Config updates are deferred until RDS recovers. |
@@ -233,11 +233,11 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
-| **Redis** — multiplier values | Current effective multiplier per zone | ~5 minutes TTL | Automatic TTL expiry; stale multipliers are never served |
-| **RDS** — `pricing_zones` / `pricing_zone_configs` | Zone definitions, geometry refs, curve parameters | Indefinite (configuration data) | Soft-delete inactive zones; never hard-delete for audit |
-| **RDS** — `multiplier_history` | Time series of multiplier values per zone | 1 year | Scheduled archival job → S3; deleted from RDS after archival |
-| **Kafka** — `dynamicpricing.*` topics | Published multiplier events and demand spikes | 14 days (platform default) | Kafka topic retention policy |
-| **Kafka** — consumed event topics | Order and provider location events | 14 days (platform default) | Kafka topic retention policy |
+| **Redis** - multiplier values | Current effective multiplier per zone | ~5 minutes TTL | Automatic TTL expiry; stale multipliers are never served |
+| **RDS** - `pricing_zones` / `pricing_zone_configs` | Zone definitions, geometry refs, curve parameters | Indefinite (configuration data) | Soft-delete inactive zones; never hard-delete for audit |
+| **RDS** - `multiplier_history` | Time series of multiplier values per zone | 1 year | Scheduled archival job → S3; deleted from RDS after archival |
+| **Kafka** - `dynamicpricing.*` topics | Published multiplier events and demand spikes | 14 days (platform default) | Kafka topic retention policy |
+| **Kafka** - consumed event topics | Order and provider location events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---

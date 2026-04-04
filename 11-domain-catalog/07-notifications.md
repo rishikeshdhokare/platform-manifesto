@@ -16,7 +16,7 @@ The **Notifications** domain is the platform's **multi-channel notification disp
 
 | Owns | Does not own |
 |------|----------------|
-| Notification templates (structure, placeholders, versioning) | **What** to send — content decisions live in originating domains (Orders, Payments, Providers, etc.) |
+| Notification templates (structure, placeholders, versioning) | **What** to send - content decisions live in originating domains (Orders, Payments, Providers, etc.) |
 | Delivery status and delivery audit trail | Business rules that trigger a notification (those domains emit events) |
 | Channel routing and provider integration | End-user copy approval outside template governance |
 
@@ -146,10 +146,10 @@ REST-style APIs exposed to internal platform services and admin tooling (exact p
 
 | Capability | Typical REST operations |
 |------------|-------------------------|
-| Send notification | `POST` — submit rendered or template-keyed send request with correlation metadata |
-| Delivery status | `GET` — by notification id or provider message id |
-| Manage templates | `GET` / `POST` / `PUT` / `DELETE` — template CRUD and versioning |
-| Update preferences | `PUT` / `PATCH` — per-user channel and marketing flags |
+| Send notification | `POST` - submit rendered or template-keyed send request with correlation metadata |
+| Delivery status | `GET` - by notification id or provider message id |
+| Manage templates | `GET` / `POST` / `PUT` / `DELETE` - template CRUD and versioning |
+| Update preferences | `PUT` / `PATCH` - per-user channel and marketing flags |
 
 Authentication and authorization follow platform standards (service-to-service and admin roles).
 
@@ -172,7 +172,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ## 💾 7. Data store
 
-**RDS PostgreSQL** — system of record for notifications, templates, delivery history, and preferences.
+**RDS PostgreSQL** - system of record for notifications, templates, delivery history, and preferences.
 
 | Table | Role |
 |-------|------|
@@ -206,7 +206,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ## 👥 10. Team
 
-**Platform** — owns the Notifications bounded context, templates infrastructure, and provider integrations.
+**Platform** - owns the Notifications bounded context, templates infrastructure, and provider integrations.
 
 ---
 
@@ -240,7 +240,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 | Resource | Configuration |
 |----------|--------------|
 | **Min replicas** | 3 (production) |
-| **Max replicas** | 25 (HPA) — notifications are bursty around order completion and assignment |
+| **Max replicas** | 25 (HPA) - notifications are bursty around order completion and assignment |
 | **HPA target** | 70% CPU utilization |
 | **DB connection pool** | 15 connections per pod |
 | **Peak QPS** | ~1,200 events/s consumed (burst during peak hours) |
@@ -253,11 +253,11 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
-| **RDS PostgreSQL** — `notifications` | Notification instances, correlation IDs | 90 days | Scheduled cleanup job; archive to S3 for audit |
-| **RDS PostgreSQL** — `templates` | Template definitions and versions | Indefinite (versioned) | Soft-delete deprecated templates; never hard-delete |
-| **RDS PostgreSQL** — `delivery_log` | Per-channel delivery attempts and status | 90 days | Scheduled cleanup job; aggregate metrics retained indefinitely |
-| **RDS PostgreSQL** — `notification_preferences` | User opt-in/out preferences | Until account deletion (GDPR erasure cascade) | Deleted on `customers.customer.deleted` event |
-| **Kafka** — consumed event topics | Incoming domain events | 14 days (platform default) | Kafka topic retention policy |
+| **RDS PostgreSQL** - `notifications` | Notification instances, correlation IDs | 90 days | Scheduled cleanup job; archive to S3 for audit |
+| **RDS PostgreSQL** - `templates` | Template definitions and versions | Indefinite (versioned) | Soft-delete deprecated templates; never hard-delete |
+| **RDS PostgreSQL** - `delivery_log` | Per-channel delivery attempts and status | 90 days | Scheduled cleanup job; aggregate metrics retained indefinitely |
+| **RDS PostgreSQL** - `notification_preferences` | User opt-in/out preferences | Until account deletion (GDPR erasure cascade) | Deleted on `customers.customer.deleted` event |
+| **Kafka** - consumed event topics | Incoming domain events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---

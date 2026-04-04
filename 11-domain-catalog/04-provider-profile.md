@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Provider Profile** bounded context (`com.{company}.providers`) manages **provider onboarding**, **document verification and storage**, **ratings**, and **availability** as represented in the provider account—not live geolocation. It is the system of record for who may serve on the platform and whether their credentials are valid.
+The **Provider Profile** bounded context (`com.{company}.providers`) manages **provider onboarding**, **document verification and storage**, **ratings**, and **availability** as represented in the provider account - not live geolocation. It is the system of record for who may serve on the platform and whether their credentials are valid.
 
 ### 1.1 What this domain owns
 
@@ -25,7 +25,7 @@ The **Provider Profile** bounded context (`com.{company}.providers`) manages **p
 |---------|----------------|
 | **Provider location / geospatial pool** | Fulfillment Engine (`com.{company}.fulfillment`) |
 | **Payouts, balances, settlements** | Payment Service (`com.{company}.payments.*`) |
-| **Order orchestration** | Order Service (`com.{company}.orders`) — consumes its events for ratings |
+| **Order orchestration** | Order Service (`com.{company}.orders`) - consumes its events for ratings |
 
 ---
 
@@ -149,7 +149,7 @@ Base path: **`/v1/providers`**. Clients typically call through the Provider BFF;
 
 ## 📤 5. Events Published
 
-Producer application: `com.{company}.providers` — Avro subjects under prefix `providers.provider` (Schema Registry).
+Producer application: `com.{company}.providers` - Avro subjects under prefix `providers.provider` (Schema Registry).
 
 | Topic / event | Payload summary | Consumers |
 |---------------|-----------------|-----------|
@@ -157,7 +157,7 @@ Producer application: `com.{company}.providers` — Avro subjects under prefix `
 | `providers.provider.approved` | `providerId`, `approvedAt`, `approvedBy` (system or user) | Fulfillment Engine (eligibility cache), Notifications, Analytics |
 | `providers.provider.suspended` | `providerId`, `reason`, `suspendedAt` | Fulfillment Engine (remove from pool), Orders (policy hooks), Support tooling, Analytics |
 | `providers.provider.status-changed` | `providerId`, `fromStatus`, `toStatus`, `occurredAt` | BFF caches, Analytics, internal dashboards |
-| `providers.provider.location-updated` | `providerId`, `location` (if emitted for profile/BFF sync—**canonical live location remains Fulfillment**) | Provider BFF, Analytics (optional); Fulfillment may correlate for debugging only |
+| `providers.provider.location-updated` | `providerId`, `location` (if emitted for profile/BFF sync - **canonical live location remains Fulfillment**) | Provider BFF, Analytics (optional); Fulfillment may correlate for debugging only |
 
 Compaction and retention follow platform Kafka standards (`06-developer-guides/04-kafka-patterns.md`).
 
@@ -195,11 +195,11 @@ Consumer group naming follows the platform standard: `{consuming-service}.{topic
 
 ## 🔗 8. Dependencies
 
-Provider Profile does **not** query Orders or Fraud databases directly—only APIs and Kafka.
+Provider Profile does **not** query Orders or Fraud databases directly - only APIs and Kafka.
 
 ```mermaid
 flowchart TB
-    subgraph dp [Provider Profile — com.{company}.providers]
+    subgraph dp [Provider Profile - com.{company}.providers]
         API[REST API]
         DOM[Domain / DB]
         OUT[Kafka produce]
@@ -288,11 +288,11 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
-| **RDS PostgreSQL** — `providers` table | Provider profile, status, timestamps | Duration of engagement + 1 year | Deactivation workflow + scheduled cleanup job |
-| **RDS PostgreSQL** — `documents` table | Document metadata and verification state | Duration of engagement + 1 year | Cascade delete with provider offboarding |
-| **Amazon S3** — document blobs | License, insurance, certification images | Duration of engagement + 1 year | S3 lifecycle policy triggered by provider offboarding event |
-| **RDS PostgreSQL** — `provider_ratings` | Rating aggregates and history | Indefinite (anonymized after deactivation) | Anonymize `providerId` on deactivation |
-| **Kafka** — `providers.provider.*` topics | Provider domain events | 14 days (platform default) | Kafka topic retention policy |
+| **RDS PostgreSQL** - `providers` table | Provider profile, status, timestamps | Duration of engagement + 1 year | Deactivation workflow + scheduled cleanup job |
+| **RDS PostgreSQL** - `documents` table | Document metadata and verification state | Duration of engagement + 1 year | Cascade delete with provider offboarding |
+| **Amazon S3** - document blobs | License, insurance, certification images | Duration of engagement + 1 year | S3 lifecycle policy triggered by provider offboarding event |
+| **RDS PostgreSQL** - `provider_ratings` | Rating aggregates and history | Indefinite (anonymized after deactivation) | Anonymize `providerId` on deactivation |
+| **Kafka** - `providers.provider.*` topics | Provider domain events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
