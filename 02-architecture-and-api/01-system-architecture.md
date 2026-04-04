@@ -343,6 +343,82 @@ It is **not required** for:
 
 ---
 
+## 📦 13. Event Sourcing
+
+### 13.1 Definition
+
+Event sourcing persists the state of a domain entity as a **sequence of immutable events** rather than a mutable current-state row. Instead of storing "order status = COMPLETED", the system stores every event that led to that status: `OrderRequested → ProviderAssigned → OrderStarted → OrderCompleted`. The current state is derived by replaying events in order.
+
+### 13.2 When to Use Event Sourcing
+
+| Scenario | Why Event Sourcing Fits |
+|----------|------------------------|
+| **Audit-critical domains** (payments, order state machines) | Full, immutable history of every state change — no data is ever lost or overwritten |
+| **Complex business rules with undo/compensation** | Reversing a state change is appending a compensating event, not mutating a row |
+| **Regulatory compliance requiring full history** | Event log provides a complete, tamper-evident audit trail |
+| **Temporal queries** ("what was the order status at 14:32?") | Replay events up to a point in time to reconstruct past state |
+
+### 13.3 When NOT to Use Event Sourcing
+
+| Scenario | Why It's a Poor Fit |
+|----------|---------------------|
+| **Simple CRUD** (user profile updates, preferences) | The overhead of event replay is not justified when current state is all that matters |
+| **High-volume, low-value data** (clickstream, location pings) | Event stores are optimized for correctness, not raw throughput of disposable data |
+| **Domains where current-state queries dominate** | Rebuilding state from events on every read is expensive; if you rarely need history, don't pay the cost |
+
+### 13.4 Implementation at {Company}
+
+| Component | Implementation |
+|-----------|---------------|
+| **Event store** | Aurora PostgreSQL with an append-only `domain_events` table |
+| **Outbox pattern** | Events are written to an outbox table in the same transaction as the aggregate update; Debezium CDC publishes them to Kafka |
+| **State reconstruction** | Replay all events for an aggregate to rebuild current state |
+| **Snapshots** | Store a snapshot of the aggregate state every N events (e.g., every 100) to avoid replaying the full event history on every load |
+| **Event schema** | Avro, registered in Glue Schema Registry — same evolution rules as all other events |
+
+### 13.5 Relationship to CQRS
+
+Event sourcing and CQRS are complementary but independent patterns. When used together:
+
+- **Event sourcing is the write model** — commands produce events that are appended to the event store
+- **Projections are the read model** — events are consumed and projected into denormalized read-optimized stores (OpenSearch, read replicas, materialized views)
+- Projections can be rebuilt from scratch by replaying the event log — they are disposable and not the source of truth
+
+### 13.6 Anti-Pattern: Event Sourcing Everywhere
+
+Event sourcing adds complexity: event versioning, snapshot management, projection rebuild tooling, and a fundamentally different mental model for data access. **Do not adopt event sourcing for every service.** Use it only where an audit trail, temporal queries, or complex state transitions are genuinely required. For services where current-state CRUD is sufficient, a standard relational model is simpler and correct.
+
+---
+
+## 🔌 14. Smart Endpoints and Dumb Pipes
+
+### 14.1 Principle
+
+Business logic lives in the services (**smart endpoints**), not in the messaging or networking infrastructure (**dumb pipes**). Infrastructure components transport data reliably, enforce security policies, and provide observability — but they do not make business decisions.
+
+### 14.2 What "Dumb Pipe" Means in Our Stack
+
+| Infrastructure Component | Role (Dumb Pipe) | What It Does NOT Do |
+|--------------------------|-------------------|---------------------|
+| **Kafka (MSK)** | Transports events reliably between services with ordering and durability guarantees | Does not transform event payloads, route conditionally based on business rules, or enforce domain logic |
+| **API Gateway** | Handles authentication, rate limiting, and request routing to BFFs | Does not contain business logic, validate domain invariants, or orchestrate multi-service workflows |
+| **Istio service mesh** | Handles mTLS, retries, observability, and traffic management | Does not encode business routing decisions, transform payloads, or enforce domain-level authorization rules |
+
+### 14.3 Anti-Patterns
+
+| Anti-Pattern | Why It's Wrong |
+|--------------|----------------|
+| Putting transformation logic in Kafka Streams between services | Creates hidden, hard-to-test business logic outside service boundaries; breaks independent deployability |
+| Building business rules in API Gateway request/response transformations | Gateway becomes a deployment bottleneck; business logic is invisible to service tests |
+| Encoding domain logic in Istio routing rules (e.g., routing based on order type) | Couples infrastructure configuration to business concepts; changes require platform team involvement |
+| Using ESB-style orchestration in middleware | Returns to the integration patterns that microservices architecture was designed to eliminate |
+
+### 14.4 Why This Matters
+
+- **Dumb pipes are replaceable.** Swapping Kafka for another message broker, or replacing the API Gateway, does not require rewriting business logic.
+- **Smart endpoints are independently deployable and testable.** All business behavior is inside the service, covered by the service's own test suite, and deployed on the service's own release cadence.
+- **Debugging is straightforward.** When business logic lives in one place (the service), tracing a bug does not require inspecting middleware configurations, gateway transformations, and stream processing topologies.
+
 ---
 <div align="center">
 
