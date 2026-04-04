@@ -8,7 +8,7 @@
 
 The golden path is a **complete, opinionated, end-to-end walkthrough** of building and shipping a service on this platform. It covers everything from creating the repository to running code in production, observable and monitored.
 
-This is not a tutorial — it is **the way things are done here**. Following it means you get all platform capabilities (CI, CD, observability, security, service catalog) for free.
+This is not a tutorial - it is **the way things are done here**. Following it means you get all platform capabilities (CI, CD, observability, security, service catalog) for free.
 
 **Visual overview:**
 
@@ -94,7 +94,7 @@ curl http://localhost:8080/actuator/health
 
 ### Step 3: Project Structure
 
-The template generates this structure — understand it before adding code:
+The template generates this structure - understand it before adding code:
 
 ```
 orders-service/
@@ -186,7 +186,7 @@ Raise a PR for API review **before** implementing. This is the API-first contrac
 
 ### Step 5: Write the Domain Logic
 
-Write the domain layer first — pure Java, no framework dependencies:
+Write the domain layer first - pure Java, no framework dependencies:
 
 ```java
 // domain/Order.java
@@ -319,9 +319,9 @@ GitHub Actions → build + test → push image to ECR
 ```
 
 Watch in real time:
-- **GitHub Actions** — CI progress
-- **ArgoCD UI** — deployment progress
-- **Grafana** — service metrics appearing live
+- **GitHub Actions** - CI progress
+- **ArgoCD UI** - deployment progress
+- **Grafana** - service metrics appearing live
 
 **Total time, merge to production: ~15 minutes**
 
@@ -349,7 +349,7 @@ open https://grafana.{company}.internal/d/orders-service
 Before you declare the service production-ready, write the runbook at `docs/runbook.md`:
 
 ```markdown
-# Orders Service — Runbook
+# Orders Service - Runbook
 
 ## Service Overview
 [One paragraph]
@@ -441,8 +441,8 @@ All Java services deployed via the shared Helm chart use a standard set of JVM f
 
 | Flag | Purpose |
 |------|---------|
-| `-XX:+UseG1GC` | G1 garbage collector — low-latency, suitable for containerized workloads |
-| `-XX:MaxRAMPercentage=75` | Heap sized as percentage of container memory limit — avoids hardcoded `-Xmx` values that drift from resource limits |
+| `-XX:+UseG1GC` | G1 garbage collector - low-latency, suitable for containerized workloads |
+| `-XX:MaxRAMPercentage=75` | Heap sized as percentage of container memory limit - avoids hardcoded `-Xmx` values that drift from resource limits |
 | `-XX:+ExitOnOutOfMemoryError` | Terminates the JVM on OOM so Kubernetes restarts the pod cleanly instead of leaving a zombie process |
 | `-Xlog:gc*:file=/dev/stdout` | GC logs written to stdout for collection by the logging pipeline |
 | `-XX:+FlightRecorder` | Enables JDK Flight Recorder for low-overhead production profiling |

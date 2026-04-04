@@ -25,7 +25,7 @@ The platform operates across multiple regions spanning different countries, curr
 
 A naive approach would litter the codebase with `if (region === "us-east")` branches. This does not scale. By the time the platform operates in 20 regions, condition-based code becomes unmaintainable, untestable, and a source of production incidents.
 
-**The core principle:** region-specific behavior is driven by **configuration**, not code. Services read configuration for the active region and apply it uniformly through generic, parameterized logic. There are no region-specific code paths — only region-specific configuration values.
+**The core principle:** region-specific behavior is driven by **configuration**, not code. Services read configuration for the active region and apply it uniformly through generic, parameterized logic. There are no region-specific code paths - only region-specific configuration values.
 
 This guide defines how every platform service, BFF, and client application must handle multi-region concerns.
 
@@ -76,9 +76,9 @@ flowchart TD
 
 When a service needs a config value for a region:
 
-1. Check `/{env}/regions/{region}/{key}` — if exists, use it.
-2. Else check `/{env}/countries/{country}/{key}` — if exists, use it.
-3. Else check `/{env}/global/{key}` — if exists, use it.
+1. Check `/{env}/regions/{region}/{key}` - if exists, use it.
+2. Else check `/{env}/countries/{country}/{key}` - if exists, use it.
+3. Else check `/{env}/global/{key}` - if exists, use it.
 4. Else fail loudly (missing required config is a startup error).
 
 Services cache resolved config with a **60-second TTL** and subscribe to SSM change notifications for hot-reload.
@@ -199,7 +199,7 @@ flowchart LR
 }
 ```
 
-When a new service type is needed in a region, it is a **config change** — no code deployment required. The Order Service picks up the new type via SSM hot-reload, and the app renders it dynamically.
+When a new service type is needed in a region, it is a **config change** - no code deployment required. The Order Service picks up the new type via SSM hot-reload, and the app renders it dynamically.
 
 ---
 
@@ -258,7 +258,7 @@ ZonedDateTime local = now.atZone(ZoneId.of("America/New_York"));     // display
 
 // WRONG: Never use java.util.Date, Calendar, or SimpleDateFormat
 // WRONG: Never use LocalDateTime for timestamped events (loses timezone)
-// WRONG: Never hardcode UTC offsets (-05:00) — use IANA timezone IDs
+// WRONG: Never hardcode UTC offsets (-05:00) - use IANA timezone IDs
 ```
 
 - Use `ZoneId`, never `TimeZone` (legacy).
@@ -331,7 +331,7 @@ s3://{company}-i18n-{env}/
 - The mobile app enables RTL layout globally when the locale requires it (e.g., `ar`, `he`).
 - All layout components use logical properties (`start`/`end`) instead of physical (`left`/`right`).
 - Icons with directional meaning (back arrow, forward chevron) are mirrored.
-- Maps remain LTR — geographic orientation is universal.
+- Maps remain LTR - geographic orientation is universal.
 - Every PR runs UI snapshot tests in both LTR and RTL modes.
 
 ### Dynamic Content Localization
@@ -367,7 +367,7 @@ Rolling out a new fulfillment algorithm:
 | 2 | US East (100%) | 1 week | No degradation in cancel rate |
 | 3 | All US regions | 2 weeks | Consistent metrics across regions |
 | 4 | All Americas regions | 2 weeks | Final validation |
-| 5 | Global (all regions) | — | Full rollout, remove flag |
+| 5 | Global (all regions) | - | Full rollout, remove flag |
 
 ### LaunchDarkly Context
 

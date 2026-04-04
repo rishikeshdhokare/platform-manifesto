@@ -47,7 +47,7 @@ services:
 1. **Run → Edit Configurations → + → Remote JVM Debug**
 2. Set **Host** = `localhost`, **Port** = `5005`
 3. Set **Use module classpath** = the service module
-4. Click **Debug** — the IDE attaches when the service starts
+4. Click **Debug** - the IDE attaches when the service starts
 
 ### 1.2 Attaching to a Docker Container
 
@@ -95,7 +95,7 @@ Port-forwarding lets you access a staging pod's ports as if they were local. Thi
 # Forward the application port
 kubectl port-forward -n orders deployment/order-service 8080:8080
 
-# Forward the debug port (if enabled in staging — Tier 3 only)
+# Forward the debug port (if enabled in staging - Tier 3 only)
 kubectl port-forward -n orders pod/order-service-abc123 5005:5005
 
 # Forward PgBouncer sidecar (access staging DB via local psql)
@@ -257,7 +257,7 @@ flowchart LR
 | 2 | Filter by service name and `minDuration > 500ms` |
 | 3 | Sort by duration descending |
 | 4 | Click the slowest trace to open the waterfall |
-| 5 | Identify the widest span — this is the bottleneck |
+| 5 | Identify the widest span - this is the bottleneck |
 | 6 | Check span tags: `db.statement` (slow query?), `http.url` (slow downstream?), `messaging.destination` (consumer lag?) |
 
 ### 4.3 Correlating Logs and Traces
@@ -288,7 +288,7 @@ To jump from a trace to logs:
 | **Can't connect to DB locally** | Verify Docker Compose is running: `docker compose ps` | Check `.env.local` for correct `DB_HOST`, `DB_PORT` | Test connectivity: `docker exec postgres pg_isready` | `make reset` to rebuild from scratch |
 | **Feature flag not working** | Verify the flag key spelling in LaunchDarkly dashboard | Check the evaluation context: `userId`, `tenantId`, targeting rules | Check service logs for `LaunchDarkly: flag not found` warnings | Confirm the flag environment (flags are per-environment) |
 
-### 5.2 My API Returns 500 — Detailed Walkthrough
+### 5.2 My API Returns 500 - Detailed Walkthrough
 
 ```mermaid
 flowchart TD
@@ -306,7 +306,7 @@ flowchart TD
     K --> L["Fix or escalate to owning team"]
 ```
 
-### 5.3 Kafka Consumer Is Lagging — Detailed Walkthrough
+### 5.3 Kafka Consumer Is Lagging - Detailed Walkthrough
 
 1. **Measure the lag:** Open the "Kafka Consumer Lag" Grafana dashboard. Identify the consumer group and partitions with lag.
 2. **Check for errors:** Search OpenSearch for the consumer service with `level=ERROR` in the relevant time window.

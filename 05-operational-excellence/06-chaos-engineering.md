@@ -8,7 +8,7 @@
 
 You cannot be confident in circuit breakers you've never triggered, failover you've never tested, or load shedding you've never activated. Chaos engineering is how the platform builds that confidence.
 
-Production systems are complex. They fail in unexpected ways — ways that unit tests, integration tests, and even staging environments cannot reproduce. Chaos engineering closes this gap by proactively injecting failures into production-like conditions and verifying that our resilience assumptions hold.
+Production systems are complex. They fail in unexpected ways - ways that unit tests, integration tests, and even staging environments cannot reproduce. Chaos engineering closes this gap by proactively injecting failures into production-like conditions and verifying that our resilience assumptions hold.
 
 Chaos engineering is not optional. Every Tier-1 and Tier-2 service must participate in quarterly game days and maintain an experiment catalog that covers its critical failure modes.
 
@@ -20,7 +20,7 @@ Chaos engineering is not optional. Every Tier-1 and Tier-2 service must particip
 |---|-----------|--------|
 | 1 | **Start small, expand gradually** | Begin with a single pod in staging. Only after consistent success do you graduate to production, and only with minimal blast radius |
 | 2 | **Always have a kill switch** | Every experiment must have an immediate abort mechanism. If the kill switch fails, the experiment is not approved |
-| 3 | **Never run during freeze windows** | Change freeze windows exist for a reason. Chaos experiments are changes — they are subject to the same freeze |
+| 3 | **Never run during freeze windows** | Change freeze windows exist for a reason. Chaos experiments are changes - they are subject to the same freeze |
 | 4 | **Hypothesis first** | Document the steady-state hypothesis before the experiment. Without a hypothesis, you're just breaking things |
 | 5 | **Automate rollback** | Manual rollback is not acceptable. The experiment must revert automatically when the kill switch is triggered or the duration expires |
 | 6 | **Communicate transparently** | Announce all experiments in `#chaos-engineering`. No surprise chaos |
@@ -106,7 +106,7 @@ Every Tier-1 and Tier-2 service must maintain an experiment catalog. The table b
 
 ## 💥 5. Game Day Process
 
-The platform runs quarterly game days — structured chaos exercises that simulate real-world failure scenarios with full incident response.
+The platform runs quarterly game days - structured chaos exercises that simulate real-world failure scenarios with full incident response.
 
 ```mermaid
 sequenceDiagram
@@ -127,7 +127,7 @@ sequenceDiagram
     Platform->>Team: Kill switch verified and tested
 
     rect rgb(230, 245, 255)
-        Note over Staging: Phase 1 — Staging
+        Note over Staging: Phase 1 - Staging
         Lead->>Staging: Execute experiment (full blast radius)
         Staging-->>Grafana: Metrics stream
         Team->>Grafana: Observe steady-state metrics
@@ -136,14 +136,14 @@ sequenceDiagram
 
     alt Staging passed
         rect rgb(255, 243, 224)
-            Note over Prod: Phase 2 — Production (minimal blast)
+            Note over Prod: Phase 2 - Production (minimal blast)
             Lead->>Prod: Execute experiment (single pod / 10% traffic)
             Prod-->>Grafana: Metrics stream
             Team->>Grafana: Monitor customer-facing metrics
             Team->>Lead: Document production results
         end
     else Staging failed
-        Team->>Lead: Abort — fix resilience gap first
+        Team->>Lead: Abort - fix resilience gap first
     end
 
     Lead->>Slack: Post game day report
@@ -162,7 +162,7 @@ sequenceDiagram
 
 ## 💥 6. Steady-State Hypothesis
 
-Before injecting chaos, define what "normal" looks like. Without a steady-state hypothesis, you are just breaking things — not engineering resilience.
+Before injecting chaos, define what "normal" looks like. Without a steady-state hypothesis, you are just breaking things - not engineering resilience.
 
 ### Hypothesis Template
 
@@ -171,10 +171,10 @@ SERVICE:       [service name]
 METRIC:        [metric name and source]
 STEADY STATE:  [expected value/range under normal conditions]
 TOLERANCE:     [acceptable deviation during chaos]
-MEASUREMENT:   [how and where to observe — Grafana dashboard, CloudWatch alarm]
+MEASUREMENT:   [how and where to observe - Grafana dashboard, CloudWatch alarm]
 ```
 
-### Example — Fulfillment Engine
+### Example - Fulfillment Engine
 
 | Component | Metric | Steady State | Tolerance During Chaos |
 |-----------|--------|-------------|----------------------|
@@ -183,7 +183,7 @@ MEASUREMENT:   [how and where to observe — Grafana dashboard, CloudWatch alarm
 | Fulfillment engine | Error rate | < 0.1% | < 1% |
 | Fulfillment engine | Circuit breaker state | Closed | Open is acceptable if fallback activates |
 
-If steady-state metrics breach the tolerance bounds during chaos, the experiment has revealed a resilience gap. This is a success — the experiment did its job. The team must then fix the gap before the next game day.
+If steady-state metrics breach the tolerance bounds during chaos, the experiment has revealed a resilience gap. This is a success - the experiment did its job. The team must then fix the gap before the next game day.
 
 ---
 
@@ -264,10 +264,10 @@ Chaos experiments must follow a strict blast radius progression. Jumping directl
 ```mermaid
 graph LR
     subgraph "Blast Radius Progression"
-        L1["Level 1\nStaging — Full Blast"]
-        L2["Level 2\nProduction — Single Pod"]
-        L3["Level 3\nProduction — Single AZ"]
-        L4["Level 4\nProduction — 10% Traffic"]
+        L1["Level 1\nStaging - Full Blast"]
+        L2["Level 2\nProduction - Single Pod"]
+        L3["Level 3\nProduction - Single AZ"]
+        L4["Level 4\nProduction - 10% Traffic"]
     end
 
     L1 -->|"✅ Pass"| L2
@@ -299,7 +299,7 @@ graph LR
 | **3** | Production | Single AZ | Level 2 passed within last 30 days | Platform Engineering |
 | **4** | Production | 10% of traffic | Level 3 passed within last 30 days | Platform Engineering + Engineering Manager |
 
-Each level requires successful completion of the previous level. A failure at any level resets the progression — the team must fix the resilience gap and re-validate from one level below.
+Each level requires successful completion of the previous level. A failure at any level resets the progression - the team must fix the resilience gap and re-validate from one level below.
 
 ---
 
@@ -312,15 +312,15 @@ Each level requires successful completion of the previous level. A failure at an
 | 3 | **Always announce in `#chaos-engineering`** | Transparency prevents confusion. On-call engineers must know that an experiment is in progress to avoid false incident escalations |
 | 4 | **Never target payment service without CTO approval** | Payment processing is the highest-risk domain. Chaos experiments on payment paths require explicit CTO sign-off |
 | 5 | **Always have a rollback plan** | Beyond the kill switch, teams must document the manual rollback steps in case automation fails |
-| 6 | **Abort immediately if customer-facing impact detected** | If real customers are experiencing errors or degraded service, the experiment ends instantly — no exceptions |
+| 6 | **Abort immediately if customer-facing impact detected** | If real customers are experiencing errors or degraded service, the experiment ends instantly - no exceptions |
 | 7 | **No experiments on services without observability** | If you cannot measure the impact, you cannot run the experiment. Services must have structured logging, metrics, and tracing before participating |
-| 8 | **Two-person rule for production experiments** | At least two engineers must be present for any production chaos experiment — one to run, one to monitor and abort |
+| 8 | **Two-person rule for production experiments** | At least two engineers must be present for any production chaos experiment - one to run, one to monitor and abort |
 
 ---
 
 ## 📋 10. Reporting
 
-Every chaos experiment produces a post-experiment report. Reports are the institutional memory of our resilience posture — they track what we've validated, what we've found, and what we've fixed.
+Every chaos experiment produces a post-experiment report. Reports are the institutional memory of our resilience posture - they track what we've validated, what we've found, and what we've fixed.
 
 ### Report Template
 
@@ -336,7 +336,7 @@ Every chaos experiment produces a post-experiment report. Reports are the instit
 **Participants:**     [names]
 
 ## Hypothesis
-[Steady-state hypothesis — copied from pre-experiment doc]
+[Steady-state hypothesis - copied from pre-experiment doc]
 
 ## Result
 **Hypothesis:** Confirmed / Disproved

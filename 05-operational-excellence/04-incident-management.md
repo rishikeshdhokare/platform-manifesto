@@ -6,11 +6,11 @@
 
 ## 🎯 1. Philosophy
 
-**Incidents are normal.** Complex distributed systems fail. The measure of an engineering organisation is not whether incidents happen — it is how quickly they are detected, how calmly they are managed, and how thoroughly they are learned from.
+**Incidents are normal.** Complex distributed systems fail. The measure of an engineering organisation is not whether incidents happen - it is how quickly they are detected, how calmly they are managed, and how thoroughly they are learned from.
 
 Two rules that govern everything:
 1. **Restore service first. Investigate second.** Never let debugging delay a fix you can already apply.
-2. **Blameless.** Incidents are system failures, not human failures. The goal is to find what made the system fragile — not who made the mistake.
+2. **Blameless.** Incidents are system failures, not human failures. The goal is to find what made the system fragile - not who made the mistake.
 
 ---
 
@@ -18,10 +18,10 @@ Two rules that govern everything:
 
 | Severity | Definition | Examples | Response SLA |
 |----------|-----------|---------|-------------|
-| **P1 — Critical** | Production down or severely degraded; large-scale user impact | Customers cannot create orders; providers cannot accept; payments failing broadly | Acknowledge in 5 min; update every 15 min; resolve ASAP |
-| **P2 — Major** | Significant degradation; subset of users affected | Dynamic pricing not working; notifications delayed > 5 min; specific region down | Acknowledge in 15 min; update every 30 min; resolve in 2 hours |
-| **P3 — Minor** | Limited impact; most users unaffected | Single provider unable to go online; reporting dashboard slow | Next business day |
-| **P4 — Low** | No user impact; early warning | Elevated error rate on non-critical path; approaching a resource limit | Weekly review |
+| **P1 - Critical** | Production down or severely degraded; large-scale user impact | Customers cannot create orders; providers cannot accept; payments failing broadly | Acknowledge in 5 min; update every 15 min; resolve ASAP |
+| **P2 - Major** | Significant degradation; subset of users affected | Dynamic pricing not working; notifications delayed > 5 min; specific region down | Acknowledge in 15 min; update every 30 min; resolve in 2 hours |
+| **P3 - Minor** | Limited impact; most users unaffected | Single provider unable to go online; reporting dashboard slow | Next business day |
+| **P4 - Low** | No user impact; early warning | Elevated error rate on non-critical path; approaching a resource limit | Weekly review |
 
 ---
 
@@ -41,9 +41,9 @@ flowchart LR
 ### Phase 1: Detection (0–5 minutes)
 
 Incidents are detected via:
-- **PagerDuty alert** — automatic from Grafana alerts
-- **User report** — via support ticket or Slack
-- **Proactive monitoring** — on-call engineer notices anomaly
+- **PagerDuty alert** - automatic from Grafana alerts
+- **User report** - via support ticket or Slack
+- **Proactive monitoring** - on-call engineer notices anomaly
 
 **Immediate steps:**
 ```
@@ -63,7 +63,7 @@ Triage questions:
 ```
 - Which service(s) are affected?
 - What is the user-visible impact? (Can customers create orders? Can providers accept?)
-- When did it start? (Check Grafana — look for the inflection point)
+- When did it start? (Check Grafana - look for the inflection point)
 - What changed recently? (Recent deployments? Config changes? Infra changes?)
 - Is it getting worse, stable, or recovering on its own?
 ```
@@ -80,11 +80,11 @@ kubectl -n orders-production logs -l app=orders-service --tail=100 --since=15m
 # Check if the service was recently deployed
 argocd app history orders-service
 
-# Check Grafana — error rate and latency for the affected service
+# Check Grafana - error rate and latency for the affected service
 open https://grafana.{company}.internal/d/orders-service
 ```
 
-### Phase 3: Mitigation (varies — minutes to hours)
+### Phase 3: Mitigation (varies - minutes to hours)
 
 **Goal: restore service as fast as possible.** Use the simplest fix available first.
 
@@ -100,7 +100,7 @@ Mitigation toolkit (fastest to slowest):
 | **Disable a non-critical feature** | A non-critical path is consuming too many resources | Feature flag off |
 
 **Don't:**
-- Make ad-hoc code changes under pressure — this introduces more bugs
+- Make ad-hoc code changes under pressure - this introduces more bugs
 - Bypass CI/CD to push a "quick fix" directly to production
 - Make database schema changes manually to fix a live issue
 
@@ -121,11 +121,11 @@ While the incident is ongoing, communicate continuously.
 [14:55] ✅ RESOLVED. Normal operation confirmed. PIR to follow.
 ```
 
-**External (status page) — for P1/P2:**
+**External (status page) - for P1/P2:**
 ```
-14:30 — Investigating reports of issues with order requests
-14:45 — We have identified the issue and are implementing a fix
-15:00 — Service has been restored. We are monitoring for stability
+14:30 - Investigating reports of issues with order requests
+14:45 - We have identified the issue and are implementing a fix
+15:00 - Service has been restored. We are monitoring for stability
 ```
 
 ### Phase 5: Resolution
@@ -154,7 +154,7 @@ When resolved:
 | **Comms Lead** | Writes updates to Slack and status page | IC or nominated engineer |
 | **Executive Escalation** | Notified for P1 incidents affecting >20% of users | CTO / VP Engineering |
 
-For small teams, one person may play IC + Technical Investigator. That's fine — just be clear about who is doing what.
+For small teams, one person may play IC + Technical Investigator. That's fine - just be clear about who is doing what.
 
 ---
 
@@ -171,7 +171,7 @@ The PIR is **not a blame session**. It is an engineering exercise to understand 
 ### PIR Template
 
 ```markdown
-# Post-Incident Review — {Title}
+# Post-Incident Review - {Title}
 
 **Date of incident:** YYYY-MM-DD
 **Duration:** {HH:MM} (from first alert to resolution)
@@ -205,7 +205,7 @@ At 14:23 UTC, the orders-service began returning HTTP 500 errors for approximate
 40% of order completion requests. This was caused by a null pointer exception in 
 the new price calculation code introduced in v2.14.5, deployed at 13:45 UTC.
 
-The exception occurred when an order had no assigned service type — a case that 
+The exception occurred when an order had no assigned service type - a case that 
 exists for orders created before service types were introduced, and which was not 
 handled in the new code path.
 
@@ -222,7 +222,7 @@ when completing orders created before the service_type field was added.
 
 ## Contributing Factors
 
-[What made this possible — the system conditions, not the person]
+[What made this possible - the system conditions, not the person]
 
 - The new code path had no test coverage for orders with null service_type
 - The staging environment only contained recent test data; no old orders existed to trigger the bug
@@ -245,7 +245,7 @@ when completing orders created before the service_type field was added.
 [Honest assessment of things that didn't work]
 
 - No integration test existed for orders with legacy data shape
-- Canary deployment was bypassed — "it's a small change" is not sufficient justification
+- Canary deployment was bypassed - "it's a small change" is not sufficient justification
 - External status page update was 8 minutes late
 
 ---
@@ -255,7 +255,7 @@ when completing orders created before the service_type field was added.
 | Action | Owner | Due Date | Tracking |
 |--------|-------|---------|---------|
 | Add test coverage for orders with null service_type | @jane.doe | 2024-12-01 | ORD-9876 |
-| Enforce canary deployment for ALL releases — no bypass | @platform-team | 2024-11-20 | PLAT-4321 |
+| Enforce canary deployment for ALL releases - no bypass | @platform-team | 2024-11-20 | PLAT-4321 |
 | Add data seeding to staging with legacy order shapes | @john.doe | 2024-12-15 | ORD-9877 |
 | Update on-call runbook to include status page update step | @john.doe | 2024-11-18 | ORD-9878 |
 
@@ -279,9 +279,9 @@ when completing orders created before the service_type field was added.
 
 - **Response time:** Acknowledge P1 PagerDuty alerts within 5 minutes, at any hour
 - **Handoff:** On-call rotation is weekly; hand off with a written status of any open issues
-- **Runbooks:** Every P1/P2 alert has a runbook — use it, update it if it's wrong
-- **Escalation:** If you're stuck after 20 minutes, escalate to Tech Lead or another engineer — do not solo-fight a P1
-- **After a hard incident:** If you were on-call through a difficult P1, you're entitled to take time off — tell your manager
+- **Runbooks:** Every P1/P2 alert has a runbook - use it, update it if it's wrong
+- **Escalation:** If you're stuck after 20 minutes, escalate to Tech Lead or another engineer - do not solo-fight a P1
+- **After a hard incident:** If you were on-call through a difficult P1, you're entitled to take time off - tell your manager
 
 ---
 
@@ -378,9 +378,9 @@ Monthly cross-team review of production reliability health.
 
 **Agenda:**
 1. SLO compliance per service (Grafana dashboard review)
-2. Error budget burn rate — any service that consumed >50% of budget in 30 days
+2. Error budget burn rate - any service that consumed >50% of budget in 30 days
 3. Incident pattern analysis results (quarterly)
-4. Open P1/P2 action items from PIRs — are they being closed?
+4. Open P1/P2 action items from PIRs - are they being closed?
 5. Upcoming high-risk changes (schema migrations, major features)
 
 **Output:** Reliability risk register updated. Teams in "reliability mode" (error budget exhausted) report progress on recovery plan.
@@ -437,12 +437,12 @@ A service that fails PRR cannot receive production traffic until all items are r
 
 When a service exhausts its monthly error budget:
 
-1. **Team enters "reliability mode"** — no new feature work until budget recovers
+1. **Team enters "reliability mode"** - no new feature work until budget recovers
 2. Tech Lead reports recovery plan to Reliability Review Board
-3. CTO approves any exceptions (rare — only for business-critical launches)
+3. CTO approves any exceptions (rare - only for business-critical launches)
 4. Feature work resumes only after the service has sustained >50% remaining budget for 7 consecutive days
 
-This is not punitive — it is a structural incentive to invest in reliability before it becomes an incident.
+This is not punitive - it is a structural incentive to invest in reliability before it becomes an incident.
 
 ---
 
@@ -454,8 +454,8 @@ Every team operating production services must maintain an on-call rotation with 
 
 | Role | Responsibility |
 |------|---------------|
-| **Primary** | First responder — receives all PagerDuty alerts, acknowledges and begins investigation |
-| **Secondary** | Backup — receives escalation if primary does not acknowledge within 5 minutes |
+| **Primary** | First responder - receives all PagerDuty alerts, acknowledges and begins investigation |
+| **Secondary** | Backup - receives escalation if primary does not acknowledge within 5 minutes |
 
 ### 12.2 Rotation Schedule
 
@@ -468,11 +468,11 @@ Every team operating production services must maintain an on-call rotation with 
 At every rotation handoff, the outgoing on-call walks the incoming on-call through:
 
 ```
-[ ] Open incidents — any active or recently resolved incidents
-[ ] Active alerts — any alerts currently firing or recently resolved
-[ ] Recent deployments — services deployed in the last 48 hours (check ArgoCD)
-[ ] Known issues — degraded services, upcoming maintenance, ongoing investigations
-[ ] Pending PIR actions — any action items assigned to the team that are in progress
+[ ] Open incidents - any active or recently resolved incidents
+[ ] Active alerts - any alerts currently firing or recently resolved
+[ ] Recent deployments - services deployed in the last 48 hours (check ArgoCD)
+[ ] Known issues - degraded services, upcoming maintenance, ongoing investigations
+[ ] Pending PIR actions - any action items assigned to the team that are in progress
 ```
 
 The checklist is posted in the team's Slack channel as a written record.
@@ -512,8 +512,8 @@ Time off is tracked by the Engineering Manager and taken within the same quarter
 
 | Guardrail | Policy |
 |-----------|--------|
-| **Max consecutive rotations** | 2 — no engineer may be on-call for more than 2 consecutive weeks |
-| **Page volume target** | Max 10 pages per rotation — if exceeded, team must review alert hygiene (see Observability Standards, Section 11) |
+| **Max consecutive rotations** | 2 - no engineer may be on-call for more than 2 consecutive weeks |
+| **Page volume target** | Max 10 pages per rotation - if exceeded, team must review alert hygiene (see Observability Standards, Section 11) |
 | **Monthly review** | Engineering Managers review page volume per team member monthly; uneven distribution is addressed |
 | **Post-incident rest** | After a P1 incident requiring > 2 hours of active response, the on-call engineer may take the next business day off |
 
@@ -554,7 +554,7 @@ Action items are marked as **done** only after verification confirms the fix is 
 | Monitoring confirms no recurrence for 7 days | Operational changes (scaling, config) |
 | Load test passing | Capacity-related fixes |
 
-"I deployed the fix" is not sufficient — verification evidence must be linked in the Jira ticket.
+"I deployed the fix" is not sufficient - verification evidence must be linked in the Jira ticket.
 
 ### 13.4 Escalation
 

@@ -17,7 +17,7 @@ Staging environments are useful but inherently limited. They **cannot replicate*
 | Real user behavior (retries, rage-taps, stale clients) | Scripted and predictable |
 | Interaction between all services at current versions | Staging versions drift from production |
 
-**Testing in production is not reckless — it is responsible**, provided it is done with safety rails, kill switches, and monitoring. This document defines the approved techniques and the rules governing their use.
+**Testing in production is not reckless - it is responsible**, provided it is done with safety rails, kill switches, and monitoring. This document defines the approved techniques and the rules governing their use.
 
 ---
 
@@ -42,7 +42,7 @@ Automated canary scripts run **every 5 minutes** against production APIs, simula
 - **3 consecutive failures** → Escalation to on-call lead
 - **5 consecutive failures** → Incident declared automatically
 
-Canaries use a **dedicated test account** (`canary@{company}.com`) with a test payment method — never real user credentials.
+Canaries use a **dedicated test account** (`canary@{company}.com`) with a test payment method - never real user credentials.
 
 ---
 
@@ -93,7 +93,7 @@ Canary Terraform is applied via the same ArgoCD pipeline as the service. When a 
 
 ### 4.1 How It Works
 
-Istio traffic mirroring duplicates production traffic to a **shadow service** running the new version. The shadow receives real traffic but its responses are **discarded** — fire-and-forget.
+Istio traffic mirroring duplicates production traffic to a **shadow service** running the new version. The shadow receives real traffic but its responses are **discarded** - fire-and-forget.
 
 ```mermaid
 flowchart LR
@@ -126,9 +126,9 @@ flowchart LR
 
 ### 4.3 Rules for Traffic Mirroring
 
-- Mirror is **read-only** — shadow service must not write to production databases
+- Mirror is **read-only** - shadow service must not write to production databases
 - Shadow service uses a separate database or writes to a log sink (S3)
-- Shadow service has its own resource quota — must not starve production
+- Shadow service has its own resource quota - must not starve production
 - Mirroring is enabled via Istio `VirtualService` config, reviewed by Platform Engineering
 
 ---
@@ -193,7 +193,7 @@ Testing in production is powerful but dangerous if done carelessly. These rules 
 | **Never test payment mutations with real money** | All payment canaries use a dedicated test merchant account; dark launches of payment features use a test payment rail |
 | **Always have monitoring in place** | Before enabling any production test, confirm that dashboards and alerts are active for the test surface |
 | **Never test writes without idempotency** | If a test produces side effects, ensure they are idempotent and reversible |
-| **Scope blast radius** | Start with the smallest possible scope — 1 canary, 1% traffic, internal users only |
+| **Scope blast radius** | Start with the smallest possible scope - 1 canary, 1% traffic, internal users only |
 | **Document the test** | Every production test has a ticket with: owner, start date, expected end date, kill switch location, rollback plan |
 
 ---
@@ -231,7 +231,7 @@ flowchart TD
 
 | Technique | When to Use | Risk Level | Kill Switch |
 |-----------|------------|:----------:|-------------|
-| **Synthetic Monitoring** | Always — continuous health validation | 🟢 Very Low | Disable canary |
+| **Synthetic Monitoring** | Always - continuous health validation | 🟢 Very Low | Disable canary |
 | **Traffic Mirroring** | Validating new algorithm/logic with real traffic | 🟢 Low | Remove mirror config |
 | **Dark Launch** | Testing new feature with internal users first | 🟡 Medium | Toggle flag off |
 | **Smoke Tests** | Post-deployment verification | 🟢 Very Low | Auto-rollback |

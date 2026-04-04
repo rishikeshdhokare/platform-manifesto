@@ -8,13 +8,13 @@
 
 **Never change a database schema by hand.** Not in dev. Not in staging. Never in production.
 
-Every schema change — table, column, index, constraint — must go through a **Flyway migration script** that is committed to Git, reviewed in a PR, and applied automatically by the CI/CD pipeline.
+Every schema change - table, column, index, constraint - must go through a **Flyway migration script** that is committed to Git, reviewed in a PR, and applied automatically by the CI/CD pipeline.
 
 Why:
 - Hand-applied changes in prod are invisible to the rest of the team
 - They can't be rolled forward in other environments
 - They can't be audited or reverted systematically
-- They cause environment drift — "works in staging, broken in prod"
+- They cause environment drift - "works in staging, broken in prod"
 
 ---
 
@@ -41,7 +41,7 @@ sequenceDiagram
 Flyway is included in the platform BOM. It runs automatically on application startup.
 
 ```kotlin
-// build.gradle.kts — already in platform BOM
+// build.gradle.kts - already in platform BOM
 implementation("org.flywaydb:flyway-core")
 implementation("org.flywaydb:flyway-database-postgresql")
 ```
@@ -53,8 +53,8 @@ spring:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: false   # Never true for new services
-    validate-on-migrate: true    # Always true — detect tampering
-    out-of-order: false          # Always false — enforce sequential order
+    validate-on-migrate: true    # Always true - detect tampering
+    out-of-order: false          # Always false - enforce sequential order
 ```
 
 ---
@@ -76,9 +76,9 @@ V5__add_price_currency_column.sql
 Rules:
 - Two underscores between version and description
 - Use `snake_case` for the description
-- **Version numbers are sequential integers** — `V1`, `V2`, `V3` — not dates, not decimals
-- Description must be meaningful — `V3__misc_changes` is rejected in code review
-- **Never rename or edit a migration file once it is merged to main** — Flyway checksums will fail
+- **Version numbers are sequential integers** - `V1`, `V2`, `V3` - not dates, not decimals
+- Description must be meaningful - `V3__misc_changes` is rejected in code review
+- **Never rename or edit a migration file once it is merged to main** - Flyway checksums will fail
 
 ---
 
@@ -87,14 +87,14 @@ Rules:
 ### 4.1 Always Specify Explicit Constraints and Types
 
 ```sql
--- ❌ Bad — vague types, no constraints
+-- ❌ Bad - vague types, no constraints
 CREATE TABLE orders (
     id VARCHAR,
     status VARCHAR,
     price DECIMAL
 );
 
--- ✅ Good — explicit, safe, production-grade
+-- ✅ Good - explicit, safe, production-grade
 CREATE TABLE orders (
     id            VARCHAR(36)     NOT NULL,
     customer_id   VARCHAR(36)     NOT NULL,
@@ -162,7 +162,7 @@ This is the most important thing to understand about schema migrations in a live
 
 Say we want to rename `dispatch_address` → `dispatch_location`.
 
-**Wrong approach (single step — breaks during rolling deploy):**
+**Wrong approach (single step - breaks during rolling deploy):**
 ```sql
 -- ❌ Never do this on a live system
 ALTER TABLE orders RENAME COLUMN dispatch_address TO dispatch_location;
@@ -172,7 +172,7 @@ ALTER TABLE orders RENAME COLUMN dispatch_address TO dispatch_location;
 
 ---
 
-**Step 1 — EXPAND: Add the new column (backward compatible)**
+**Step 1 - EXPAND: Add the new column (backward compatible)**
 
 ```sql
 -- V12__add_dispatch_location_column.sql
@@ -183,13 +183,13 @@ ALTER TABLE orders ADD COLUMN dispatch_location VARCHAR(500);
 
 Deploy code that writes to **both** columns:
 ```java
-order.setDispatchAddress(address);    // old column — keep writing
-order.setDispatchLocation(address);   // new column — start writing
+order.setDispatchAddress(address);    // old column - keep writing
+order.setDispatchLocation(address);   // new column - start writing
 ```
 
 ---
 
-**Step 2 — MIGRATE: Backfill the new column**
+**Step 2 - MIGRATE: Backfill the new column**
 
 ```sql
 -- V13__backfill_dispatch_location.sql
@@ -210,7 +210,7 @@ return order.getDispatchLocation();
 
 ---
 
-**Step 3 — CONTRACT: Remove the old column**
+**Step 3 - CONTRACT: Remove the old column**
 
 Only after all services are deployed and reading from the new column:
 
@@ -228,7 +228,7 @@ ALTER TABLE orders
 ### 5.2 Expand-Contract for Adding a NOT NULL Column
 
 ```sql
--- ❌ Wrong — will fail if any rows exist (or during rolling deploy)
+-- ❌ Wrong - will fail if any rows exist (or during rolling deploy)
 ALTER TABLE orders ADD COLUMN service_type VARCHAR(20) NOT NULL;
 
 -- ✅ Step 1: Add as nullable
@@ -300,12 +300,12 @@ END $$;
 
 **Scenario: You merged a migration with a bug and it's already applied in dev.**
 
-You cannot edit the migration file — Flyway will detect the checksum mismatch and refuse to start.
+You cannot edit the migration file - Flyway will detect the checksum mismatch and refuse to start.
 
 **The fix: Write a new migration that corrects it.**
 
 ```sql
--- V8__add_wrong_column.sql (already applied — DO NOT TOUCH)
+-- V8__add_wrong_column.sql (already applied - DO NOT TOUCH)
 ALTER TABLE orders ADD COLUMN price_in_dollars DECIMAL(10,2);
 
 -- V9__fix_price_column_type.sql (new migration to correct it)
@@ -351,7 +351,7 @@ Before raising a PR with a migration, verify:
 # Validate that applied migrations match the files
 ./gradlew flywayValidate
 
-# Local only — reset your local DB and re-run from scratch
+# Local only - reset your local DB and re-run from scratch
 ./gradlew flywayClean flywayMigrate
 ```
 

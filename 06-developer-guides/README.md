@@ -1,4 +1,4 @@
-# 🛠️ 06 — Developer Guides
+# 🛠️ 06 - Developer Guides
 
 ![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
 
@@ -14,8 +14,8 @@ Hands-on guides for building things the right way. Reference these while writing
 | [06-multi-region-patterns.md](./06-multi-region-patterns.md) | Region/tenant config, multi-currency, localization, regulatory compliance |
 | [07-distributed-locking.md](./07-distributed-locking.md) | Optimistic locking, Redis locks, preventing double-assignment |
 | [08-cache-patterns.md](./08-cache-patterns.md) | Cache-aside, TTL strategy, event-driven invalidation, stampede prevention |
-| [09-data-governance.md](./09-data-governance.md) | Data governance — stewards, quality SLAs, retention, analytics contracts |
-| [10-local-development.md](./10-local-development.md) | Local development — Docker Compose, seeding, secrets, first PR path, troubleshooting |
+| [09-data-governance.md](./09-data-governance.md) | Data governance - stewards, quality SLAs, retention, analytics contracts |
+| [10-local-development.md](./10-local-development.md) | Local development - Docker Compose, seeding, secrets, first PR path, troubleshooting |
 
 ---
 <div align="center">

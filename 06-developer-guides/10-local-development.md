@@ -195,14 +195,14 @@ The `V9000.x` prefix ensures seed scripts run after all Flyway migrations but ar
 
 ### 4.2 Minimal Dataset Per Service
 
-Each service defines a **minimal viable dataset** — the smallest set of rows needed for the service to function locally. This is not a production data dump; it is curated for developer ergonomics.
+Each service defines a **minimal viable dataset** - the smallest set of rows needed for the service to function locally. This is not a production data dump; it is curated for developer ergonomics.
 
 | Data Category | Examples | Required? |
 |---------------|----------|-----------|
-| **Lookup / Reference** | Order statuses, payment methods, regions | Yes — always seeded |
-| **Test Users** | `testuser@{company}.dev` with known ID | Yes — enables auth flows |
-| **Sample Entities** | 3–5 orders, 2 payments, 1 notification | Yes — enables UI exploration |
-| **Edge Cases** | Cancelled order, failed payment | Optional — useful for debugging |
+| **Lookup / Reference** | Order statuses, payment methods, regions | Yes - always seeded |
+| **Test Users** | `testuser@{company}.dev` with known ID | Yes - enables auth flows |
+| **Sample Entities** | 3–5 orders, 2 payments, 1 notification | Yes - enables UI exploration |
+| **Edge Cases** | Cancelled order, failed payment | Optional - useful for debugging |
 
 ### 4.3 Seed Script Best Practices
 
@@ -220,7 +220,7 @@ ON CONFLICT (code) DO NOTHING;
 
 - Always use `ON CONFLICT DO NOTHING` or `INSERT ... WHERE NOT EXISTS` so seeds are idempotent.
 - Never reference auto-generated IDs from other tables; use deterministic UUIDs (`uuid_generate_v5`).
-- Keep seed data realistic but not sensitive — no production PII, no real credentials.
+- Keep seed data realistic but not sensitive - no production PII, no real credentials.
 
 ---
 
@@ -231,7 +231,7 @@ ON CONFLICT (code) DO NOTHING;
 Every repository ships a `.env.local.template` file with safe, non-secret default values. On `make setup`, it is copied to `.env.local` (which is `.gitignore`-d).
 
 ```properties
-# .env.local — safe dummy values for local development
+# .env.local - safe dummy values for local development
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=app
@@ -358,7 +358,7 @@ clean:
 
 ## 🛤️ 7. First PR Path
 
-New engineers should ship code on their first day. The recommended first PR path is intentionally simpler than the golden path scaffold — it removes the cognitive overhead of creating a new service.
+New engineers should ship code on their first day. The recommended first PR path is intentionally simpler than the golden path scaffold - it removes the cognitive overhead of creating a new service.
 
 ### 7.1 Steps
 
@@ -371,7 +371,7 @@ flowchart TD
     E --> F["make test && make lint"]
     F --> G["Push branch, open PR"]
     G --> H["Address code review feedback"]
-    H --> I["Merge to main — congratulations!"]
+    H --> I["Merge to main - congratulations!"]
 ```
 
 ### 7.2 Good First Issues
@@ -407,16 +407,16 @@ Every new engineer is assigned a **buddy** from their team. The buddy:
 | `./gradlew bootRun` hangs at startup | Waiting for a secret from Secrets Manager that LocalStack hasn't seeded | Verify `infra/localstack-init/01-secrets.sh` ran: `awslocal secretsmanager list-secrets` |
 | Schema Registry rejects a schema | Incompatible schema change locally | Reset the registry: `docker compose down schema-registry && docker volume rm schema-registry-data && make up` |
 | Tests fail with "connection refused" on CI but pass locally | Docker Compose services not started in CI | Ensure the CI pipeline uses the `services:` block or `make up` step |
-| `make run` fails with `UnsupportedClassVersionError` | Wrong Java version | `java -version` — must be 21+. Use `sdk use java 21.x-tem` via SDKMAN. |
+| `make run` fails with `UnsupportedClassVersionError` | Wrong Java version | `java -version` - must be 21+. Use `sdk use java 21.x-tem` via SDKMAN. |
 
 ### 8.2 M1 / ARM (Apple Silicon) Gotchas
 
 | Issue | Workaround |
 |-------|------------|
-| Kafka image crashes with `exec format error` | Use `confluentinc/cp-kafka:7.6.0` — ARM-native since 7.4 |
+| Kafka image crashes with `exec format error` | Use `confluentinc/cp-kafka:7.6.0` - ARM-native since 7.4 |
 | `testcontainers` pulls amd64 images | Set `DOCKER_DEFAULT_PLATFORM=linux/arm64` or add `TESTCONTAINERS_RYUK_DISABLED=true` in `.env.local` |
 | Rosetta-emulated containers are slow | Prefer ARM-native images; check Docker Desktop → Settings → "Use Rosetta" is enabled for unavoidable amd64 images |
-| `localstack` is slow on first start | Pre-pull image: `docker pull localstack/localstack:3.4` — subsequent starts use cache |
+| `localstack` is slow on first start | Pre-pull image: `docker pull localstack/localstack:3.4` - subsequent starts use cache |
 | Native compilation (`GraalVM`) fails | GraalVM native-image on ARM requires `graalvm-jdk-21` from SDKMAN and Xcode CLI tools |
 
 ### 8.3 Getting Help

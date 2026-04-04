@@ -27,10 +27,10 @@ flowchart TB
 | You need a durable audit trail of events | You need a simple request/response |
 | You want to decouple the producer from its consumers | The consumer must be available for the call to succeed |
 
-**Example — use Kafka:**
+**Example - use Kafka:**
 > When an order completes, the Payments service, Notifications service, and Analytics pipeline all need to react. The Orders service should not call each of them synchronously.
 
-**Example — use REST:**
+**Example - use REST:**
 > When a customer requests an order, the BFF needs to return an order ID immediately. The Orders service must respond synchronously.
 
 ---
@@ -39,7 +39,7 @@ flowchart TB
 
 Before writing any Kafka code, understand these concepts:
 
-- **Topic:** A named, ordered, durable log of messages — like a database table for events
+- **Topic:** A named, ordered, durable log of messages - like a database table for events
 - **Partition:** Topics are split into partitions for parallelism. Messages in the same partition are ordered. Messages across partitions are not.
 - **Consumer Group:** A set of consumers that share the work of reading from a topic. Each partition is assigned to exactly one consumer in the group.
 - **Offset:** The position of a message in a partition. Kafka tracks which offset a consumer group has read up to.
@@ -58,7 +58,7 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-      acks: all                    # Wait for all replicas — never lose a message
+      acks: all                    # Wait for all replicas - never lose a message
       retries: 3
       retry-backoff-ms: 1000
       enable-idempotence: true     # Exactly-once producer semantics
@@ -77,7 +77,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
       auto-offset-reset: earliest    # Start from beginning if no committed offset
-      enable-auto-commit: false      # NEVER auto-commit — we commit after processing
+      enable-auto-commit: false      # NEVER auto-commit - we commit after processing
       max-poll-records: 100          # Process in batches of 100
       properties:
         schema.registry.url: ${SCHEMA_REGISTRY_URL}
@@ -91,7 +91,7 @@ spring:
 ### 4.1 The Wrong Way
 
 ```java
-// ❌ Bad — direct KafkaTemplate in domain service
+// ❌ Bad - direct KafkaTemplate in domain service
 // Domain should not know about Kafka
 @Service
 public class OrderService {
@@ -105,18 +105,18 @@ public class OrderService {
 }
 ```
 
-### 4.2 The Right Way — Via Port
+### 4.2 The Right Way - Via Port
 
 Following hexagonal architecture (see [Hexagonal Architecture Guide](../02-architecture-and-api/03-hexagonal-architecture.md)):
 
 ```java
-// Domain port — what the domain needs
+// Domain port - what the domain needs
 // com/{company}/orders/domain/port/outbound/OrderEventPublisher.java
 public interface OrderEventPublisher {
     void publish(OrderCompletedEvent event);
 }
 
-// Domain event — plain Java record
+// Domain event - plain Java record
 // com/{company}/orders/domain/event/OrderCompletedEvent.java
 public record OrderCompletedEvent(
     OrderId orderId,
@@ -126,7 +126,7 @@ public record OrderCompletedEvent(
     Instant completedAt
 ) {}
 
-// Infrastructure adapter — Kafka implementation
+// Infrastructure adapter - Kafka implementation
 // com/{company}/orders/infrastructure/kafka/KafkaOrderEventPublisher.java
 @Component
 public class KafkaOrderEventPublisher implements OrderEventPublisher {
@@ -153,7 +153,7 @@ public class KafkaOrderEventPublisher implements OrderEventPublisher {
                 if (ex != null) {
                     log.error("Failed to publish OrderCompletedEvent. orderId={}",
                         event.orderId(), ex);
-                    // Don't swallow — let it propagate to trigger retry or alert
+                    // Don't swallow - let it propagate to trigger retry or alert
                     throw new EventPublishingException("Failed to publish event", ex);
                 }
                 log.info("Published OrderCompletedEvent. orderId={}, partition={}, offset={}",
@@ -217,7 +217,7 @@ public class OrderCompletedEventConsumer {
 
         } catch (Exception e) {
             log.error("Failed to process OrderCompletedEvent. orderId={}", event.getOrderId(), e);
-            // Do NOT acknowledge — message will be retried
+            // Do NOT acknowledge - message will be retried
             // The error handler will decide whether to retry or send to DLQ
             throw e;
         }
@@ -236,11 +236,11 @@ public class OrderCompletedEventConsumer {
 
 ---
 
-## 🧩 6. Idempotent Consumers — Handling Duplicates
+## 🧩 6. Idempotent Consumers - Handling Duplicates
 
-Kafka delivers messages **at least once**. Your consumer will receive the same message more than once — during rebalances, restarts, or network issues. Your consumer must handle this safely.
+Kafka delivers messages **at least once**. Your consumer will receive the same message more than once - during rebalances, restarts, or network issues. Your consumer must handle this safely.
 
-### 6.1 The Pattern — Idempotency Key Table
+### 6.1 The Pattern - Idempotency Key Table
 
 ```sql
 -- Migration: V15__create_processed_events_table.sql
@@ -290,9 +290,9 @@ public class OrderCompletedEventConsumer {
 
 ---
 
-## 📨 7. Dead Letter Queue (DLQ) — Handling Poison Messages
+## 📨 7. Dead Letter Queue (DLQ) - Handling Poison Messages
 
-A "poison message" is a message your consumer cannot process — bad data, a schema it doesn't understand, or a persistent downstream failure. Without a DLQ, this message blocks the partition forever.
+A "poison message" is a message your consumer cannot process - bad data, a schema it doesn't understand, or a persistent downstream failure. Without a DLQ, this message blocks the partition forever.
 
 ### 7.1 DLQ Configuration
 
@@ -339,28 +339,28 @@ Examples:
 ### 7.3 Monitoring and Replaying DLQ Messages
 
 - DLQ consumer lag is monitored and alerts if > 0 for more than 5 minutes
-- A DLQ message means something went wrong — investigate before replaying
+- A DLQ message means something went wrong - investigate before replaying
 - To replay DLQ messages, use the platform DLQ replay tool (available in the Ops portal)
 
 ---
 
 ## 🧩 8. Partition Key Strategy
 
-The partition key determines which partition a message goes to. Messages with the same key always go to the same partition — and are therefore ordered relative to each other.
+The partition key determines which partition a message goes to. Messages with the same key always go to the same partition - and are therefore ordered relative to each other.
 
 ```java
 // ✅ Use the entity ID as the partition key
 // This ensures all events for the same order are ordered
 kafkaTemplate.send("orders.order.completed", order.getId().value(), event);
 
-// ✅ For provider location updates — use provider ID
+// ✅ For provider location updates - use provider ID
 // All location updates for the same provider are ordered
 kafkaTemplate.send("providers.provider.location-updated", provider.getId().value(), locationEvent);
 
-// ❌ Don't use null — messages go to random partitions, losing ordering
+// ❌ Don't use null - messages go to random partitions, losing ordering
 kafkaTemplate.send("orders.order.completed", null, event);
 
-// ❌ Don't use a timestamp — all messages go to one partition (hot partition)
+// ❌ Don't use a timestamp - all messages go to one partition (hot partition)
 kafkaTemplate.send("orders.order.completed", Instant.now().toString(), event);
 ```
 
@@ -371,7 +371,7 @@ kafkaTemplate.send("orders.order.completed", Instant.now().toString(), event);
 **Problem:** What if the service saves to the database but then crashes before publishing the Kafka event? The data is saved, but no one is notified.
 
 ```java
-// ❌ Dangerous — if crash happens between save and publish, event is lost
+// ❌ Dangerous - if crash happens between save and publish, event is lost
 orderRepository.save(order);           // persisted
 kafkaTemplate.send(TOPIC, event);     // crash here → event never published
 ```
@@ -396,13 +396,13 @@ CREATE INDEX idx_outbox_unpublished ON outbox_events(created_at)
 ```
 
 ```java
-@Transactional  // Single transaction — both succeed or both fail
+@Transactional  // Single transaction - both succeed or both fail
 public Order completeOrder(OrderId orderId) {
     Order order = orderRepository.findById(orderId).orElseThrow();
     order.complete(price);
     orderRepository.save(order);
 
-    // Write event to outbox table — same transaction as the order save
+    // Write event to outbox table - same transaction as the order save
     outboxRepository.save(new OutboxEvent(
         UUID.randomUUID().toString(),
         "orders.order.completed",
@@ -410,7 +410,7 @@ public Order completeOrder(OrderId orderId) {
         objectMapper.writeValueAsString(buildEvent(order))
     ));
 
-    return order;  // Event is NOT published yet — the outbox publisher does that
+    return order;  // Event is NOT published yet - the outbox publisher does that
 }
 ```
 
@@ -429,7 +429,7 @@ public void publishOutboxEvents() {
 }
 ```
 
-Use this pattern for any event that **must not be lost** — payment captures, order completions, fraud signals.
+Use this pattern for any event that **must not be lost** - payment captures, order completions, fraud signals.
 
 ---
 
@@ -442,7 +442,7 @@ A growing lag means your consumer is falling behind. This is a leading indicator
 Every consumer must have a Grafana alert on lag:
 
 ```yaml
-# Alert rule — in platform standard alerts
+# Alert rule - in platform standard alerts
 - alert: KafkaConsumerLagHigh
   expr: kafka_consumer_group_lag{group="payments-service.order-completed.consumer"} > 1000
   for: 5m
@@ -482,7 +482,7 @@ docker exec -it kafka kafka-consumer-groups \
 
 ## 📋 12. Topic Creation Workflow
 
-Topics are not self-service — creation is a controlled process to ensure consistency and data governance.
+Topics are not self-service - creation is a controlled process to ensure consistency and data governance.
 
 ### 12.1 Request Process
 
@@ -529,13 +529,13 @@ Always run with `--dry-run` first to preview the messages that will be replayed.
 | Check | Detail |
 |-------|--------|
 | **Idempotency key verification** | Each message's idempotency key is validated before replay |
-| **Replay count limit** | Maximum 10,000 messages per batch — larger replays require batching |
+| **Replay count limit** | Maximum 10,000 messages per batch - larger replays require batching |
 | **Dry-run first** | `--dry-run` is mandatory before any live replay |
-| **Original idempotency key** | Replayed messages use the original idempotency key — no new key is generated |
+| **Original idempotency key** | Replayed messages use the original idempotency key - no new key is generated |
 
 ### 13.3 Interaction with Idempotency Tables
 
-If the idempotency key has already been processed and the result is cached in the `processed_events` table, the replay is a **no-op** — the consumer detects the duplicate and skips processing. This is the expected behavior for most replays of transient failures.
+If the idempotency key has already been processed and the result is cached in the `processed_events` table, the replay is a **no-op** - the consumer detects the duplicate and skips processing. This is the expected behavior for most replays of transient failures.
 
 ### 13.4 Audit Trail
 

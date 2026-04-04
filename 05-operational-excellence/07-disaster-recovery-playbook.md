@@ -6,18 +6,18 @@
 
 ## 🎯 1. Scope
 
-This playbook covers **region-level failure recovery** — what to do when an entire AWS region becomes unavailable and the platform must fail over to a secondary region.
+This playbook covers **region-level failure recovery** - what to do when an entire AWS region becomes unavailable and the platform must fail over to a secondary region.
 
 **This is NOT the same as:**
-- **Service-level incident management** — see [04-incident-management.md](./04-incident-management.md) for single-service outages, degraded performance, or bug-caused incidents
-- **Load shedding** — see [05-load-shedding.md](./05-load-shedding.md) for handling demand spikes within a healthy region
+- **Service-level incident management** - see [04-incident-management.md](./04-incident-management.md) for single-service outages, degraded performance, or bug-caused incidents
+- **Load shedding** - see [05-load-shedding.md](./05-load-shedding.md) for handling demand spikes within a healthy region
 
 **This IS for:**
 - Complete AWS region outage (e.g., eu-west-1 becomes unavailable)
 - Multi-AZ failure within the primary region
 - Region-wide networking issues that prevent serving traffic
 
-These events are rare but catastrophic. When they happen, every minute counts — which is why this playbook exists and why we rehearse it quarterly.
+These events are rare but catastrophic. When they happen, every minute counts - which is why this playbook exists and why we rehearse it quarterly.
 
 ---
 
@@ -27,7 +27,7 @@ The platform runs an **active-passive** disaster recovery architecture with auto
 
 ```mermaid
 graph TB
-    subgraph Primary["🟢 Primary Region — eu-west-1 (Ireland)"]
+    subgraph Primary["🟢 Primary Region - eu-west-1 (Ireland)"]
         R53_P["Route 53<br/>Health Checks"]
         ALB_P["Application<br/>Load Balancer"]
         EKS_P["EKS Cluster<br/>(All Services)"]
@@ -37,9 +37,9 @@ graph TB
         S3_P["S3 Buckets"]
     end
 
-    subgraph Secondary["🟡 Secondary Region — eu-central-1 (Frankfurt)"]
+    subgraph Secondary["🟡 Secondary Region - eu-central-1 (Frankfurt)"]
         ALB_S["Application<br/>Load Balancer"]
-        EKS_S["EKS Cluster<br/>(Standby — Scaled Down)"]
+        EKS_S["EKS Cluster<br/>(Standby - Scaled Down)"]
         Aurora_S["Aurora PostgreSQL<br/>(Read Replica)"]
         MSK_S["Amazon MSK<br/>(MirrorMaker 2)"]
         Redis_S["ElastiCache<br/>Redis (Warm)"]
@@ -94,10 +94,10 @@ The secondary region is kept in a **warm standby** configuration:
 
 | Tier | Services | RTO (Recovery Time) | RPO (Data Loss Window) | Recovery Priority |
 |------|----------|---------------------|------------------------|-------------------|
-| **Tier 1 — Critical** | Orders, Fulfillment, Payments, Provider Location | **15 minutes** | **< 5 seconds** | First — validate these before anything else |
-| **Tier 2 — Important** | Pricing, Notifications, Auth/Identity | **30 minutes** | **< 30 seconds** | Second — enable once Tier 1 is healthy |
-| **Tier 3 — Supporting** | Ratings, Order History, Promotions, Analytics | **2 hours** | **< 5 minutes** | Third — can wait until Tier 1 & 2 are stable |
-| **Tier 4 — Internal** | Admin dashboards, Reporting, BI pipelines | **24 hours** | **< 1 hour** | Last — internal tools restored after user-facing services |
+| **Tier 1 - Critical** | Orders, Fulfillment, Payments, Provider Location | **15 minutes** | **< 5 seconds** | First - validate these before anything else |
+| **Tier 2 - Important** | Pricing, Notifications, Auth/Identity | **30 minutes** | **< 30 seconds** | Second - enable once Tier 1 is healthy |
+| **Tier 3 - Supporting** | Ratings, Order History, Promotions, Analytics | **2 hours** | **< 5 minutes** | Third - can wait until Tier 1 & 2 are stable |
+| **Tier 4 - Internal** | Admin dashboards, Reporting, BI pipelines | **24 hours** | **< 1 hour** | Last - internal tools restored after user-facing services |
 
 ### Recovery Steps by Tier
 
@@ -155,12 +155,12 @@ Do **NOT** fail over for:
 ```mermaid
 flowchart TD
     Detect["🚨 Primary region health check failing"] --> Verify{"Verified by 2+<br/>independent sources?"}
-    Verify -->|"No"| FalseAlarm["Investigate monitoring<br/>— possible false alarm"]
+    Verify -->|"No"| FalseAlarm["Investigate monitoring<br/> - possible false alarm"]
     Verify -->|"Yes"| Duration{"Region unhealthy<br/>> 5 minutes?"}
     Duration -->|"No"| Wait["Wait and monitor<br/>Re-check every 2 minutes"]
     Wait --> Duration
     Duration -->|"Yes"| AWS{"AWS confirms issue<br/>OR no ETA within<br/>15 minutes?"}
-    AWS -->|"No — AWS says<br/>resolving soon"| ExtendedWait["Wait up to 15 more<br/>minutes for AWS fix"]
+    AWS -->|"No - AWS says<br/>resolving soon"| ExtendedWait["Wait up to 15 more<br/>minutes for AWS fix"]
     ExtendedWait --> Resolved{"Resolved?"}
     Resolved -->|"Yes"| NoFailover["✅ No failover needed<br/>Monitor closely"]
     Resolved -->|"No"| Authorize
@@ -194,7 +194,7 @@ Once authorised, execute the following steps **in order**. Each step has a respo
 | 6 | **Trigger ArgoCD sync in secondary EKS cluster.** Scale all deployments to production replica counts. Enable auto-sync for continuous deployment. | Platform Engineer | 5–8 min | All deployments show `Running` with expected replica counts. `argocd app list` shows all apps as `Synced` and `Healthy`. |
 | 7 | **Validate health checks for all Tier 1 services.** Run the Tier 1 smoke test suite. Verify orders can be created, completed, and payments captured. | QA Engineer | 5 min | Smoke test suite passes. `GET /actuator/health` returns `UP` for all Tier 1 services. |
 | 8 | **Validate Tier 2 services.** Run Tier 2 smoke tests. Verify pricing, auth, and notifications are functional. | QA Engineer | 5 min | Tier 2 smoke test suite passes. |
-| 9 | **Update external status page.** Post current status to status.{company}.{tld}. Notify partners via API status webhook. | Comms Lead | 1 min | Status page shows "Operating with reduced redundancy — DR active". |
+| 9 | **Update external status page.** Post current status to status.{company}.{tld}. Notify partners via API status webhook. | Comms Lead | 1 min | Status page shows "Operating with reduced redundancy - DR active". |
 | 10 | **Monitor for 30 minutes.** Watch all dashboards for anomalies. Verify error rates, latency, and throughput are within acceptable ranges. | All | 30 min | Metrics are stable. No new alerts fire. |
 
 ### Total Expected Failover Time: ~25–35 minutes (within Tier 1 RTO of 15 minutes for critical path)
@@ -241,7 +241,7 @@ argocd app sync --all --context {company}-eu-central-1
 
 ## 🔥 6. Failback Procedure
 
-Once the primary region (eu-west-1) is restored by AWS, we must carefully return to it. Failback is **not urgent** — take time to do it safely.
+Once the primary region (eu-west-1) is restored by AWS, we must carefully return to it. Failback is **not urgent** - take time to do it safely.
 
 ### 6.1 Pre-Failback Checklist
 
@@ -267,7 +267,7 @@ Once the primary region (eu-west-1) is restored by AWS, we must carefully return
 7. **Run full smoke test suite** against eu-west-1.
 8. **Monitor for 1 hour** with both regions running.
 9. **Scale down eu-central-1** back to warm standby (minimum replicas).
-10. **Update status page.** "Fully restored — operating normally from primary region."
+10. **Update status page.** "Fully restored - operating normally from primary region."
 
 ### 6.3 Verification Checklist
 
@@ -287,7 +287,7 @@ Once the primary region (eu-west-1) is restored by AWS, we must carefully return
 
 ## ⚠️ 7. Split-Brain Handling
 
-In rare cases, both regions may have accepted writes during the outage window — for example, if DNS propagation was slow and some clients continued hitting the primary while others were already routed to the secondary.
+In rare cases, both regions may have accepted writes during the outage window - for example, if DNS propagation was slow and some clients continued hitting the primary while others were already routed to the secondary.
 
 ### 7.1 Why Aurora Handles Most of It
 
@@ -304,11 +304,11 @@ Because platform services use **idempotency keys** for all mutating operations (
 
 | Operation | Idempotency Key | Conflict Resolution |
 |-----------|----------------|-------------------|
-| Order creation | `orderId` (UUID generated client-side) | If order exists, return existing — no duplicate |
+| Order creation | `orderId` (UUID generated client-side) | If order exists, return existing - no duplicate |
 | Payment capture | `paymentId` + `idempotencyKey` | Payment gateway rejects duplicate capture |
-| Provider location update | `providerId` + `timestamp` | Last-write-wins — latest location is correct |
+| Provider location update | `providerId` + `timestamp` | Last-write-wins - latest location is correct |
 | Rating submission | `orderId` + `raterId` | If rating exists, return existing |
-| Profile update | `userId` + `version` | Optimistic locking — higher version wins |
+| Profile update | `userId` + `version` | Optimistic locking - higher version wins |
 
 ### 7.3 Data Reconciliation Script
 
@@ -330,10 +330,10 @@ The script compares records created/updated during the failover window and flags
 
 ## 📋 8. Communication Templates
 
-### 8.1 Internal Slack Template — DR Activation
+### 8.1 Internal Slack Template - DR Activation
 
 ```
-🔴 DR ACTIVATION — Region Failover in Progress
+🔴 DR ACTIVATION - Region Failover in Progress
 
 **Region:** eu-west-1 (Ireland) → eu-central-1 (Frankfurt)
 **Trigger:** [Description of regional failure]
@@ -361,7 +361,7 @@ cc: @cto @vp-eng @platform-team @engineering-leads @customer-support-lead
 
 **Initial notification:**
 ```
-[Investigating] — We are currently experiencing issues with our services.
+[Investigating] - We are currently experiencing issues with our services.
 Our team has been alerted and is actively working to restore full service.
 Active orders are being handled with priority. We will update this page
 every 15 minutes.
@@ -369,7 +369,7 @@ every 15 minutes.
 
 **Failover in progress:**
 ```
-[Identified] — We have identified a regional infrastructure issue affecting
+[Identified] - We have identified a regional infrastructure issue affecting
 our services. We are executing our disaster recovery plan to restore service
 from our backup infrastructure. Some users may experience brief disruptions.
 Active orders are unaffected.
@@ -377,7 +377,7 @@ Active orders are unaffected.
 
 **Failover complete:**
 ```
-[Monitoring] — Service has been restored using our backup infrastructure.
+[Monitoring] - Service has been restored using our backup infrastructure.
 We are monitoring closely for stability. Some features like order history
 and promotions may be temporarily unavailable. Core platform
 functionality is fully operational.
@@ -385,7 +385,7 @@ functionality is fully operational.
 
 **Fully resolved:**
 ```
-[Resolved] — All services have been fully restored. We have returned to
+[Resolved] - All services have been fully restored. We have returned to
 normal operations. We apologise for any inconvenience and will be publishing
 a detailed incident report within 5 business days.
 ```
@@ -393,7 +393,7 @@ a detailed incident report within 5 business days.
 ### 8.3 Executive Notification Template
 
 ```
-Subject: [DR ACTIVATED] {Company} Regional Failover — [Date]
+Subject: [DR ACTIVATED] {Company} Regional Failover - [Date]
 
 To: CEO, CFO, COO, CTO, VP Engineering, VP Operations
 
@@ -416,7 +416,7 @@ Next Steps:
 3. Conduct post-incident review within 5 business days
 4. Publish findings and improvement actions
 
-— [CTO Name], Chief Technology Officer
+ - [CTO Name], Chief Technology Officer
 ```
 
 ---
@@ -430,7 +430,7 @@ Disaster recovery procedures that are never tested are disaster recovery procedu
 | Exercise Type | Frequency | What We Test | Disruption |
 |---------------|-----------|-------------|-----------|
 | **Tabletop** | Every quarter | Walk through the playbook verbally. Identify gaps. Update contacts. | None |
-| **Partial failover** | Twice per year | Fail over a single non-critical service to secondary region. Verify replication, DNS, and ArgoCD. | Minimal — single service only |
+| **Partial failover** | Twice per year | Fail over a single non-critical service to secondary region. Verify replication, DNS, and ArgoCD. | Minimal - single service only |
 | **Full failover** | Once per year | Fail over all traffic to secondary region during a maintenance window. Execute the complete playbook. | Planned downtime window |
 
 ### 9.2 Participants
@@ -479,12 +479,12 @@ Post-Exercise:
 ### 9.4 Post-Exercise Report Template
 
 ```markdown
-# DR Exercise Report — Q[N] [YYYY]
+# DR Exercise Report - Q[N] [YYYY]
 
 **Date:** YYYY-MM-DD
 **Exercise Type:** Tabletop / Partial / Full
 **Participants:** [list]
-**Duration:** [start time] — [end time]
+**Duration:** [start time] - [end time]
 
 ## Results Summary
 
@@ -582,7 +582,7 @@ Platform Engineer on-call
 
 ### DNS Failover Testing
 
-**Cadence:** Quarterly — separate from the full DR drill.
+**Cadence:** Quarterly - separate from the full DR drill.
 
 **Procedure:**
 1. Simulate primary health check failure via Route 53 health check configuration
@@ -609,7 +609,7 @@ When a production deployment causes issues, rollback speed is critical. The foll
 |------|----------------|-------------|--------|
 | **Tier 1** | ArgoCD automatic rollback | < 10 minutes | Argo Rollouts detects failed health checks during canary analysis and automatically aborts, rolling back to the previous revision with no human intervention. |
 | **Tier 2** | Manual ArgoCD rollback | < 30 minutes | On-call engineer triggers rollback via ArgoCD UI or CLI (`argocd app rollback`). Used when an issue is detected post-canary, after full rollout. |
-| **Tier 3** | Git revert + redeploy | < 60 minutes, best effort | Used when ArgoCD rollback is not sufficient (e.g., config changes in `platform-config` need reverting). Engineer reverts the commit, pushes, and the pipeline redeploys. Best effort — depends on CI pipeline speed and complexity of the revert. |
+| **Tier 3** | Git revert + redeploy | < 60 minutes, best effort | Used when ArgoCD rollback is not sufficient (e.g., config changes in `platform-config` need reverting). Engineer reverts the commit, pushes, and the pipeline redeploys. Best effort - depends on CI pipeline speed and complexity of the revert. |
 
 Tier 1 is the default for all services that use Argo Rollouts with canary analysis. Services that do not yet use canary deployments default to Tier 2.
 

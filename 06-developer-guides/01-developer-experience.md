@@ -8,7 +8,7 @@
 
 Developer experience is a force multiplier. An engineer who can go from zero to running code locally in under an hour, get a PR reviewed in under a day, and deploy to production confidently in under 15 minutes is more effective than one wrestling with environment setup and opaque tooling.
 
-**Our DX goal:** Every engineer, on their first week, should be able to run any service locally, submit a PR, and watch it go to production — with no hand-holding.
+**Our DX goal:** Every engineer, on their first week, should be able to run any service locally, submit a PR, and watch it go to production - with no hand-holding.
 
 ---
 
@@ -155,7 +155,7 @@ launchdarkly:
     fulfillment-ml-model-release: false
 ```
 
-### 3.5 AWS Services Locally — LocalStack
+### 3.5 AWS Services Locally - LocalStack
 
 For services that use S3, SQS, Secrets Manager, etc., use **LocalStack**:
 
@@ -225,9 +225,9 @@ Import: `File → Manage IDE Settings → Import Settings → platform-ide-setti
 
 ---
 
-## 🛤️ 6. Service Scaffolding — Golden Path Template
+## 🛤️ 6. Service Scaffolding - Golden Path Template
 
-New services are created using the Backstage service template — not by copying an existing service.
+New services are created using the Backstage service template - not by copying an existing service.
 
 ```
 Backstage → Create → Java Microservice Template
@@ -258,7 +258,7 @@ All services import the **platform BOM** which pins all dependency versions. Tea
 dependencies {
     implementation(platform("com.{company}:platform-bom:2024.11"))
 
-    // No versions needed — managed by the BOM
+    // No versions needed - managed by the BOM
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("io.micrometer:micrometer-registry-prometheus")
@@ -345,9 +345,9 @@ Link to runbook and PagerDuty service
 ## 📈 10. Feedback & Platform Improvement
 
 The platform exists to serve engineering teams. Teams should provide feedback via:
-- **Monthly DX survey** — NPS-style, 3 questions, 2 minutes
-- **#platform-feedback** Slack channel — for immediate issues
-- **Backstage → Feedback** — for feature requests
+- **Monthly DX survey** - NPS-style, 3 questions, 2 minutes
+- **#platform-feedback** Slack channel - for immediate issues
+- **Backstage → Feedback** - for feature requests
 
 Platform team SLA for responding to feedback: 2 business days.
 
@@ -363,7 +363,7 @@ Every new joiner is assigned an **onboarding buddy** from their team. The buddy 
 |--------|---------|------------|
 | Week 1 | Daily check-in | Orient to codebase, team rituals, tooling; answer questions; pair programming on first PR |
 | Week 2 | 2–3 check-ins | First feature PR merged; attend sprint ceremonies (planning, standup, retro); complete security orientation (see [security-operations.md](../04-infrastructure-and-cloud/10-security-operations.md)) |
-| Week 3 | Weekly check-in | On-call shadow — pair with primary on-call for one shift; domain deep-dive session with tech lead; attend architecture clinic |
+| Week 3 | Weekly check-in | On-call shadow - pair with primary on-call for one shift; domain deep-dive session with tech lead; attend architecture clinic |
 | Week 4 | Weekly check-in | Solo on-call eligible (added to PagerDuty rotation); buddy graduation (feedback form submitted); 30-day check-in with engineering manager |
 
 ### Program Details
@@ -414,7 +414,7 @@ Any PR that changes **observable behavior** (API response format, configuration 
 
 - **OpenAPI spec** is the source of truth for all API documentation
 - Backstage TechDocs pages are **auto-generated** from the OpenAPI spec
-- Manual API documentation is not maintained separately — it drifts and becomes a liability
+- Manual API documentation is not maintained separately - it drifts and becomes a liability
 
 ---
 <div align="center">

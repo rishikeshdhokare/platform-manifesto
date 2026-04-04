@@ -6,14 +6,14 @@
 
 ## 🎯 1. Philosophy
 
-You cannot operate what you cannot observe. Observability is not a feature — it is a prerequisite for production deployment. Every service must be observable from day one, not retrofitted after an incident.
+You cannot operate what you cannot observe. Observability is not a feature - it is a prerequisite for production deployment. Every service must be observable from day one, not retrofitted after an incident.
 
 **The three pillars:**
-- **Logs** — what happened (events)
-- **Metrics** — how the system is behaving (aggregates over time)
-- **Traces** — where time was spent (request path)
+- **Logs** - what happened (events)
+- **Metrics** - how the system is behaving (aggregates over time)
+- **Traces** - where time was spent (request path)
 
-All three must be in place before a service receives production traffic. The **fourth pillar** — alerting — is only valuable when the first three are right.
+All three must be in place before a service receives production traffic. The **fourth pillar** - alerting - is only valuable when the first three are right.
 
 **Visual overview:**
 
@@ -36,7 +36,7 @@ flowchart LR
 
 ### 2.1 Standard
 
-All services must emit **structured JSON logs** to stdout. The log shipper (Fluent Bit) collects from stdout and forwards to the log backend — applications never write to files.
+All services must emit **structured JSON logs** to stdout. The log shipper (Fluent Bit) collects from stdout and forwards to the log backend - applications never write to files.
 
 ### 2.2 Required Fields
 
@@ -96,9 +96,9 @@ Use the platform-standard `logback-spring.xml`. Include it from the platform BOM
 |------|--------|
 | **No sensitive data in logs** | No passwords, tokens, card numbers, PII (names, email, phone) |
 | **No stack traces in INFO/WARN** | Stack traces are ERROR level only |
-| **No log-and-throw** | Don't log an exception and then throw it — it doubles log noise |
+| **No log-and-throw** | Don't log an exception and then throw it - it doubles log noise |
 | **Use parameterised logging** | `log.info("Order {} completed", orderId)` not string concat |
-| **Log business events** | Order started, payment captured — these are invaluable for debugging |
+| **Log business events** | Order started, payment captured - these are invaluable for debugging |
 | **Do not log in a tight loop** | Rate-limit or aggregate high-frequency events |
 
 ### 2.5 Log Levels in Production
@@ -108,15 +108,15 @@ Use the platform-standard `logback-spring.xml`. Include it from the platform BOM
 | `ERROR` | Unhandled exception; service cannot fulfil request |
 | `WARN` | Handled error; degraded operation; slow dependency |
 | `INFO` | Business events (order started, payment captured); service lifecycle |
-| `DEBUG` | Detailed diagnostic info — **disabled in production by default** |
+| `DEBUG` | Detailed diagnostic info - **disabled in production by default** |
 
 DEBUG can be enabled per-service via a runtime feature flag without redeployment.
 
 ### 2.6 Log Backend
 
-- **Amazon OpenSearch Service** — searchable log storage, 30-day hot retention, 90-day cold
-- **Fluent Bit** — DaemonSet on EKS, collects from all pod stdout, forwards to OpenSearch
-- **Grafana** — log queries via the Loki datasource (for dev/staging; OpenSearch for production)
+- **Amazon OpenSearch Service** - searchable log storage, 30-day hot retention, 90-day cold
+- **Fluent Bit** - DaemonSet on EKS, collects from all pod stdout, forwards to OpenSearch
+- **Grafana** - log queries via the Loki datasource (for dev/staging; OpenSearch for production)
 
 ---
 
@@ -148,7 +148,7 @@ management:
       version: ${application.version}
 ```
 
-### 3.3 RED Method — Required Metrics Per Service
+### 3.3 RED Method - Required Metrics Per Service
 
 Every HTTP service must expose these three metric families (Micrometer provides them automatically for Spring Boot):
 
@@ -189,11 +189,11 @@ public Order completeOrder(String orderId) {
 
 All Kafka consumers must expose consumer lag metrics. The platform Kafka configuration exports these automatically via JMX → Prometheus.
 
-Key metric: `kafka_consumer_group_lag` — alerts when lag exceeds threshold.
+Key metric: `kafka_consumer_group_lag` - alerts when lag exceeds threshold.
 
 ### 3.6 Grafana Dashboards
 
-Every service **must** have a Grafana dashboard before production deployment. The platform team provides a **standard dashboard template** — teams import it and customise.
+Every service **must** have a Grafana dashboard before production deployment. The platform team provides a **standard dashboard template** - teams import it and customise.
 
 Minimum dashboard panels:
 1. Request rate (req/s)
@@ -217,7 +217,7 @@ Dashboards are stored as JSON in the service repository at `docs/dashboards/` an
 
 ### 4.2 Setup
 
-Add the OpenTelemetry Java agent — no code changes required for basic tracing:
+Add the OpenTelemetry Java agent - no code changes required for basic tracing:
 
 ```dockerfile
 # Dockerfile
@@ -276,16 +276,16 @@ public AssignmentResult assignProvider(OrderRequest request) {
 
 ### 5.1 Philosophy
 
-**Alert on symptoms, not causes.** High error rate is a symptom (alert on it). High CPU is a cause (usually don't alert on it — alert on the downstream effect like slow response times).
+**Alert on symptoms, not causes.** High error rate is a symptom (alert on it). High CPU is a cause (usually don't alert on it - alert on the downstream effect like slow response times).
 
 An alert should always answer: **"What is the user impact?"**
 
 ### 5.2 Alerting Stack
 
-- **Prometheus** — evaluates alert rules
-- **Grafana Alerting** — alert routing and deduplication
-- **PagerDuty** — on-call escalation for P1/P2 alerts
-- **Slack** — notification for P3/P4 alerts
+- **Prometheus** - evaluates alert rules
+- **Grafana Alerting** - alert routing and deduplication
+- **PagerDuty** - on-call escalation for P1/P2 alerts
+- **Slack** - notification for P3/P4 alerts
 
 ### 5.3 Severity Levels
 
@@ -358,8 +358,8 @@ A P1 alert without a runbook is treated as an observability bug.
 ### 6.2 Error Budget Tracking
 
 - SLO compliance and error budget burn rate are tracked in Grafana (SLO dashboard)
-- When error budget is 50% consumed in a 30-day window — team is alerted
-- When error budget is exhausted — new feature work pauses until reliability is restored
+- When error budget is 50% consumed in a 30-day window - team is alerted
+- When error budget is exhausted - new feature work pauses until reliability is restored
 - Error budget policy is reviewed quarterly by the CTO
 
 ---
@@ -384,7 +384,7 @@ System metrics are owned by the service team. Business metrics are owned jointly
 Every core domain must emit business events as Micrometer metrics:
 
 ```java
-// In OrderService — business metric
+// In OrderService - business metric
 meterRegistry.counter("business.orders.requested",
     "region", order.getRegion(),
     "service_type", order.getServiceType().name()
@@ -429,7 +429,7 @@ The boundary is clear:
 - **Grafana**: "Is the system healthy right now?" (engineering, on-call)
 - **QuickSight**: "How did the product perform this week/month?" (product, leadership)
 
-Both use the same underlying data — CDC events flow to Redshift, Prometheus metrics flow to Grafana. No duplicate instrumentation.
+Both use the same underlying data - CDC events flow to Redshift, Prometheus metrics flow to Grafana. No duplicate instrumentation.
 
 ---
 
@@ -448,7 +448,7 @@ We use [EventCatalog](https://eventcatalog.dev) as our event documentation platf
 | Concern | Implementation |
 |---------|---------------|
 | **Source of truth** | EventCatalog site, generated from event definitions in Git |
-| **Schema registry** | AWS Glue Schema Registry (Avro) — EventCatalog links to schema versions |
+| **Schema registry** | AWS Glue Schema Registry (Avro) - EventCatalog links to schema versions |
 | **Hosting** | Deployed as a static site to internal CDN (e.g., `events.{company}.internal`) |
 | **CI integration** | EventCatalog is rebuilt on every merge to the events repo |
 
@@ -525,7 +525,7 @@ Error budgets are monitored using **multi-window burn-rate alerts** implemented 
 | **1-hour** | Detect fast burns (acute incidents) | Burn rate > 14.4× (consumes 100% of 30-day budget in 1 hour) |
 | **6-hour** | Detect slow burns (chronic degradation) | Burn rate > 6× (consumes 100% of 30-day budget in 6 hours) |
 
-Both windows must exceed their threshold simultaneously to fire an alert — this eliminates false positives from brief spikes.
+Both windows must exceed their threshold simultaneously to fire an alert - this eliminates false positives from brief spikes.
 
 ### 9.2 SLI Specification per SLO
 
@@ -536,12 +536,12 @@ Every SLO must define its Service Level Indicator (SLI) precisely:
 | **Availability** | `1 - (error_requests / total_requests)` | 99.9% availability = error rate must be < 0.1% over the window |
 | **Latency** | `(requests_below_threshold / total_requests)` | 99th percentile < 500ms means ≥ 99% of requests must complete in < 500ms |
 
-SLIs are computed from Prometheus counters — not from logs or synthetic checks. The authoritative SLI source is the service's own instrumentation.
+SLIs are computed from Prometheus counters - not from logs or synthetic checks. The authoritative SLI source is the service's own instrumentation.
 
 ### 9.3 Release Gating
 
 - Deployments are **paused automatically** when the service's error budget has < 20% remaining in the current 30-day window
-- When error budget is **exhausted (0% remaining)**, a feature freeze is enforced — only reliability-improving changes may be deployed
+- When error budget is **exhausted (0% remaining)**, a feature freeze is enforced - only reliability-improving changes may be deployed
 - CI/CD pipeline queries the SLO dashboard API before proceeding with production promotion
 - Emergency hotfixes may bypass the gate with explicit approval (see below)
 
@@ -560,7 +560,7 @@ SLIs are computed from Prometheus counters — not from logs or synthetic checks
 |--------|------------------------|
 | Caution | Service owner (Tech Lead) |
 | Reliability mode | Service owner + Platform Engineering lead |
-| Freeze | VP Engineering — written justification required, time-boxed exception only |
+| Freeze | VP Engineering - written justification required, time-boxed exception only |
 
 Exceptions are logged in the Reliability Review Board minutes and reviewed in the next monthly meeting.
 
@@ -585,10 +585,10 @@ The following values must **never** be used as Prometheus metric labels:
 
 | Forbidden Label | Reason |
 |----------------|--------|
-| `user_id` | Unbounded cardinality — one series per user |
-| `session_id` | Unbounded cardinality — one series per session |
-| `request_id` | Unbounded cardinality — one series per request |
-| `trace_id` | Unbounded cardinality — one series per trace |
+| `user_id` | Unbounded cardinality - one series per user |
+| `session_id` | Unbounded cardinality - one series per session |
+| `request_id` | Unbounded cardinality - one series per request |
+| `trace_id` | Unbounded cardinality - one series per trace |
 
 These identifiers belong in **logs and traces**, not in metrics. If you need to count events per user, use a counter with bounded labels (e.g., `region`, `service_type`) and correlate with logs for per-user drill-down.
 
@@ -617,7 +617,7 @@ management:
 
 Any business metric with **more than 10 label combinations** must have a Prometheus recording rule that pre-aggregates common queries. This avoids expensive real-time aggregation at query time.
 
-Example — if `business.orders.requested` has labels `region`, `service_type`, `channel`, and `pricing_tier`:
+Example - if `business.orders.requested` has labels `region`, `service_type`, `channel`, and `pricing_tier`:
 
 ```yaml
 groups:
@@ -660,10 +660,10 @@ On the first week of every month, each team reviews all alerts that fired in the
 
 | Alert Outcome | Action |
 |---------------|--------|
-| Paged and required intervention | Keep — validate runbook is current |
+| Paged and required intervention | Keep - validate runbook is current |
 | Paged but resolved itself before engineer acted | Tune threshold or add `for` duration to debounce |
 | Paged and was a false positive | Fix or delete the alert |
-| Never fired in 6+ months | Review — is the threshold too high? Is the alert still relevant? |
+| Never fired in 6+ months | Review - is the threshold too high? Is the alert still relevant? |
 
 Alerts that paged but required no action for **two consecutive months** must be deleted or reworked.
 
@@ -679,7 +679,7 @@ Alerts that paged but required no action for **two consecutive months** must be 
 
 ### 11.4 Runbook Linkage
 
-Every alert — regardless of severity — must include a `runbook` annotation linking to its runbook:
+Every alert - regardless of severity - must include a `runbook` annotation linking to its runbook:
 
 ```yaml
 annotations:
@@ -722,7 +722,7 @@ On request from the Legal team, specific log streams can be **frozen indefinitel
 1. Legal sends a written request to `platform-engineering@{company}.com` specifying the log streams (service name, date range, any relevant identifiers)
 2. Platform Engineering applies **S3 Object Lock** (Governance mode or Compliance mode, as directed by Legal) to the relevant log objects
 3. Platform Engineering confirms the hold in writing to Legal, referencing the object lock configuration
-4. Locked objects are excluded from lifecycle expiration rules — they persist until Legal issues a release
+4. Locked objects are excluded from lifecycle expiration rules - they persist until Legal issues a release
 5. On release, Platform Engineering removes the object lock and logs resume normal lifecycle
 
 Legal holds are tracked in a shared register accessible to Platform Engineering and Legal.
@@ -736,9 +736,9 @@ High-volume services (producing **> 1 TB/month** of logs) must implement log sam
 | `ERROR` | 1:1 (no sampling) | Every error is valuable |
 | `WARN` | 1:1 (no sampling) | Warnings indicate potential issues |
 | `INFO` | 1:1 (no sampling) | Business events and lifecycle events |
-| `DEBUG` | 1:10 (10% sampled) | Diagnostic detail — most value is in traces, not debug logs |
+| `DEBUG` | 1:10 (10% sampled) | Diagnostic detail - most value is in traces, not debug logs |
 
-Sampling is implemented at the Fluent Bit layer using probabilistic sampling filters — application code does not need to change.
+Sampling is implemented at the Fluent Bit layer using probabilistic sampling filters - application code does not need to change.
 
 Services below 1 TB/month are not required to sample but are encouraged to keep DEBUG disabled in production by default (per Section 2.5).
 
@@ -751,7 +751,7 @@ Services below 1 TB/month are not required to sample but are encouraged to keep 
 
 Tier 1 services (Orders, Payments, Fulfillment) may request extended hot retention when longer query access is operationally justified (e.g., for slow-developing financial reconciliation issues). Requests are made via a platform engineering ticket and approved by VP Engineering.
 
-Extended retention increases OpenSearch storage costs — the requesting team's cost centre is charged for the incremental storage.
+Extended retention increases OpenSearch storage costs - the requesting team's cost centre is charged for the incremental storage.
 
 ---
 
@@ -761,11 +761,11 @@ Extended retention increases OpenSearch storage costs — the requesting team's 
 
 Toil is work that is:
 
-- **Manual** — a human must perform the task
-- **Repetitive** — done over and over
-- **Automatable** — could be handled by software
-- **Reactive** — triggered by an event rather than proactive improvement
-- **No enduring value** — does not permanently improve the system
+- **Manual** - a human must perform the task
+- **Repetitive** - done over and over
+- **Automatable** - could be handled by software
+- **Reactive** - triggered by an event rather than proactive improvement
+- **No enduring value** - does not permanently improve the system
 
 Toil is distinct from engineering overhead (meetings, planning) and operational work that requires judgment.
 
@@ -781,7 +781,7 @@ Toil is distinct from engineering overhead (meetings, planning) and operational 
 
 1. Each team tags toil items in Jira with the `toil` label
 2. During sprint planning, at least one toil-reduction item is prioritized per sprint
-3. Monthly toil review in the Reliability Review Board — teams report toil percentage and reduction progress
+3. Monthly toil review in the Reliability Review Board - teams report toil percentage and reduction progress
 4. If a team exceeds 30% toil for two consecutive months, the engineering manager and platform team collaborate on an automation plan
 
 ---
@@ -812,9 +812,9 @@ Use the following matrix to classify incident severity based on the intersection
 
 | | **Immediate** | **Business Hours** | **Deferrable** |
 |---|---|---|---|
-| **Full** — all users affected, core function unavailable | **P1** | **P1** | **P2** |
-| **Partial** — subset of users affected or degraded performance | **P1** | **P2** | **P3** |
-| **None** — no current user impact, early warning or potential risk | **P2** | **P3** | **P4** |
+| **Full** - all users affected, core function unavailable | **P1** | **P1** | **P2** |
+| **Partial** - subset of users affected or degraded performance | **P1** | **P2** | **P3** |
+| **None** - no current user impact, early warning or potential risk | **P2** | **P3** | **P4** |
 
 ### Classification Guidelines
 
@@ -824,7 +824,7 @@ Use the following matrix to classify incident severity based on the intersection
 | User-facing | Users actively blocked | Users experiencing degradation | No user-visible effect |
 | Safety/compliance | Safety or compliance risk | Compliance deadline approaching | Informational |
 
-This matrix supplements the severity definitions in Section 5.3. When in doubt, classify higher — it is easier to downgrade than to upgrade mid-incident.
+This matrix supplements the severity definitions in Section 5.3. When in doubt, classify higher - it is easier to downgrade than to upgrade mid-incident.
 
 ---
 

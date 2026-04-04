@@ -16,9 +16,9 @@ Without load shedding:
 - The entire platform becomes unusable for everyone
 
 With load shedding:
-- **Critical functions survive** — a customer with an active order completes it safely
-- Non-critical functions degrade gracefully — a customer browsing promotions sees a cached page
-- New requests are queued with honest wait times — not silently dropped
+- **Critical functions survive** - a customer with an active order completes it safely
+- Non-critical functions degrade gracefully - a customer browsing promotions sees a cached page
+- New requests are queued with honest wait times - not silently dropped
 - The platform recovers automatically as demand subsides
 
 **The principle is simple: when you can't serve everyone, serve the most important requests first and shed the rest deliberately.**
@@ -31,7 +31,7 @@ Every API endpoint in the platform is assigned a priority level. This classifica
 
 ```mermaid
 graph LR
-    subgraph P1["🔴 Priority 1 — Critical"]
+    subgraph P1["🔴 Priority 1 - Critical"]
         A1[Order Start]
         A2[Order Complete]
         A3[Order Cancel]
@@ -39,21 +39,21 @@ graph LR
         A5[Payment Capture]
     end
 
-    subgraph P2["🟠 Priority 2 — Important"]
+    subgraph P2["🟠 Priority 2 - Important"]
         B1[New Order Requests]
         B2[Price Estimates]
         B3[Provider Assignment]
         B4[Provider Go Online/Offline]
     end
 
-    subgraph P3["🟡 Priority 3 — Deferrable"]
+    subgraph P3["🟡 Priority 3 - Deferrable"]
         C1[Order History]
         C2[Ratings & Reviews]
         C3[Profile Updates]
         C4[Receipt Generation]
     end
 
-    subgraph P4["⚪ Priority 4 — Best-Effort"]
+    subgraph P4["⚪ Priority 4 - Best-Effort"]
         D1[Promotions & Offers]
         D2[Analytics Events]
         D3[Referral Lookups]
@@ -116,15 +116,15 @@ priority-classification:
 
 ## ⚖️ 3. Load Shedding Tiers
 
-The platform operates on a five-tier escalation model. Each tier is a strict superset of the previous — Tier 3 includes all actions from Tiers 1 and 2.
+The platform operates on a five-tier escalation model. Each tier is a strict superset of the previous - Tier 3 includes all actions from Tiers 1 and 2.
 
 ```mermaid
 flowchart TD
-    T0["<b>Tier 0 — Normal</b><br/>All traffic accepted<br/>No shedding active"]
-    T1["<b>Tier 1 — Elevated</b><br/>Drop P4 traffic<br/>(promotions, analytics)"]
-    T2["<b>Tier 2 — High</b><br/>Return cached responses for P3<br/>(order history, ratings, profiles)"]
-    T3["<b>Tier 3 — Critical</b><br/>Queue P2 with estimated wait time<br/>(new order requests, price estimates)"]
-    T4["<b>Tier 4 — Emergency</b><br/>Reject P2 with 503 + Retry-After<br/>Only P1 traffic accepted"]
+    T0["<b>Tier 0 - Normal</b><br/>All traffic accepted<br/>No shedding active"]
+    T1["<b>Tier 1 - Elevated</b><br/>Drop P4 traffic<br/>(promotions, analytics)"]
+    T2["<b>Tier 2 - High</b><br/>Return cached responses for P3<br/>(order history, ratings, profiles)"]
+    T3["<b>Tier 3 - Critical</b><br/>Queue P2 with estimated wait time<br/>(new order requests, price estimates)"]
+    T4["<b>Tier 4 - Emergency</b><br/>Reject P2 with 503 + Retry-After<br/>Only P1 traffic accepted"]
 
     T0 -->|"CPU > 70% OR<br/>p99 latency > 2s"| T1
     T1 -->|"CPU > 80% OR<br/>p99 latency > 4s"| T2
@@ -146,11 +146,11 @@ flowchart TD
 
 | Tier | Trigger Condition | P4 | P3 | P2 | P1 |
 |------|------------------|----|----|----|----|
-| 0 — Normal | All metrics nominal | ✅ Accept | ✅ Accept | ✅ Accept | ✅ Accept |
-| 1 — Elevated | CPU > 70% OR p99 > 2s | ❌ Drop | ✅ Accept | ✅ Accept | ✅ Accept |
-| 2 — High | CPU > 80% OR p99 > 4s | ❌ Drop | 📦 Cached | ✅ Accept | ✅ Accept |
-| 3 — Critical | CPU > 90% OR errors > 5% | ❌ Drop | 📦 Cached | ⏳ Queued | ✅ Accept |
-| 4 — Emergency | CPU > 95% OR errors > 15% | ❌ Drop | 📦 Cached | 🚫 Reject (503) | ✅ Accept |
+| 0 - Normal | All metrics nominal | ✅ Accept | ✅ Accept | ✅ Accept | ✅ Accept |
+| 1 - Elevated | CPU > 70% OR p99 > 2s | ❌ Drop | ✅ Accept | ✅ Accept | ✅ Accept |
+| 2 - High | CPU > 80% OR p99 > 4s | ❌ Drop | 📦 Cached | ✅ Accept | ✅ Accept |
+| 3 - Critical | CPU > 90% OR errors > 5% | ❌ Drop | 📦 Cached | ⏳ Queued | ✅ Accept |
+| 4 - Emergency | CPU > 95% OR errors > 15% | ❌ Drop | 📦 Cached | 🚫 Reject (503) | ✅ Accept |
 
 ### De-escalation Hysteresis
 
@@ -235,7 +235,7 @@ public class LoadSheddingInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_SERVICE_UNAVAILABLE);
             response.setHeader("Retry-After", "30");
             response.getWriter().write(
-                "{\"error\":\"capacity_exceeded\",\"message\":\"High demand — please retry shortly\",\"retryAfterSeconds\":30}"
+                "{\"error\":\"capacity_exceeded\",\"message\":\"High demand - please retry shortly\",\"retryAfterSeconds\":30}"
             );
             return false;
         }
@@ -292,7 +292,7 @@ Manual activation is appropriate when:
 
 ## ⚖️ 5. Kafka Backpressure
 
-Not all load arrives via HTTP. Kafka consumers can also be overwhelmed when producers spike — for example, when thousands of provider location updates pour in during a demand surge.
+Not all load arrives via HTTP. Kafka consumers can also be overwhelmed when producers spike - for example, when thousands of provider location updates pour in during a demand surge.
 
 ### 5.1 The Problem
 
@@ -372,7 +372,7 @@ spring:
 
 > **Note:** The primary API edge is AWS API Gateway + WAF (see `04-infrastructure-and-cloud/07-api-gateway-strategy.md`). Kong is referenced here as an alternative for service-level rate limiting within the mesh; the platform standard is API Gateway for external traffic.
 
-Rate limiting at the API Gateway is the first line of defence — it rejects abusive or excessive traffic before it reaches application services.
+Rate limiting at the API Gateway is the first line of defence - it rejects abusive or excessive traffic before it reaches application services.
 
 ### 6.1 Rate Limiting Dimensions
 
@@ -416,7 +416,7 @@ plugins:
         database: 1
 
       limits:
-        # General API — per user
+        # General API - per user
         - path: /api/v1/*
           per_user:
             second: 20
@@ -426,7 +426,7 @@ plugins:
             second: 100
             minute: 3000
 
-        # Price estimates — expensive, protect heavily
+        # Price estimates - expensive, protect heavily
         - path: /api/v1/price-estimates
           per_user:
             second: 5
@@ -435,14 +435,14 @@ plugins:
             second: 50
             minute: 500
 
-        # Order creation — moderate protection
+        # Order creation - moderate protection
         - path: /api/v1/orders
           methods: [POST]
           per_user:
             second: 2
             minute: 20
 
-        # Provider location updates — high frequency is expected
+        # Provider location updates - high frequency is expected
         - path: /api/v1/providers/*/location
           per_user:
             second: 2    # One update every 500ms is plenty
@@ -468,7 +468,7 @@ Retry-After: 3
 
 {
   "error": "rate_limited",
-  "message": "Too many requests — please slow down",
+  "message": "Too many requests - please slow down",
   "retryAfterSeconds": 3
 }
 ```
@@ -505,7 +505,7 @@ sequenceDiagram
     participant Kafka as Kafka
     participant Grafana as Grafana
 
-    Note over Customers,Grafana: 23:00 — Event ends
+    Note over Customers,Grafana: 23:00 - Event ends
 
     Customers->>GW: Surge of price estimate requests (10x normal)
     GW->>Services: Rate limiter absorbs first wave
@@ -522,7 +522,7 @@ sequenceDiagram
     Platform->>LD: Set ops.load-shedding-tier = 2
     Note over Services: P3 returns cached responses (order history, ratings)
 
-    Customers->>GW: Demand peaks — 10x baseline
+    Customers->>GW: Demand peaks - 10x baseline
     Services->>Grafana: CPU 92%, error rate 6%
 
     Grafana->>Platform: Alert: Tier 3 threshold breached
@@ -533,21 +533,21 @@ sequenceDiagram
     Kafka->>Services: Consumer lag > 10K
     Services->>Kafka: Pause consumption, drain backlog
 
-    Note over Customers,Grafana: 23:25 — Dynamic pricing activates, demand stabilises
+    Note over Customers,Grafana: 23:25 - Dynamic pricing activates, demand stabilises
 
     Services->>Grafana: CPU 78%, error rate 2%
     Platform->>LD: De-escalate to Tier 2
     Kafka->>Services: Consumer lag < 1K, resume
 
-    Note over Customers,Grafana: 23:35 — Demand returning to normal
+    Note over Customers,Grafana: 23:35 - Demand returning to normal
 
     Platform->>LD: De-escalate to Tier 1
     Note over Services: P3 traffic restored to live responses
 
-    Note over Customers,Grafana: 23:45 — Stable for 10 minutes
+    Note over Customers,Grafana: 23:45 - Stable for 10 minutes
 
     Platform->>LD: Set ops.load-shedding-tier = 0
-    Note over Services: All traffic accepted — normal operations
+    Note over Services: All traffic accepted - normal operations
 ```
 
 ### Outcome
@@ -555,16 +555,16 @@ sequenceDiagram
 | Metric | Without Load Shedding | With Load Shedding |
 |--------|-----------------------|--------------------|
 | Active orders completed successfully | ~60% | **99.8%** |
-| New order requests served | Platform crash — 0% | **85%** (15% queued briefly) |
-| Promotions served | Platform crash — 0% | 0% (intentionally shed) |
+| New order requests served | Platform crash - 0% | **85%** (15% queued briefly) |
+| Promotions served | Platform crash - 0% | 0% (intentionally shed) |
 | Mean recovery time | 25+ minutes (manual restart) | **< 5 minutes** (automatic) |
-| Revenue impact | Severe — mass order failures | Minimal — only deferred traffic delayed |
+| Revenue impact | Severe - mass order failures | Minimal - only deferred traffic delayed |
 
 ---
 
 ## 🔄 8. Recovery Procedure
 
-Exiting load shedding safely is as important as entering it. Dropping back to Tier 0 too quickly causes a "thundering herd" — all the queued and deferred traffic floods back simultaneously.
+Exiting load shedding safely is as important as entering it. Dropping back to Tier 0 too quickly causes a "thundering herd" - all the queued and deferred traffic floods back simultaneously.
 
 ```mermaid
 flowchart TD
@@ -593,9 +593,9 @@ flowchart TD
 ```
 □  Current tier metrics are stable for 5+ minutes
 □  Reduce tier by 1 via LaunchDarkly
-□  Monitor error rate — no spike within 2 minutes
-□  Monitor p99 latency — no regression
-□  Monitor CPU utilisation — stays below threshold
+□  Monitor error rate - no spike within 2 minutes
+□  Monitor p99 latency - no regression
+□  Monitor CPU utilisation - stays below threshold
 □  Confirm Kafka consumer lag is nominal
 □  Repeat until Tier 0 is reached
 □  Hold at Tier 0 for 10 minutes
@@ -644,7 +644,7 @@ groups:
         labels:
           severity: P1
         annotations:
-          summary: "CRITICAL: Load shedding at Tier {{ $value }} — new order requests affected"
+          summary: "CRITICAL: Load shedding at Tier {{ $value }} - new order requests affected"
           runbook: "https://wiki.{company}.internal/runbooks/load-shedding#tier3"
 
       # Kafka backpressure alert
@@ -663,7 +663,7 @@ groups:
         labels:
           severity: P3
         annotations:
-          summary: "High rate of API rate limit rejections — possible abuse or misconfigured client"
+          summary: "High rate of API rate limit rejections - possible abuse or misconfigured client"
 ```
 
 ### 9.3 PagerDuty Integration

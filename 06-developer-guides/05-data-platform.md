@@ -21,15 +21,15 @@ All Kafka messages use **Avro** schemas, registered in **AWS Glue Schema Registr
 
 ### 2.2 Schema Evolution Rules
 
-We follow **backward compatibility** rules — new consumers can read old messages, old consumers can read new messages:
+We follow **backward compatibility** rules - new consumers can read old messages, old consumers can read new messages:
 
 | Change | Allowed? |
 |--------|---------|
 | Add field with default value | ✅ Yes |
-| Remove field (with or without default) | ❌ No — breaking (removing a field is always a breaking change; requires the breaking change playbook) |
-| Add required field (no default) | ❌ No — breaking |
-| Remove required field | ❌ No — breaking |
-| Change field type | ❌ No — breaking |
+| Remove field (with or without default) | ❌ No - breaking (removing a field is always a breaking change; requires the breaking change playbook) |
+| Add required field (no default) | ❌ No - breaking |
+| Remove required field | ❌ No - breaking |
+| Change field type | ❌ No - breaking |
 | Rename field | ❌ No (add new + deprecate old) |
 
 Breaking schema changes require a new schema version and a migration plan.
@@ -90,7 +90,7 @@ Operational DBs (Aurora)
 
 - **Debezium** captures row-level changes from Aurora and publishes to Kafka
 - Topic naming for CDC: `cdc.{database}.{table}` e.g. `cdc.orders.orders`
-- CDC events are never consumed by application services — analytics pipeline only
+- CDC events are never consumed by application services - analytics pipeline only
 
 ### 3.3 Data Retention
 
@@ -142,7 +142,7 @@ Is this for real-time geospatial queries (provider locations)?
 
 ---
 
-## 🧩 6. Provider Location — Geospatial Pattern
+## 🧩 6. Provider Location - Geospatial Pattern
 
 Provider location updates are the highest-frequency writes on the platform (~5 updates/second/active provider). They use Redis geospatial indexes:
 
@@ -183,7 +183,7 @@ public class ProviderLocationRepository {
 
 ---
 
-## 🏗️ 7. Analytics Pipeline — Step by Step
+## 🏗️ 7. Analytics Pipeline - Step by Step
 
 ### 7.1 Change Data Capture (CDC) with Debezium
 
@@ -211,8 +211,8 @@ Debezium captures every INSERT, UPDATE, DELETE from Aurora and publishes to Kafk
 ```
 
 This produces events on Kafka topics:
-- `cdc.orders.public.orders` — all changes to the orders table
-- `cdc.orders.public.order_events` — all changes to order_events
+- `cdc.orders.public.orders` - all changes to the orders table
+- `cdc.orders.public.order_events` - all changes to order_events
 
 ### 7.2 CDC Event Shape
 
@@ -374,7 +374,7 @@ The Debezium connector will automatically pick up new columns. Removing columns 
 |-----------|----------|--------|
 | **Kinesis Data Analytics** | Streaming SQL over Kinesis Data Streams for real-time aggregations | Adopted |
 | **Redshift Materialized Views** | Near-real-time dashboards refreshed from streaming ingestion | Adopted |
-| **Apache Flink** | Complex event processing, windowed aggregations | Trial (tech radar) — evaluated but not adopted for production |
+| **Apache Flink** | Complex event processing, windowed aggregations | Trial (tech radar) - evaluated but not adopted for production |
 
 Kinesis Data Analytics is the approved solution for streaming analytics. For near-real-time dashboard requirements, prefer Redshift materialized views refreshed on a schedule over building custom streaming consumers.
 
@@ -429,7 +429,7 @@ USING (region = current_setting('app.current_region'));
 | Tool | Purpose |
 |------|---------|
 | Airflow SLA alerts | Detects DAG runs that exceed their SLA |
-| CloudWatch custom metric | `pipeline.lag.seconds` — measures time since last successful load |
+| CloudWatch custom metric | `pipeline.lag.seconds` - measures time since last successful load |
 | Grafana dashboard | Pipeline freshness dashboard with per-pipeline lag visualisation |
 
 ### 14.3 Alerting

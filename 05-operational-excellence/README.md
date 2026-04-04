@@ -1,8 +1,8 @@
-# 🚨 05 — Operational Excellence
+# 🚨 05 - Operational Excellence
 
 ![Docs](https://img.shields.io/badge/docs-9-blue?style=flat-square)
 
-How we keep services healthy in production — observability, resilience, and incident response.
+How we keep services healthy in production - observability, resilience, and incident response.
 
 | Document | Description |
 |----------|-------------|
@@ -14,7 +14,7 @@ How we keep services healthy in production — observability, resilience, and in
 | [06-chaos-engineering.md](./06-chaos-engineering.md) | Chaos engineering program, game days, experiment catalog |
 | [07-disaster-recovery-playbook.md](./07-disaster-recovery-playbook.md) | Region failover, failback, DR exercises |
 | [08-testing-in-production.md](./08-testing-in-production.md) | Synthetic monitoring, traffic mirroring, dark launches |
-| [09-debugging-guide.md](./09-debugging-guide.md) | Debugging guide — local, staging, log search, trace exploration, common scenarios |
+| [09-debugging-guide.md](./09-debugging-guide.md) | Debugging guide - local, staging, log search, trace exploration, common scenarios |
 
 ---
 

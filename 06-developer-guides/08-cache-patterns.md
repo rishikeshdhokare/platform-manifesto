@@ -23,7 +23,7 @@
 
 > **A cache is always eventually consistent. Design accordingly.**
 
-Caching is a performance optimization, not a source of truth. Every cached value has a bounded staleness window, and every system must function correctly — albeit slower — if the cache is cold or unavailable.
+Caching is a performance optimization, not a source of truth. Every cached value has a bounded staleness window, and every system must function correctly - albeit slower - if the cache is cold or unavailable.
 
 **Core principles:**
 
@@ -45,7 +45,7 @@ Cache-aside (also called lazy-loading) is the **default caching pattern**. The a
 flowchart TD
     A[Application] -->|1. GET key| B{Cache Hit?}
     B -->|Yes| C[Return cached value]
-    B -->|No — cache miss| D[Query Database]
+    B -->|No - cache miss| D[Query Database]
     D --> E[Store result in cache\nwith TTL]
     E --> F[Return value]
 
@@ -134,8 +134,8 @@ flowchart TD
     A -->|Rarely / on deploy| E[TTL: 24 hours+\nwith event invalidation]
 
     B --> F{Is a stale read dangerous?}
-    F -->|Yes — safety/money| G[Don't cache.\nRead from source.]
-    F -->|No — UX only| H[Short TTL is fine]
+    F -->|Yes - safety/money| G[Don't cache.\nRead from source.]
+    F -->|No - UX only| H[Short TTL is fine]
 
     style A fill:#6C3FC5,stroke:#fff,color:#fff
     style G fill:#E53935,stroke:#fff,color:#fff
@@ -220,7 +220,7 @@ public class CacheInvalidationConsumer {
 
 ### Idempotency
 
-Cache invalidation is inherently idempotent — evicting a key that doesn't exist is a no-op. Duplicate Kafka messages are safe.
+Cache invalidation is inherently idempotent - evicting a key that doesn't exist is a no-op. Duplicate Kafka messages are safe.
 
 ---
 
@@ -338,7 +338,7 @@ public class StampedeProtectedCacheService {
 
 ### Strategy 2: Probabilistic Early Expiry
 
-Each cache entry is stored with its expiry timestamp. As the TTL approaches, each read has an increasing probability of triggering a background refresh — spreading refills over time instead of concentrating them at the expiry instant.
+Each cache entry is stored with its expiry timestamp. As the TTL approaches, each read has an increasing probability of triggering a background refresh - spreading refills over time instead of concentrating them at the expiry instant.
 
 ```java
 public PricingRule getPricingRuleWithEarlyExpiry(String cacheKey) {
@@ -394,21 +394,21 @@ A cache without observability is a liability. Every cache exposes the following 
 
 | Metric | Description | Alert Threshold |
 |--------|-------------|-----------------|
-| `cache_hit_total` | Total cache hits by cache name | — |
-| `cache_miss_total` | Total cache misses by cache name | — |
+| `cache_hit_total` | Total cache hits by cache name | - |
+| `cache_miss_total` | Total cache misses by cache name | - |
 | `cache_hit_ratio` | `hits / (hits + misses)` | <80% → warning |
 | `cache_eviction_total` | Evictions due to memory pressure | >100/min → warning |
-| `cache_put_total` | Cache writes | — |
+| `cache_put_total` | Cache writes | - |
 | `cache_latency_seconds` | Redis GET/SET latency | P99 > 5ms → warning |
-| `cache_size` | Number of keys per cache | — |
+| `cache_size` | Number of keys per cache | - |
 
 ### Grafana Dashboard Panels
 
 | Panel | Visualization | Purpose |
 |-------|---------------|---------|
-| Hit Rate by Cache | Time series (%) | Spot caches with poor hit rates — likely bad TTL or key design |
+| Hit Rate by Cache | Time series (%) | Spot caches with poor hit rates - likely bad TTL or key design |
 | Miss Rate Spike | Time series | Detect stampedes or cold-cache events after deployments |
-| Eviction Rate | Time series | Detect memory pressure — need to increase Redis node size or reduce cached data |
+| Eviction Rate | Time series | Detect memory pressure - need to increase Redis node size or reduce cached data |
 | Latency Heatmap | Heatmap | Identify Redis performance degradation |
 | Cache Size Trend | Time series | Capacity planning for Redis memory |
 
@@ -482,7 +482,7 @@ Examples:
 | Use `allkeys-lru` for caches | Least-recently-used eviction prevents OOM |
 | Use `noeviction` for locks | Lock eviction would silently break mutual exclusion |
 | Monitor `used_memory_rss` | Alert if RSS exceeds 80% of node memory |
-| Set `maxmemory` explicitly | Don't rely on default — set per cluster based on capacity plan |
+| Set `maxmemory` explicitly | Don't rely on default - set per cluster based on capacity plan |
 
 ---
 
@@ -546,9 +546,9 @@ Not all caching requires Redis. For small, frequently accessed reference data wi
 
 ### Forbidden for
 
-- **User data** — must be consistent across all service instances; use Redis.
-- **Session state** — must survive pod restarts; use Redis or the session store.
-- **Shared mutable state** — in-process caches are per-pod; mutations are invisible to other instances.
+- **User data** - must be consistent across all service instances; use Redis.
+- **Session state** - must survive pod restarts; use Redis or the session store.
+- **Shared mutable state** - in-process caches are per-pod; mutations are invisible to other instances.
 
 ### Invalidation via Kafka
 
@@ -576,7 +576,7 @@ Caffeine integrates with Micrometer to expose cache metrics to Prometheus:
 | `cache.gets{result=miss}` | Total cache misses |
 | `cache.evictions` | Eviction count (due to size or expiry) |
 | `cache.size` | Current number of entries |
-| Hit rate | Derived: `hits / (hits + misses)` — alert if < 80% |
+| Hit rate | Derived: `hits / (hits + misses)` - alert if < 80% |
 
 ### Configuration
 

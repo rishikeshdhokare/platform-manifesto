@@ -25,7 +25,7 @@ In a platform serving concurrent requests, certain operations **must not happen 
 |----------|-------------------------------|
 | **Double-assignment** | Two customers get assigned the same provider. One order fails, both customers wait. |
 | **Double-charge** | Payment is captured twice for the same order. Customer is overcharged, refund required. |
-| **Concurrent order state update** | Two services update an order simultaneously — one update is silently lost. |
+| **Concurrent order state update** | Two services update an order simultaneously - one update is silently lost. |
 | **Duplicate payout** | Provider receives two payouts for one order. Finance reconciliation breaks. |
 | **Race on promo code redemption** | Two customers redeem the same single-use promo code. Revenue leakage. |
 
@@ -143,7 +143,7 @@ sequenceDiagram
     Redis-->>MS: ✅ Lock acquired
     MS->>MS: Assign provider-123 to order-456
     PS->>Redis: LOCK provider:assign:provider-123 (lease: 10s)
-    Redis-->>PS: ❌ Lock held — wait or fail
+    Redis-->>PS: ❌ Lock held - wait or fail
     MS->>Redis: UNLOCK provider:assign:provider-123
     Redis-->>PS: ✅ Lock acquired (after release)
     PS->>PS: Proceed with payment for provider-123
@@ -225,8 +225,8 @@ Distributed locks **must always have a lease (TTL)**. A lock without a timeout i
 
 | Parameter | Meaning | Recommended Value | Why |
 |-----------|---------|-------------------|-----|
-| `waitTime` | How long a caller waits to acquire the lock | 3–5 seconds | Fail fast — if you can't get the lock quickly, the operation is already contended |
-| `leaseTime` | How long the lock is held before automatic release | 10–30 seconds | Safety net — if the holder crashes, the lock auto-expires |
+| `waitTime` | How long a caller waits to acquire the lock | 3–5 seconds | Fail fast - if you can't get the lock quickly, the operation is already contended |
+| `leaseTime` | How long the lock is held before automatic release | 10–30 seconds | Safety net - if the holder crashes, the lock auto-expires |
 
 ### Lease Expiry Safety Net
 
@@ -236,13 +236,13 @@ Thread A crashes at T+3s
    ↓
 Lock auto-expires at T+10s
    ↓
-Thread B acquires lock at T+10s — system recovers
+Thread B acquires lock at T+10s - system recovers
 ```
 
 ### Rules
 
-1. **Always set a lease time.** Redisson's default `tryLock()` without `leaseTime` uses a watchdog that renews indefinitely — disable this by always passing an explicit lease.
-2. **Lease > expected operation time.** If your critical section takes 2 seconds, set the lease to 10 seconds. If it takes 15 seconds, reconsider — you're holding a lock too long.
+1. **Always set a lease time.** Redisson's default `tryLock()` without `leaseTime` uses a watchdog that renews indefinitely - disable this by always passing an explicit lease.
+2. **Lease > expected operation time.** If your critical section takes 2 seconds, set the lease to 10 seconds. If it takes 15 seconds, reconsider - you're holding a lock too long.
 3. **Prefer short leases.** Shorter leases mean faster recovery from holder crashes.
 4. **Never use `lock()` (blocking forever).** Always use `tryLock(waitTime, leaseTime, unit)`.
 
@@ -291,7 +291,7 @@ sequenceDiagram
 The lock ensures mutual exclusion. The status check ensures correctness even if the lock fails (defense in depth). Neither alone is sufficient:
 
 - **Lock without check:** If the lock implementation has a bug, double-assignment happens.
-- **Check without lock:** TOCTOU race — status can change between the check and the assignment.
+- **Check without lock:** TOCTOU race - status can change between the check and the assignment.
 
 ---
 
@@ -400,7 +400,7 @@ class ProviderAssignmentConcurrencyTest {
 
 ## 🎯 8. Decision Guide
 
-### When to Lock — and How
+### When to Lock - and How
 
 ```mermaid
 flowchart TD

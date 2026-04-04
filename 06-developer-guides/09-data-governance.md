@@ -20,7 +20,7 @@
 
 ## 📊 1. Data Steward Role
 
-Every domain at {Company} has a designated **data steward** — a named individual responsible for the quality, accessibility, retention, and compliance of the data produced by their domain.
+Every domain at {Company} has a designated **data steward** - a named individual responsible for the quality, accessibility, retention, and compliance of the data produced by their domain.
 
 ### 1.1 Responsibilities
 
@@ -60,9 +60,9 @@ Data quality is measured and enforced via tiered SLAs. The tier is determined by
 
 | Tier | Completeness | Freshness | Accuracy | Examples |
 |------|-------------|-----------|----------|----------|
-| **Tier 1 — Critical** | ≥ 99.9% | < 5 minutes | ≥ 99.9% | Order events, payment transactions, real-time pricing data |
-| **Tier 2 — Important** | ≥ 99% | < 30 minutes | ≥ 99% | Provider profiles, customer preferences, fulfillment assignments |
-| **Tier 3 — Standard** | ≥ 95% | < 2 hours | ≥ 95% | Analytics aggregations, reporting datasets, historical trends |
+| **Tier 1 - Critical** | ≥ 99.9% | < 5 minutes | ≥ 99.9% | Order events, payment transactions, real-time pricing data |
+| **Tier 2 - Important** | ≥ 99% | < 30 minutes | ≥ 99% | Provider profiles, customer preferences, fulfillment assignments |
+| **Tier 3 - Standard** | ≥ 95% | < 2 hours | ≥ 95% | Analytics aggregations, reporting datasets, historical trends |
 
 ### 2.2 Measurement Definitions
 
@@ -76,7 +76,7 @@ Data quality is measured and enforced via tiered SLAs. The tier is determined by
 
 | Tier | Alert Channel | Response Time | Escalation |
 |------|--------------|---------------|------------|
-| Tier 1 | PagerDuty (P1) | 15 minutes | Immediate — data steward + on-call engineer |
+| Tier 1 | PagerDuty (P1) | 15 minutes | Immediate - data steward + on-call engineer |
 | Tier 2 | PagerDuty (P3) | 1 hour | Data steward notified |
 | Tier 3 | Slack alert | Next business day | Data steward reviews in weekly data quality review |
 
@@ -84,7 +84,7 @@ Data quality is measured and enforced via tiered SLAs. The tier is determined by
 
 ## 📊 3. Data Catalog
 
-All datasets — databases, Kafka topics, S3 buckets, Redshift tables, and event schemas — must be registered in the data catalog before production deployment. Unregistered datasets are invisible, ungoverned, and a compliance risk.
+All datasets - databases, Kafka topics, S3 buckets, Redshift tables, and event schemas - must be registered in the data catalog before production deployment. Unregistered datasets are invisible, ungoverned, and a compliance risk.
 
 ### 3.1 Catalog Tools
 
@@ -171,7 +171,7 @@ Quality check failures trigger alerts through the SLA breach response matrix (§
 
 ## 📋 5. Bad Data Incident Process
 
-When bad data reaches production — corrupted records, incorrect values, schema violations that bypassed validation — the impact can cascade to downstream consumers, dashboards, and customer-facing features. Speed and blast-radius assessment are critical.
+When bad data reaches production - corrupted records, incorrect values, schema violations that bypassed validation - the impact can cascade to downstream consumers, dashboards, and customer-facing features. Speed and blast-radius assessment are critical.
 
 ### 5.1 Incident Flow
 
@@ -260,17 +260,17 @@ Each domain must maintain a data retention matrix that defines the lifecycle of 
 | Store | Data Examples | Retention | Archive Strategy | Deletion Method | Legal Hold |
 |-------|---------------|-----------|-----------------|----------------|------------|
 | **Primary DB (RDS/Aurora)** | Active orders, customer profiles | Per domain policy (e.g., 90 days active) | Archive to S3 Glacier after active window | Automated TTL job or scheduled deletion | Suspend deletion for flagged records |
-| **Read replicas** | Replica of primary data | Mirrors primary | N/A — follows primary | Follows primary | Follows primary |
-| **Kafka topics** | Domain events | 7 days (default topic retention) | Export to S3 via Kafka Connect for long-term | Kafka log segment deletion | N/A — use S3 archive for legal hold |
+| **Read replicas** | Replica of primary data | Mirrors primary | N/A - follows primary | Follows primary | Follows primary |
+| **Kafka topics** | Domain events | 7 days (default topic retention) | Export to S3 via Kafka Connect for long-term | Kafka log segment deletion | N/A - use S3 archive for legal hold |
 | **S3 objects** | Data lake files, backups, exports | Per classification: 90 days – 7 years | S3 Intelligent-Tiering → Glacier after 90 days | S3 lifecycle policy | S3 Object Lock (compliance mode) |
 | **OpenSearch indexes** | Application logs, search indexes | 30 days (logs), 90 days (search) | Snapshot to S3 | Index lifecycle management (ILM) policy | Snapshot preserved |
-| **Redshift tables** | Analytics datasets | Indefinite (anonymized) or per contract | N/A — Redshift is the archive | Manual deletion with data steward approval | Query audit log preserved |
+| **Redshift tables** | Analytics datasets | Indefinite (anonymized) or per contract | N/A - Redshift is the archive | Manual deletion with data steward approval | Query audit log preserved |
 | **Application logs** | CloudWatch, structured logs | 30 days | Export to S3 after 30 days | CloudWatch retention policy | S3 archive |
 
 ### 7.2 Rules
 
 - **Every data store must have a defined retention period.** No exceptions. "We'll figure it out later" is not a retention policy.
-- **Retention is enforced automatically.** Manual deletion is not a strategy — it is a liability. Use TTL, lifecycle policies, and scheduled jobs.
+- **Retention is enforced automatically.** Manual deletion is not a strategy - it is a liability. Use TTL, lifecycle policies, and scheduled jobs.
 - **Legal hold overrides retention.** When legal places a hold on data related to litigation or regulatory investigation, automated deletion is suspended for the held records until the hold is lifted.
 - **Anonymized data may be retained indefinitely.** Data that has been irreversibly anonymized (per `04-infrastructure-and-cloud/08-privacy-engineering.md` §4) is not subject to PII retention limits.
 
@@ -306,7 +306,7 @@ PII data must be anonymized before it enters the analytics platform. The followi
 
 ### 8.3 Cross-Reference
 
-For full PII handling details — including data classification, privacy impact assessments, right to erasure, and consent management — see `04-infrastructure-and-cloud/08-privacy-engineering.md`.
+For full PII handling details - including data classification, privacy impact assessments, right to erasure, and consent management - see `04-infrastructure-and-cloud/08-privacy-engineering.md`.
 
 ---
 
@@ -316,9 +316,9 @@ For full PII handling details — including data classification, privacy impact 
 
 | Principle | Rule |
 |-----------|------|
-| **No direct cross-service DB access** | Services access each other's data via APIs or Kafka events — never via direct database queries. A service's database is a private implementation detail. |
+| **No direct cross-service DB access** | Services access each other's data via APIs or Kafka events - never via direct database queries. A service's database is a private implementation detail. |
 | **Least privilege** | IAM policies grant the minimum permissions required. No wildcard (`*`) resource permissions for data stores. |
-| **Analytics via Redshift/QuickSight only** | Analysts and data scientists access production data through Redshift (read replicas) or QuickSight dashboards — never via direct RDS connections. |
+| **Analytics via Redshift/QuickSight only** | Analysts and data scientists access production data through Redshift (read replicas) or QuickSight dashboards - never via direct RDS connections. |
 | **Audit trail** | All data access is logged. PII access is logged with justification (per privacy-engineering.md §10). |
 
 ### 9.2 Access Model
@@ -341,8 +341,8 @@ flowchart TD
         Analyst["Analyst"]
     end
 
-    SA -->|"Owns — full access"| DA
-    SB -->|"Owns — full access"| DB
+    SA -->|"Owns - full access"| DA
+    SB -->|"Owns - full access"| DB
 
     SA -->|"API call"| SB
     SA -.->|"❌ Direct DB\naccess forbidden"| DB

@@ -25,12 +25,12 @@ This guide shows you **exactly how to set up** logging, metrics, and tracing so 
 The platform BOM includes the correct Logback configuration. Verify this in your `build.gradle.kts`:
 
 ```kotlin
-// These are included in platform BOM — no versions needed
+// These are included in platform BOM - no versions needed
 implementation("net.logstash.logback:logstash-logback-encoder")
 implementation("org.slf4j:slf4j-api")
 ```
 
-`src/main/resources/logback-spring.xml` — copy this exactly:
+`src/main/resources/logback-spring.xml` - copy this exactly:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -77,14 +77,14 @@ import org.slf4j.LoggerFactory;
 
 public class OrderService {
 
-    // One logger per class — use the class as the name
+    // One logger per class - use the class as the name
     private static final Logger log = LoggerFactory.getLogger(OrderService.class);
 
     // ...
 }
 ```
 
-### 2.3 Correlation ID — Propagating the Request ID
+### 2.3 Correlation ID - Propagating the Request ID
 
 Every request that enters the system gets a correlation ID. This ID must flow through every log line so you can reconstruct a full request trace.
 
@@ -111,7 +111,7 @@ public class CorrelationIdFilter implements Filter {
             .filter(s -> !s.isBlank())
             .orElse(UUID.randomUUID().toString());
 
-        // Put it in MDC — every log line in this thread will include it automatically
+        // Put it in MDC - every log line in this thread will include it automatically
         MDC.put(CORRELATION_ID_MDC_KEY, correlationId);
 
         // Echo it back in the response
@@ -215,7 +215,7 @@ public class OrderService {
 
         Order order = orderRepository.findById(orderId)
             .orElseThrow(() -> {
-                log.warn("Order not found. orderId={}", orderId);  // WARN, not ERROR — expected case
+                log.warn("Order not found. orderId={}", orderId);  // WARN, not ERROR - expected case
                 return new OrderNotFoundException(orderId);
             });
 
@@ -248,7 +248,7 @@ Output (as JSON, with correlation ID automatically included from MDC):
 
 ## 📡 3. Metrics in Practice
 
-### 3.1 Setup — Already Done
+### 3.1 Setup - Already Done
 
 Spring Boot Actuator + Micrometer Prometheus are in the platform BOM. Verify your `application.yml`:
 
@@ -314,7 +314,7 @@ public class OrderService {
         // Record order duration as a histogram
         orderDurationTimer.record(order.getDurationSeconds(), TimeUnit.SECONDS);
 
-        // With tags — allows filtering in Grafana
+        // With tags - allows filtering in Grafana
         meterRegistry.counter("orders.completed.by.type",
             "service_type", order.getServiceType().name(),
             "region", order.getRegion()
@@ -393,7 +393,7 @@ sequenceDiagram
     Gateway-->>Client: Response
 ```
 
-### 4.1 Setup — Java Agent
+### 4.1 Setup - Java Agent
 
 The OpenTelemetry Java agent is attached via the Dockerfile. No code changes needed for basic tracing.
 
@@ -546,7 +546,7 @@ curl http://localhost:8080/actuator/health
 - **Liveness:** Is the JVM alive? If DOWN → Kubernetes restarts the pod
 - **Readiness:** Is the service ready to accept traffic? If DOWN → Kubernetes stops sending traffic (but doesn't restart)
 
-Use readiness to signal "I'm starting up" or "I've lost my DB connection — stop sending me requests."
+Use readiness to signal "I'm starting up" or "I've lost my DB connection - stop sending me requests."
 
 ---
 

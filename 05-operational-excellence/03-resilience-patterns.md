@@ -6,14 +6,14 @@
 
 ## 🎯 1. Why Resilience Matters
 
-In a distributed system, **everything will fail eventually** — a downstream service, a database connection, a network blip. The question is not whether a dependency will fail, but whether your service fails gracefully when it does.
+In a distributed system, **everything will fail eventually** - a downstream service, a database connection, a network blip. The question is not whether a dependency will fail, but whether your service fails gracefully when it does.
 
 Without resilience patterns:
 - One slow downstream service makes your service slow
 - One unavailable downstream service makes your service unavailable
 - A cascade of failures takes down the entire platform
 
-With resilience patterns, a failing dependency causes **graceful degradation** — not a cascade.
+With resilience patterns, a failing dependency causes **graceful degradation** - not a cascade.
 
 ---
 
@@ -22,7 +22,7 @@ With resilience patterns, a failing dependency causes **graceful degradation** �
 We use **Resilience4j** for all resilience patterns. It is included in the platform BOM and integrates with Spring Boot and Micrometer automatically.
 
 ```kotlin
-// build.gradle.kts — already in platform BOM
+// build.gradle.kts - already in platform BOM
 implementation("io.github.resilience4j:resilience4j-spring-boot3")
 implementation("io.github.resilience4j:resilience4j-kotlin")
 ```
@@ -33,7 +33,7 @@ implementation("io.github.resilience4j:resilience4j-kotlin")
 
 ### 3.1 What It Does
 
-A circuit breaker monitors calls to a downstream dependency. When failures exceed a threshold, it "opens" — subsequent calls immediately return an error (or fallback) without hitting the failing service. After a wait period, it "half-opens" to test if the service has recovered.
+A circuit breaker monitors calls to a downstream dependency. When failures exceed a threshold, it "opens" - subsequent calls immediately return an error (or fallback) without hitting the failing service. After a wait period, it "half-opens" to test if the service has recovered.
 
 ```
 CLOSED → calls go through normally
@@ -75,7 +75,7 @@ resilience4j:
 
       fulfillmentService:
         slidingWindowSize: 10
-        failureRateThreshold: 30           # More sensitive — fulfillment is critical
+        failureRateThreshold: 30           # More sensitive - fulfillment is critical
         waitDurationInOpenState: 10s
         slowCallRateThreshold: 50          # Also open if > 50% of calls are slow
         slowCallDurationThreshold: 500ms   # "Slow" = > 500ms
@@ -96,7 +96,7 @@ public class OrderService {
         return pricingClient.estimate(request);
     }
 
-    // Fallback — called when circuit is open or call fails
+    // Fallback - called when circuit is open or call fails
     // Must have same signature + exception parameter
     private PriceEstimate getDefaultPrice(OrderRequest request, Exception ex) {
         log.warn("Pricing service unavailable, using default price. cause={}", ex.getMessage());
@@ -131,9 +131,9 @@ public class OrderService {
 | Situation | Use Fallback? | Fallback Strategy |
 |-----------|--------------|------------------|
 | Pricing service unavailable for price estimate | Yes | Return default estimate with disclaimer |
-| Provider profile unavailable during order completion | No — critical data | Let it fail; retry later |
+| Provider profile unavailable during order completion | No - critical data | Let it fail; retry later |
 | Notification service unavailable | Yes | Queue for retry; don't fail the order |
-| Payment service unavailable | No — cannot proceed | Fail and return error to user |
+| Payment service unavailable | No - cannot proceed | Fail and return error to user |
 
 ---
 
@@ -141,7 +141,7 @@ public class OrderService {
 
 ### 4.1 What It Does
 
-Automatically retries a failed call. Useful for transient failures — network blips, temporary service unavailability.
+Automatically retries a failed call. Useful for transient failures - network blips, temporary service unavailability.
 
 **Only retry idempotent operations.** Retrying a `POST /payments` that may have partially succeeded causes double charging.
 
@@ -168,24 +168,24 @@ resilience4j:
 ### 4.3 Usage
 
 ```java
-// ✅ Retry with exponential backoff — for idempotent GET calls
+// ✅ Retry with exponential backoff - for idempotent GET calls
 @Retry(name = "pricingService", fallbackMethod = "getDefaultPrice")
 @CircuitBreaker(name = "pricingService", fallbackMethod = "getDefaultPrice")
 public PriceEstimate getPriceEstimate(OrderRequest request) {
-    return pricingClient.estimate(request);  // GET — safe to retry
+    return pricingClient.estimate(request);  // GET - safe to retry
 }
 
-// ✅ Do NOT retry POST payment — not idempotent
+// ✅ Do NOT retry POST payment - not idempotent
 // Instead, use idempotency keys and let the caller retry
 public PaymentResult capturePayment(String idempotencyKey, PriceAmount price) {
-    // No @Retry here — payment capture is not idempotent without explicit key handling
+    // No @Retry here - payment capture is not idempotent without explicit key handling
     return paymentGateway.capture(idempotencyKey, price);
 }
 ```
 
 ### 4.4 Combining Retry + Circuit Breaker
 
-Apply them together — retry first, circuit breaker outside:
+Apply them together - retry first, circuit breaker outside:
 
 ```java
 // Order matters: retry is inner (executes multiple times), CB is outer (tracks outcomes)
@@ -213,11 +213,11 @@ resilience4j:
   timelimiter:
     instances:
       pricingService:
-        timeoutDuration: 2s         # Internal service — 2s max
+        timeoutDuration: 2s         # Internal service - 2s max
         cancelRunningFuture: true
 
       geolocationService:
-        timeoutDuration: 5s         # External service — more lenient
+        timeoutDuration: 5s         # External service - more lenient
 ```
 
 ### 5.3 HTTP Client Timeouts (Separate from Resilience4j)
@@ -246,7 +246,7 @@ public RestClient pricingServiceRestClient() {
 
 A bulkhead isolates failures. If one downstream service is slow and consuming all available threads, it doesn't starve other downstream calls.
 
-Think of it like watertight compartments in a ship — one compartment flooding doesn't sink the whole ship.
+Think of it like watertight compartments in a ship - one compartment flooding doesn't sink the whole ship.
 
 ### 6.2 Configuration
 
@@ -260,7 +260,7 @@ resilience4j:
 
       fulfillmentService:
         maxConcurrentCalls: 50       # Fulfillment handles more concurrency
-        maxWaitDuration: 0           # No wait — reject immediately if full
+        maxWaitDuration: 0           # No wait - reject immediately if full
 ```
 
 ### 6.3 Usage
@@ -324,9 +324,9 @@ public class OrderDispatchService {
         order.markAsFulfillmentFailed();
         orderRepository.save(order);
 
-        // Don't silently fail — throw so the caller knows
+        // Don't silently fail - throw so the caller knows
         throw new FulfillmentServiceUnavailableException(
-            "Unable to find provider — fulfillment service is currently unavailable");
+            "Unable to find provider - fulfillment service is currently unavailable");
     }
 }
 ```
@@ -340,7 +340,7 @@ Resilience4j automatically exports metrics to Prometheus. Monitor these:
 | Metric | What It Tells You |
 |--------|--------------------|
 | `resilience4j_circuitbreaker_state{name,state}` | Current state of each circuit breaker |
-| `resilience4j_circuitbreaker_failure_rate` | % of calls failing — rising trend is a warning |
+| `resilience4j_circuitbreaker_failure_rate` | % of calls failing - rising trend is a warning |
 | `resilience4j_retry_calls_total{kind="failed_with_retry"}` | How often retries are needed |
 | `resilience4j_bulkhead_available_concurrent_calls` | How close you are to bulkhead limit |
 
@@ -364,7 +364,7 @@ Add these to your Grafana dashboard. A circuit breaker transitioning to OPEN is 
 |---------|------------------|-------------|
 | **Circuit Breaker** | Slow/failing downstream causes cascade failure | All synchronous outbound calls |
 | **Retry** | Transient network / service blips | Idempotent GET calls; be careful with POSTs |
-| **Timeout** | Hung downstream ties up threads indefinitely | All outbound calls — no exceptions |
+| **Timeout** | Hung downstream ties up threads indefinitely | All outbound calls - no exceptions |
 | **Bulkhead** | One slow downstream starves other calls | When you call multiple different downstreams |
 | **Fallback** | Return something useful when downstream fails | When degraded response is better than error |
 
@@ -395,9 +395,9 @@ The pod's `restartPolicy: Always` (default for Deployments) ensures automatic re
 
 This philosophy works because {Company} services are designed to be stateless (or recover state from a persistent store on startup):
 
-- **No in-memory state that cannot be reconstructed** — all durable state lives in Aurora, Redis, or Kafka
-- **Startup is idempotent** — a service can start, crash, and restart without side effects
-- **Restart is cheap** — Spring Boot startup targets < 15 seconds; the service is back before users notice
+- **No in-memory state that cannot be reconstructed** - all durable state lives in Aurora, Redis, or Kafka
+- **Startup is idempotent** - a service can start, crash, and restart without side effects
+- **Restart is cheap** - Spring Boot startup targets < 15 seconds; the service is back before users notice
 
 ### 10.4 When to Crash
 
@@ -412,7 +412,7 @@ This philosophy works because {Company} services are designed to be stateless (o
 
 | Condition | Action | Rationale |
 |-----------|--------|-----------|
-| Transient network timeout to a downstream service | Retry with backoff, then circuit breaker | Restarting the pod won't fix the downstream — use resilience patterns instead |
+| Transient network timeout to a downstream service | Retry with backoff, then circuit breaker | Restarting the pod won't fix the downstream - use resilience patterns instead |
 | Downstream returns HTTP 503 | Circuit breaker + fallback | The downstream will recover; crashing just adds recovery time for your service too |
 | Malformed input from a client | Return 400 and log | A bad request is not a reason to restart the entire process |
 | Single Kafka message fails to deserialize | Send to DLQ and continue | One bad message should not take down the consumer |
