@@ -1,12 +1,12 @@
-# 01 — Order Service
+# 📦 Order Service
 
-> **Status:** Active  
-> **Owner:** @{company}/team-orders (Team Orders)  
-> **Last Updated:** 2026
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Orders-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Order Service** (`com.{company}.orders`) is the **central orchestrating bounded context** for the platform. It owns the order aggregate from the moment a customer confirms a request through completion or cancellation, coordinates synchronous calls to peer domains for pricing and fulfillment, and publishes the canonical order lifecycle on Kafka so Payments, Notifications, Dynamic Pricing, Fraud, Analytics, and Fulfillment can react without tight coupling.
 
@@ -69,7 +69,7 @@ flowchart TB
 
 ---
 
-## 2. Domain Model
+## 🧩 2. Domain Model
 
 Core types live under `com.{company}.orders.domain`. Identifiers are opaque UUIDs (or branded string types) at the API boundary; the diagram shows conceptual relationships.
 
@@ -143,7 +143,7 @@ classDiagram
 
 ---
 
-## 3. Order State Machine
+## 🔄 3. Order State Machine
 
 All transitions are enforced in the domain layer; invalid transitions return a domain error and are never persisted. Terminal states: **COMPLETED**, **CANCELLED**.
 
@@ -166,7 +166,7 @@ stateDiagram-v2
 
 ---
 
-## 4. API Surface
+## 🔌 4. API Surface
 
 Base path: **`/v1/orders`**. Clients use the Customer or Provider BFF; internal callers use service mesh host `orders.{company}.internal` with mTLS. Package for generated clients: `@{company}/api-client-orders`.
 
@@ -181,7 +181,7 @@ Additional internal or versioned endpoints (e.g. provider **start** actions) are
 
 ---
 
-## 5. Events Published
+## 📤 5. Events Published
 
 Producer application: `com.{company}.orders` — Avro schemas in Schema Registry under subject prefix `orders.order`.
 
@@ -197,7 +197,7 @@ All topics use **compaction disabled** (time-based retention) for audit replay; 
 
 ---
 
-## 6. Events Consumed
+## 📥 6. Events Consumed
 
 Consumer group naming follows the platform standard: `{consuming-service}.{topic-short-name}.consumer` (e.g., `order-service.payment-captured.consumer`). See [Kafka Patterns](../06-developer-guides/04-kafka-patterns.md).
 
@@ -209,7 +209,7 @@ Consumer group naming follows the platform standard: `{consuming-service}.{topic
 
 ---
 
-## 7. Dependencies
+## 🔗 7. Dependencies
 
 ```mermaid
 flowchart LR
@@ -241,7 +241,7 @@ Orders **does not** open JDBC connections to Pricing, Fulfillment, or Payments d
 
 ---
 
-## 8. Data Store
+## 💾 8. Data Store
 
 | Attribute | Value |
 |-----------|--------|
@@ -269,7 +269,7 @@ Orders **does not** open JDBC connections to Pricing, Fulfillment, or Payments d
 
 ---
 
-## 9. Key Metrics & SLOs
+## 📊 9. Key Metrics & SLOs
 
 | Category | Metric / SLO | Target |
 |----------|----------------|--------|
@@ -284,7 +284,7 @@ Instrumentation: OpenTelemetry traces from `com.{company}.orders`, Prometheus me
 
 ---
 
-## 10. Team & Ownership
+## 👥 10. Team & Ownership
 
 | Item | Detail |
 |------|--------|
@@ -296,5 +296,8 @@ Instrumentation: OpenTelemetry traces from `com.{company}.orders`, Prometheus me
 For cross-domain changes, use the platform RFC process and notify **Payments** and **Fulfillment** for contract changes on consumed/produced topics.
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

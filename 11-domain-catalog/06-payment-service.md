@@ -1,16 +1,14 @@
-# Payment Service — Domain Documentation
+# 💳 Payment Service
 
-| Field | Value |
-|-------|-------|
-| **Status** | Active |
-| **Owner** | Team Payments |
-| **Last Updated** | 2026-03-31 |
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Payments-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--31-grey?style=flat-square)
 
 **Service identifier:** `com.{company}.payments`
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Payment Service** is the bounded context responsible for **payment processing**, **settlements**, **customer wallets**, and **refunds** after an order's financial outcome is known. It integrates with external payment providers (e.g., Stripe, Adyen) under the `com.{company}.orders` ecosystem contracts.
 
@@ -48,7 +46,7 @@ flowchart LR
 
 ---
 
-## 2. Payment lifecycle
+## 🔄 2. Payment lifecycle
 
 State transitions for a single payment intent tied to an order (`com.{company}.orders` correlation).
 
@@ -80,7 +78,7 @@ stateDiagram-v2
 
 ---
 
-## 3. Payment flow
+## 🔀 3. Payment flow
 
 End-to-end flow from order completion through payout, including failure and retry semantics.
 
@@ -133,7 +131,7 @@ sequenceDiagram
 
 ---
 
-## 4. Domain model
+## 🧩 4. Domain model
 
 Core aggregates and value objects for the Payment Service.
 
@@ -210,7 +208,7 @@ classDiagram
 
 ---
 
-## 5. API surface
+## 🔌 5. API surface
 
 Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header (see §9).
 
@@ -226,7 +224,7 @@ Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header 
 
 ---
 
-## 6. Events published
+## 📤 6. Events published
 
 | Event name | Payload highlights | Typical consumers |
 |------------|-------------------|-------------------|
@@ -238,7 +236,7 @@ Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header 
 
 ---
 
-## 7. Events consumed
+## 📥 7. Events consumed
 
 | Event name | Producer | Purpose |
 |------------|----------|---------|
@@ -247,7 +245,7 @@ Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header 
 
 ---
 
-## 8. Data store
+## 💾 8. Data store
 
 | Aspect | Choice |
 |--------|--------|
@@ -305,7 +303,7 @@ erDiagram
 
 ---
 
-## 9. Security and compliance
+## 🔒 9. Security and compliance
 
 | Topic | Payment Service policy |
 |-------|------------------------------|
@@ -316,7 +314,7 @@ erDiagram
 
 ---
 
-## 10. Reconciliation
+## 🔄 10. Reconciliation
 
 ```mermaid
 flowchart TB
@@ -339,7 +337,7 @@ flowchart TB
 
 ---
 
-## 11. Key metrics
+## 📊 11. Key metrics
 
 | Metric | Target |
 |--------|--------|
@@ -350,7 +348,7 @@ flowchart TB
 
 ---
 
-## 12. Team and ownership
+## 👥 12. Team and ownership
 
 | Role | Assignment |
 |------|------------|
@@ -359,5 +357,8 @@ flowchart TB
 | **Related domains** | Orders (`com.{company}.orders`), Pricing, Fraud Engine, Customer/Provider profiles |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

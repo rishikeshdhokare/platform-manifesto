@@ -1,4 +1,4 @@
-# Glossary
+# 📖 Glossary
 
 Quick reference for acronyms and terms used across this manifesto.
 
@@ -54,5 +54,8 @@ Quick reference for acronyms and terms used across this manifesto.
 | **WAF** | Web Application Firewall | A firewall that filters, monitors, and blocks HTTP traffic to and from a web application | [07-api-gateway-strategy.md](./04-infrastructure-and-cloud/07-api-gateway-strategy.md) |
 
 ---
+<div align="center">
 
-← [Back to root](./README.md)
+🏠 [Back to root](./README.md)
+
+</div>

@@ -1,12 +1,12 @@
-# 04 — Provider Profile
+# 👤 Provider Profile
 
-> **Status:** Active  
-> **Owner:** Team Providers  
-> **Last Updated:** 2025
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Providers-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Provider Profile** bounded context (`com.{company}.providers`) manages **provider onboarding**, **document verification and storage**, **ratings**, and **availability** as represented in the provider account—not live geolocation. It is the system of record for who may serve on the platform and whether their credentials are valid.
 
@@ -29,7 +29,7 @@ The **Provider Profile** bounded context (`com.{company}.providers`) manages **p
 
 ---
 
-## 2. Domain Model
+## 🧩 2. Domain Model
 
 Core types live under `com.{company}.providers.domain`. Identifiers are opaque UUIDs at the API boundary.
 
@@ -104,7 +104,7 @@ classDiagram
 
 ---
 
-## 3. Provider Onboarding Flow
+## 🚀 3. Provider Onboarding Flow
 
 End-to-end from first registration to an **ACTIVE** provider eligible for assignment (subject to Fulfillment Engine rules).
 
@@ -128,7 +128,7 @@ flowchart TD
 
 ---
 
-## 4. API Surface
+## 🔌 4. API Surface
 
 Base path: **`/v1/providers`**. Clients typically call through the Provider BFF; internal callers use the service mesh host documented in Backstage. Package for generated clients follows `@{company}/api-client-providers`.
 
@@ -147,7 +147,7 @@ Base path: **`/v1/providers`**. Clients typically call through the Provider BFF;
 
 ---
 
-## 5. Events Published
+## 📤 5. Events Published
 
 Producer application: `com.{company}.providers` — Avro subjects under prefix `providers.provider` (Schema Registry).
 
@@ -163,7 +163,7 @@ Compaction and retention follow platform Kafka standards (`06-developer-guides/0
 
 ---
 
-## 6. Events Consumed
+## 📥 6. Events Consumed
 
 Consumer group naming follows the platform standard: `{consuming-service}.{topic-short-name}.consumer` (e.g., `provider-profile.fraud-signal.consumer`).
 
@@ -174,7 +174,7 @@ Consumer group naming follows the platform standard: `{consuming-service}.{topic
 
 ---
 
-## 7. Data Store
+## 💾 7. Data Store
 
 | Attribute | Value |
 |-----------|--------|
@@ -193,7 +193,7 @@ Consumer group naming follows the platform standard: `{consuming-service}.{topic
 
 ---
 
-## 8. Dependencies
+## 🔗 8. Dependencies
 
 Provider Profile does **not** query Orders or Fraud databases directly—only APIs and Kafka.
 
@@ -225,7 +225,7 @@ flowchart TB
 
 ---
 
-## 9. Key Metrics
+## 📊 9. Key Metrics
 
 | Category | Metric | Use |
 |----------|--------|-----|
@@ -235,7 +235,7 @@ flowchart TB
 
 ---
 
-## 10. Team & Ownership
+## 👥 10. Team & Ownership
 
 | Item | Detail |
 |------|--------|
@@ -246,7 +246,7 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 
 ---
 
-## 11. SLOs and Error Budgets
+## 📈 11. SLOs and Error Budgets
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
@@ -258,7 +258,7 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 
 ---
 
-## 12. Failure Modes
+## ⚠️ 12. Failure Modes
 
 | Failure Scenario | User Impact | Fallback Strategy |
 |-----------------|-------------|-------------------|
@@ -270,7 +270,7 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 
 ---
 
-## 13. Capacity Sizing
+## 📐 13. Capacity Sizing
 
 | Resource | Configuration |
 |----------|--------------|
@@ -284,7 +284,7 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 
 ---
 
-## 14. Data Retention Matrix
+## 🗃️ 14. Data Retention Matrix
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
@@ -296,5 +296,8 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

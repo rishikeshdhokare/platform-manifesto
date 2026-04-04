@@ -1,14 +1,12 @@
-# Pricing Service
+# 💲 Pricing Service
 
-| Field | Value |
-| --- | --- |
-| **Status** | Active |
-| **Owner** | Platform Engineering — Pricing |
-| **Last Updated** | 2026-03-31 |
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Platform_Engineering_--_Pricing-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--31-grey?style=flat-square)
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Pricing Service** (`com.{company}.pricing`) is the system of record for **how much an order costs** before and after fulfillment. It turns route geometry, time, service class, and applicable rules into transparent price numbers that customers see in the app and that downstream systems use for receipts and analytics.
 
@@ -35,7 +33,7 @@ The **Pricing Service** (`com.{company}.pricing`) is the system of record for **
 
 ---
 
-## 2. Price Calculation Flow
+## 🔄 2. Price Calculation Flow
 
 The following flow describes how the platform produces a **price estimate** (final price follows the same structural steps with order-completed inputs and reconciliation rules).
 
@@ -57,7 +55,7 @@ flowchart TD
 
 ---
 
-## 3. Domain Model
+## 🧩 3. Domain Model
 
 ```mermaid
 classDiagram
@@ -117,7 +115,7 @@ classDiagram
 
 ---
 
-## 4. API Surface
+## 🔌 4. API Surface
 
 ### 4.1 gRPC (`com.{company}.pricing.v1`)
 
@@ -156,7 +154,7 @@ sequenceDiagram
 
 ---
 
-## 5. Events Published
+## 📤 5. Events Published
 
 All topics use the platform naming prefix `com.{company}.events`.
 
@@ -167,7 +165,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 6. Events Consumed
+## 📥 6. Events Consumed
 
 | Event | Source domain | Purpose in Pricing |
 | --- | --- | --- |
@@ -192,7 +190,7 @@ flowchart LR
 
 ---
 
-## 7. Pricing Rules Configuration
+## ⚙️ 7. Pricing Rules Configuration
 
 Pricing parameters are **authoritative in Aurora PostgreSQL**, keyed by **market** and **service type**. Operational changes go through the platform's config pipeline (validation, audit, gradual rollout).
 
@@ -211,7 +209,7 @@ Pricing parameters are **authoritative in Aurora PostgreSQL**, keyed by **market
 
 ---
 
-## 8. Data Store
+## 💾 8. Data Store
 
 **Primary store:** Aurora PostgreSQL (provisioned for Pricing).
 
@@ -248,7 +246,7 @@ erDiagram
 
 ---
 
-## 9. Key Metrics
+## 📊 9. Key Metrics
 
 ### 9.1 SLOs and quality
 
@@ -266,7 +264,7 @@ erDiagram
 
 ---
 
-## 10. Dependencies
+## 🔗 10. Dependencies
 
 ```mermaid
 flowchart TB
@@ -290,7 +288,7 @@ flowchart TB
 
 ---
 
-## 11. Team & Ownership
+## 👥 11. Team & Ownership
 
 | Role | Team |
 | --- | --- |
@@ -298,5 +296,8 @@ flowchart TB
 | Escalations | Team Commercial on-call → Platform Engineering |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

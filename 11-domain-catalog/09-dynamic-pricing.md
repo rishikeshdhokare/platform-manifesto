@@ -1,14 +1,12 @@
-# Dynamic Pricing
+# 📈 Dynamic Pricing
 
-| Field | Value |
-| --- | --- |
-| **Status** | Active |
-| **Owner** | Team Commercial |
-| **Last Updated** | 2025 |
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Commercial-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Dynamic Pricing** domain (`com.{company}.dynamicpricing`) balances **supply and demand** in real time across the platform network. It performs **real-time supply/demand analysis**, **pricing zone management**, and **multiplier calculation** so customers see fair, market-responsive prices and providers are incentivized to serve where demand is high.
 
@@ -30,7 +28,7 @@ The **Dynamic Pricing** domain (`com.{company}.dynamicpricing`) balances **suppl
 
 ---
 
-## 2. Dynamic Pricing Calculation Flow
+## 🔄 2. Dynamic Pricing Calculation Flow
 
 ```mermaid
 flowchart TD
@@ -50,7 +48,7 @@ flowchart TD
 
 ---
 
-## 3. Domain Model
+## 🧩 3. Domain Model
 
 ```mermaid
 classDiagram
@@ -102,7 +100,7 @@ classDiagram
 
 ---
 
-## 4. Zone Management
+## 🗺️ 4. Zone Management
 
 The platform partitions each **market** into **hexagonal zones** using **H3 geospatial indexing**. Each cell is a first-class **pricing zone** with its **own multiplier**, computed from local demand and supply. Ops can overlay custom geometries where policy requires finer control.
 
@@ -124,7 +122,7 @@ flowchart TB
 
 ---
 
-## 5. API Surface
+## 🔌 5. API Surface
 
 ### 5.1 gRPC (internal — `com.{company}.dynamicpricing.v1`)
 
@@ -142,7 +140,7 @@ flowchart TB
 
 ---
 
-## 6. Events Published
+## 📤 6. Events Published
 
 All topics use the platform naming prefix `com.{company}.events`.
 
@@ -153,7 +151,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 7. Events Consumed
+## 📥 7. Events Consumed
 
 | Event | Source | Purpose in Dynamic Pricing |
 | --- | --- | --- |
@@ -163,7 +161,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 8. Data Store
+## 💾 8. Data Store
 
 | Store | Role |
 | --- | --- |
@@ -172,7 +170,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 9. Key Metrics
+## 📊 9. Key Metrics
 
 | Metric | Description |
 | --- | --- |
@@ -182,7 +180,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 10. Team & Ownership
+## 👥 10. Team & Ownership
 
 | Role | Team |
 | --- | --- |
@@ -190,7 +188,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 11. SLOs and Error Budgets
+## 📈 11. SLOs and Error Budgets
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
@@ -203,7 +201,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 12. Failure Modes
+## ⚠️ 12. Failure Modes
 
 | Failure Scenario | User Impact | Fallback Strategy |
 |-----------------|-------------|-------------------|
@@ -215,7 +213,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 13. Capacity Sizing
+## 📐 13. Capacity Sizing
 
 | Resource | Configuration |
 |----------|--------------|
@@ -231,7 +229,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 14. Data Retention Matrix
+## 🗃️ 14. Data Retention Matrix
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
@@ -243,5 +241,8 @@ All topics use the platform naming prefix `com.{company}.events`.
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

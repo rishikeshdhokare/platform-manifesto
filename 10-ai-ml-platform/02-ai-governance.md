@@ -1,12 +1,12 @@
-# AI Governance
+# 🧠 AI Governance
 
-> **Status:** Mandated  
-> **Owner:** CTO + Data Science + Legal  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/Status-Mandated-blue?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-CTO_%2B_Data_Science_%2B_Legal-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 ---
 
-## 1. Responsible AI Principles
+## ⚖️ 1. Responsible AI Principles
 
 {Company}'s AI systems make decisions that directly affect customers, providers, and the communities we serve. We hold ourselves to four non-negotiable principles:
 
@@ -21,7 +21,7 @@
 
 ---
 
-## 2. Bias Detection & Mitigation
+## 🔍 2. Bias Detection & Mitigation
 
 ### Fairness Metrics
 
@@ -74,7 +74,7 @@ flowchart TD
 
 ---
 
-## 3. Explainability
+## 💡 3. Explainability
 
 Customers and providers deserve to understand the decisions that affect their experience. Explainability is not optional.
 
@@ -131,7 +131,7 @@ SHAP values are computed during model evaluation and stored in the model registr
 
 ---
 
-## 4. AI-Assisted Development Practices
+## 🛠️ 4. AI-Assisted Development Practices
 
 {Company} embraces AI-assisted development while maintaining security and code quality standards.
 
@@ -181,7 +181,7 @@ flowchart TD
 
 ---
 
-## 5. Generative AI Patterns
+## 🤖 5. Generative AI Patterns
 
 {Company} uses generative AI in controlled, well-architected patterns — never as unguarded direct model access.
 
@@ -239,7 +239,7 @@ flowchart LR
 
 ---
 
-## 6. LLM Safety & Evaluation
+## 🛡️ 6. LLM Safety & Evaluation
 
 Generative AI systems require safety measures beyond traditional ML.
 
@@ -275,7 +275,7 @@ Every LLM-powered feature is evaluated on a rolling basis:
 
 ---
 
-## 7. Data Privacy with AI
+## 🔒 7. Data Privacy with AI
 
 AI systems at {Company} operate under strict data privacy constraints aligned with {local data protection law}, GDPR (for any EU customers), and {Company}'s internal data classification policy.
 
@@ -305,7 +305,7 @@ AWS Bedrock ensures:
 
 ---
 
-## 8. Vendor Selection
+## 🏪 8. Vendor Selection
 
 ### Approved LLM Providers
 
@@ -339,7 +339,7 @@ Every approved AI vendor undergoes annual review:
 
 ---
 
-## 9. AI Ethics Review Board
+## 🏛️ 9. AI Ethics Review Board
 
 ### Composition
 
@@ -391,7 +391,7 @@ Quarterly, with ad-hoc sessions for urgent reviews.
 
 ---
 
-## 10. LLM Operational Limits
+## ⚙️ 10. LLM Operational Limits
 
 ### Token Limits per Use Case
 
@@ -424,7 +424,7 @@ Quarterly, with ad-hoc sessions for urgent reviews.
 
 ---
 
-## 11. LLM Red-Teaming & Adversarial Testing
+## 🎯 11. LLM Red-Teaming & Adversarial Testing
 
 ### Cadence
 
@@ -473,4 +473,9 @@ Every red-teaming exercise must test for:
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

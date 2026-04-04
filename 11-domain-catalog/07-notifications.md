@@ -1,16 +1,14 @@
-# Notifications — Domain Documentation
+# 🔔 Notifications
 
-| Field | Value |
-|-------|-------|
-| **Status** | Active |
-| **Owner** | Platform |
-| **Last Updated** | 2025 |
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Platform-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 **Service identifier:** `com.{company}.notifications`
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Notifications** domain is the platform's **multi-channel notification dispatch** layer. It delivers messages over **push**, **SMS**, and **email**, and centralizes **template management**, **delivery status**, and **channel routing**.
 
@@ -26,7 +24,7 @@ Other domains decide **what** to send and **when** (via events); Notifications d
 
 ---
 
-## 2. Notification flow
+## 🔄 2. Notification flow
 
 End-to-end path from a domain event to tracked delivery on the platform's providers.
 
@@ -57,7 +55,7 @@ sequenceDiagram
 
 ---
 
-## 3. Domain model
+## 🧩 3. Domain model
 
 Core entities for notification orchestration.
 
@@ -108,7 +106,7 @@ classDiagram
 
 ---
 
-## 4. Channel selection logic
+## 📡 4. Channel selection logic
 
 Policy used by Notifications after template resolution (simplified; actual rules may add quiet hours and legal constraints).
 
@@ -142,7 +140,7 @@ flowchart TD
 
 ---
 
-## 5. API surface
+## 🔌 5. API surface
 
 REST-style APIs exposed to internal platform services and admin tooling (exact paths are implementation details; capabilities below).
 
@@ -157,7 +155,7 @@ Authentication and authorization follow platform standards (service-to-service a
 
 ---
 
-## 6. Events consumed
+## 📥 6. Events consumed
 
 Notifications subscribes to cross-domain events (names illustrative; align with platform event registry).
 
@@ -172,7 +170,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
-## 7. Data store
+## 💾 7. Data store
 
 **RDS PostgreSQL** — system of record for notifications, templates, delivery history, and preferences.
 
@@ -185,7 +183,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
-## 8. External integrations
+## 🔗 8. External integrations
 
 | Channel | Provider |
 |---------|----------|
@@ -196,7 +194,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
-## 9. Key metrics
+## 📊 9. Key metrics
 
 | Metric | Purpose |
 |--------|---------|
@@ -206,13 +204,13 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
-## 10. Team
+## 👥 10. Team
 
 **Platform** — owns the Notifications bounded context, templates infrastructure, and provider integrations.
 
 ---
 
-## 11. SLOs and Error Budgets
+## 📈 11. SLOs and Error Budgets
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
@@ -224,7 +222,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
-## 12. Failure Modes
+## ⚠️ 12. Failure Modes
 
 | Failure Scenario | User Impact | Fallback Strategy |
 |-----------------|-------------|-------------------|
@@ -237,7 +235,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
-## 13. Capacity Sizing
+## 📐 13. Capacity Sizing
 
 | Resource | Configuration |
 |----------|--------------|
@@ -251,7 +249,7 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 
 ---
 
-## 14. Data Retention Matrix
+## 🗃️ 14. Data Retention Matrix
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
@@ -263,5 +261,8 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,14 +1,12 @@
-# Fraud Engine
+# 🕵️ Fraud Engine
 
-| Field | Value |
-| --- | --- |
-| **Status** | Active |
-| **Owner** | Team Trust & Safety |
-| **Last Updated** | 2025 |
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Trust_%26_Safety-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Fraud Engine** (`com.{company}.fraud`) provides **real-time fraud detection**, **risk scoring**, and **automated blocking** across orders, payments, and account lifecycle events. It centralizes **fraud rules**, **risk scores**, and **block/allow decisions** so the platform can act quickly without duplicating logic in every service.
 
@@ -29,7 +27,7 @@ The **Fraud Engine** (`com.{company}.fraud`) provides **real-time fraud detectio
 
 ---
 
-## 2. Fraud Detection Flow
+## 🔄 2. Fraud Detection Flow
 
 ```mermaid
 sequenceDiagram
@@ -51,7 +49,7 @@ sequenceDiagram
 
 ---
 
-## 3. Domain Model
+## 🧩 3. Domain Model
 
 ```mermaid
 classDiagram
@@ -109,7 +107,7 @@ classDiagram
 
 ---
 
-## 4. Risk Scoring Architecture
+## 📊 4. Risk Scoring Architecture
 
 ```mermaid
 flowchart TD
@@ -138,7 +136,7 @@ flowchart TD
 
 ---
 
-## 5. API Surface
+## 🔌 5. API Surface
 
 ### 5.1 gRPC (internal — `com.{company}.fraud.v1`)
 
@@ -157,7 +155,7 @@ flowchart TD
 
 ---
 
-## 6. Events Published
+## 📤 6. Events Published
 
 All topics use the platform naming prefix `com.{company}.events`.
 
@@ -174,7 +172,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 7. Events Consumed
+## 📥 7. Events Consumed
 
 | Event | Purpose in Fraud |
 | --- | --- |
@@ -186,7 +184,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 8. Data Store
+## 💾 8. Data Store
 
 | Store | Role |
 | --- | --- |
@@ -195,13 +193,13 @@ All topics use the platform naming prefix `com.{company}.events`.
 
 ---
 
-## 9. ML Integration
+## 🤖 9. ML Integration
 
 The primary **fraud scoring model** is served from an **AWS SageMaker** endpoint. The Fraud Engine calls the endpoint as part of `EvaluateRisk` (or an async enrichment path). If the endpoint is **unavailable** or times out, the system **falls back to rule-based scoring** (deterministic outcomes from `FraudRule` evaluation only), with metrics and alerts on degraded mode.
 
 ---
 
-## 10. Key Metrics
+## 📊 10. Key Metrics
 
 | Metric | Target / note |
 | --- | --- |
@@ -212,7 +210,7 @@ The primary **fraud scoring model** is served from an **AWS SageMaker** endpoint
 
 ---
 
-## 11. Team & Ownership
+## 👥 11. Team & Ownership
 
 | Role | Team |
 | --- | --- |
@@ -220,7 +218,7 @@ The primary **fraud scoring model** is served from an **AWS SageMaker** endpoint
 
 ---
 
-## 12. SLOs and Error Budgets
+## 📈 12. SLOs and Error Budgets
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
@@ -233,7 +231,7 @@ The primary **fraud scoring model** is served from an **AWS SageMaker** endpoint
 
 ---
 
-## 13. Failure Modes
+## ⚠️ 13. Failure Modes
 
 The Fraud Engine uses a **fail-open vs fail-closed** model depending on the signal type. The decision is deliberate: some fraud signals are advisory (fail-open preserves user experience), while others are protective (fail-closed prevents financial loss).
 
@@ -258,7 +256,7 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 
 ---
 
-## 14. Capacity Sizing
+## 📐 14. Capacity Sizing
 
 | Resource | Configuration |
 |----------|--------------|
@@ -273,7 +271,7 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 
 ---
 
-## 15. Data Retention Matrix
+## 🗃️ 15. Data Retention Matrix
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
@@ -287,5 +285,8 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 | **CloudWatch Logs** | Application logs | 90 days (extended for fraud investigation) | CloudWatch log group retention policy |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

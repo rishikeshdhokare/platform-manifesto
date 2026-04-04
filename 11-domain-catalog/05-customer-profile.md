@@ -1,12 +1,12 @@
-# 05 — Customer Profile
+# 🧑 Customer Profile
 
-> **Status:** Active  
-> **Owner:** Team Customers  
-> **Last Updated:** 2025
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Customers-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Customer Profile** bounded context (`com.{company}.customers`) manages **customer accounts**, **preferences**, **saved payment method tokens**, and **order history projections** suitable for the customer app. It is the system of record for "who the customer is" in the platform sense, not for raw order orchestration or payment capture.
 
@@ -28,7 +28,7 @@ The **Customer Profile** bounded context (`com.{company}.customers`) manages **c
 
 ---
 
-## 2. Domain Model
+## 🧩 2. Domain Model
 
 Core types live under `com.{company}.customers.domain`. Identifiers are opaque UUIDs at the API boundary.
 
@@ -92,7 +92,7 @@ classDiagram
 
 ---
 
-## 3. Customer Registration Flow
+## 🚀 3. Customer Registration Flow
 
 Happy path: mobile app registers a new customer through the BFF, which delegates identity to the platform auth provider and triggers verification.
 
@@ -121,7 +121,7 @@ sequenceDiagram
 
 ---
 
-## 4. API Surface
+## 🔌 4. API Surface
 
 Base path: **`/v1/customers`**. Clients use the Customer BFF; internal callers use the mesh host from Backstage. Generated clients: `@{company}/api-client-customers`.
 
@@ -145,7 +145,7 @@ Base path: **`/v1/customers`**. Clients use the Customer BFF; internal callers u
 
 ---
 
-## 5. Events Published
+## 📤 5. Events Published
 
 Producer: `com.{company}.customers` — subject prefix `customers.customer`.
 
@@ -157,7 +157,7 @@ Producer: `com.{company}.customers` — subject prefix `customers.customer`.
 
 ---
 
-## 6. Events Consumed
+## 📥 6. Events Consumed
 
 | Topic | Description | Handler behavior |
 |-------|-------------|------------------|
@@ -166,7 +166,7 @@ Producer: `com.{company}.customers` — subject prefix `customers.customer`.
 
 ---
 
-## 7. Data Store
+## 💾 7. Data Store
 
 | Attribute | Value |
 |-----------|--------|
@@ -185,7 +185,7 @@ Producer: `com.{company}.customers` — subject prefix `customers.customer`.
 
 ---
 
-## 8. GDPR Considerations
+## 🔒 8. GDPR Considerations
 
 ### 8.1 Right to erasure
 
@@ -219,7 +219,7 @@ flowchart LR
 
 ---
 
-## 9. Dependencies
+## 🔗 9. Dependencies
 
 ```mermaid
 flowchart TB
@@ -247,7 +247,7 @@ flowchart TB
 
 ---
 
-## 10. Key Metrics
+## 📊 10. Key Metrics
 
 | Category | Metric | Use |
 |----------|--------|-----|
@@ -257,7 +257,7 @@ flowchart TB
 
 ---
 
-## 11. Team & Ownership
+## 👥 11. Team & Ownership
 
 | Item | Detail |
 |------|--------|
@@ -268,7 +268,7 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 
 ---
 
-## 12. SLOs and Error Budgets
+## 📈 12. SLOs and Error Budgets
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
@@ -280,7 +280,7 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 
 ---
 
-## 13. Failure Modes
+## ⚠️ 13. Failure Modes
 
 | Failure Scenario | User Impact | Fallback Strategy |
 |-----------------|-------------|-------------------|
@@ -292,7 +292,7 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 
 ---
 
-## 14. Capacity Sizing
+## 📐 14. Capacity Sizing
 
 | Resource | Configuration |
 |----------|--------------|
@@ -306,7 +306,7 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 
 ---
 
-## 15. Data Retention Matrix
+## 🗃️ 15. Data Retention Matrix
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
@@ -319,5 +319,8 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

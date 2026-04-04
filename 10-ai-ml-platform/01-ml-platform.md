@@ -1,12 +1,12 @@
-# ML Platform
+# 🤖 ML Platform
 
-> **Status:** Mandated  
-> **Owner:** Platform Engineering + Data Science  
-> **Last Updated:** 2025
+![Status: Mandated](https://img.shields.io/badge/Status-Mandated-blue?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Platform_Engineering_%2B_Data_Science-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 ---
 
-## 1. ML Use Cases at {Company}
+## 📋 1. ML Use Cases at {Company}
 
 Machine learning is integral to {Company}'s core product — every order involves multiple ML-powered decisions. The table below catalogues our current ML portfolio.
 
@@ -22,7 +22,7 @@ Machine learning is integral to {Company}'s core product — every order involve
 
 ---
 
-## 2. ML Architecture Overview
+## 🏗️ 2. ML Architecture Overview
 
 The end-to-end ML lifecycle at {Company} spans data ingestion, feature engineering, training, serving, and continuous monitoring.
 
@@ -95,7 +95,7 @@ flowchart LR
 
 ---
 
-## 3. Model Serving Infrastructure
+## 🖥️ 3. Model Serving Infrastructure
 
 Choosing the right serving strategy is critical. Use the decision guide below.
 
@@ -146,7 +146,7 @@ endpoint:
 
 ---
 
-## 4. Feature Store
+## 🗄️ 4. Feature Store
 
 Features are the lifeblood of ML models. {Company} operates a dual-store architecture — an **online store** for real-time inference and an **offline store** for training.
 
@@ -228,7 +228,7 @@ Feature deprecation requires 30 days notice and migration of all consumers.
 
 ---
 
-## 5. A/B Testing for Algorithms
+## 🧪 5. A/B Testing for Algorithms
 
 Algorithm changes — fulfillment heuristics, pricing models, fraud rules — are tested with the same rigor as product features. {Company} uses **LaunchDarkly experiment flags** to manage algorithm variants.
 
@@ -293,7 +293,7 @@ Before promoting a challenger to champion:
 
 ---
 
-## 6. Training Pipeline
+## ⚙️ 6. Training Pipeline
 
 All model training runs through **SageMaker Pipelines** — no ad-hoc notebook training in production.
 
@@ -352,7 +352,7 @@ expectations = [
 
 ---
 
-## 7. Model Registry & Versioning
+## 📦 7. Model Registry & Versioning
 
 Every model deployed to production is versioned and tracked in the **model registry** (MLflow backed by S3 + Aurora PostgreSQL, or SageMaker Model Registry).
 
@@ -386,7 +386,7 @@ Rollback is automatic — SageMaker endpoint reverts to the previous model versi
 
 ---
 
-## 8. ML Observability
+## 📊 8. ML Observability
 
 ML systems require observability beyond standard service metrics. Model predictions can degrade silently without errors.
 
@@ -421,7 +421,7 @@ Every ML model has a Grafana dashboard showing:
 
 ---
 
-## 9. Fallback Strategy
+## 🔄 9. Fallback Strategy
 
 Every ML-powered decision has a deterministic fallback. If the ML model is unavailable — endpoint down, latency exceeds threshold, or predictions look anomalous — the system degrades to rule-based heuristics.
 
@@ -470,7 +470,7 @@ LaunchDarkly kill switches allow instant fallback activation:
 
 ---
 
-## 10. Python Environment Standards
+## 🐍 10. Python Environment Standards
 
 ML workloads at {Company} use Python. Consistency in the Python environment is as critical as consistency in the Java/Kotlin stack.
 
@@ -516,7 +516,7 @@ shap = "0.44.1"
 
 ---
 
-## 11. ML CI/CD
+## 🚀 11. ML CI/CD
 
 ML code follows the same CI/CD rigor as application code, with additional ML-specific gates.
 
@@ -595,7 +595,7 @@ jobs:
 
 ---
 
-## 12. Data Labeling Pipeline
+## 🏷️ 12. Data Labeling Pipeline
 
 ### Tooling
 
@@ -637,7 +637,7 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ---
 
-## 13. GPU & Training Cost Governance
+## 💰 13. GPU & Training Cost Governance
 
 ### Approved GPU Instances
 
@@ -683,4 +683,9 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ---
 
-← [Back to section](./README.md) · [Back to root](../README.md)
+---
+<div align="center">
+
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

@@ -1,16 +1,14 @@
-# Geolocation Service — Domain Documentation
+# 📍 Geolocation Service
 
-| Field | Value |
-|-------|-------|
-| **Status** | Active |
-| **Owner** | Team Orders |
-| **Last Updated** | 2025 |
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Orders-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
 **Service identifier:** `com.{company}.geolocation`
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Geolocation Service** domain powers **ETA calculation**, **route planning**, **geocoding**, and **reverse geocoding** for the platform. It is intentionally a **proxy service**: it wraps external mapping providers (**Google Maps**, **HERE**) behind a **stable internal API** so order flows do not depend directly on vendor SDKs or URL shapes.
 
@@ -26,7 +24,7 @@ All persistent geographic truth remains with the external providers; the platfor
 
 ---
 
-## 2. Architecture
+## 🏗️ 2. Architecture
 
 Internal platform consumers call **Geolocation Service**, which uses **Redis** before hitting external APIs. **Cache hit** avoids provider cost and latency; **cache miss** fetches from the configured provider.
 
@@ -60,7 +58,7 @@ flowchart TB
 
 ---
 
-## 3. Domain model
+## 🧩 3. Domain model
 
 Types exposed by the Geolocation bounded context (language-agnostic view).
 
@@ -116,7 +114,7 @@ classDiagram
 
 ---
 
-## 4. Provider abstraction (hexagonal)
+## 🔌 4. Provider abstraction (hexagonal)
 
 The **domain port** defines operations (calculate route, ETA, geocode, matrix). **Adapters** implement that port per vendor (**Google**, **HERE**), making provider switches a configuration and adapter concern—not a rewrite of platform logic.
 
@@ -139,7 +137,7 @@ flowchart LR
 
 ---
 
-## 5. API surface
+## 🔌 5. API surface
 
 **gRPC** is the primary interface (names are logical service methods).
 
@@ -153,7 +151,7 @@ flowchart LR
 
 ---
 
-## 6. Caching strategy
+## 🗄️ 6. Caching strategy
 
 **Redis**, TTL-based, no relational database.
 
@@ -166,7 +164,7 @@ All cached data is **ephemeral** and **reconstructible** by re-calling providers
 
 ---
 
-## 7. Data store
+## 💾 7. Data store
 
 | Store | Usage |
 |-------|--------|
@@ -175,7 +173,7 @@ All cached data is **ephemeral** and **reconstructible** by re-calling providers
 
 ---
 
-## 8. Resilience
+## 🛡️ 8. Resilience
 
 - **Circuit breaker** on outbound calls to the primary mapping provider to avoid cascading failures and thundering herds.
 - **Fallback** to a **secondary** provider (e.g., HERE when Google is unhealthy, or vice versa per platform config) when the primary is open or errors exceed thresholds.
@@ -195,7 +193,7 @@ flowchart TD
 
 ---
 
-## 9. Key metrics
+## 📊 9. Key metrics
 
 | Metric | Target / note |
 |--------|----------------|
@@ -206,13 +204,13 @@ flowchart TD
 
 ---
 
-## 10. Team
+## 👥 10. Team
 
 **Team Orders** — owns Geolocation Service, provider contracts, and cache/resilience behavior for the platform experience.
 
 ---
 
-## 11. SLOs and Error Budgets
+## 📈 11. SLOs and Error Budgets
 
 | SLO | Target | Measurement |
 |-----|--------|-------------|
@@ -225,7 +223,7 @@ flowchart TD
 
 ---
 
-## 12. Failure Modes
+## ⚠️ 12. Failure Modes
 
 | Failure Scenario | User Impact | Fallback Strategy |
 |-----------------|-------------|-------------------|
@@ -237,7 +235,7 @@ flowchart TD
 
 ---
 
-## 13. Capacity Sizing
+## 📐 13. Capacity Sizing
 
 | Resource | Configuration |
 |----------|--------------|
@@ -251,7 +249,7 @@ flowchart TD
 
 ---
 
-## 14. Data Retention Matrix
+## 🗃️ 14. Data Retention Matrix
 
 | Store | Data | Retention | Deletion Mechanism |
 |-------|------|-----------|-------------------|
@@ -262,5 +260,8 @@ flowchart TD
 Geolocation Service has **no relational database** and no long-term data retention. All cached data is ephemeral and reconstructible by re-calling external providers.
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

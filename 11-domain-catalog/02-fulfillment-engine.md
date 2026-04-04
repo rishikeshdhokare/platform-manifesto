@@ -1,14 +1,12 @@
-# Fulfillment Engine
+# 🚚 Fulfillment Engine
 
-| Field | Value |
-| --- | --- |
-| **Status** | Active |
-| **Owner** | Team Orders |
-| **Last Updated** | 2026-03-31 |
+![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
+![Owner](https://img.shields.io/badge/Owner-Team_Orders-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--31-grey?style=flat-square)
 
 ---
 
-## 1. Overview
+## 📋 1. Overview
 
 The **Fulfillment Engine** (`com.{company}.fulfillment`) is the real-time subsystem that pairs orders with available providers. It applies **geospatial algorithms** on a live provider index, scores candidates, and emits deterministic assignment outcomes for downstream order orchestration.
 
@@ -41,7 +39,7 @@ flowchart LR
 
 ---
 
-## 2. Assignment Algorithm Flow
+## 🔄 2. Assignment Algorithm Flow
 
 End-to-end flow from order request to published assignment event.
 
@@ -77,7 +75,7 @@ sequenceDiagram
 
 ---
 
-## 3. Domain Model
+## 🧩 3. Domain Model
 
 Core types for the fulfillment bounded context. Enums and messages align with `com.{company}.fulfillment.v1` protobuf package.
 
@@ -127,7 +125,7 @@ classDiagram
 
 ---
 
-## 4. API Surface
+## 🔌 4. API Surface
 
 The Fulfillment Engine exposes a **gRPC** API under `com.{company}.fulfillment.v1.FulfillmentService`, secured with standard platform service auth (mTLS / bearer as per platform policy).
 
@@ -183,7 +181,7 @@ message GetAssignmentStatusResponse {
 
 ---
 
-## 5. Events Published
+## 📤 5. Events Published
 
 All topics live under the Kafka namespace `{company}.fulfillment` (logical); payloads use `com.{company}.fulfillment` event envelopes.
 
@@ -195,7 +193,7 @@ All topics live under the Kafka namespace `{company}.fulfillment` (logical); pay
 
 ---
 
-## 6. Events Consumed
+## 📥 6. Events Consumed
 
 | Event | Source domain | Use in Fulfillment Engine |
 | --- | --- | --- |
@@ -206,7 +204,7 @@ All topics live under the Kafka namespace `{company}.fulfillment` (logical); pay
 
 ---
 
-## 7. Data Store
+## 💾 7. Data Store
 
 Fulfillment Engine persistence is **ephemeral only** — no relational database for assignment state.
 
@@ -221,7 +219,7 @@ Fulfillment Engine persistence is **ephemeral only** — no relational database 
 
 ---
 
-## 8. Performance Requirements
+## ⚡ 8. Performance Requirements
 
 | Requirement | Target |
 | --- | --- |
@@ -232,7 +230,7 @@ Fulfillment Engine persistence is **ephemeral only** — no relational database 
 
 ---
 
-## 9. Dependencies
+## 🔗 9. Dependencies
 
 External and platform dependencies for `com.{company}.fulfillment`.
 
@@ -254,7 +252,7 @@ flowchart TB
 
 ---
 
-## 10. Scaling Strategy
+## 📈 10. Scaling Strategy
 
 | Layer | Approach |
 | --- | --- |
@@ -278,7 +276,7 @@ flowchart LR
 
 ---
 
-## 11. Team & Ownership
+## 👥 11. Team & Ownership
 
 | Item | Detail |
 | --- | --- |
@@ -287,5 +285,8 @@ flowchart LR
 | **On-call** | Orders PagerDuty rotation (primary), platform Redis/Kafka escalations as secondary |
 
 ---
+<div align="center">
 
-← [Back to Domain Catalog](./README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+
+</div>

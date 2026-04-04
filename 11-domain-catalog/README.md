@@ -1,8 +1,10 @@
-# 11 — Domain Catalog
+# 🗂️ 11 — Domain Catalog
+
+![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
 
 Detailed documentation for each bounded context in the platform — responsibilities, APIs, events, data models, dependencies, and team ownership.
 
-## Domain Landscape
+## 🗺️ Domain Landscape
 
 ```mermaid
 flowchart TB
@@ -36,7 +38,7 @@ flowchart TB
     Payments[Payment Service]
 ```
 
-## Domain Ownership Matrix
+## 👥 Domain Ownership Matrix
 
 | Domain | Team | Data Store | Key Events | Tier |
 |--------|------|-----------|------------|------|
@@ -51,7 +53,7 @@ flowchart TB
 | [Dynamic Pricing](./09-dynamic-pricing.md) | Commercial | Redis + RDS | `dynamicpricing.*` | Tier 2 — Important |
 | [Fraud Engine](./10-fraud-engine.md) | Trust & Safety | Aurora PostgreSQL | `fraud.signal.*` | Tier 1 — Critical |
 
-## Cross-Domain Event Flow
+## 🔀 Cross-Domain Event Flow
 
 ```mermaid
 flowchart LR
@@ -84,7 +86,7 @@ flowchart LR
     T5 --> Notifications
 ```
 
-## Data Ownership Boundaries
+## 🔐 Data Ownership Boundaries
 
 ```mermaid
 flowchart TB
@@ -137,7 +139,7 @@ flowchart TB
 
 *Dashed lines with "never" = forbidden direct database access. Services communicate via APIs and events only.*
 
-## Domain Documentation Standards
+## 📝 Domain Documentation Standards
 
 Every domain document in this catalog must include the following subsections. When creating or updating a domain document, verify that each section is present and populated. Missing sections should be added during the next domain review cycle.
 
@@ -170,4 +172,9 @@ Allowed synchronous (gRPC) and asynchronous (Kafka) communication paths between 
 
 When a domain is deprecated or merged, follow the deprecation lifecycle process documented in [03-engineering-practices/08-deprecation-lifecycle.md](../03-engineering-practices/08-deprecation-lifecycle.md). This includes consumer notification timelines, traffic migration plans, and data ownership transfer procedures.
 
-← [Back to root](../README.md)
+---
+<div align="center">
+
+🏠 [Back to root](../README.md)
+
+</div>

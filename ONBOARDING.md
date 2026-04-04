@@ -1,10 +1,10 @@
-# New Joiner Onboarding Guide
+# 🚀 New Joiner Onboarding Guide
 
 Welcome to {Company} engineering! This is your single starting page. Everything you need to get productive — from laptop setup to your first PR to going on-call — is linked from here. If something is missing or confusing, open a PR against this file. Making onboarding better is one of the most impactful things you can do.
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
 1. [Day 1 Checklist](#1-day-1-checklist)
 2. [Access Requests](#2-access-requests)
@@ -16,7 +16,7 @@ Welcome to {Company} engineering! This is your single starting page. Everything 
 
 ---
 
-## 1. Day 1 Checklist
+## ✅ 1. Day 1 Checklist
 
 - [ ] **Laptop setup** — Run the bootstrap script:
   ```bash
@@ -34,7 +34,7 @@ Welcome to {Company} engineering! This is your single starting page. Everything 
 
 ---
 
-## 2. Access Requests
+## 🔑 2. Access Requests
 
 Request access to the following systems on day 1. Your manager or buddy can help if you get stuck.
 
@@ -55,7 +55,7 @@ If any access request takes longer than the SLA, escalate in `#platform-support`
 
 ---
 
-## 3. Minimum Viable Manifesto
+## 📚 3. Minimum Viable Manifesto
 
 You don't need to read the entire manifesto in your first week. Here's a prioritised reading order.
 
@@ -96,7 +96,7 @@ Everything else in the manifesto is **reference material**. Consult it when you'
 
 ---
 
-## 4. Week 1–4 Milestones
+## 🏁 4. Week 1–4 Milestones
 
 Use this table to track your progress. Share it with your buddy and manager in your weekly 1:1.
 
@@ -117,7 +117,7 @@ It's completely normal for some milestones to slip. If you're blocked:
 
 ---
 
-## 5. How to Disagree
+## 💬 5. How to Disagree
 
 {Company} engineering values **constructive disagreement**. If you think a standard in this manifesto is wrong, outdated, or doesn't apply to your situation, here's how to push back:
 
@@ -133,7 +133,7 @@ It's completely normal for some milestones to slip. If you're blocked:
 
 ---
 
-## 6. Help Channels
+## 📞 6. Help Channels
 
 | Channel | What It's For | Response Time |
 |---------|-------------|--------------|
@@ -147,7 +147,7 @@ It's completely normal for some milestones to slip. If you're blocked:
 
 ---
 
-## 7. Key References
+## 📌 7. Key References
 
 | Resource | Link |
 |----------|------|
@@ -159,5 +159,8 @@ It's completely normal for some milestones to slip. If you're blocked:
 | IT Self-Service Portal | `https://it.internal.{company}.com` |
 
 ---
+<div align="center">
 
-← [Back to root](./README.md)
+🏠 [Back to root](./README.md)
+
+</div>
