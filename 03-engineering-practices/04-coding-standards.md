@@ -281,17 +281,19 @@ public abstract class DomainException extends RuntimeException {
 // Specific exceptions
 public class OrderNotFoundException extends DomainException {
     public OrderNotFoundException(OrderId orderId) {
-        super("ORDER_NOT_FOUND", "Order not found: " + orderId.value());
+        super("ORDERS.ORDER.NOT_FOUND", "Order not found: " + orderId.value());
     }
 }
 
 public class InvalidOrderStateException extends DomainException {
     public InvalidOrderStateException(OrderStatus currentStatus) {
-        super("INVALID_ORDER_STATE",
+        super("ORDERS.ORDER.INVALID_STATE",
             "Operation not permitted in state: " + currentStatus);
     }
 }
 ```
+
+> Error codes follow the format defined in the error catalog (see [`02-architecture-and-api/09-error-catalog.md`](../02-architecture-and-api/09-error-catalog.md)).
 
 ### 6.3 Never Swallow Exceptions
 

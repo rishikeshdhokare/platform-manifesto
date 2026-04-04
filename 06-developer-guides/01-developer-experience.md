@@ -18,16 +18,13 @@ A new engineer must be able to reach these milestones independently:
 
 | Milestone | Target Time |
 |-----------|------------|
-| Laptop setup complete | Day 1 |
-| Any service running locally | End of Day 1 |
-| First PR submitted | End of Day 2 |
-| First PR merged | End of Day 3 |
-| First feature deployed to production | End of Week 1 |
+| Laptop setup complete, first PR opened and merged, local service running | End of Week 1 |
 | First feature PR merged, attend sprint ceremonies, complete security orientation (see [security-operations.md](../04-infrastructure-and-cloud/10-security-operations.md)) | End of Week 2 |
+| First feature deployed to production | End of Week 2 |
 | On-call shadow shift completed (pair with primary on-call), domain deep-dive with tech lead, attend architecture clinic | End of Week 3 |
 | Solo on-call eligible (added to PagerDuty rotation), buddy graduation (feedback form), 30-day check-in with EM | End of Week 4 |
 
-If these targets are not met, it is a **platform problem**, not an engineer problem.
+If these targets are not met, it is a **platform problem**, not an engineer problem. For the detailed new joiner checklist, see [`ONBOARDING.md`](../ONBOARDING.md).
 
 **Visual overview:**
 

@@ -127,58 +127,7 @@ Quarter: Q2 2026
 
 ## 📏 3. User Stories & Acceptance Criteria
 
-### 3.1 User Story Format
-
-```
-As a [persona],
-I want [action],
-So that [outcome].
-```
-
-### 3.2 Examples
-
-| Persona | Action | Outcome |
-|---------|--------|---------|
-| Returning customer | Save my payment method for next time | I can check out faster on repeat orders |
-| Operations manager | Filter orders by status and date range | I can quickly find orders that need attention |
-| Delivery driver | See real-time navigation to the next delivery | I can complete my route efficiently |
-
-### 3.3 Given / When / Then Acceptance Criteria
-
-```gherkin
-Feature: Save payment method
-
-  Scenario: Successfully save a credit card
-    Given I am a logged-in customer
-    And I am on the checkout page
-    When I enter a valid credit card
-    And I check "Save this card for future purchases"
-    And I complete the purchase
-    Then my card is saved (tokenized, last 4 digits visible)
-    And I see "Card saved" confirmation
-    And on my next purchase, the saved card is pre-selected
-
-  Scenario: Attempt to save an expired card
-    Given I am a logged-in customer
-    When I enter a credit card with an expiration date in the past
-    Then I see an error: "This card has expired"
-    And the card is not saved
-```
-
-### 3.4 Definition of Done (DoD) Checklist
-
-| Criterion | Required? |
-|-----------|-----------|
-| All acceptance criteria pass | Yes |
-| Unit tests written (≥ 80% coverage on new code) | Yes |
-| Integration tests written for API changes | Yes |
-| Code reviewed and approved | Yes |
-| No new Snyk critical/high vulnerabilities | Yes |
-| Feature flag wraps new behavior (if applicable) | Yes |
-| Documentation updated (API docs, runbook) | Yes |
-| Accessibility tested (axe-core, keyboard navigation) | Yes (frontend) |
-| Analytics events instrumented | Yes (if user-facing) |
-| PM accepts the story in staging | Yes |
+User story format and Definition of Done are defined in the product-engineering collaboration guide (see [`04-product-engineering.md`](./04-product-engineering.md) section 8). All stories and acceptance criteria follow that standard.
 
 ---
 

@@ -389,7 +389,7 @@ Feature flags are powerful but accumulate quickly. Without active management, th
 
 ### 10.1 Max Age
 
-Flags older than **90 days** trigger an automated Slack notification to the flag owner. The notification includes a direct link to the flag in LaunchDarkly and the originating Jira ticket.
+Flags older than **90 days** trigger an automated Slack notification to the flag owner. The notification includes a direct link to the flag in LaunchDarkly and the originating Jira ticket. The 90-day alert is a safety net for flags that missed the 30-day removal target per the deprecation lifecycle.
 
 ### 10.2 Orphan Detection
 
