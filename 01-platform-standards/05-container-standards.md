@@ -47,7 +47,7 @@ RUN ./gradlew bootJar --no-daemon -x test
 # ── Runtime Stage ──
 FROM amazoncorretto:21-alpine
 
-LABEL org.opencontainers.image.source="https://github.com/{Company}/orders-service"
+LABEL org.opencontainers.image.source="https://github.com/{company}/orders-service"
 LABEL org.opencontainers.image.version="1.0.0"
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
@@ -280,7 +280,7 @@ Amazon ECR is the single approved container registry. No other registry (Docker 
 | Rule | Detail |
 |------|--------|
 | **Registry** | Amazon ECR (one account per environment) |
-| **Repository naming** | `{Company}/{service-name}` |
+| **Repository naming** | `{company}/{service-name}` |
 | **Cross-account access** | ECR pull-through cache for non-prod accounts |
 | **Public images** | Prohibited in production - use approved mirrors |
 | **Image pull policy** | `IfNotPresent` for tagged images, never `Always` |
@@ -289,11 +289,11 @@ Amazon ECR is the single approved container registry. No other registry (Docker 
 
 ```
 ECR (prod account)
-├── {Company}/orders-service
-├── {Company}/pricing-service
-├── {Company}/fulfillment-worker
-├── {Company}/customer-bff
-└── {Company}/platform-base-images
+├── {company}/orders-service
+├── {company}/pricing-service
+├── {company}/fulfillment-worker
+├── {company}/customer-bff
+└── {company}/platform-base-images
     ├── corretto-21-alpine
     └── nginx-1.27-alpine
 ```

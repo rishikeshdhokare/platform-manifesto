@@ -38,9 +38,9 @@ metadata:
     - tier-1
     - orders-domain
   annotations:
-    github.com/project-slug: "{Company}/orders-service"
+    github.com/project-slug: "{company}/orders-service"
     pagerduty.com/service-id: "P1A2B3C"
-    grafana/dashboard-url: "https://grafana.{Company}.com/d/orders-service-overview"
+    grafana/dashboard-url: "https://grafana.{company}.com/d/orders-service-overview"
     backstage.io/techdocs-ref: dir:.
 spec:
   type: service

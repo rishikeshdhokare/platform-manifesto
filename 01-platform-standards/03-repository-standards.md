@@ -71,9 +71,9 @@ Every service README follows this structure. A Backstage template auto-generates
 ### Example Badge Row
 
 ```markdown
-![Build](https://github.com/{Company}/orders-service/actions/workflows/ci.yml/badge.svg)
+![Build](https://github.com/{company}/orders-service/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://img.shields.io/badge/coverage-87%25-brightgreen)
-[![Backstage](https://img.shields.io/badge/backstage-orders--service-blue)](https://backstage.{Company}.com/catalog/default/component/orders-service)
+[![Backstage](https://img.shields.io/badge/backstage-orders--service-blue)](https://backstage.{company}.com/catalog/default/component/orders-service)
 ```
 
 ### Example Quick Start
@@ -81,7 +81,7 @@ Every service README follows this structure. A Backstage template auto-generates
 ```markdown
 ## 🚀 Quick Start
 
-git clone git@github.com:{Company}/orders-service.git
+git clone git@github.com:{company}/orders-service.git
 cd orders-service
 make run
 ```
@@ -187,7 +187,7 @@ When a service is deprecated:
 | 1. Update lifecycle | Set `spec.lifecycle: deprecated` in `catalog-info.yaml` |
 | 2. Notify consumers | Post deprecation notice to `#platform-announcements` |
 | 3. Remove traffic | Drain all incoming requests and event subscriptions |
-| 4. Archive repo | Transfer to `{Company}-archive/` GitHub organization |
+| 4. Archive repo | Transfer to `{company}-archive/` GitHub organization |
 | 5. Retain for 6 months | Archived repos are read-only for reference |
 
 ### Deletion
@@ -275,19 +275,19 @@ The `CODEOWNERS` file ensures the right team reviews every PR. Format:
 
 ```
 # Default owner for everything in the repo
-* @{Company}/team-orders
+* @{company}/team-orders
 
 # Platform-managed files require platform team review
-.github/          @{Company}/platform-engineering
-Dockerfile        @{Company}/platform-engineering
-catalog-info.yaml @{Company}/platform-engineering
+.github/          @{company}/platform-engineering
+Dockerfile        @{company}/platform-engineering
+catalog-info.yaml @{company}/platform-engineering
 ```
 
 ### Rules
 
 - Every repo must have a `CODEOWNERS` file at the repository root
 - The default owner must be the team listed in `catalog-info.yaml` → `spec.owner`
-- Platform-managed files (CI, Dockerfile, catalog entry) require `@{Company}/platform-engineering` as a reviewer
+- Platform-managed files (CI, Dockerfile, catalog entry) require `@{company}/platform-engineering` as a reviewer
 - CODEOWNERS is enforced via branch protection ("Require review from Code Owners")
 
 ---

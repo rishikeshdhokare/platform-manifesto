@@ -10,11 +10,11 @@ Consistent naming across repos, services, and deployment artifacts eliminates gu
 
 | Resource | Pattern | Example |
 |----------|---------|---------|
-| **Repository** | `{Company}/{domain}-{service-name}` | `{Company}/orders-service`, `{Company}/customer-bff` |
+| **Repository** | `{company}/{domain}-{service-name}` | `{company}/orders-service`, `{company}/customer-bff` |
 | **Service name** | lowercase kebab-case `{domain}-{service-type}` | `orders-service`, `provider-bff`, `pricing-worker` |
 | **Kubernetes namespace** | same as service name | `orders-service` |
 | **Helm release** | same as service name | `orders-service` |
-| **Docker image** | `{Company}/{service-name}:{semver}-{sha7}` | `{Company}/orders-service:1.2.3-a1b2c3d` |
+| **Docker image** | `{company}/{service-name}:{semver}-{sha7}` | `{company}/orders-service:1.2.3-a1b2c3d` |
 
 ### Allowed Service-Type Suffixes
 
@@ -32,14 +32,14 @@ Consistent naming across repos, services, and deployment artifacts eliminates gu
 
 | Layer | Pattern | Example |
 |-------|---------|---------|
-| **Base** | `com.{Company}.{domain}` | `com.{Company}.orders`, `com.{Company}.pricing` |
-| **Domain** | `com.{Company}.{domain}.domain` | `com.{Company}.orders.domain` |
-| **Application** | `com.{Company}.{domain}.application` | `com.{Company}.orders.application` |
-| **Infrastructure** | `com.{Company}.{domain}.infrastructure` | `com.{Company}.orders.infrastructure` |
-| **API** | `com.{Company}.{domain}.api` | `com.{Company}.orders.api` |
+| **Base** | `com.{company}.{domain}` | `com.{company}.orders`, `com.{company}.pricing` |
+| **Domain** | `com.{company}.{domain}.domain` | `com.{company}.orders.domain` |
+| **Application** | `com.{company}.{domain}.application` | `com.{company}.orders.application` |
+| **Infrastructure** | `com.{company}.{domain}.infrastructure` | `com.{company}.orders.infrastructure` |
+| **API** | `com.{company}.{domain}.api` | `com.{company}.orders.api` |
 
 ```
-com.{Company}.orders
+com.{company}.orders
 ├── domain/           # Entities, value objects, domain events
 ├── application/      # Use cases, command/query handlers
 ├── infrastructure/   # DB repos, Kafka producers, HTTP clients
@@ -53,10 +53,10 @@ com.{Company}.orders
 | Resource | Pattern | Example |
 |----------|---------|---------|
 | **REST path** | `/v{N}/{resource-plural}/{id}` | `/v1/orders/ord_abc123` |
-| **gRPC package** | `{Company}.{domain}.v{N}` | `{Company}.orders.v1` |
-| **Production host** | `api.{Company}.com` | `api.{Company}.com` |
-| **Non-prod host** | `api-{env}.{Company}.com` | `api-staging.{Company}.com` |
-| **Internal DNS** | `{service}.{Company}.internal` | `orders-service.{Company}.internal` |
+| **gRPC package** | `{company}.{domain}.v{N}` | `{company}.orders.v1` |
+| **Production host** | `api.{company}.com` | `api.{company}.com` |
+| **Non-prod host** | `api-{env}.{company}.com` | `api-staging.{company}.com` |
+| **Internal DNS** | `{service}.{company}.internal` | `orders-service.{company}.internal` |
 
 ### Resource ID Prefixes
 
@@ -123,7 +123,7 @@ CREATE INDEX idx_orders_customer_id ON orders (customer_id);
 
 | Resource | Pattern | Example |
 |----------|---------|---------|
-| **S3 bucket** | `{Company}-{service}-{purpose}-{env}` | `{Company}-orders-documents-prod` |
+| **S3 bucket** | `{company}-{service}-{purpose}-{env}` | `{company}-orders-documents-prod` |
 | **IAM role** | `{service}-{purpose}-role` | `orders-service-s3-role` |
 | **Secrets Manager** | `{env}/{service}/{secret-name}` | `prod/orders-service/db-credentials` |
 | **SSM Parameter** | `/{env}/{service}/{param-name}` | `/prod/orders-service/feature-config` |
@@ -172,7 +172,7 @@ Every AWS resource must carry these tags:
 {
   "timestamp": "2026-03-15T10:23:45.123Z",
   "level": "INFO",
-  "logger": "com.{Company}.orders.application.CreateOrderUseCase",
+  "logger": "com.{company}.orders.application.CreateOrderUseCase",
   "message": "Order created",
   "traceId": "abc123def456",
   "spanId": "789ghi",
@@ -213,15 +213,15 @@ Every AWS resource must carry these tags:
 
 | Category | Pattern | Example |
 |----------|---------|---------|
-| Repository | `{Company}/{domain}-{service-name}` | `{Company}/orders-service` |
+| Repository | `{company}/{domain}-{service-name}` | `{company}/orders-service` |
 | Service | `{domain}-{service-type}` | `orders-service` |
-| Java package | `com.{Company}.{domain}.{layer}` | `com.{Company}.orders.domain` |
+| Java package | `com.{company}.{domain}.{layer}` | `com.{company}.orders.domain` |
 | REST path | `/v{N}/{resource-plural}/{id}` | `/v1/orders/ord_abc123` |
-| gRPC package | `{Company}.{domain}.v{N}` | `{Company}.orders.v1` |
+| gRPC package | `{company}.{domain}.v{N}` | `{company}.orders.v1` |
 | Kafka topic | `{domain}.{entity}.{event-verb}` | `orders.order.completed` |
 | Database table | snake_case plural | `order_events` |
 | Flyway migration | `V{NNN}__{description}.sql` | `V001__create_orders_table.sql` |
-| S3 bucket | `{Company}-{service}-{purpose}-{env}` | `{Company}-orders-documents-prod` |
+| S3 bucket | `{company}-{service}-{purpose}-{env}` | `{company}-orders-documents-prod` |
 | Prometheus metric | `{domain}_{entity}_{metric_type}` | `orders_order_created_total` |
 | Feature flag | `{type}.{team}.{feature}.{yyyy-mm}` | `release.orders.express-checkout.2026-03` |
 | Alert name | `{service}-{condition}-{severity}` | `orders-service-high-error-rate-p1` |
