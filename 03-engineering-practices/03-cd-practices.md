@@ -105,6 +105,18 @@ We follow a strict **GitOps** model:
                                      └──────────────────┘
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Push[Git Push] --> GHA[GitHub Actions]
+    GHA --> ECR[Push to ECR]
+    ECR --> Argo[ArgoCD Sync]
+    Argo --> EKS[Deploy to EKS]
+    EKS --> Analysis[Canary Analysis]
+    Analysis --> Promote[Promote to Prod]
+```
+
 ---
 
 ## 🔄 4. Deployment Pipeline Stages
@@ -184,6 +196,18 @@ strategy:
     - setWeight: 100
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Deploy5[Canary 5%] --> Mon1[Monitor 5min]
+    Mon1 --> Deploy25[Promote 25%]
+    Deploy25 --> Mon2[Monitor 5min]
+    Mon2 --> Deploy50[Promote 50%]
+    Deploy50 --> Mon3[Monitor 5min]
+    Mon3 --> Deploy100[Promote 100%]
+```
+
 ### 5.2 Automated Canary Analysis
 
 Argo Rollouts queries Prometheus during the canary pause to automatically abort if:
@@ -232,6 +256,19 @@ Feature flags are how we **decouple deployment from release**. Code ships to pro
 - Permanent ops flags (kill switches) are exempt from removal but must be reviewed quarterly
 - Flag names follow: `{domain}-{feature}-{type}` e.g. `fulfillment-new-algorithm-release`
 - No business logic should permanently depend on a flag — flags are temporary
+
+**Visual overview:**
+
+```mermaid
+stateDiagram-v2
+    [*] --> Created
+    Created --> DevEnabled: Enable in dev
+    DevEnabled --> StagingEnabled: Promote to staging
+    StagingEnabled --> ProdRollout: Gradual prod rollout
+    ProdRollout --> FullyRolled: 100% traffic
+    FullyRolled --> Removed: Clean up flag
+    Removed --> [*]
+```
 
 ### 6.4 Flag Usage in Code
 
@@ -291,6 +328,16 @@ Is the issue in database schema?
   └─ YES → This is the hard case. Flyway forward-only migration.
            Requires a new migration to undo. Never run rollback scripts.
            Escalate to Tech Lead.
+```
+
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    Check{Metrics OK?}
+    Check -->|Yes| Continue[Continue Promotion]
+    Check -->|No| Rollback[Auto-Rollback]
+    Rollback --> AlertTeam[Alert On-Call]
 ```
 
 ### 7.4 Schema Migration & Rollback

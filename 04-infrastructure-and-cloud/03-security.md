@@ -83,6 +83,16 @@ Snyk PRs for dependency updates are automatically raised — teams must not igno
 - No static AWS credentials in any service (no `AWS_ACCESS_KEY_ID` env vars)
 - IAM policies are defined in Terraform and reviewed in PRs
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Pod[Pod] --> SA[ServiceAccount]
+    SA --> IRSA[IRSA Annotation]
+    IRSA --> Role[IAM Role]
+    Role --> AWS[AWS API]
+```
+
 Example IRSA policy for orders-service:
 ```json
 {
@@ -173,6 +183,16 @@ No service trusts another based on network location alone. Every request must be
 - External → BFF: JWT authentication
 - BFF → Internal service: mTLS (Istio) + forwarded JWT claims
 - Service → Service: mTLS (Istio) + AuthorizationPolicy
+
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Client[Client] --> WAF[WAF]
+    WAF --> GW[API Gateway]
+    GW -->|"JWT validate"| Istio[Istio mTLS]
+    Istio --> Svc[Service AuthZ]
+```
 
 ### 6.2 Web Application Firewall
 
@@ -268,6 +288,21 @@ All compliance controls are mapped to the engineering practices in this manifest
 | DB passwords | Every **30 days** | AWS Secrets Manager automatic rotation (Lambda) |
 | Third-party API keys | Every **90 days** | AWS Secrets Manager with configured rotation schedule |
 | Service account tokens | Every **90 days** | AWS Secrets Manager automatic rotation |
+
+**Visual overview:**
+
+```mermaid
+sequenceDiagram
+    participant SM as Secrets Manager
+    participant Lambda
+    participant RDS
+    participant Svc as Service
+    SM->>Lambda: Rotation triggered
+    Lambda->>Lambda: Generate new password
+    Lambda->>RDS: Update credentials
+    Lambda->>SM: Store new version
+    Svc->>SM: Next restart fetches new
+```
 
 ### 10.2 Rotation failure alerting
 

@@ -56,6 +56,15 @@ QA Engineers at {Company} focus on **test infrastructure**, not manual test exec
 | **pre-prod** | Release candidate validation, perf testing | Anonymised prod snapshot | Platform Engineering | QA Platform team |
 | **prod** | Production | Real user data | Platform Engineering | Service teams |
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Dev[Dev] --> Staging[Staging]
+    Staging --> PreProd[Pre-Prod]
+    PreProd --> Prod[Production]
+```
+
 ### 2.2 Namespace Isolation
 
 - Each feature branch can spin up an **isolated namespace** in the `dev` cluster via Backstage self-service.
@@ -235,6 +244,17 @@ Automated rollback triggers (configured in the CD pipeline):
 2. The **on-call engineer** validates S1/S2 severity within 30 minutes during business hours.
 3. The **team lead** reviews S3/S4 in sprint planning.
 4. Disputed severity is escalated to the Engineering Manager.
+
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    Bug[Bug Reported] --> Classify{Severity?}
+    Classify -->|S1| Immediate[Fix Immediately]
+    Classify -->|S2| Sprint[Current Sprint]
+    Classify -->|S3| Next[Next Sprint]
+    Classify -->|S4| Backlog[Backlog]
+```
 
 ### 7.3 SLA Tracking
 
