@@ -46,6 +46,17 @@ HALF-OPEN → limited test calls go through
    │ success → CLOSED       │ failure → OPEN
 ```
 
+**Visual overview:**
+
+```mermaid
+stateDiagram-v2
+    [*] --> Closed
+    Closed --> Open: Failure threshold
+    Open --> HalfOpen: Timeout expires
+    HalfOpen --> Closed: Probe succeeds
+    HalfOpen --> Open: Probe fails
+```
+
 ### 3.2 Configuration
 
 ```yaml

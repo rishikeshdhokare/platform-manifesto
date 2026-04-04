@@ -27,6 +27,17 @@ Two rules that govern everything:
 
 ## 🚨 3. Incident Response Playbook
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Alert[Alert Fired] --> Ack[Acknowledge]
+    Ack --> Triage[Triage Severity]
+    Triage --> Mitigate[Mitigate]
+    Mitigate --> Resolve[Resolve]
+    Resolve --> PIR[Post-Incident Review]
+```
+
 ### Phase 1: Detection (0–5 minutes)
 
 Incidents are detected via:

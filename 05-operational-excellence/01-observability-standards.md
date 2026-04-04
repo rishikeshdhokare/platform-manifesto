@@ -15,6 +15,21 @@ You cannot operate what you cannot observe. Observability is not a feature — i
 
 All three must be in place before a service receives production traffic. The **fourth pillar** — alerting — is only valuable when the first three are right.
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    App[Application] --> Logs[Logs]
+    App --> Metrics[Metrics]
+    App --> Traces[Traces]
+    Logs --> OS[(OpenSearch)]
+    Metrics --> Prom[(Prometheus)]
+    Traces --> XRay[X-Ray / Tempo]
+    OS --> Grafana[Grafana]
+    Prom --> Grafana
+    XRay --> Grafana
+```
+
 ---
 
 ## 📡 2. Logging

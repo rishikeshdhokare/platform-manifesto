@@ -41,6 +41,16 @@ Spring Boot loads configuration in this order (later entries win):
 5. AWS Secrets Manager (loaded at startup via External Secrets Operator)
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    A[application.yml] -->|overridden by| B[application-prod.yml]
+    B -->|overridden by| C[Environment Vars]
+    C -->|overridden by| D[SSM Parameter Store]
+    D -->|overridden by| E[Secrets Manager]
+```
+
 ---
 
 ## ⚙️ 4. application.yml — What Belongs Here

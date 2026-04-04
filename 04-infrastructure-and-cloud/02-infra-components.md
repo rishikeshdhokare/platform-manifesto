@@ -8,6 +8,26 @@
 
 These are the platform-level infrastructure components that every service benefits from. Teams do not build these themselves — they consume them. Platform Engineering owns their operation, availability, and upgrade lifecycle.
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    subgraph teams [Teams Consume]
+        Backstage[Backstage]
+        ArgoCD[ArgoCD]
+        Grafana[Grafana]
+        LD[LaunchDarkly]
+    end
+    subgraph platform [Platform Owns]
+        EKS[EKS Clusters]
+        Istio[Istio Mesh]
+        MSK[Kafka / MSK]
+        Aurora[(Aurora)]
+        Redis[(Redis)]
+    end
+    teams --> platform
+```
+
 ---
 
 ## ☁️ 2. Service Mesh — Istio

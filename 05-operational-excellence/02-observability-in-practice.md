@@ -374,6 +374,25 @@ hikaricp_connections_active{service="orders-service"}
 
 ## 📡 4. Distributed Tracing in Practice
 
+**Visual overview:**
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Gateway as API Gateway
+    participant BFF
+    participant SvcA as Service A
+    participant SvcB as Service B
+    Client->>Gateway: Request
+    Gateway->>BFF: traceId: abc123
+    BFF->>SvcA: traceId: abc123
+    SvcA->>SvcB: traceId: abc123
+    SvcB-->>SvcA: Response
+    SvcA-->>BFF: Response
+    BFF-->>Gateway: Response
+    Gateway-->>Client: Response
+```
+
 ### 4.1 Setup — Java Agent
 
 The OpenTelemetry Java agent is attached via the Dockerfile. No code changes needed for basic tracing.

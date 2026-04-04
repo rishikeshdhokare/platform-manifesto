@@ -35,6 +35,20 @@ AWS Organization (Root)
     └── Production             (live traffic)
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    Org[AWS Organization] --> ProdOU[Production OU]
+    Org --> NonProdOU[Non-Production OU]
+    Org --> SecurityOU[Security OU]
+    ProdOU --> ProdAcct[prod account]
+    NonProdOU --> DevAcct[dev account]
+    NonProdOU --> StagingAcct[staging account]
+    SecurityOU --> AuditAcct[audit account]
+    SecurityOU --> LogAcct[log-archive account]
+```
+
 ### 2.1 Account Rules
 
 - Production account has **no developer access** by default — only CI/CD pipelines and on-call engineers via break-glass access (with full audit trail)
