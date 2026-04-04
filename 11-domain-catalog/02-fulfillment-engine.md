@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Fulfillment Engine** (`com.{company}.fulfillment`) is the real-time subsystem that pairs orders with available providers. It applies **geospatial algorithms** on a live provider index, scores candidates, and emits deterministic assignment outcomes for downstream order orchestration.
+The **Fulfillment Engine** (`{company}.fulfillment`) is the real-time subsystem that pairs orders with available providers. It applies **geospatial algorithms** on a live provider index, scores candidates, and emits deterministic assignment outcomes for downstream order orchestration.
 
 **Owns**
 
@@ -21,13 +21,13 @@ The **Fulfillment Engine** (`com.{company}.fulfillment`) is the real-time subsys
 
 | Concern | Owning domain |
 | --- | --- |
-| Order lifecycle | Order orchestration (`com.{company}.orders`) |
-| Provider profile data | Provider Profile (`com.{company}.providers`) - ratings, documents, long-lived attributes |
+| Order lifecycle | Order orchestration (`{company}.orders`) |
+| Provider profile data | Provider Profile (`{company}.providers`) - ratings, documents, long-lived attributes |
 
 ```mermaid
 flowchart LR
   subgraph Platform["{Company} Platform"]
-    FE["Fulfillment Engine<br/>com.{company}.fulfillment"]
+    FE["Fulfillment Engine<br/>{company}.fulfillment"]
     ORD["Order Lifecycle"]
     PROF["Provider Profile"]
   end
@@ -46,12 +46,12 @@ End-to-end flow from order request to published assignment event.
 ```mermaid
 sequenceDiagram
   autonumber
-  participant Ord as Order Service<br/>com.{company}.orders
+  participant Ord as Order Service<br/>{company}.orders
   participant Kafka as Kafka<br/>{company}.orders.events
-  participant FE as Fulfillment Engine<br/>com.{company}.fulfillment
+  participant FE as Fulfillment Engine<br/>{company}.fulfillment
   participant Redis as Redis<br/>provider geo index
-  participant Prof as Provider Profile<br/>com.{company}.providers
-  participant Geo as Geolocation Service<br/>com.{company}.geolocation
+  participant Prof as Provider Profile<br/>{company}.providers
+  participant Geo as Geolocation Service<br/>{company}.geolocation
 
   Ord->>Kafka: orders.order.requested
   Kafka->>FE: consume order requested
@@ -77,7 +77,7 @@ sequenceDiagram
 
 ## 🧩 3. Domain Model
 
-Core types for the fulfillment bounded context. Enums and messages align with `com.{company}.fulfillment.v1` protobuf package.
+Core types for the fulfillment bounded context. Enums and messages align with `{company}.fulfillment.v1` protobuf package.
 
 ```mermaid
 classDiagram
@@ -127,7 +127,7 @@ classDiagram
 
 ## 🔌 4. API Surface
 
-The Fulfillment Engine exposes a **gRPC** API under `com.{company}.fulfillment.v1.FulfillmentService`, secured with standard platform service auth (mTLS / bearer as per platform policy).
+The Fulfillment Engine exposes a **gRPC** API under `{company}.fulfillment.v1.FulfillmentService`, secured with standard platform service auth (mTLS / bearer as per platform policy).
 
 | RPC | Purpose |
 | --- | --- |
@@ -140,10 +140,10 @@ The Fulfillment Engine exposes a **gRPC** API under `com.{company}.fulfillment.v
 ```protobuf
 syntax = "proto3";
 
-package com.{company}.fulfillment.v1;
+package {company}.fulfillment.v1;
 
 option java_multiple_files = true;
-option java_package = "com.{company}.fulfillment.v1";
+option java_package = "{company}.fulfillment.v1";
 
 import "com/{company}/fulfillment/v1/model.proto";
 
@@ -183,11 +183,11 @@ message GetAssignmentStatusResponse {
 
 ## 📤 5. Events Published
 
-All topics live under the Kafka namespace `{company}.fulfillment` (logical); payloads use `com.{company}.fulfillment` event envelopes.
+All topics live under the Kafka namespace `{company}.fulfillment` (logical); payloads use `{company}.fulfillment` event envelopes.
 
 | Event | Key fields | Typical consumers | Retention (guidance) |
 | --- | --- | --- | --- |
-| `fulfillment.assignment.found` | `order_id`, `provider_id`, `score`, `assigned_at` | Order orchestration (`com.{company}.orders`), notifications, analytics | 7 days (ops) / compacted changelog optional |
+| `fulfillment.assignment.found` | `order_id`, `provider_id`, `score`, `assigned_at` | Order orchestration (`{company}.orders`), notifications, analytics | 7 days (ops) / compacted changelog optional |
 | `fulfillment.assignment.failed` | `order_id`, `reason` (`NO_PROVIDERS`, `TIMEOUT`, …) | Orders (retry / UX), support tooling | 7 days |
 | `fulfillment.assignment.expired` | `order_id`, `expired_at` | Orders (cleanup), dead-letter review | 3–7 days |
 
@@ -197,10 +197,10 @@ All topics live under the Kafka namespace `{company}.fulfillment` (logical); pay
 
 | Event | Source domain | Use in Fulfillment Engine |
 | --- | --- | --- |
-| `orders.order.requested` | Order Service (`com.{company}.orders`) | Trigger assignment pipeline for new `order_id` |
+| `orders.order.requested` | Order Service (`{company}.orders`) | Trigger assignment pipeline for new `order_id` |
 | `orders.order.cancelled` | Order Service | Stop assignment, cancel `active_assignments`, emit `fulfillment.assignment.failed` or silent no-op if already terminal |
-| `providers.provider.location-updated` | Provider presence (`com.{company}.providers.presence`) | Feed Redis `GEOADD` for `provider:locations` (or equivalent shard key) |
-| `providers.provider.status-changed` | Provider / Fleet (`com.{company}.providers.status`) | Include/exclude providers from candidate set (online, on-assignment, suspended) |
+| `providers.provider.location-updated` | Provider presence (`{company}.providers.presence`) | Feed Redis `GEOADD` for `provider:locations` (or equivalent shard key) |
+| `providers.provider.status-changed` | Provider / Fleet (`{company}.providers.status`) | Include/exclude providers from candidate set (online, on-assignment, suspended) |
 
 ---
 
@@ -232,15 +232,15 @@ Fulfillment Engine persistence is **ephemeral only** - no relational database fo
 
 ## 🔗 9. Dependencies
 
-External and platform dependencies for `com.{company}.fulfillment`.
+External and platform dependencies for `{company}.fulfillment`.
 
 ```mermaid
 flowchart TB
-  subgraph FE["Fulfillment Engine<br/>com.{company}.fulfillment"]
+  subgraph FE["Fulfillment Engine<br/>{company}.fulfillment"]
     CORE["Assignment workers<br/>+ gRPC server"]
   end
-  GEO["Geolocation Service<br/>com.{company}.geolocation<br/>gRPC distance / ETA"]
-  PROF["Provider Profile<br/>com.{company}.providers<br/>gRPC availability / attributes"]
+  GEO["Geolocation Service<br/>{company}.geolocation<br/>gRPC distance / ETA"]
+  PROF["Provider Profile<br/>{company}.providers<br/>gRPC availability / attributes"]
   REDIS[("Redis<br/>GEO + active_assignments")]
   KAFKA[("Kafka<br/>{company} events")]
 
@@ -266,7 +266,7 @@ flowchart LR
   subgraph K8s["{Company} Kubernetes (fulfillment namespace)"]
     HPA["HPA<br/>CPU + custom metric<br/>active assignments"]
     KP["Karpenter<br/>node pools"]
-    POD["Fulfillment Engine pods<br/>com.{company}.fulfillment"]
+    POD["Fulfillment Engine pods<br/>{company}.fulfillment"]
   end
   HPA --> POD
   KP --> POD
@@ -281,7 +281,7 @@ flowchart LR
 | Item | Detail |
 | --- | --- |
 | **Team** | **Team Orders** |
-| **Service** | Fulfillment Engine - `com.{company}.fulfillment` |
+| **Service** | Fulfillment Engine - `{company}.fulfillment` |
 | **On-call** | Orders PagerDuty rotation (primary), platform Redis/Kafka escalations as secondary |
 
 ---

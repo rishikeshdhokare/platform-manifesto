@@ -127,7 +127,7 @@ These metrics tell us whether teams are actually using the platform - or working
 | Metric | Definition | Target | Measurement |
 |--------|-----------|--------|-------------|
 | **Golden path adoption** | % of services using the standard service template | ≥ 90% | Backstage catalog scan |
-| **Platform BOM adoption** | % of services using the platform Bill of Materials for dependencies | ≥ 85% | Gradle/Maven dependency analysis |
+| **Platform dependency management adoption** | % of services using the platform Bill of Materials or lockfile for dependencies | ≥ 85% | Build tool dependency analysis |
 | **Backstage registration** | % of production services registered in Backstage with complete metadata | 100% | Backstage API |
 | **Shared Helm chart usage** | % of services using the platform Helm chart vs. custom | ≥ 90% | ArgoCD manifest analysis |
 | **CI template adoption** | % of repos using the shared GitHub Actions workflow | ≥ 95% | GitHub API scan |

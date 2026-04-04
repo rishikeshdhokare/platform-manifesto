@@ -25,6 +25,8 @@
 
 **Every engineer is a cost stakeholder.** Cloud spending is not an ops problem - it is a product decision. We treat infrastructure cost the same way we treat latency or uptime: as a metric that every team owns.
 
+> **Principles (cloud-agnostic):** Tagging, budgets, showback or chargeback, rightsizing, commitment discounts, and anomaly detection apply on every hyperscaler. Sections that name **Cost Explorer**, **AWS Budgets**, **Savings Plans**, and **Cost Anomaly Detection** are **reference implementation (AWS)**; use **Google Cloud Billing** (reports, budgets, recommender) and **Microsoft Cost Management + Billing** for the same outcomes on other clouds.
+
 **Core principles:**
 
 - **Visibility first** - you cannot optimize what you cannot see. Every resource must be tagged, every dollar attributed.
@@ -36,6 +38,8 @@
 ---
 
 ## 💰 2. Cost Allocation & Mandatory Tagging
+
+**Reference implementation (AWS):** tagging flows into Cost Explorer and CUR; on GCP use **labels + Cloud Billing export to BigQuery**; on Azure use **cost allocation tags + Cost Management exports**.
 
 Every AWS resource provisioned through Terraform **must** carry the following tags. The CI pipeline rejects any `terraform plan` that creates untagged resources.
 
@@ -68,6 +72,8 @@ flowchart TD
 ---
 
 ## 💰 3. Budget Alerts
+
+> **Substitution point:** **GCP Billing budgets** and **Azure budget alerts** provide the same 80%/100% (or custom) thresholds tied to labels or resource groups.
 
 Each team has dedicated AWS Budgets with two threshold alerts:
 
@@ -111,6 +117,8 @@ resource "aws_budgets_budget" "matching_team" {
 ---
 
 ## 📡 4. Cost Monitoring Flow
+
+**Reference implementation (AWS):** the diagram uses CUR, Cost Explorer, Cost Anomaly Detection, and AWS Budgets; map the same stages to **Cloud Billing export + BigQuery** or **Cost Management + exports** on other clouds.
 
 ```mermaid
 flowchart LR
@@ -183,6 +191,8 @@ flowchart TD
 ---
 
 ## 💰 6. Savings Plans Strategy
+
+**Reference implementation (AWS):** **Compute Savings Plans** and **Reserved Instances**; equivalents include **GCP committed use discounts (CUDs)** and **Azure reservations / savings plans** - same idea: cover steady-state with a commitment, keep burst on flexible pricing.
 
 We use **Compute Savings Plans**, not instance-family Savings Plans.
 
@@ -308,6 +318,8 @@ spec:
 
 We use **AWS Cost Anomaly Detection** to catch unexpected spend spikes before they compound.
 
+> **Substitution point:** **GCP cost anomaly detection** (Recommender / billing alerts) and **Azure Cost Management anomaly rules** - automate the same triage and ticketing workflow.
+
 ### Configuration
 
 | Monitor | Scope | Alert Threshold |
@@ -408,6 +420,8 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 
 ### Reservations
 
+**Reference implementation (AWS):** row names below; on GCP/Azure use CUDs, reservations, or partner agreements for the same workload classes.
+
 | Commitment Type | Scope | Term |
 |-----------------|-------|------|
 | Compute Savings Plans | All EKS compute (existing) | 1-year, no upfront |
@@ -432,6 +446,8 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 Cost data should be accessible where engineers already work - not buried in a separate AWS console login. The platform embeds cost visibility into the tools teams use daily.
 
 ### AWS Cost Explorer in Backstage
+
+**Reference implementation (AWS):** **Cost Explorer** widgets in Backstage; substitute **BigQuery billing views**, **Azure Cost Management workbooks**, or FinOps exports surfaced in the same portal.
 
 AWS Cost Explorer dashboards are embedded directly in Backstage, segmented by team via the mandatory `Team` tag. Each team's Backstage home page includes a cost widget showing:
 

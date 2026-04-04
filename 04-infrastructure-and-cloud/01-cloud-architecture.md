@@ -1,14 +1,27 @@
 # ☁️ Cloud Architecture
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Overview
 
-Our cloud platform runs exclusively on **AWS**. All compute runs on **Amazon EKS**. All infrastructure is defined in **Terraform**. Nothing is provisioned by hand.
-
 This document describes the target deployment architecture - network topology, compute layout, data tier placement, and disaster recovery posture.
+
+> **Principles (cloud-agnostic):** Patterns such as multi-AZ resilience, private network isolation, managed Kubernetes, infrastructure as code, and GitOps apply on any major cloud provider. **AWS is {Company}'s reference implementation** for the concrete services below; preserve the same security and reliability outcomes if you substitute regional equivalents.
+
+| Platform capability | AWS (reference) | Examples elsewhere |
+|---------------------|-----------------|---------------------|
+| Container orchestration | Amazon EKS | Google GKE, Azure AKS |
+| Relational database | Aurora PostgreSQL | Cloud SQL / AlloyDB, Azure Database for PostgreSQL |
+| In-memory cache | ElastiCache (Redis) | Memorystore, Azure Cache for Redis |
+| Event streaming | Amazon MSK | Managed Kafka (e.g., Confluent Cloud, Aiven), Google Pub/Sub, Azure Event Hubs |
+| Edge TLS and APIs | CloudFront, API Gateway | Cloud CDN + API Gateway, Azure Front Door + API Management |
+| Object storage and IaC state | S3, DynamoDB (locks) | Cloud Storage + Firestore, Blob Storage + Cosmos DB |
+
+{Company} runs production on the AWS reference stack: compute on **Amazon EKS**, infrastructure in **Terraform**. Nothing is provisioned by hand.
+
+> **From Section 2 onward:** Detailed account layout, subnets, and service names are the **reference implementation (AWS)**.
 
 ---
 

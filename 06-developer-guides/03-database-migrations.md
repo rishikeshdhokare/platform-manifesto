@@ -1,6 +1,6 @@
 # 🗄️ Database Migrations
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -8,9 +8,10 @@
 
 **Never change a database schema by hand.** Not in dev. Not in staging. Never in production.
 
-Every schema change - table, column, index, constraint - must go through a **Flyway migration script** that is committed to Git, reviewed in a PR, and applied automatically by the CI/CD pipeline.
+Every schema change - table, column, index, constraint - must go through an **automated migration** that is committed to Git, reviewed in a PR, and applied by CI/CD (or a controlled migration job). The tool is not sacred; **automation and review are**. **Flyway** is the **reference implementation** on the Java stack. Alternatives in common use include **Knex.js** (Node), **golang-migrate** (Go), **Alembic** (Python), **Entity Framework migrations** (.NET), **Django migrations**, and **Liquibase** (JVM, XML/YAML/SQL).
 
-Why:
+Why automation matters:
+
 - Hand-applied changes in prod are invisible to the rest of the team
 - They can't be rolled forward in other environments
 - They can't be audited or reverted systematically
@@ -18,7 +19,7 @@ Why:
 
 ---
 
-## 💻 2. Flyway Setup
+## 💻 2. Flyway setup (reference implementation)
 
 **Visual overview:**
 
@@ -38,7 +39,7 @@ sequenceDiagram
     K8s->>Fly: Startup auto-migrate
 ```
 
-Flyway is included in the platform BOM. It runs automatically on application startup.
+Flyway is included in the Java platform BOM and runs automatically on application startup. Other stacks run their migrator in CI, init containers, or release jobs with the same **validate-before-apply** discipline.
 
 ```kotlin
 // build.gradle.kts - already in platform BOM
@@ -343,6 +344,8 @@ Before raising a PR with a migration, verify:
 ---
 
 ## 💻 9. Checking Migration Status
+
+**Reference implementation (Gradle + Flyway):**
 
 ```bash
 # See which migrations have been applied

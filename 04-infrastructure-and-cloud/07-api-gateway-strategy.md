@@ -1,10 +1,12 @@
 # 🚪 API Gateway Strategy
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Overview
+
+> **Principles (cloud-agnostic):** External traffic should meet TLS termination, authentication, rate limiting, request routing, and WAF inspection before any internal microservice. **Amazon API Gateway**, **CloudFront**, and **AWS WAF** below are **reference implementation (AWS)**; comparable stacks include **Kong**, **Google Apigee**, **Azure API Management**, **Envoy Gateway**, or **NGINX/HAProxy** behind a cloud CDN and WAF.
 
 Amazon API Gateway sits at the edge of the platform. It is the **single entry point** for all external traffic - mobile apps, partner integrations, and internal operations dashboards alike.
 
@@ -25,6 +27,8 @@ API Gateway owns the following responsibilities at the edge:
 ---
 
 ## 🚪 2. Architecture
+
+**Reference implementation (AWS):** request path uses CloudFront, AWS WAF, Amazon API Gateway, and internal ALBs into EKS.
 
 The following diagram shows the full request path from the internet to internal platform services, and where each cross-cutting concern is handled.
 
@@ -51,6 +55,8 @@ flowchart LR
 ---
 
 ## 🚪 3. API Gateway Type Selection
+
+**Reference implementation (AWS):** HTTP API vs REST API feature split; other vendors combine tiers differently - preserve cost/latency vs usage-plan requirements when substituting.
 
 We use **two** API Gateway types for different purposes:
 
@@ -165,6 +171,8 @@ resource "aws_apigatewayv2_stage" "prod" {
 
 ### Lambda Authorizer
 
+**Reference implementation (AWS):** **Lambda authorizer** + **Amazon Cognito**; equivalent patterns use **OAuth2/OIDC** with **API Gateway authorizers**, **Apigee policies**, **Azure API Management validate-jwt**, or **Kong JWT/OIDC plugins**.
+
 All authenticated routes use a **Lambda authorizer** that validates JWTs issued by the Auth Service (backed by Amazon Cognito).
 
 **Validation steps performed by the authorizer:**
@@ -265,6 +273,8 @@ flowchart TD
 
 ## 🔒 7. WAF Integration
 
+**Reference implementation (AWS):** WAF on CloudFront in front of API Gateway.
+
 AWS WAF is attached to the CloudFront distribution that fronts API Gateway.
 
 ### Managed Rule Groups
@@ -332,6 +342,8 @@ API Gateway strips the following headers from responses before returning to clie
 ---
 
 ## 📡 9. Monitoring
+
+**Reference implementation (AWS):** **CloudWatch** metrics, alarms, and logs; substitute **GCP Cloud Monitoring**, **Azure Monitor**, or your observability backend with the same SLO-oriented alerts.
 
 ### CloudWatch Metrics
 
@@ -410,6 +422,8 @@ API Gateway response caching is enabled for selected GET endpoints to reduce bac
 ---
 
 ## ☁️ 11. Terraform Standards
+
+**Reference implementation (AWS):** API Gateway, WAF, and CloudWatch resources in Terraform; use your cloud's IaC modules with the same no-console-drift rules.
 
 ### Rules
 

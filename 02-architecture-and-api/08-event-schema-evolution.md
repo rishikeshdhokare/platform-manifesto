@@ -17,9 +17,11 @@
 
 ---
 
+> **Principle:** Avro compatibility modes, allowed vs forbidden changes, partition keys, and ordering rules are **registry- and cloud-agnostic**. AWS Glue commands and registry names in this document are **reference implementation**; Confluent Schema Registry, Apicurio, or other compatible registries follow the same invariants.
+
 ## 📜 1. Avro Compatibility Modes
 
-All Kafka topics on the {Company} platform use **Avro** for message serialization with schemas registered in **AWS Glue Schema Registry**. The compatibility mode determines which schema changes are permitted without breaking existing consumers or producers.
+All Kafka topics on the {Company} platform use **Avro** for message serialization with schemas registered in a **governed schema registry** (reference: **AWS Glue Schema Registry**). The compatibility mode determines which schema changes are permitted without breaking existing consumers or producers.
 
 ### 1.1 Compatibility Mode Reference
 
@@ -89,7 +91,7 @@ Adding a new type to a union is permitted under BACKWARD compatibility:
 
 ## ❌ 3. Forbidden Schema Changes
 
-The following changes are **never permitted** without following the breaking change playbook (§7). They will be rejected by the Glue Schema Registry compatibility check.
+The following changes are **never permitted** without following the breaking change playbook (§7). They will be rejected by the **schema registry** compatibility check (reference: Glue-backed CI in {Company}'s default pipeline).
 
 | Change | Why It Breaks |
 |--------|--------------|
@@ -104,7 +106,7 @@ The following changes are **never permitted** without following the breaking cha
 
 ### 3.1 Schema Validation in CI
 
-Every service that publishes Kafka events includes a **schema compatibility check** in its CI pipeline:
+Every service that publishes Kafka events includes a **schema compatibility check** in its CI pipeline. **Reference implementation (AWS Glue CLI):**
 
 ```bash
 aws glue check-schema-version-validity \
@@ -118,6 +120,8 @@ If the new schema is incompatible with the registered schema, the CI build fails
 ---
 
 ## 🧰 4. Glue Schema Registry Configuration
+
+> **Reference implementation:** AWS Glue Schema Registry layout and CLI below. **Other frameworks:** Confluent Schema Registry, Apicurio Registry, or Karapace - mirror the same subject naming, per-subject compatibility, and environment separation.
 
 ### 4.1 Registry Structure
 
@@ -150,7 +154,7 @@ Examples:
 
 ### 4.4 Compatibility Mode per Subject
 
-Compatibility mode is set at the subject level, not the registry level. This allows high-traffic topics to use FULL compatibility while lower-traffic topics use the default BACKWARD.
+Compatibility mode is set at the subject level, not the registry level. This allows high-traffic topics to use FULL compatibility while lower-traffic topics use the default BACKWARD. **Reference implementation (AWS Glue CLI):**
 
 ```bash
 aws glue update-schema \
@@ -289,6 +293,8 @@ sequenceDiagram
 
 ### 7.3 Dual-Publish Implementation
 
+**Reference implementation (Java / Spring Boot):**
+
 ```java
 @Service
 @RequiredArgsConstructor
@@ -329,7 +335,7 @@ All Kafka consumers on the {Company} platform must be **tolerant** of schema evo
 
 ### 8.2 Consumer Tolerance Test
 
-Every consumer service includes an integration test that validates tolerance:
+Every consumer service includes an integration test that validates tolerance. **Reference implementation (Java):**
 
 ```java
 @Test

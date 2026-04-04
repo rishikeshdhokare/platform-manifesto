@@ -1,12 +1,14 @@
 # 🔒 Security
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Security](https://img.shields.io/badge/owner-Platform_Engineering_+_Security-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Security](https://img.shields.io/badge/owner-Platform_Engineering_+_Security-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Philosophy
 
 Security is not a phase, a team, or a checklist. It is a practice that runs through every commit, every pipeline, and every architecture decision. **Shift left** - find and fix security issues at development time, not after they reach production.
+
+> **Principles (cloud-agnostic):** Least privilege, shift-left testing, secrets rotation, encryption at rest and in transit, and zero-trust networking apply on any cloud provider. IAM, KMS, WAF, and GuardDuty sections below are **reference implementation (AWS)** unless called out otherwise.
 
 The platform enforces security automatically where possible. Where human judgment is required, this document provides the rules.
 
@@ -19,7 +21,7 @@ This is the most commonly violated security practice. Rules are absolute:
 | Rule | Detail |
 |------|--------|
 | **No secrets in Git** | Ever. Not even in private repos. Gitleaks scans every commit. |
-| **No secrets in environment variables** | Use AWS Secrets Manager + External Secrets Operator |
+| **No secrets in environment variables** | Use a managed secrets store (e.g., AWS Secrets Manager, GCP Secret Manager, Azure Key Vault) + External Secrets Operator |
 | **No secrets in logs** | Log masking is configured in the platform logging template |
 | **No secrets in container images** | Never `COPY` a credentials file into a Dockerfile |
 | **No secrets in Kubernetes manifests** | `Secret` objects in Git must only hold references, not values |
@@ -77,6 +79,8 @@ Snyk PRs for dependency updates are automatically raised - teams must not ignore
 - `AuthorizationPolicy` objects restrict which services may call which - principle of least privilege
 
 ### 4.3 AWS IAM - IRSA
+
+> **Substitution point:** Kubernetes workload identity to the cloud control plane also exists as **GKE Workload Identity**, **Azure Workload Identity / managed identities**, and similar - same pattern, different issuer and token format.
 
 - Every pod has an associated IAM role via **IRSA (IAM Roles for Service Accounts)**
 - Each role grants only the permissions that service needs - no wildcard permissions
@@ -147,6 +151,8 @@ Example IRSA policy for orders-service:
 | Data at rest (EBS/node volumes) | AES-256 (AWS-managed) |
 | Backups | Encrypted with same KMS key as source |
 
+> **Substitution point:** Customer-managed keys are **AWS KMS**, **Google Cloud KMS**, **Azure Key Vault**, or HSM-backed equivalents - the requirement is CMK or BYOK where policy demands it, not a specific vendor API.
+
 TLS 1.0 and 1.1 are disabled on all ALBs and API Gateways via SCP.
 
 ### 5.2 PII Handling
@@ -195,6 +201,8 @@ flowchart LR
 ```
 
 ### 6.2 Web Application Firewall
+
+> **Substitution point:** Edge WAF can be **AWS WAF**, **Google Cloud Armor**, **Azure Web Application Firewall**, or a mesh-adjacent WAF (e.g., **Cloudflare**, **Fastly**) - keep OWASP-oriented managed rules and rate limits at the edge.
 
 **AWS WAF** is deployed in front of all public endpoints with the following managed rule groups enabled:
 - AWS Managed Rules - Common Rule Set
@@ -257,6 +265,8 @@ If a secret is detected in a commit or log:
 
 ### 8.3 AWS GuardDuty
 
+**Reference implementation (AWS):** threat detection below uses GuardDuty; equivalent offerings include **GCP Security Command Center**, **Microsoft Defender for Cloud**, or a SIEM-fed detection pipeline.
+
 GuardDuty is enabled in all AWS accounts and monitors for:
 - Credential theft and unusual API calls
 - Cryptocurrency mining on EC2
@@ -277,9 +287,13 @@ GuardDuty HIGH/CRITICAL findings page on-call immediately via PagerDuty.
 
 All compliance controls are mapped to the engineering practices in this manifesto. Audit evidence is collected automatically via AWS Config, CloudTrail, and Security Hub.
 
+**Reference implementation (AWS):** Config, CloudTrail, and Security Hub; substitute **GCP Audit Logs / Policy Controller**, **Azure Policy / Microsoft Defender for Cloud**, or your auditor-approved evidence pipeline.
+
 ---
 
 ## 🔒 10. Secrets Rotation Policy
+
+**Reference implementation (AWS):** rotation via **Secrets Manager** and **Lambda** as described below; use your provider's secret rotation hooks or external secret operators with the same schedules.
 
 ### 10.1 Rotation schedules
 
@@ -465,6 +479,8 @@ Unexpected destination alerts page the security on-call immediately.
 
 ## 🔒 13. KMS Key Management
 
+**Reference implementation (AWS):** key hierarchy and IAM separation below use **AWS KMS**; apply the same tiers with **Google Cloud KMS**, **Azure Key Vault**, or on-prem HSM where required.
+
 ### 13.1 Key Hierarchy
 
 | Data Classification | Key Type | Managed By | Rotation |
@@ -506,6 +522,8 @@ Key administrators **cannot** encrypt or decrypt data. Key users **cannot** mana
 ---
 
 ## 🔒 14. Privileged Access Management
+
+**Reference implementation (AWS):** **AWS SSO (IAM Identity Center)**, **CloudTrail**, and **S3 Object Lock** for audit retention; mirror with your IdP JIT and tamper-evident log archive.
 
 ### 14.1 JIT (Just-In-Time) Access
 

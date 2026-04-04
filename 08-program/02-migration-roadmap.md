@@ -1,6 +1,6 @@
 # 🗺️ Migration Roadmap
 
-![Status: Active Program](https://img.shields.io/badge/status-Active_Program-blue?style=flat-square) ![Owner: CTO / Platform Engineering](https://img.shields.io/badge/owner-CTO_%2F_Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Active Program](https://img.shields.io/badge/status-Active_Program-blue?style=flat-square) ![Owner: CTO / Platform Engineering](https://img.shields.io/badge/owner-CTO_%2F_Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -11,6 +11,8 @@ This document defines the **prioritised, phased program** to migrate the organis
 The migration follows a **strangler fig pattern** - we do not rewrite everything at once. We build the new platform alongside the existing system, migrate services incrementally, and decommission the old as we go.
 
 **The golden rule:** Production reliability is non-negotiable. The migration must not increase operational risk.
+
+Phases and exit criteria are **universal**. Checklists that name **AWS**, **EKS**, **Java**, **Gradle**, or **Spring** are **reference implementation** details - substitute your cloud accounts, Kubernetes distribution, language stack, and CI templates.
 
 ---
 
@@ -52,6 +54,9 @@ gantt
 **Platform Engineering delivers:**
 
 ### Infrastructure (Weeks 1–3)
+
+**Reference implementation (AWS):**
+
 - [ ] AWS account structure created (Organisation, dev/staging/production accounts)
 - [ ] VPC and networking in all accounts (Terraform)
 - [ ] EKS clusters provisioned in all three environments
@@ -65,7 +70,7 @@ gantt
 
 ### CI/CD Platform (Weeks 2–4)
 - [ ] GitHub organisation configuration (branch protection templates, CODEOWNERS tooling)
-- [ ] Shared GitHub Actions workflow templates (java-pr.yml, java-main.yml)
+- [ ] Shared GitHub Actions workflow templates (e.g. `java-pr.yml`, `java-main.yml` for **reference stack Java**; add templates per primary language)
 - [ ] ArgoCD installed and configured on all EKS clusters
 - [ ] Pact Broker deployed
 - [ ] SonarCloud organisation configured
@@ -76,16 +81,16 @@ gantt
 - [ ] Prometheus Operator + kube-prometheus-stack installed
 - [ ] Grafana deployed with SSO
 - [ ] Fluent Bit DaemonSet + OpenSearch deployed
-- [ ] AWS X-Ray + OpenTelemetry Collector deployed
+- [ ] Distributed tracing (e.g. OpenTelemetry Collector; **reference:** AWS X-Ray alongside OTel)
 - [ ] PagerDuty integration configured
 - [ ] Platform standard alert rules defined
 
 ### Developer Tooling (Weeks 4–6)
 - [ ] Backstage deployed with SSO
-- [ ] Java Microservice template in Backstage
-- [ ] Platform BOM (first version) published to GitHub Packages
+- [ ] Primary-language microservice template in Backstage (**reference:** Java)
+- [ ] Platform BOM or dependency baseline (first version) published to your artifact registry (**reference:** GitHub Packages for Java BOM)
 - [ ] `setup.sh` engineer onboarding script
-- [ ] LocalStack integration guide
+- [ ] Local cloud emulator integration guide (**reference:** LocalStack for AWS-shaped APIs)
 - [ ] `platform-config` GitOps repository structure
 
 ### Phase 0 Exit Criteria
@@ -107,13 +112,13 @@ gantt
   - [ ] Branch protection rules applied
   - [ ] CI pipeline configured (PR + main)
 - [ ] Containerise service with standard `Dockerfile` and non-root image
-- [ ] Add structured JSON logging (Logback config)
-- [ ] Add Prometheus metrics (Spring Actuator + Micrometer)
-- [ ] Add OpenTelemetry tracing (Java agent)
-- [ ] Write/migrate unit tests to JUnit 5
-- [ ] Add integration tests with Testcontainers
+- [ ] Add structured JSON logging (**reference:** Logback for Java)
+- [ ] Add Prometheus metrics (**reference:** Spring Actuator + Micrometer)
+- [ ] Add OpenTelemetry tracing (language-appropriate agent or SDK; **reference:** Java agent)
+- [ ] Write/migrate unit tests to your standard framework (**reference:** JUnit 5)
+- [ ] Add integration tests with real dependencies in CI (**reference:** Testcontainers for Java)
 - [ ] Define Pact consumer contracts for dependencies
-- [ ] Add ArchUnit tests
+- [ ] Add architecture tests (**reference:** ArchUnit for Java)
 - [ ] Deploy to all environments via GitOps (ArgoCD)
 - [ ] Create Grafana dashboard
 - [ ] Configure P1/P2 alerts with runbooks
@@ -144,6 +149,8 @@ gantt
 | 4 | `orders-service` | High | Aurora, Kafka, Fulfillment | 4 weeks |
 | 5 | `fulfillment-engine` | High | Redis (geospatial), Kafka | 4 weeks |
 
+Dependency column uses **reference implementation (AWS)** names (RDS, Aurora, S3) where applicable; map to your managed SQL, object store, and cache.
+
 ### Migration Pattern Per Service
 
 Each service migration follows the same pattern:
@@ -151,9 +158,8 @@ Each service migration follows the same pattern:
 ```
 Week 1: Codebase prep
   - Repository migration (Bitbucket → GitHub)
-  - Dependency upgrade to Java 21 + Spring Boot 3.x
-  - Build tool migration to Gradle (if on Maven)
-  - Import platform BOM
+  - **Reference stack:** dependency upgrade to Java 21 + Spring Boot 3.x; build tool migration to Gradle (if on Maven); import platform BOM
+  - **Other stacks:** align runtime and framework to platform baseline via equivalent upgrades
   - Unit test health check
 
 Week 2: Platform integration

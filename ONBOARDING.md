@@ -150,7 +150,7 @@ It's completely normal for some milestones to slip. If you're blocked:
 |---------|-------------|--------------|
 | `#platform-support` | Tooling issues, CI failures, infra questions, access requests | < 4 hours (business hours) |
 | `#frontend-guild` | Web and React Native questions, design system help | Best-effort, usually < 1 day |
-| `#backend-guild` | JVM, Kotlin, Spring, API design questions | Best-effort, usually < 1 day |
+| `#backend-guild` | Backend framework, API design, data layer questions | Best-effort, usually < 1 day |
 | `#security` | Security questions, vulnerability reports, compliance | < 4 hours for security concerns |
 | `#incidents` | Active incident communication (read-only unless you're responding) | Real-time during incidents |
 | `#engineering-discussions` | RFCs, architecture debates, manifesto change proposals | Async, check weekly |

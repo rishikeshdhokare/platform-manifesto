@@ -1,6 +1,6 @@
 # ⚙️ Tech Stack & Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -8,43 +8,56 @@
 
 This document defines the approved technology stack for all new and replatformed services. Deviation from this stack requires an ADR and explicit approval from the Platform team. The goal is not uniformity for its own sake - it is to reduce cognitive overhead, enable rotation of engineers across teams, and concentrate platform investment in a small number of well-understood tools.
 
+> **Note on technology choices.** The specific tools named in this document (languages, frameworks, managed services) are {Company}'s **reference implementation** of the principles below. Organizations adopting this manifesto should substitute their own approved stack while preserving the underlying principles: one primary backend language, one framework with full platform support, managed data stores with no shared databases, and infrastructure as code for everything.
+
 ---
 
 ## ☕ 2. Backend
 
-### 2.1 Language
+**Principle:** Choose one primary backend language with full platform support (golden path, dependency management, CI/CD templates, Backstage scaffolding). Additional languages are permitted for specific use cases with an ADR.
+
+### 2.1 Language (Reference Implementation)
 
 | Decision | Rationale |
 |----------|-----------|
-| **Java 21 (LTS)** - primary language | Virtual threads (Project Loom), strong ecosystem, excellent AWS SDK support, wide hiring pool |
+| **Java 21 (LTS)** - primary language | Virtual threads (Project Loom), strong ecosystem, excellent cloud SDK support, wide hiring pool |
 | **Java 17** - minimum for existing services not yet on 21 | Still LTS, security-maintained |
 
-**We do not accept new services in:** Scala, Groovy, Kotlin (unless a team has an existing Kotlin codebase - it may remain, but new services start in Java).
+> **Substitution point:** Your primary backend language could be TypeScript (Node.js), Go, C#, Python, or Kotlin - choose one with long-term support, a mature ecosystem, and a strong hiring pipeline in your market.
 
 ### 2.2 Build Tool
 
+**Principle:** All builds must be **reproducible** - no floating dependency versions. Use dependency locking.
+
 - **Gradle (Kotlin DSL)** - mandatory for all new Java services
 - Maven is acceptable for existing services; new services must use Gradle
-- All builds must be **reproducible** - no floating dependency versions (use `implementation("group:artifact:1.2.3")`, not `1.+`)
 - Dependency locking via `gradle.lockfile` is required in all services
+
+> **Substitution point:** npm/pnpm with lockfiles, Go modules, NuGet with lock files, Poetry/uv with `pyproject.toml` - the principle is reproducible builds, not the specific tool.
 
 ### 2.3 Framework
 
+**Principle:** Standardize on one backend framework with full platform investment. Avoid mixing frameworks within the same runtime.
+
 | Tier | Framework | Rationale |
 |------|-----------|-----------|
-| **REST APIs / HTTP services** | Spring Boot 3.x | Mature, well-supported, integrates with all AWS SDKs and observability tooling |
+| **REST APIs / HTTP services** | Spring Boot 3.x | Mature, well-supported, integrates with cloud SDKs and observability tooling |
 | **Async / event-driven workers** | Spring Boot 3.x + Spring Kafka | Consistent programming model; avoid mixing frameworks per service |
 | **Batch jobs** | Spring Batch | Only for ETL-style workloads; most scheduled tasks should be event-driven |
-| **Lightweight lambdas** | AWS Lambda + Spring Cloud Function | For genuine event-triggered, short-lived compute; not a default |
+| **Lightweight lambdas** | Cloud Functions (e.g., AWS Lambda) | For genuine event-triggered, short-lived compute; not a default |
 
-**We do not use:** Quarkus, Micronaut, Vert.x (these are not prohibited but will receive no platform support).
+> **Substitution point:** NestJS/Fastify, ASP.NET, Go stdlib + Chi/Echo, Django/FastAPI, Ktor - pick one framework per runtime that covers HTTP, async workers, and batch.
 
 ### 2.4 Runtime
+
+**Principle:** Pin your runtime version in container images and CI. Use a vendor-supported distribution. Never use `latest` tags.
 
 - **JDK:** Amazon Corretto 21 - used in all container base images and CI
 - **Container base image:** `amazoncorretto:21-alpine` for production; never `latest`
 - All services run as **non-root** inside containers
-- JVM flags are standardised via a shared `jvm.options` template (see Golden Path)
+- Runtime flags are standardized via a shared options template (see Golden Path)
+
+> **Substitution point:** `node:20-alpine`, `mcr.microsoft.com/dotnet/aspnet:8.0`, `golang:1.22-alpine`, `python:3.12-slim` - same principle, different runtime.
 
 ---
 
@@ -127,7 +140,7 @@ Each mobile app has a dedicated Backend-for-Frontend (BFF) service:
 | Provider App | Provider BFF | Providers team |
 | Ops Portal | Ops BFF | Platform team |
 
-BFFs are written in **Java (Spring Boot)**, owned by the respective product team, and follow the same backend standards as all other services.
+BFFs are written in the primary backend language and framework, owned by the respective product team, and follow the same backend standards as all other services.
 
 ### 4.5 Release Process
 
@@ -140,50 +153,56 @@ BFFs are written in **Java (Spring Boot)**, owned by the respective product team
 
 ---
 
-## ☕ 5. Language Strategy Beyond Java
+## 🗣️ 5. Multi-Language Strategy
 
-Java is our primary language and receives full platform support (golden path, BOM, Backstage templates, CI/CD templates). However, certain workloads are better served by other languages:
+**Principle:** One primary language receives full platform support. Secondary languages are permitted for specific use cases with an ADR and acceptance of reduced platform support.
+
+The primary language receives full platform support (golden path, dependency management, Backstage templates, CI/CD templates). However, certain workloads are better served by other languages:
 
 | Language | Approved For | Platform Support Level | Requires ADR? |
 |----------|-------------|----------------------|---------------|
-| **Java 21** | All domain services, BFFs, event consumers | Full (golden path, BOM, templates) | No |
-| **Python 3.11+** | ML model training, data engineering (Glue ETL), Jupyter notebooks, SageMaker pipelines | Partial (CI template, no BOM) | Yes |
-| **Go** | High-performance edge proxies, CLI tooling, infrastructure utilities | Minimal (CI template only) | Yes |
-| **TypeScript** | Frontend (React), mobile (React Native), BFF prototyping | Partial (CI template, Backstage template for frontend) | Yes (for BFF use) |
+| **Primary language** | All domain services, BFFs, event consumers | Full (golden path, dependency management, templates) | No |
+| **ML/Data language** (e.g., Python) | ML model training, data engineering, notebooks | Partial (CI template, no shared dependency management) | Yes |
+| **Systems language** (e.g., Go, Rust) | High-performance edge proxies, CLI tooling, infrastructure utilities | Minimal (CI template only) | Yes |
+| **Frontend language** (e.g., TypeScript) | Frontend apps, mobile, BFF prototyping | Partial (CI template, Backstage template for frontend) | Yes (for BFF use) |
 
 ### Decision Criteria
 
-A non-Java language is justified when:
+A secondary language is justified when:
 
-1. **Ecosystem gap** - the required library ecosystem does not exist in Java (e.g., ML training with PyTorch, TensorFlow)
-2. **Performance proof** - benchmarks demonstrate that Java cannot meet the latency or throughput requirement (rare with virtual threads)
+1. **Ecosystem gap** - the required library ecosystem does not exist in the primary language (e.g., ML training with PyTorch, TensorFlow)
+2. **Performance proof** - benchmarks demonstrate that the primary language cannot meet the latency or throughput requirement
 3. **Team expertise** - the team has deep expertise in the alternative language AND the use case is isolated (no shared library dependencies)
 
 ### What "Partial Support" Means
 
 - CI templates exist but are maintained on a best-effort basis
-- No platform BOM - teams manage their own dependency versions
-- No Backstage scaffolding template (except TypeScript frontend)
-- Observability standards (structured logging, Prometheus metrics, OTel tracing) still apply - teams must implement them
+- No platform-wide dependency management - teams manage their own dependency versions
+- No Backstage scaffolding template (except frontend)
+- Observability standards (structured logging, metrics, distributed tracing) still apply - teams must implement them
 
 ### Anti-Patterns
 
-- Starting a new domain service in Python or Go because "it would be faster" - without benchmarks
-- Using TypeScript for a BFF because "the frontend team knows it" - without evaluating the operational cost of a second runtime in production
-- Mixing languages within a single service (e.g., Java service calling Python scripts)
+- Starting a new domain service in a secondary language because "it would be faster" - without benchmarks
+- Using a different language for a BFF because "the frontend team knows it" - without evaluating the operational cost of a second runtime in production
+- Mixing languages within a single service
 
 ---
 
 ## 🗄️ 6. Data Stores
+
+**Principle:** Each service owns its data store. Cross-service database access is forbidden. Use managed services over self-hosted databases. Automate all schema changes.
 
 ### 6.1 Relational Database
 
 | Decision | Detail |
 |----------|--------|
 | **Engine** | PostgreSQL 15+ |
-| **Managed service** | Amazon RDS (Multi-AZ) for standard workloads; Amazon Aurora PostgreSQL for high-throughput domains (fulfillment, pricing) |
+| **Managed service** | Amazon RDS (Multi-AZ) for standard workloads; Amazon Aurora PostgreSQL for high-throughput domains |
 | **Migrations** | Flyway - mandatory. No manual schema changes in any environment |
 | **Connection pooling** | PgBouncer sidecar, or RDS Proxy for serverless workloads |
+
+> **Substitution point:** Cloud SQL (GCP), Azure Database for PostgreSQL, PlanetScale (MySQL), or CockroachDB. The principle is managed, Multi-AZ, with automated migrations.
 
 ### 6.2 Caching
 
@@ -191,133 +210,153 @@ A non-Java language is justified when:
 |----------|--------|
 | **Engine** | Redis 7+ |
 | **Managed service** | Amazon ElastiCache for Redis (cluster mode enabled for production) |
-| **Use cases** | Session state, rate limiting, geospatial indexes (provider location), hot read caches |
+| **Use cases** | Session state, rate limiting, geospatial indexes, hot read caches |
 | **Prohibited use** | Redis must not be used as a primary data store - data there must be reconstructible |
+
+> **Substitution point:** Memorystore (GCP), Azure Cache for Redis, Valkey, or KeyDB. The principle is a managed distributed cache that is reconstructible from the primary store.
 
 ### 6.3 In-Process Caching
 
+**Principle:** In-process caches are for read-only reference data with short TTLs. Never cache mutable user state or shared counters in process memory.
+
 | Decision | Detail |
 |----------|--------|
-| **Library** | Caffeine - for config and reference data only |
+| **Library** | Use your runtime's standard caching library (e.g., Caffeine for JVM, node-cache for Node.js, lru-cache) |
 | **TTL** | < 5 minutes maximum |
 | **Max entries** | 10,000 per cache instance |
 | **Use cases** | Configuration lookups, reference/master data, feature flag snapshots |
 
 | Scenario | Allowed? | Rationale |
 |----------|----------|-----------|
-| Config / reference data (e.g., pricing rules, region definitions) | ✅ Yes | Low-frequency change, small dataset, tolerance for brief staleness |
-| Feature flag snapshots (short TTL) | ✅ Yes | Reduces calls to LaunchDarkly; TTL ≤ 30 seconds |
-| User profile or session data | ❌ Forbidden | Stale user data causes authorization and display bugs across replicas |
-| Shared mutable state (e.g., rate-limit counters) | ❌ Forbidden | In-process caches are per-pod; use Redis for shared state |
-| Data that must be immediately consistent after writes | ❌ Forbidden | TTL-based eviction cannot guarantee instant consistency |
+| Config / reference data (e.g., pricing rules, region definitions) | Yes | Low-frequency change, small dataset, tolerance for brief staleness |
+| Feature flag snapshots (short TTL) | Yes | Reduces calls to flag provider; TTL of 30 seconds or less |
+| User profile or session data | Forbidden | Stale user data causes authorization and display bugs across replicas |
+| Shared mutable state (e.g., rate-limit counters) | Forbidden | In-process caches are per-pod; use distributed cache for shared state |
+| Data that must be immediately consistent after writes | Forbidden | TTL-based eviction cannot guarantee instant consistency |
 
 ### 6.4 Event Streaming
 
+**Principle:** Use a managed event streaming platform for async cross-service communication. Enforce schema validation on all events.
+
 | Decision | Detail |
 |----------|--------|
-| **Platform** | Amazon MSK (Managed Streaming for Apache Kafka) |
-| **Client library** | `spring-kafka` - no direct Kafka client usage |
-| **Schema format** | Avro with Schema Registry (AWS Glue Schema Registry) |
+| **Platform** | Apache Kafka (e.g., Amazon MSK, Confluent Cloud, self-managed) |
+| **Client library** | Use your framework's idiomatic Kafka integration |
+| **Schema format** | Avro with Schema Registry |
 | **Topic naming** | `{domain}.{entity}.{event}` e.g. `orders.order.completed` |
+
+> **Substitution point:** Kafka, Pulsar, NATS JetStream, or cloud-native alternatives (Amazon Kinesis, Google Pub/Sub, Azure Event Hubs). The principle is durable, ordered, schema-validated event streaming.
 
 ### 6.5 Search
 
-- **Amazon OpenSearch Service** - for full-text and geo search workloads
-- Not a general-purpose store; data in OpenSearch must be projected from a canonical source
+- Use a managed search engine (e.g., OpenSearch, Elasticsearch, Typesense) for full-text and geo search workloads
+- Not a general-purpose store; data in the search engine must be projected from a canonical source
 
 ### 6.6 Object Storage
 
-- **Amazon S3** - for all binary/blob storage
+- Use managed object storage (e.g., Amazon S3, Google Cloud Storage, Azure Blob Storage) for all binary/blob storage
 - Versioning enabled on all production buckets
-- No public buckets; all access via pre-signed URLs or CloudFront
+- No public buckets; all access via pre-signed URLs or CDN
 
 ---
 
 ## ☁️ 7. Cloud Platform
 
-### 7.1 Provider
+**Principle:** Standardize on one cloud provider. Use managed services over self-hosted. Define all infrastructure as code - no ClickOps.
 
-**AWS - primary and exclusive cloud provider.**
+### 7.1 Provider (Reference Implementation: AWS)
 
-| Service Category | AWS Service |
-|-----------------|-------------|
-| Compute | Amazon EKS (Kubernetes) |
-| Serverless compute | AWS Lambda |
-| Container registry | Amazon ECR |
-| Networking | Amazon VPC, ALB, NLB |
-| DNS | Amazon Route 53 |
-| CDN | Amazon CloudFront |
-| Secrets | AWS Secrets Manager |
-| Config | AWS Systems Manager Parameter Store |
-| Certificates | AWS Certificate Manager (ACM) |
-| IAM | AWS IAM + IRSA (IAM Roles for Service Accounts) |
-| Observability | Amazon CloudWatch + AWS X-Ray (supplemented by Grafana stack) |
-| Cost management | AWS Cost Explorer + tagging enforcement |
+| Service Category | Reference Choice | Equivalent (GCP / Azure) |
+|-----------------|-------------|--------------------------|
+| Compute | Amazon EKS (Kubernetes) | GKE / AKS |
+| Serverless compute | AWS Lambda | Cloud Functions / Azure Functions |
+| Container registry | Amazon ECR | Artifact Registry / ACR |
+| Networking | Amazon VPC, ALB, NLB | VPC, Cloud Load Balancing / VNet, Azure LB |
+| DNS | Amazon Route 53 | Cloud DNS / Azure DNS |
+| CDN | Amazon CloudFront | Cloud CDN / Azure Front Door |
+| Secrets | AWS Secrets Manager | Secret Manager / Azure Key Vault |
+| Config | AWS Systems Manager Parameter Store | Runtime Configurator / App Configuration |
+| Certificates | AWS Certificate Manager (ACM) | Certificate Authority Service / App Service Certificates |
+| IAM | AWS IAM + IRSA | Workload Identity / Workload Identity Federation |
+| Observability | CloudWatch + X-Ray (supplemented by Grafana stack) | Cloud Monitoring + Cloud Trace / Azure Monitor |
+| Cost management | AWS Cost Explorer + tagging enforcement | Billing / Cost Management |
 
 ### 7.2 Infrastructure as Code
 
-- **Terraform** - mandatory for all AWS infrastructure
-- **Terraform version:** pinned via `.terraform-version` (tfenv)
+**Principle:** All infrastructure must be defined in code and version-controlled. No manual changes in any environment.
+
+- **Terraform** - mandatory for all infrastructure
+- **Version:** pinned via `.terraform-version` (tfenv)
 - **Module strategy:** Internal module registry in GitHub; no direct use of community modules without Platform team review
-- **State backend:** S3 + DynamoDB locking, per environment
-- **No ClickOps:** Any infrastructure not defined in Terraform is out of compliance
+- **State backend:** Remote state with locking (e.g., S3 + DynamoDB, GCS, Azure Blob)
+- **No ClickOps:** Any infrastructure not defined in code is out of compliance
+
+> **Substitution point:** Pulumi, CDK, Crossplane, or OpenTofu. The principle is declarative, version-controlled, peer-reviewed infrastructure.
 
 ---
 
 ## 📨 8. Messaging & Integration
 
-| Pattern | Tool | When to Use |
+**Principle:** Use async events for cross-service communication by default. Reserve synchronous calls for latency-sensitive paths. Define all scheduled tasks in infrastructure as code.
+
+| Pattern | Reference Tool | When to Use |
 |---------|------|-------------|
-| Async domain events | Kafka (MSK) | Cross-service communication where eventual consistency is acceptable |
-| Internal synchronous calls | gRPC (service-to-service) | Latency-sensitive internal paths (fulfillment engine, pricing) |
+| Async domain events | Kafka | Cross-service communication where eventual consistency is acceptable |
+| Internal synchronous calls | gRPC (service-to-service) | Latency-sensitive internal paths |
 | External APIs | REST over HTTPS | Public-facing and partner APIs |
-| Scheduled tasks | Amazon EventBridge Scheduler | Replaces cron jobs; all schedules in IaC |
-| Webhooks inbound | Amazon API Gateway + Lambda | Ingestion from third parties (payment providers, geolocation) |
+| Scheduled tasks | Cloud scheduler (e.g., EventBridge, Cloud Scheduler) | Replaces cron jobs; all schedules in IaC |
+| Webhooks inbound | API Gateway + serverless function | Ingestion from third parties (payment providers, etc.) |
 
 ---
 
 ## 👁️ 9. Observability Toolchain
 
-| Concern | Tool |
-|---------|------|
-| Metrics | Prometheus + Grafana (running on EKS) |
-| Logs | Fluent Bit → Amazon OpenSearch (or CloudWatch Logs for Lambda) |
-| Traces | OpenTelemetry SDK → AWS X-Ray |
-| Alerting | Grafana Alerting → PagerDuty |
-| Uptime / synthetic | Amazon CloudWatch Synthetics |
-| Dashboards | Grafana (team dashboards) + CloudWatch (infra dashboards) |
+**Principle:** Every service emits structured logs, metrics, and traces from day one. Use OpenTelemetry as the vendor-neutral collection layer. Centralize dashboards and alerting.
+
+| Concern | Reference Tool | Alternatives |
+|---------|------|-------------|
+| Metrics | Prometheus + Grafana | Datadog, New Relic, Cloud Monitoring |
+| Logs | Fluent Bit to centralized log store | ELK, Loki, Datadog Logs, Cloud Logging |
+| Traces | OpenTelemetry SDK to trace backend | Jaeger, Zipkin, Datadog APM, Cloud Trace |
+| Alerting | Grafana Alerting to PagerDuty | OpsGenie, VictorOps, Datadog Monitors |
+| Uptime / synthetic | Synthetic monitoring | Checkly, Datadog Synthetics, cloud-native synthetics |
+| Dashboards | Grafana (team dashboards) | Datadog, New Relic, cloud-native dashboards |
 
 ---
 
 ## 🧰 10. Developer Toolchain
 
-| Tool | Purpose | Mandatory? |
-|------|---------|-----------|
-| GitHub | Source control, CI/CD, code review | Yes |
-| GitHub Actions | CI/CD pipelines | Yes |
-| ArgoCD | GitOps / continuous deployment to EKS | Yes |
-| Backstage | Internal developer portal / service catalog | Yes |
-| SonarCloud | Static analysis, code quality | Yes |
-| Snyk | Dependency and container vulnerability scanning | Yes |
-| LaunchDarkly | Feature flags | Yes |
-| LocalStack | Local AWS emulation for development | Recommended |
-| Testcontainers | Integration test infrastructure | Yes (for DB/Kafka tests) |
+**Principle:** Standardize the CI/CD pipeline, developer portal, static analysis, vulnerability scanning, and feature flag system. Every engineer uses the same workflow.
+
+| Capability | Reference Tool | Alternatives | Mandatory? |
+|------------|------|-------------|-----------|
+| Source control + code review | GitHub | GitLab, Bitbucket | Yes |
+| CI/CD pipelines | GitHub Actions | GitLab CI, CircleCI, Jenkins | Yes |
+| GitOps / continuous deployment | ArgoCD | Flux, Spinnaker | Yes |
+| Developer portal / service catalog | Backstage | Port, Cortex, custom | Yes |
+| Static analysis, code quality | SonarCloud | SonarQube, CodeClimate | Yes |
+| Vulnerability scanning | Snyk | Dependabot, Trivy, Grype | Yes |
+| Feature flags | LaunchDarkly | Unleash, Flagsmith, Split | Yes |
+| Local cloud emulation | LocalStack (for AWS) | Cloud-specific emulators, docker-compose | Recommended |
+| Integration test infrastructure | Testcontainers | docker-compose, in-memory fakes | Yes (for DB/messaging tests) |
 
 ---
 
-## 📋 11. Approved vs Unapproved - Quick Reference
+## 📋 11. Reference Implementation Summary
 
-| Category | ✅ Approved | ❌ Not Approved |
+> The table below shows {Company}'s current stack choices. Organizations adopting this manifesto should substitute their own approved tools while keeping the same categories covered.
+
+| Category | Reference Choice | Principle |
 |----------|------------|----------------|
-| Language | Java 21 | Scala, Ruby, PHP, C++ |
-| Framework | Spring Boot 3.x | Quarkus, Micronaut (no platform support) |
-| DB (relational) | PostgreSQL / Aurora | MySQL, Oracle, MSSQL |
-| DB (document) | - (use RDS) | MongoDB (not on approved list) |
-| Messaging | Kafka (MSK) | RabbitMQ, SQS for domain events |
-| IaC | Terraform | CDK, CloudFormation directly |
-| CI/CD | GitHub Actions + ArgoCD | Jenkins, CircleCI, Bitbucket Pipelines |
-| Secrets | AWS Secrets Manager | Hardcoded env vars, `.env` files in repos |
-| Feature flags | LaunchDarkly | Custom flag systems, env var toggles |
+| Primary backend language | Java 21 | One language with full platform support |
+| Backend framework | Spring Boot 3.x | One framework covering HTTP, async, and batch |
+| Relational database | PostgreSQL / Aurora | Managed, Multi-AZ, automated migrations |
+| Distributed cache | Redis (ElastiCache) | Managed cache, reconstructible data only |
+| Event streaming | Kafka (MSK) | Durable, ordered, schema-validated events |
+| Infrastructure as code | Terraform | Declarative, version-controlled, peer-reviewed |
+| CI/CD | GitHub Actions + ArgoCD | Automated pipelines with quality gates + GitOps |
+| Secrets management | AWS Secrets Manager | Centralized, audited, rotated - never in repos |
+| Feature flags | LaunchDarkly | Managed flag system with targeting and audit trail |
 
 ---
 

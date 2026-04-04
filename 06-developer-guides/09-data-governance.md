@@ -84,13 +84,15 @@ Data quality is measured and enforced via tiered SLAs. The tier is determined by
 
 ## 📊 3. Data Catalog
 
-All datasets - databases, Kafka topics, S3 buckets, Redshift tables, and event schemas - must be registered in the data catalog before production deployment. Unregistered datasets are invisible, ungoverned, and a compliance risk.
+All datasets - databases, Kafka topics, object storage prefixes, warehouse tables, and event schemas - must be registered in the data catalog before production deployment. Unregistered datasets are invisible, ungoverned, and a compliance risk.
 
 ### 3.1 Catalog Tools
 
+**Reference implementation (AWS):** Glue Data Catalog for lake and warehouse metadata; map to Unity Catalog, Azure Purview, or equivalent.
+
 | Tool | Purpose | What to Register |
 |------|---------|-----------------|
-| **AWS Glue Data Catalog** | Schema registry for databases, S3 data lakes, and ETL jobs | RDS tables, S3 datasets, Redshift tables, Glue ETL jobs |
+| **Glue Data Catalog** (reference) | Schema registry for databases, data lakes, and ETL jobs | Managed SQL tables, lake datasets, warehouse tables, ETL jobs |
 | **EventCatalog** | Event schema documentation and discovery | Kafka topics, event schemas, producer/consumer relationships |
 | **Backstage** | Service catalog with data ownership metadata | Service → data store mapping, data steward assignment |
 
@@ -102,14 +104,14 @@ All datasets - databases, Kafka topics, S3 buckets, Redshift tables, and event s
 | **Owner** | Yes | `orders-team` |
 | **Data steward** | Yes | `jane.doe@{company}.com` |
 | **Classification** | Yes | `Personal` / `Operational` / `Public` (per privacy-engineering.md §2) |
-| **Schema** | Yes | Avro schema (Kafka), DDL (RDS), Glue table definition (S3) |
+| **Schema** | Yes | Avro schema (Kafka), DDL for relational stores, catalog table definition for lake objects (**reference:** Glue table for S3) |
 | **Retention policy** | Yes | `90 days` / `7 years` / `indefinite (anonymized)` |
 | **Quality tier** | Yes | `Tier 1` / `Tier 2` / `Tier 3` |
 | **Consumers** | Yes | List of services or teams that consume this dataset |
 
 ### 3.3 Enforcement
 
-Registration is validated during the deployment pipeline. A service that produces data to an unregistered Kafka topic or writes to an unregistered S3 prefix will trigger a CI warning in staging and a **deployment block** in production.
+Registration is validated during the deployment pipeline. A service that produces data to an unregistered Kafka topic or writes to an unregistered object storage prefix will trigger a CI warning in staging and a **deployment block** in production.
 
 ---
 
@@ -122,7 +124,7 @@ Automated data quality checks run continuously to detect anomalies, schema viola
 | Tool | Use Case | Where It Runs |
 |------|----------|---------------|
 | **Great Expectations** | Batch data quality validation for S3 and Redshift datasets | Airflow DAGs, post-ETL |
-| **Deequ (via AWS Glue)** | Data quality checks integrated into Glue ETL jobs | AWS Glue jobs |
+| **Deequ on Spark (ref: AWS Glue)** | Data quality checks integrated into managed Spark ETL | Vendor Spark / Glue jobs |
 | **Custom Kafka consumers** | Real-time schema and quality validation for streaming data | EKS (dedicated quality-monitor service) |
 
 ### 4.2 Standard Quality Checks
@@ -221,7 +223,7 @@ An analytics data contract is a formal agreement between a data producer and its
 
 | Component | Detail |
 |-----------|--------|
-| **Schema** | Published in AWS Glue Data Catalog; versioned |
+| **Schema** | Published in the data catalog; versioned (**reference:** AWS Glue Data Catalog) |
 | **Freshness SLA** | Maximum delay from source event to availability in the analytics store |
 | **Quality tier** | Tier 1, 2, or 3 (per §2) |
 | **Breaking change policy** | Follows the event schema evolution process (`02-architecture-and-api/08-event-schema-evolution.md`) |
@@ -231,11 +233,11 @@ An analytics data contract is a formal agreement between a data producer and its
 
 ```mermaid
 flowchart LR
-    A["Operational\nService"] -->|"CDC / Kafka"| B["Data Pipeline\n(Glue / Airflow)"]
-    B -->|"Validated &\ntransformed"| C["Analytics Store\n(Redshift)"]
-    C -->|"Query"| D["Dashboards\n(QuickSight / Grafana)"]
+    A["Operational\nService"] -->|"CDC / Kafka"| B["Data Pipeline\n(ref: Glue / Airflow)"]
+    B -->|"Validated &\ntransformed"| C["Analytics Store\n(ref: Redshift)"]
+    C -->|"Query"| D["Dashboards\n(ref: QuickSight / Grafana)"]
 
-    E["Data Contract\n(Glue Schema +\nSLA + Quality Tier)"] -.->|"governs"| B
+    E["Data Contract\n(catalog schema +\nSLA + Quality Tier)"] -.->|"governs"| B
     E -.->|"governs"| C
 ```
 
@@ -243,7 +245,7 @@ flowchart LR
 
 Breaking changes to analytics data (column removal, type change, semantic change) follow the same process as event schema evolution:
 
-1. Publish the new schema version in Glue.
+1. Publish the new schema version in the data catalog (**reference:** AWS Glue).
 2. Dual-write to both old and new tables for the migration window.
 3. Notify all analytics consumers.
 4. Consumers migrate queries and dashboards.

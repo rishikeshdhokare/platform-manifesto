@@ -2,9 +2,11 @@
 
 ![Status: Mandated](https://img.shields.io/badge/Status-Mandated-blue?style=flat-square)
 ![Owner](https://img.shields.io/badge/Owner-CTO_%2B_Data_Science_%2B_Legal-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 ---
+
+Governance rules in this document are **cloud- and vendor-agnostic**. Where **AWS** services appear (Bedrock, Comprehend, Titan, etc.), treat them as **reference implementation** - apply the same controls with Vertex AI, Azure OpenAI, or other approved providers.
 
 ## ⚖️ 1. Responsible AI Principles
 
@@ -183,16 +185,18 @@ flowchart TD
 
 | Use Case | Pattern | Model | Status |
 |----------|---------|-------|--------|
-| Customer support chatbot | RAG (Retrieval-Augmented Generation) | AWS Bedrock (Claude) | Production |
-| Intelligent dispatch notes | Structured generation | AWS Bedrock (Claude) | Pilot |
-| Incident triage assistant | RAG + summarization | AWS Bedrock (Claude) | Internal tooling |
-| Log analysis assistant | RAG + pattern matching | AWS Bedrock (Claude) | Internal tooling |
+| Customer support chatbot | RAG (Retrieval-Augmented Generation) | Managed LLM (ref: AWS Bedrock, Claude) | Production |
+| Intelligent dispatch notes | Structured generation | Managed LLM (ref: AWS Bedrock, Claude) | Pilot |
+| Incident triage assistant | RAG + summarization | Managed LLM (ref: AWS Bedrock, Claude) | Internal tooling |
+| Log analysis assistant | RAG + pattern matching | Managed LLM (ref: AWS Bedrock, Claude) | Internal tooling |
 
 ### RAG Architecture
 
+**Reference implementation (AWS):** Titan embeddings plus Bedrock Claude in the diagram below.
+
 ```mermaid
 flowchart LR
-    User([User Query]) --> Embed[Embedding Model<br/>Amazon Titan Embeddings]
+    User([User Query]) --> Embed[Embedding Model<br/>ref: Titan]
 
     Embed --> VectorSearch[Vector Search<br/>OpenSearch k-NN]
 
@@ -208,7 +212,7 @@ flowchart LR
     kb --> Indexer[Document Indexer<br/>Embedding + chunking]
     Indexer --> VectorSearch
 
-    Context --> LLM[LLM<br/>AWS Bedrock Claude]
+    Context --> LLM[LLM<br/>ref: Bedrock Claude]
     User --> LLM
 
     LLM --> Safety[Safety Filter<br/>PII detection,<br/>hallucination check]
@@ -222,7 +226,7 @@ flowchart LR
 | Concern | Standard |
 |---------|----------|
 | **Chunking** | 512 tokens with 50-token overlap; respect document boundaries |
-| **Embedding model** | Amazon Titan Embeddings (v2) |
+| **Embedding model** | Vendor embedding API (**reference:** Amazon Titan Embeddings v2; alternatives: Vertex, Azure OpenAI embeddings) |
 | **Vector store** | OpenSearch with k-NN plugin (HNSW) |
 | **Top-k retrieval** | k=5 for customer support; k=10 for incident triage |
 | **Context window** | Include retrieved context + system prompt; never exceed 80% of model's context window |
@@ -249,9 +253,9 @@ Generative AI systems require safety measures beyond traditional ML.
 
 | Stage | Action | Tool |
 |-------|--------|------|
-| **Input** | Detect and redact PII from user query before sending to LLM | Amazon Comprehend PII detection |
+| **Input** | Detect and redact PII from user query before sending to LLM | PII NLP service (**reference:** Amazon Comprehend) |
 | **Context** | Ensure retrieved documents are PII-free (anonymized at indexing time) | Pre-processing pipeline |
-| **Output** | Scan LLM response for any PII that may have leaked | Amazon Comprehend PII detection |
+| **Output** | Scan LLM response for any PII that may have leaked | PII NLP service (**reference:** Amazon Comprehend) |
 
 ### Evaluation Framework
 
@@ -277,23 +281,20 @@ AI systems at {Company} operate under strict data privacy constraints aligned wi
 |------|-------------|
 | No PII in LLM training data | Data pipeline strips PII before training data extraction |
 | No customer data in prompts to external LLMs | PII filter on all prompts; architecture review for new integrations |
-| AWS Bedrock preferred for data residency | Data stays in {Company}'s AWS account; no data sent to third-party model providers by default |
+| Preferred managed LLM for data residency | Data stays in {Company}'s cloud tenancy; no data sent to third-party model providers by default (**reference:** AWS Bedrock) |
 | Fine-tuning only on anonymized data | Anonymization pipeline required before any fine-tuning job |
-| Prompt logs retained for 30 days only | Automated deletion via S3 lifecycle policy |
+| Prompt logs retained for 30 days only | Automated deletion via object storage lifecycle (**reference:** S3 lifecycle policy) |
 | No model training on user-generated content without consent | Legal review required for any UGC training |
 
 ### Data Flow for LLM Requests
 
 ```
-User Query → PII Filter (redact) → LLM (AWS Bedrock, data stays in {Company}'s VPC)
+User Query → PII Filter (redact) → LLM (managed endpoint, data stays in {Company}'s network boundary)
                                          ↓
                                     Response → PII Filter (verify) → User
 ```
 
-AWS Bedrock ensures:
-- Model inference runs in {Company}'s AWS account
-- No customer data is used to train foundation models
-- Prompts and responses are not stored by the model provider
+**Reference implementation (AWS Bedrock):** model inference runs in {Company}'s cloud account; no customer data is used to train foundation models; prompts and responses are not stored by the model provider. Require the same contractual and technical assurances from any other vendor.
 
 ---
 
@@ -303,7 +304,7 @@ AWS Bedrock ensures:
 
 | Provider | Status | Data Residency | Use Cases |
 |----------|--------|---------------|-----------|
-| **AWS Bedrock** | Preferred | Data stays in {Company}'s AWS account | All production use cases |
+| **Managed LLM (ref: AWS Bedrock)** | Preferred | Data stays in {Company}'s cloud account | All production use cases |
 | **OpenAI API** | Approved (with DPA) | Data processing agreement required; no training on {Company} data | Internal tooling, prototyping |
 
 ### Evaluation Criteria
@@ -389,10 +390,10 @@ Quarterly, with ad-hoc sessions for urgent reviews.
 
 | Use Case | Max Input Tokens | Max Output Tokens | Model | Cost Cap/Request |
 |----------|------------------|-------------------|-------|------------------|
-| Internal assistant | 8,000 | 2,000 | Bedrock Claude | $0.10 |
-| Code review | 16,000 | 4,000 | Bedrock Claude | $0.25 |
-| Customer-facing summary | 4,000 | 500 | Bedrock Claude Instant | $0.02 |
-| Batch analytics | 32,000 | 4,000 | Bedrock Claude | $0.50 |
+| Internal assistant | 8,000 | 2,000 | Managed model (ref: Bedrock Claude) | $0.10 |
+| Code review | 16,000 | 4,000 | Managed model (ref: Bedrock Claude) | $0.25 |
+| Customer-facing summary | 4,000 | 500 | Managed model (ref: Bedrock Claude Instant) | $0.02 |
+| Batch analytics | 32,000 | 4,000 | Managed model (ref: Bedrock Claude) | $0.50 |
 
 ### Overflow Handling
 

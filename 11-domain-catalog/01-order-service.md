@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Order Service** (`com.{company}.orders`) is the **central orchestrating bounded context** for the platform. It owns the order aggregate from the moment a customer confirms a request through completion or cancellation, coordinates synchronous calls to peer domains for pricing and fulfillment, and publishes the canonical order lifecycle on Kafka so Payments, Notifications, Dynamic Pricing, Fraud, Analytics, and Fulfillment can react without tight coupling.
+The **Order Service** (`{company}.orders`) is the **central orchestrating bounded context** for the platform. It owns the order aggregate from the moment a customer confirms a request through completion or cancellation, coordinates synchronous calls to peer domains for pricing and fulfillment, and publishes the canonical order lifecycle on Kafka so Payments, Notifications, Dynamic Pricing, Fraud, Analytics, and Fulfillment can react without tight coupling.
 
 ### 1.1 What this service owns
 
@@ -23,11 +23,11 @@ The **Order Service** (`com.{company}.orders`) is the **central orchestrating bo
 
 | Concern | Owning domain |
 |---------|----------------|
-| Provider/customer profile data | Provider Profile, Customer Profile (`com.{company}.providers.*`, `com.{company}.customers.*`) |
-| Price rules, estimates, dynamic pricing math | Pricing Service (`com.{company}.pricing`) |
-| Geospatial fulfillment, provider pool | Fulfillment Engine (`com.{company}.fulfillment`) |
-| Card capture, wallets, payouts | Payment Service (`com.{company}.payments.*`) |
-| Push/SMS content and delivery | Notifications (`com.{company}.notifications`) |
+| Provider/customer profile data | Provider Profile, Customer Profile (`{company}.providers.*`, `{company}.customers.*`) |
+| Price rules, estimates, dynamic pricing math | Pricing Service (`{company}.pricing`) |
+| Geospatial fulfillment, provider pool | Fulfillment Engine (`{company}.fulfillment`) |
+| Card capture, wallets, payouts | Payment Service (`{company}.payments.*`) |
+| Push/SMS content and delivery | Notifications (`{company}.notifications`) |
 | Location, ETAs, routing | Geolocation Service (proxies) |
 
 ### 1.3 Orchestration role (high level)
@@ -39,7 +39,7 @@ flowchart TB
         PBFF[Provider BFF]
     end
 
-    subgraph orders [Order Service - com.{company}.orders]
+    subgraph orders [Order Service - {company}.orders]
         API[REST API]
         ORCH[Lifecycle orchestration]
         DB[(Aurora - orders)]
@@ -71,7 +71,7 @@ flowchart TB
 
 ## 🧩 2. Domain Model
 
-Core types live under `com.{company}.orders.domain`. Identifiers are opaque UUIDs (or branded string types) at the API boundary; the diagram shows conceptual relationships.
+Core types live under `{company}.orders.domain`. Identifiers are opaque UUIDs (or branded string types) at the API boundary; the diagram shows conceptual relationships.
 
 ```mermaid
 classDiagram
@@ -183,7 +183,7 @@ Additional internal or versioned endpoints (e.g. provider **start** actions) are
 
 ## 📤 5. Events Published
 
-Producer application: `com.{company}.orders` - Avro schemas in Schema Registry under subject prefix `orders.order`.
+Producer application: `{company}.orders` - Avro schemas in Schema Registry under subject prefix `orders.order`.
 
 | Topic | Payload summary | Key consumers | Retention |
 |-------|-----------------|---------------|-----------|
@@ -214,7 +214,7 @@ Consumer group naming follows the platform standard: `{consuming-service}.{topic
 ```mermaid
 flowchart LR
     subgraph orders_svc [Order Service]
-        T[com.{company}.orders]
+        T[{company}.orders]
     end
 
     subgraph sync_dep [Synchronous - gRPC]
@@ -237,7 +237,7 @@ flowchart LR
     FULFILL_TOPIC --> KIN
 ```
 
-Orders **does not** open JDBC connections to Pricing, Fulfillment, or Payments databases - only APIs and events, per platform boundaries (`11-domain-catalog/README.md`).
+Direct database access across service boundaries is forbidden: Orders uses only APIs and events for Pricing, Fulfillment, and Payments, per platform boundaries (`11-domain-catalog/README.md`).
 
 ---
 
@@ -280,7 +280,7 @@ Orders **does not** open JDBC connections to Pricing, Fulfillment, or Payments d
 | Business | `orders.completed` (counter) | Funnel KPIs |
 | Business | `orders.cancelled` (counter, by reason tag) | Experience / fulfillment health |
 
-Instrumentation: OpenTelemetry traces from `com.{company}.orders`, Prometheus metrics exported via platform sidecar; SLO burn alerts wired to PagerDuty.
+Instrumentation: OpenTelemetry traces from `{company}.orders`, Prometheus metrics exported via platform sidecar; SLO burn alerts wired to PagerDuty.
 
 ---
 

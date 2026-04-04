@@ -4,7 +4,7 @@
 ![Owner](https://img.shields.io/badge/Owner-Team_Orders-grey?style=flat-square)
 ![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
-**Service identifier:** `com.{company}.geolocation`
+**Service identifier:** `{company}.geolocation`
 
 ---
 
@@ -36,7 +36,7 @@ flowchart TB
         OTH[Other callers]
     end
 
-    GS[Geolocation Service - com.{company}.geolocation]
+    GS[Geolocation Service - {company}.geolocation]
     R[(Redis cache)]
 
     subgraph external [External providers]
@@ -120,7 +120,7 @@ The **domain port** defines operations (calculate route, ETA, geocode, matrix). 
 
 ```mermaid
 flowchart LR
-    subgraph domain [Domain core - com.{company}.geolocation]
+    subgraph domain [Domain core - {company}.geolocation]
         P[MappingPort interface]
     end
 

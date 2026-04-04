@@ -1,6 +1,6 @@
 # 🛡️ Privacy Engineering
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Legal](https://img.shields.io/badge/owner-Platform_Engineering_+_Legal-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Legal](https://img.shields.io/badge/owner-Platform_Engineering_+_Legal-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -13,6 +13,8 @@ Every feature that collects or processes personal data must be evaluated for pri
 The platform handles **real-time location data for millions of people** - customers, providers, and operations staff across multiple countries. This is a profound responsibility. A location trace can reveal where someone lives, works, worships, and whom they visit. We treat this data with the gravity it demands.
 
 ### Core Principles
+
+> **Principles (cloud-agnostic):** GDPR, PCI, retention, anonymization, consent, and cross-border transfer rules do not depend on a single cloud. Where this document names **AWS regions**, **CloudTrail**, **Config**, **DynamoDB**, or **SCPs**, treat them as **reference implementation (AWS)** and map to your provider's regions, audit logs, policy guardrails, and data stores.
 
 | Principle | What It Means for the Platform |
 |---|---|
@@ -75,7 +77,7 @@ A PIA is required for any change that:
 - Introduces **new PII collection** (a new field, a new data source)
 - Changes **how existing PII is processed** (new service consumes PII it didn't before)
 - Changes **data retention** (extending or shortening retention periods)
-- Introduces **new cross-border data flows** (data moves to a new AWS region)
+- Introduces **new cross-border data flows** (data moves to a new cloud region)
 - Shares **PII with a third party** (new vendor, new partner integration)
 
 ### PIA Template
@@ -328,6 +330,8 @@ flowchart TD
 
 ### Data Residency Rules
 
+**Reference implementation (AWS):** concrete region IDs and SCP enforcement; define the same allow-lists with your cloud's policy mechanisms.
+
 | Customer Region | Allowed AWS Regions | Enforcement |
 |---|---|---|
 | **European Union** | `eu-west-1` (Ireland), `eu-central-1` (Frankfurt) | SCP denies resource creation outside allowed regions |
@@ -335,6 +339,8 @@ flowchart TD
 | **Other regions** | `eu-west-1` (default), or region-specific as regulations require | Per-country assessment |
 
 ### Service Control Policy (SCP) Example
+
+**Reference implementation (AWS):** SCPs; on GCP use **Organization policies / VPC Service Controls**; on Azure use **Azure Policy** at management-group scope for the same region lock.
 
 ```json
 {
@@ -373,6 +379,8 @@ Before any new data flow that crosses regional boundaries, a **Transfer Impact A
 ---
 
 ## 👁️ 10. Audit Trail
+
+**Reference implementation (AWS):** CloudTrail, RDS audit, DynamoDB Streams as named below; use **GCP Cloud Audit Logs**, **Azure Activity / resource logs**, and equivalent DB audit features elsewhere.
 
 ### What Is Logged
 
@@ -473,6 +481,8 @@ Every quarter, the Security team conducts an access review:
 | **ISO 27001** | 🟡 Target | Certification targeted within **12 months**; gap analysis complete, remediation in progress |
 
 ### 12.2 Compliance-as-Code
+
+**Reference implementation (AWS):** Config rules and Security Hub standards below.
 
 All compliance controls are codified and version-controlled:
 

@@ -1,6 +1,6 @@
 # 🌍 Multi-Region Patterns
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -29,6 +29,8 @@ A naive approach would litter the codebase with `if (region === "us-east")` bran
 
 This guide defines how every platform service, BFF, and client application must handle multi-region concerns.
 
+Configuration storage examples that use **AWS SSM Parameter Store** and **S3** for bundles are **reference implementation** - use your cloud's parameter store, config service, or GitOps equivalents with the same hierarchy.
+
 ---
 
 ## 🌍 2. Region as a Configuration Dimension
@@ -45,7 +47,7 @@ flowchart TD
 
 ```
 
-### SSM Parameter Store Structure
+### Parameter store structure (reference: AWS SSM)
 
 ```
 /{env}/global/pricing/base-price-multiplier          → 1.0
@@ -77,7 +79,7 @@ When a service needs a config value for a region:
 3. Else check `/{env}/global/{key}` - if exists, use it.
 4. Else fail loudly (missing required config is a startup error).
 
-Services cache resolved config with a **60-second TTL** and subscribe to SSM change notifications for hot-reload.
+Services cache resolved config with a **60-second TTL** and subscribe to parameter store change notifications for hot-reload (**reference:** SSM).
 
 ---
 
@@ -147,7 +149,7 @@ Service types are **configuration-driven**, not hard-coded. Different regions su
 
 ```mermaid
 flowchart LR
-    SSM["SSM Parameter Store\n/{env}/regions/{region}/service-types"]
+    SSM["Param store\nref: AWS SSM\n/{env}/regions/{region}/service-types"]
     SVC["Order Service\n(reads on startup +\nhot-reload)"]
     BFF["BFF\n(filters & shapes\nfor client)"]
     APP["Client App\n(renders available\nservice cards)"]
@@ -191,7 +193,7 @@ flowchart LR
 }
 ```
 
-When a new service type is needed in a region, it is a **config change** - no code deployment required. The Order Service picks up the new type via SSM hot-reload, and the app renders it dynamically.
+When a new service type is needed in a region, it is a **config change** - no code deployment required. The Order Service picks up the new type via parameter store hot-reload, and the app renders it dynamically.
 
 ---
 
@@ -241,7 +243,7 @@ Each market has unique regulatory requirements for providers, service delivery, 
 }
 ```
 
-### Java Best Practices
+### Backend Best Practices (Reference Implementation: Java)
 
 ```java
 // CORRECT: Use ZonedDateTime for display, Instant for storage/events
@@ -255,7 +257,7 @@ ZonedDateTime local = now.atZone(ZoneId.of("America/New_York"));     // display
 
 - Use `ZoneId`, never `TimeZone` (legacy).
 - Use `DateTimeFormatter.ISO_INSTANT` for serialization.
-- Store timezone IDs per region in SSM: `/{env}/regions/us-east/timezone` → `America/New_York`.
+- Store timezone IDs per region in your parameter hierarchy: `/{env}/regions/us-east/timezone` → `America/New_York`.
 
 ---
 
@@ -298,7 +300,7 @@ flowchart LR
 
 ### Message Bundle Structure
 
-Message bundles are stored in S3 and cached at the BFF and Notification Service layers:
+Message bundles are stored in object storage and cached at the BFF and Notification Service layers (**reference:** S3):
 
 ```
 s3://{company}-i18n-{env}/
@@ -384,14 +386,14 @@ Launching the platform in a new region is a cross-functional operation. The foll
 
 ### Infrastructure
 
-- [ ] Confirm AWS region for data residency (see [Section 10](#10-data-residency))
+- [ ] Confirm cloud region for data residency (see [Section 10](#10-data-residency); **reference:** AWS region selection checklist)
 - [ ] VPC peering configured if services span regions
 - [ ] DNS and CDN edge locations cover the new geography
 - [ ] Monitoring dashboards created for the new region
 
 ### Configuration
 
-- [ ] SSM parameters populated for the region:
+- [ ] Region parameters populated (**reference:** SSM paths):
   - `/{env}/regions/{region}/pricing/*`
   - `/{env}/regions/{region}/service-types`
   - `/{env}/regions/{region}/timezone`
@@ -437,6 +439,8 @@ The platform complies with data residency requirements by ensuring user data is 
 
 ### Regional Data Mapping
 
+**Reference implementation (AWS):** Region IDs and SCP wording below are AWS-specific; enforce the same data-boundary rules with your cloud's policy and networking controls.
+
 ```mermaid
 flowchart TD
     subgraph "Americas Users"
@@ -445,14 +449,14 @@ flowchart TD
     subgraph "EU Users"
         EU_U["Customers & Providers\nin EU markets"]
     end
-    subgraph "AWS us-east-1\n(Virginia)"
+    subgraph "ref AWS us-east-1"
         AM_DB["PostgreSQL\n(user data)"]
-        AM_S3["S3\n(documents, photos)"]
+        AM_S3["Object store\nref: S3"]
         AM_ES["OpenSearch\n(logs, analytics)"]
     end
-    subgraph "AWS eu-west-1\n(Ireland)"
+    subgraph "ref AWS eu-west-1"
         EU_DB["PostgreSQL\n(user data)"]
-        EU_S3["S3\n(documents, photos)"]
+        EU_S3["Object store\nref: S3"]
         EU_ES["OpenSearch\n(logs, analytics)"]
     end
 
@@ -478,9 +482,9 @@ flowchart TD
 
 ### Enforcement
 
-- **AWS Service Control Policies (SCPs)** prevent services from creating resources or writing data outside their designated region.
+- **Organization policies (reference: AWS SCPs)** prevent services from creating resources or writing data outside their designated region.
 - **Database routing:** The data access layer resolves the user's region from their profile and routes queries to the correct regional database.
-- **S3 bucket policies** restrict write access to the designated region's buckets.
+- **Object storage policies (reference: S3 bucket policies)** restrict write access to the designated region's buckets.
 - **Kafka topics** are regional. Americas events flow through Kafka clusters in us-east-1; EU events through eu-west-1. Cross-region event mirroring is prohibited for PII topics.
 - **Audit:** A quarterly automated scan verifies no PII has leaked across regional boundaries. Violations trigger a P1 incident.
 

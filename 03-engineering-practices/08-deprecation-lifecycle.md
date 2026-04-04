@@ -138,7 +138,7 @@ No deprecated artifact may be removed while it still has active consumers. Usage
 | **gRPC services** | Request count per caller (from mTLS client certificate identity) | Envoy access logs |
 | **Kafka events** | Consumer group activity | Kafka consumer group lag monitoring (Prometheus `kafka_consumergroup_lag`) |
 | **Feature flags** | Evaluation count per service | LaunchDarkly flag usage metrics |
-| **Shared libraries** | Dependency declaration in `pom.xml` / `package.json` | Backstage dependency graph scan (weekly) |
+| **Shared libraries** | Dependency declaration in build manifests (**reference:** `pom.xml`, `package.json`, `go.mod`, etc.) | Backstage dependency graph scan (weekly) |
 
 ### 5.2 Removal Gate
 

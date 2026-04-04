@@ -1,10 +1,12 @@
 # 🌿 Git Workflow
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Our Approach: Trunk-Based Development
+
+Git workflow rules here are **language-agnostic**. Shell examples that use **Java** paths or **Spring**-style feature-flag snippets are **reference implementation** only.
 
 We practice **trunk-based development (TBD)**. All engineers integrate their work into `main` frequently - at least once a day, ideally multiple times.
 
@@ -57,6 +59,8 @@ Types: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`
 ### 2.3 Work in Small Commits
 
 Commit frequently - every logical unit of change. Don't save one big commit at the end.
+
+**Reference implementation (Java / Maven layout):**
 
 ```bash
 # Add the domain model
@@ -116,6 +120,8 @@ When your PR is approved:
 ### Scenario 1: My feature will take more than 2 days
 
 This is the most common challenge. The solution is **feature flags** - ship the code disabled.
+
+**Reference implementation (Java):**
 
 ```java
 // Day 1 - merge the data model and DB migration (behind a flag, but flag is off)
@@ -249,14 +255,14 @@ When two assignment requests arrived simultaneously for the same order,
 both could succeed due to missing optimistic lock. Added @Version
 field to Order entity to enforce optimistic locking."
 
-# Breaking change
+# Breaking change (Java / Spring example)
 git commit -m "feat(api): change price response to use cents instead of dollars
 
 BREAKING CHANGE: price.amount is now an integer in cents (e.g. 1250)
 rather than a decimal in dollars (e.g. 12.50). Consumers must update
 their parsing logic. See migration guide in docs/api-migration-v2.md"
 
-# Chore
+# Chore (framework-specific example)
 git commit -m "chore(deps): upgrade spring-boot to 3.2.1"
 ```
 

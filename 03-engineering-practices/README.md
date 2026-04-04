@@ -12,7 +12,7 @@
 | [06-code-review-guide.md](./06-code-review-guide.md) | How to give and receive feedback; good/bad comment examples |
 | [07-ab-testing.md](./07-ab-testing.md) | A/B testing strategy - hypothesis, experiment design, statistical rigor, guardrails |
 | [08-deprecation-lifecycle.md](./08-deprecation-lifecycle.md) | Deprecation lifecycle - APIs, events, services, flags, communication, enforcement |
-| [09-spring-boot-standards.md](./09-spring-boot-standards.md) | Spring Boot platform standards - logging, config, health checks, LaunchDarkly, virtual threads |
+| [09-backend-framework-standards.md](./09-backend-framework-standards.md) | Backend framework standards - structured logging, config layering, health checks, feature flags, graceful shutdown |
 | [10-frontend-ci-cd.md](./10-frontend-ci-cd.md) | Frontend & mobile CI/CD - golden path, monorepo, preview environments, deployment |
 | [11-qa-standards.md](./11-qa-standards.md) | Quality assurance - test environments, test data, regression, bug triage, security testing |
 

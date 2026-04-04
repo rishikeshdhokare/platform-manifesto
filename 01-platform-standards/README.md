@@ -4,7 +4,7 @@
 
 | Document | Description |
 |----------|-------------|
-| [01-tech-stack.md](./01-tech-stack.md) | Languages, frameworks, AWS services, data stores, approved/unapproved tooling |
+| [01-tech-stack.md](./01-tech-stack.md) | Languages, frameworks, cloud services, data stores - principles and reference implementation choices |
 | [02-naming-conventions.md](./02-naming-conventions.md) | Naming patterns for services, packages, APIs, Kafka, databases, cloud resources, observability, and feature flags |
 | [03-repository-standards.md](./03-repository-standards.md) | Required files, README template, branch protection, PR template, repository lifecycle |
 | [04-service-catalog.md](./04-service-catalog.md) | Backstage catalog-info.yaml spec, tags, lifecycle states, API registration, scorecards, ownership |

@@ -21,6 +21,8 @@
 
 Multi-tenancy is not a default. It is a deliberate architectural choice made when {Company} serves multiple distinct entities through shared infrastructure. The cost, complexity, and risk of multi-tenancy are only justified when the alternative (dedicated infrastructure per entity) is prohibitively expensive or operationally infeasible.
 
+> **Principles (cloud-agnostic):** Isolation patterns (RLS, schema-per-tenant, DB-per-tenant, cluster-per-tenant), quotas, rate limits, and per-tenant observability are architecture-level concerns. **Spring Boot** connection snippets, **Aurora**, **EKS**, **KMS**, **MSK**, and **Kong** named later are **reference implementation** choices - keep the isolation properties when swapping runtime or cloud services.
+
 ### 1.1 Applicable Scenarios
 
 | Scenario | Example |
@@ -123,6 +125,8 @@ ALTER TABLE orders FORCE ROW LEVEL SECURITY;
 
 **Application connection setup (Spring Boot):**
 
+**Reference implementation (Java / Spring Boot):**
+
 ```java
 @Component
 public class TenantConnectionPreparer implements ConnectionPreparedStatementCallback {
@@ -162,6 +166,8 @@ public void prepareConnection(Connection connection) throws SQLException {
 
 ### 3.4 Database per Tenant
 
+**Reference implementation (AWS):** dedicated **Aurora** cluster or **RDS** instance per tenant; same pattern with **Cloud SQL**, **Azure Database for PostgreSQL**, or self-managed Postgres where policy requires physical separation.
+
 Each tenant gets a dedicated database (Aurora cluster or RDS instance). The application routes connections based on tenant identity.
 
 | Aspect | Detail |
@@ -173,6 +179,8 @@ Each tenant gets a dedicated database (Aurora cluster or RDS instance). The appl
 | **When to use** | Regulated industries (fintech, healthcare) where data must not share physical storage |
 
 ### 3.5 Cluster per Tenant
+
+**Reference implementation (AWS):** **EKS** namespace or cluster; apply the same soft vs hard boundary with **GKE**, **AKS**, or other CNCF-conformant clusters.
 
 Maximum isolation. Each tenant gets a dedicated EKS namespace (soft isolation) or dedicated EKS cluster (hard isolation), plus dedicated database, cache, and message broker.
 
@@ -231,6 +239,8 @@ spec:
 ---
 
 ## 🔒 5. Per-Tenant Encryption
+
+**Reference implementation (AWS):** **KMS** key models below; mirror with **Cloud KMS**, **Azure Key Vault**, or HSM-backed keys per tenant.
 
 ### 5.1 Encryption Strategy
 

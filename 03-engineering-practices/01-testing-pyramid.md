@@ -1,6 +1,6 @@
 # 🧪 Testing Pyramid
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -9,6 +9,8 @@
 Testing is not a phase that follows development - it is a design activity that happens concurrently with development. Tests are the first consumers of your code. If a unit is hard to test, the design is wrong.
 
 **Our target:** Tests that are fast, deterministic, and tell you exactly what broke. A flaky test is worse than no test - it erodes trust in the entire suite.
+
+> **Substitution point:** The **pyramid ratios and rules** are universal. **JUnit, Mockito, Spring Boot Test, Testcontainers**, and related names below are the **Java reference implementation**; every mainstream language has equivalent runners, mocks, app bootstrapping, and container-based integration helpers.
 
 ### 1.1 The Pyramid
 
@@ -59,7 +61,11 @@ flowchart TB
 
 A unit test exercises a **single class or function in complete isolation**. All dependencies are mocked or stubbed.
 
+**Principle:** The unit layer proves **domain and small-module behaviour** without I/O; dependencies are **replaced with test doubles** so failures point to one unit.
+
 ### 2.2 Framework & Libraries
+
+**Reference implementation (Java):**
 
 | Library | Purpose |
 |---------|---------|
@@ -67,6 +73,8 @@ A unit test exercises a **single class or function in complete isolation**. All 
 | **Mockito** | Mocking dependencies |
 | **AssertJ** | Fluent, readable assertions |
 | **ArchUnit** | Architecture rule enforcement (see section 6) |
+
+> **Other frameworks:** Examples include `pytest` / `unittest` (Python), `Jest` or `Vitest` (JavaScript/TypeScript), `go test` with interfaces, `xUnit` / `NSubstitute` (.NET), and native test runners in Rust.
 
 ### 2.3 Rules
 
@@ -84,22 +92,26 @@ A unit test exercises a **single class or function in complete isolation**. All 
 
 - **Minimum coverage gate:** 80% line coverage, enforced in CI (SonarCloud)
 - Coverage is a floor, not a target - 80% with meaningful tests is better than 95% with trivial ones
-- Coverage thresholds are configured per module in `build.gradle`:
-  ```kotlin
-  jacocoTestCoverageVerification {
-      violationRules {
-          rule { limit { minimum = "0.80".toBigDecimal() } }
-      }
-  }
-  ```
+- Coverage thresholds are configured per module in your build (for example Gradle). **Reference implementation (Java / Gradle):**
+
+```kotlin
+jacocoTestCoverageVerification {
+    violationRules {
+        rule { limit { minimum = "0.80".toBigDecimal() } }
+    }
+}
+```
+
 - Domain logic (services, domain objects) should be closer to **95%**
 - Controller / adapter layers do not need >80% - they are covered by integration tests
 
 ### 2.5 What Not to Unit Test
 
-- Framework wiring (Spring config, bean definitions)
+- Framework wiring (composition root, DI registration, framework config)
 - Data Transfer Objects (DTOs) with no logic
 - Simple getters/setters
+
+> **Substitution point:** "Spring config, bean definitions" names the JVM case; skip unit-testing pure framework glue in any stack.
 
 ---
 
@@ -109,7 +121,11 @@ A unit test exercises a **single class or function in complete isolation**. All 
 
 An integration test exercises **a service's interaction with its real dependencies** - database, Kafka, external HTTP calls (stubbed via WireMock). The application starts (or a slice of it) and exercises real I/O.
 
+**Principle:** Integration tests validate **wiring and I/O** (real or containerised dependencies) with **narrower scope than E2E**; they catch mistakes unit tests cannot see.
+
 ### 3.2 Framework & Libraries
+
+**Reference implementation (Java / Spring):**
 
 | Library | Purpose |
 |---------|---------|
@@ -119,9 +135,13 @@ An integration test exercises **a service's interaction with its real dependenci
 | **Spring `@DataJpaTest`** | Slice test for repository layer only |
 | **Spring `@WebMvcTest`** | Slice test for controller layer only |
 
+> **Other frameworks:** Use your stack's **full or sliced app bootstrap** plus **Docker-based dependencies** (Testcontainers has bindings beyond Java) or approved local services.
+
 ### 3.3 Testcontainers Setup
 
 All services use a shared base test class that starts containers once per test suite:
+
+**Reference implementation (Java / Spring Boot + Testcontainers):**
 
 ```java
 @Testcontainers
@@ -151,6 +171,9 @@ public abstract class BaseIntegrationTest {
 - Use `@Transactional` on tests that write to the DB to auto-rollback after each test
 - For Kafka tests, use unique topic names per test or partition by test run ID
 - Test data builders (Builder pattern) must exist for every domain entity:
+
+**Reference implementation (Java):**
+
   ```java
   Order order = OrderTestBuilder.anOrder()
       .withStatus(OrderStatus.IN_PROGRESS)
@@ -164,6 +187,9 @@ public abstract class BaseIntegrationTest {
 - They must be tagged with `@Tag("integration")` so they can be run separately
 - Integration test suite must complete in **< 5 minutes** - if it doesn't, split the service
 - No `Thread.sleep()` - use `Awaitility` for async assertions:
+
+**Reference implementation (Java):**
+
   ```java
   Awaitility.await()
       .atMost(10, SECONDS)
@@ -189,6 +215,8 @@ Contract tests fill the gap between unit tests (no real dependencies) and E2E te
 
 ### 4.3 Consumer Side (Defining a Pact)
 
+**Reference implementation (Java):**
+
 ```java
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "orders-service")
@@ -212,6 +240,8 @@ class OrderServicePactConsumerTest {
 ```
 
 ### 4.4 Provider Side (Verifying a Pact)
+
+**Reference implementation (Java):**
 
 ```java
 @Provider("orders-service")
@@ -247,6 +277,8 @@ HTTP APIs are covered by Pact (see above). Kafka event schemas need equivalent p
 
 ### Consumer Side (Defining Expected Message Shape)
 
+**Reference implementation (Java):**
+
 ```java
 @ExtendWith(PactConsumerTestExt.class)
 @PactTestFor(providerName = "orders-service", providerType = ProviderType.ASYNCH)
@@ -279,6 +311,8 @@ class OrderCompletedMessagePactTest {
 ```
 
 ### Provider Side (Verifying Published Messages Match)
+
+**Reference implementation (Java):**
 
 ```java
 @Provider("orders-service")
@@ -330,10 +364,14 @@ E2E tests exercise **complete user journeys** from the API layer through to real
 
 ### 5.2 Framework & Libraries
 
+**Reference implementation (Java-centric):**
+
 | Library | Purpose |
 |---------|---------|
 | **REST Assured** | HTTP client for API E2E testing |
 | **Karate DSL** | BDD-style API test scenarios (optional, for non-dev QA) |
+
+> **Other frameworks:** Use your stack's HTTP client and scenario runner (Playwright API, Supertest, k6 checks, etc.) against deployed environments; the rules in sections 5.3 and 5.4 still apply.
 
 ### 5.3 What to E2E Test (and What Not To)
 
@@ -359,7 +397,9 @@ E2E tests exercise **complete user journeys** from the API layer through to real
 
 ## 📏 6. Architecture Tests (ArchUnit)
 
-ArchUnit tests enforce architectural rules at build time. Every service must include a standard set of architecture tests:
+**Principle:** Enforce **layer and dependency rules** in CI so architectural drift fails the build.
+
+**Reference implementation (Java):** ArchUnit tests enforce architectural rules at build time. Every service must enforce equivalent rules for its stack; the platform Java template ships the ArchUnit set below.
 
 ```java
 @AnalyzeClasses(packages = "com.{company}.orders")
@@ -470,6 +510,8 @@ The library is published to the internal Maven repository and versioned independ
 
 All fixture builders follow the pattern `{Entity}Fixture.a{Entity}()`:
 
+**Reference implementation (Java):**
+
 ```java
 Order order = OrderFixture.anOrder()
     .withStatus(COMPLETED)
@@ -498,7 +540,7 @@ Payment payment = PaymentFixture.aPayment()
 | Technology | Unit Tests | Integration Tests |
 |------------|-----------|-------------------|
 | **gRPC** | `grpc-testing` InProcessServer with canned responses | Testcontainers with real gRPC server |
-| **Kafka** | EmbeddedKafka (`spring-kafka-test`) | Testcontainers Confluent image (`confluentinc/cp-kafka`) |
+| **Kafka** | Embedded broker or in-memory test helper (e.g. `spring-kafka-test` on JVM) | Testcontainers Confluent image (`confluentinc/cp-kafka`) |
 | **External HTTP** | WireMock (stubbed responses) | WireMock (stubbed responses) |
 | **PostgreSQL** | - (unit tests do not touch DB) | Testcontainers (`postgres:15-alpine`) |
 | **Redis** | - (unit tests do not touch Redis) | Testcontainers (`redis:7-alpine`) |
@@ -526,7 +568,9 @@ Code coverage tells you which lines were executed by tests - it does not tell yo
 
 ### 12.2 Tool
 
-**PIT (Pitest)** for Java - integrated as a Gradle plugin in the platform BOM.
+**Principle:** Mutation testing **stress-tests assertions**; the specific tool depends on the runtime.
+
+**Reference implementation (Java):** **PIT (Pitest)** - integrated as a Gradle plugin in the platform BOM.
 
 ```kotlin
 // build.gradle.kts
@@ -559,6 +603,8 @@ pitest {
 - A low mutation score in critical code paths should trigger a conversation about test quality, not a blind push for higher numbers
 
 ### 12.5 How to Run
+
+**Reference implementation (Java / Gradle):**
 
 | Context | Command | Frequency |
 |---------|---------|-----------|

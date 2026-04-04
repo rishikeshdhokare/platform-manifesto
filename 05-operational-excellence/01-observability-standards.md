@@ -1,6 +1,6 @@
 # 👁️ Observability Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -34,6 +34,8 @@ flowchart LR
 
 ## 📡 2. Logging
 
+**Principle:** Structured logging applies to **every runtime** (JVM, Node.js, Go, Python, .NET, and others). Field names and transport stay the same; only the logging library and wiring differ.
+
 ### 2.1 Standard
 
 All services must emit **structured JSON logs** to stdout. The log shipper (Fluent Bit) collects from stdout and forwards to the log backend - applications never write to files.
@@ -58,22 +60,24 @@ Every log line must contain:
 }
 ```
 
-| Field | Source | Required |
+| Field | Source (substitute per runtime) | Required |
 |-------|--------|---------|
-| `timestamp` | Logback | Yes |
-| `level` | Logback | Yes |
-| `service` | `spring.application.name` | Yes |
-| `version` | `application.version` from build | Yes |
-| `environment` | `SPRING_PROFILES_ACTIVE` | Yes |
-| `traceId` | OpenTelemetry (auto-injected) | Yes |
-| `spanId` | OpenTelemetry (auto-injected) | Yes |
-| `correlationId` | MDC (from `X-Request-ID` header) | Yes |
+| `timestamp` | Logging framework (e.g. Logback on JVM) | Yes |
+| `level` | Logging framework | Yes |
+| `service` | Service identity from config (e.g. `spring.application.name` on Spring Boot) | Yes |
+| `version` | Build / deployment metadata | Yes |
+| `environment` | Deployment environment variable or profile | Yes |
+| `traceId` | OpenTelemetry (auto-injected or SDK) | Yes |
+| `spanId` | OpenTelemetry (auto-injected or SDK) | Yes |
+| `correlationId` | Request context (e.g. MDC on JVM, AsyncLocal in .NET, continuation-local in Node.js) from `X-Request-ID` | Yes |
 | `message` | Application | Yes |
 | Domain fields | Application | As needed |
 
+**Reference Implementation (JVM / Spring Boot):** Logback, `spring.application.name`, `SPRING_PROFILES_ACTIVE`, and MDC for correlation IDs, as shown below.
+
 ### 2.3 Logback Configuration
 
-Use the platform-standard `logback-spring.xml`. Include it from the platform BOM:
+**Reference Implementation (JVM / Spring Boot):** Use the platform-standard `logback-spring.xml`. Include it from the platform BOM:
 
 ```xml
 <!-- logback-spring.xml -->
@@ -122,13 +126,15 @@ DEBUG can be enabled per-service via a runtime feature flag without redeployment
 
 ## 📡 3. Metrics
 
+**Principle:** Every service must expose a **Prometheus-compatible metrics scrape target** and the **RED** signals for HTTP workloads, regardless of language or framework. Path names (for example `/metrics` vs `/actuator/prometheus`) are implementation details; the contract is Prometheus exposition format and consistent labels (`service`, `environment`, `version`).
+
 ### 3.1 Standard
 
-All services expose a **Prometheus-compatible `/actuator/prometheus` endpoint**. Prometheus scrapes this endpoint via a `ServiceMonitor` CRD (Prometheus Operator).
+**Reference Implementation (Spring Boot):** Services use **`/actuator/prometheus`**. Prometheus scrapes this endpoint via a `ServiceMonitor` CRD (Prometheus Operator). Other runtimes use their framework's metrics endpoint or a sidecar exporter as long as the scrape contract is met.
 
 ### 3.2 Spring Boot Actuator Setup
 
-Include in `build.gradle`:
+**Reference Implementation (Spring Boot / Micrometer):** Include in `build.gradle`:
 ```kotlin
 implementation("org.springframework.boot:spring-boot-starter-actuator")
 implementation("io.micrometer:micrometer-registry-prometheus")
@@ -150,7 +156,7 @@ management:
 
 ### 3.3 RED Method - Required Metrics Per Service
 
-Every HTTP service must expose these three metric families (Micrometer provides them automatically for Spring Boot):
+Every HTTP service must expose these three metric families. **Reference Implementation (Spring Boot):** Micrometer registers them automatically with the names below; other stacks use equivalent histograms and counters (for example `http_requests_total` in some Prometheus client libraries).
 
 | Metric Type | Metric Name | Description |
 |-------------|-------------|-------------|
@@ -160,7 +166,9 @@ Every HTTP service must expose these three metric families (Micrometer provides 
 
 ### 3.4 Business Metrics (Mandatory for Core Services)
 
-Beyond RED, core services must instrument key business events:
+Beyond RED, core services must instrument key business events using their platform metrics API (Prometheus client, OpenTelemetry metrics, or equivalent).
+
+**Reference Implementation (Java / Micrometer):**
 
 ```java
 // In OrderService.java
@@ -187,7 +195,7 @@ public Order completeOrder(String orderId) {
 
 ### 3.5 Kafka Consumer Metrics
 
-All Kafka consumers must expose consumer lag metrics. The platform Kafka configuration exports these automatically via JMX → Prometheus.
+All Kafka consumers must expose consumer lag metrics. **Reference Implementation (JVM clients):** The platform Kafka client configuration exports consumer metrics via JMX → Prometheus. Other runtimes use the client's built-in metrics or the broker / operator dashboards; the operational requirement is **visible lag per consumer group** you own.
 
 Key metric: `kafka_consumer_group_lag` - alerts when lag exceeds threshold.
 
@@ -195,15 +203,22 @@ Key metric: `kafka_consumer_group_lag` - alerts when lag exceeds threshold.
 
 Every service **must** have a Grafana dashboard before production deployment. The platform team provides a **standard dashboard template** - teams import it and customise.
 
-Minimum dashboard panels:
-1. Request rate (req/s)
-2. Error rate (%)
-3. P50 / P95 / P99 latency
-4. JVM heap usage
-5. Active threads / virtual threads
-6. Database connection pool utilisation
-7. Kafka consumer lag (if applicable)
-8. Downstream dependency health (circuit breaker state)
+Minimum dashboard panels (add runtime-appropriate rows; JVM is one option among several):
+
+| Panel | What to chart | Notes |
+|-------|----------------|-------|
+| Request rate | HTTP req/s | Required for HTTP services |
+| Error rate | % 5xx (or domain errors) | Required |
+| Latency | P50 / P95 / P99 | Required |
+| **Reference Implementation (JVM)** | Heap usage, GC, threads | `jvm_memory_*`, runtime threads (including virtual threads where applicable) |
+| **Node.js** | Event loop lag, heap | `nodejs_eventloop_lag_*`, V8 heap if exported |
+| **Go** | Goroutines, heap / GC | `go_goroutines`, `go_memstats_*` |
+| **Python** | Process memory, worker utilisation | Exporter or `process_*` metrics where used |
+| DB pool | Pool active / max | HikariCP on JVM; equivalent pool metrics elsewhere |
+| Kafka lag | Consumer lag | If service consumes |
+| Resilience | Circuit breaker / retry state | Library-specific metric names |
+
+At least **one** runtime resource panel (memory or equivalent) and **threads / concurrency** (where the runtime exposes it) must appear on Tier 1 dashboards.
 
 Dashboards are stored as JSON in the service repository at `docs/dashboards/` and provisioned via Grafana's Terraform provider.
 
@@ -211,13 +226,17 @@ Dashboards are stored as JSON in the service repository at `docs/dashboards/` an
 
 ## 📡 4. Distributed Tracing
 
+**Principle:** Distributed tracing applies to **all services**, using **OpenTelemetry** (auto-instrumentation **language agent** where available, or OTel SDK + manual instrumentation). Export path (for example OTLP to a collector, then **AWS X-Ray** or Tempo) is a platform wiring concern, not language-specific.
+
 ### 4.1 Standard
 
-**OpenTelemetry** is the standard instrumentation library. Traces are exported to **AWS X-Ray**.
+**OpenTelemetry** is the standard instrumentation approach. Traces are exported to **AWS X-Ray** (or the platform-configured backend).
 
 ### 4.2 Setup
 
-Add the OpenTelemetry Java agent - no code changes required for basic tracing:
+**Substitution points:** JVM uses the OpenTelemetry Java agent; **Node.js** often uses `@opentelemetry/auto-instrumentations-node` or the OTel operator's Node agent; **Python** uses `opentelemetry-instrument` or gunicorn/uvicorn wrappers; **Go** typically relies on the OTel Go SDK with selected instrumentations. All paths should set the same `OTEL_*` environment variables where applicable.
+
+**Reference Implementation (OpenTelemetry Java agent):** No application code changes required for basic tracing on the JVM.
 
 ```dockerfile
 # Dockerfile
@@ -241,14 +260,16 @@ env:
 ### 4.3 Trace Propagation
 
 - All inbound HTTP requests: Extract `traceparent` header (W3C TraceContext)
-- All outbound HTTP calls: Inject `traceparent` header automatically (via OTel agent)
+- All outbound HTTP calls: Inject `traceparent` automatically (via OpenTelemetry language agent or SDK middleware)
 - All Kafka messages: Propagate trace context in message headers
 
 The correlation ID (`X-Request-ID` / `X-Correlation-ID`) is bridged into the trace context automatically by the platform logging configuration.
 
 ### 4.4 Custom Spans
 
-For important business operations, add custom spans:
+For important business operations, add custom spans with the OpenTelemetry API in your language.
+
+**Reference Implementation (Java):**
 
 ```java
 @Autowired Tracer tracer;
@@ -381,7 +402,9 @@ System metrics are owned by the service team. Business metrics are owned jointly
 
 ### 7.2 Key Business Events to Instrument
 
-Every core domain must emit business events as Micrometer metrics:
+Every core domain must emit business events as counters and histograms (Micrometer on JVM; equivalent in other metrics stacks).
+
+**Reference Implementation (Java / Micrometer):**
 
 ```java
 // In OrderService - business metric
@@ -604,7 +627,7 @@ buckets: [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 
 This set provides sufficient resolution for both fast endpoints (< 100ms) and slower operations (multi-second). Services may add **additional** buckets for specific needs but must not remove any standard buckets.
 
-For Micrometer (Spring Boot), configure in `application.yml`:
+**Reference Implementation (Micrometer / Spring Boot):** Configure in `application.yml`:
 ```yaml
 management:
   metrics:
@@ -846,7 +869,7 @@ All **Tier 1 API endpoints** must have CloudWatch Synthetics canaries running co
 
 | Scenario | What It Tests | Example |
 |----------|---------------|---------|
-| **Health check** | Service is reachable and healthy | `GET /actuator/health` returns 200 |
+| **Health check** | Service is reachable and healthy | `GET /actuator/health` (Spring) or `GET /health` / `GET /ready` per stack returns success |
 | **Auth flow** | Authentication and token issuance work end-to-end | Obtain token via OAuth2 client credentials grant |
 | **Critical business flow** | Core business operation completes successfully | Create a synthetic order → verify 201 response and event published |
 

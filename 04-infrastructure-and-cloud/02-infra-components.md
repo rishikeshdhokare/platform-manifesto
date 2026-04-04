@@ -1,6 +1,6 @@
 # 🧱 Infrastructure Components
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -174,15 +174,20 @@ platform-config/
 │   ├── staging/
 │   └── production/
 ├── helm-charts/
-│   ├── java-service/        # Shared Helm chart for all Java services
+│   ├── backend-service/     # Shared Helm chart for containerized HTTP/gRPC services (all runtimes)
 │   └── ...
 └── argocd/
     └── app-of-apps.yaml     # ArgoCD App of Apps pattern
 ```
 
-### 7.3 Helm Chart - java-service
+### 7.3 Helm chart - backend-service
 
-The platform ships a shared Helm chart `java-service` that handles all standard Kubernetes resources (Deployment, Service, HPA, PodDisruptionBudget, ServiceMonitor). Teams override values, not the chart:
+The platform ships a shared Helm chart **`backend-service`** for stateless backend workloads. It owns the standard Kubernetes resources (Deployment, Service, HPA, PodDisruptionBudget, ServiceMonitor). Teams override values, not the chart. **Java / Spring Boot** is the **reference** image layout (JVM opts, Actuator probes); Node, Go, and other images set `command`, `args`, ports, and probes per their runtime.
+
+| Chart / profile | Typical use |
+|-----------------|-------------|
+| **backend-service** (default) | Any OCI image; runtime-agnostic Kubernetes wiring |
+| **JVM values profile** (reference) | Same chart with `jvmOpts`, Spring-centric defaults where Platform maintains them |
 
 ```yaml
 # values-production.yaml
@@ -207,7 +212,7 @@ autoscaling:
   targetCPUUtilizationPercentage: 60
 
 env:
-  SPRING_PROFILES_ACTIVE: production
+  SPRING_PROFILES_ACTIVE: production   # Java reference; other runtimes set their env keys
   AWS_REGION: eu-west-1
 ```
 
@@ -313,7 +318,7 @@ To onboard a new service to ArgoCD, follow these steps in order:
 
 | Step | Action | Detail |
 |------|--------|--------|
-| 1 | **Create Application manifest** | Add a new `{service-name}.yaml` in `platform-config/apps/{env}/` for each target environment (dev, staging, production). Reference the shared `java-service` Helm chart and set service-specific values. |
+| 1 | **Create Application manifest** | Add a new `{service-name}.yaml` in `platform-config/apps/{env}/` for each target environment (dev, staging, production). Reference the shared `backend-service` Helm chart and set service-specific values. |
 | 2 | **Add to app-of-apps** | Register the new Application manifest in `platform-config/argocd/app-of-apps.yaml` so ArgoCD discovers it automatically. |
 | 3 | **Configure sync policy** | Set `automated` sync with `selfHeal: true` for dev and staging. Production uses manual sync or automated with canary gates. Set `prune: true` to remove orphaned resources. |
 | 4 | **Verify in ArgoCD UI** | After merging the PR to `platform-config`, confirm the application appears in ArgoCD UI with status `Synced` and `Healthy`. Trigger a manual sync if needed. |

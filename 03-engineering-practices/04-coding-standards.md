@@ -1,6 +1,6 @@
 # 📝 Coding Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -14,7 +14,11 @@ When in doubt, ask: *"Will a colleague who has never seen this code understand i
 
 ## 🔄 2. Automated Enforcement
 
+**Principle:** Use your language's **canonical style guide and formatter**, and enforce it in **pre-commit and CI** so reviews focus on behaviour, not whitespace. Add static analysis for complexity, duplication, and (where available) architectural boundaries.
+
 Most style rules are enforced automatically. You do not need to memorise them - your IDE and CI will tell you when you're wrong.
+
+**Reference implementation (Java):**
 
 | Tool | What It Enforces | When It Runs |
 |------|-----------------|-------------|
@@ -22,7 +26,7 @@ Most style rules are enforced automatically. You do not need to memorise them - 
 | **SonarCloud** | Code smells, complexity, duplication | CI on every PR |
 | **ArchUnit** | Package dependencies, naming conventions | CI on every PR |
 
-Import the platform IntelliJ settings to get formatting on save automatically.
+> **Substitution point:** Swap Checkstyle for ESLint/Ruff/gofmt/etc.; swap ArchUnit for an equivalent boundary checker in your ecosystem (see hexagonal architecture doc). Import your IDE's formatter settings for on-save formatting (for example platform IntelliJ settings for Java).
 
 The rules below cover things tools **cannot** enforce - judgment calls that require human standards.
 
@@ -47,6 +51,8 @@ The rules below cover things tools **cannot** enforce - judgment calls that requ
 
 Generic names hide intent and make code harder to search and understand.
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad - what is "data"? what is "result"? what is "obj"?
 public Object process(Object data) {
@@ -63,6 +69,8 @@ public PriceEstimate calculatePrice(OrderRequest orderRequest) {
 
 ### 3.3 Booleans - Use Positive, Readable Names
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad
 boolean notActive;
@@ -76,6 +84,8 @@ boolean isDynamicPricingEnabled;
 ```
 
 ### 3.4 Collections - Use Plural Nouns
+
+**Reference implementation (Java):**
 
 ```java
 // ❌ Bad
@@ -94,6 +104,8 @@ Set<String> activeZones;
 ### 4.1 Single Responsibility
 
 A class should have one reason to change. If you find yourself writing "and" when describing what a class does, it probably needs to be split.
+
+**Reference implementation (Java):**
 
 ```java
 // ❌ Bad - OrderService does too many things
@@ -121,6 +133,8 @@ public class OrderService {
 ### 4.3 Immutability - Prefer It
 
 Make objects immutable where possible. Mutable shared state is the root of most concurrency bugs.
+
+**Reference implementation (Java):**
 
 ```java
 // ❌ Bad - mutable, anyone can change anything
@@ -164,6 +178,8 @@ public final class OrderRequest {
 - **Target:** ≤ 3 parameters
 - **Limit:** 5 - beyond this, introduce a parameter object
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad - 6 parameters, easy to pass in wrong order
 public PriceEstimate calculate(String city, String vehicleType,
@@ -183,6 +199,8 @@ public record PriceCalculationRequest(
 ```
 
 ### 5.3 Return Early - Avoid Deep Nesting
+
+**Reference implementation (Java):**
 
 ```java
 // ❌ Bad - deeply nested, hard to follow the happy path
@@ -232,6 +250,8 @@ public Order processOrder(String orderId, String providerId) {
 
 ### 5.4 No Magic Numbers or Strings
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad - what does 3 mean? what is "COMPLETED"?
 if (order.getAttempts() > 3) { ... }
@@ -250,6 +270,8 @@ if (status == OrderStatus.COMPLETED) { ... }
 
 ### 6.1 Use Typed Exceptions - Never Generic Ones
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad
 throw new RuntimeException("Order not found");
@@ -264,6 +286,8 @@ throw new ProviderUnavailableException(providerId);
 ### 6.2 Exception Hierarchy
 
 All domain exceptions extend from a base:
+
+**Reference implementation (Java):**
 
 ```java
 // Base exception
@@ -297,6 +321,8 @@ public class InvalidOrderStateException extends DomainException {
 
 ### 6.3 Never Swallow Exceptions
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad - exception silently swallowed; caller has no idea what happened
 try {
@@ -325,6 +351,8 @@ try {
 
 ### 6.4 Log-and-Throw Is an Anti-Pattern
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad - this exception will be logged twice: here and by the caller
 try {
@@ -343,6 +371,8 @@ providerService.dispatch(providerId, orderId);
 ## 📏 7. Null Handling
 
 ### 7.1 Never Return Null from a Method
+
+**Reference implementation (Java):**
 
 ```java
 // ❌ Bad - caller must remember to null-check; easy to forget
@@ -364,6 +394,8 @@ public Provider getProvider(String providerId) {
 
 ### 7.2 Validate Constructor Arguments
 
+**Reference implementation (Java):**
+
 ```java
 // ✅ Good - fail fast; don't let invalid objects exist
 public Order(OrderId id, CustomerId customerId, Location dispatch, Location delivery) {
@@ -378,6 +410,10 @@ public Order(OrderId id, CustomerId customerId, Location dispatch, Location deli
 
 Annotate method parameters and return types to communicate intent:
 
+> **Substitution point:** Use your language's null-safety or optional types (TypeScript strict nulls, Kotlin nullability, Rust `Option`, etc.) where they replace or complement annotations.
+
+**Reference implementation (Java):**
+
 ```java
 public PriceEstimate calculate(@NonNull OrderRequest request) { ... }
 public @Nullable Provider findNearestAvailableProvider(Location location) { ... }
@@ -391,6 +427,8 @@ public @Nullable Provider findNearestAvailableProvider(Location location) { ... 
 
 The need for a comment is often a signal that the code should be clearer.
 
+**Reference implementation (Java):**
+
 ```java
 // ❌ Bad - comment explains what the code does (the code should do that itself)
 // Get order by id and check if it's in progress
@@ -403,6 +441,8 @@ if (order.isInProgress()) { ... }
 ### 8.2 When Comments Are Good
 
 Comments are valuable when they explain **why**, not **what**:
+
+**Reference implementation (Java):**
 
 ```java
 // ✅ Good - explains non-obvious business rule
@@ -426,6 +466,8 @@ if (paymentEventRepository.existsByIdempotencyKey(event.getIdempotencyKey())) {
 
 Every `// TODO` comment must reference a Jira ticket:
 
+**Reference implementation (Java):**
+
 ```java
 // ✅ Good
 // TODO(RIDE-1234): Replace polling with WebSocket push when infra is ready
@@ -438,7 +480,9 @@ Every `// TODO` comment must reference a Jira ticket:
 
 ## 💡 9. Use of Java Records
 
-Use Java Records for immutable data carriers (DTOs, value objects, parameters):
+**Principle:** Prefer **immutable data carriers** (DTOs, value objects, parameter objects) with validation at construction. Every language has an idiomatic equivalent (structs, data classes, `@dataclass`, records, typed objects).
+
+**Reference implementation (Java):** Use Java Records for immutable data carriers (DTOs, value objects, parameters):
 
 ```java
 // ✅ Use records for DTOs
@@ -473,7 +517,9 @@ Do **not** use records for domain entities that have lifecycle and changing stat
 
 ## 📏 10. Logging in Code
 
-Always use SLF4J. Never use `System.out.println`.
+**Principle:** Use the **structured logger** for your runtime (level-based, parameterised messages, correlation fields). Never rely on standard output for production diagnostics.
+
+**Reference implementation (Java):** Always use SLF4J. Never use `System.out.println`.
 
 ```java
 // ❌ Bad
@@ -498,7 +544,9 @@ log.error("Failed to dispatch provider. orderId={}, providerId={}", orderId, pro
 
 ## 📏 11. Dependency Injection
 
-Always inject via constructor - never via field injection (`@Autowired` on fields).
+**Principle:** Prefer **explicit constructor injection** (or equivalent) so dependencies are visible and testable. Avoid hidden service location or field assignment by the framework.
+
+**Reference implementation (Java):** Always inject via constructor - never via field injection (`@Autowired` on fields).
 
 ```java
 // ❌ Bad - field injection; hides dependencies; makes testing harder
@@ -525,6 +573,8 @@ public class OrderService {
 
 Use Lombok `@RequiredArgsConstructor` to reduce boilerplate if your team has agreed on Lombok:
 
+**Reference implementation (Java):**
+
 ```java
 @Service
 @RequiredArgsConstructor
@@ -537,6 +587,8 @@ public class OrderService {
 ---
 
 ## 📋 12. Quick Reference - Do / Don't
+
+> **Substitution point:** This table uses Java names (`Optional`, `record`, `@Autowired`); apply the same **ideas** with your language's types and DI style.
 
 | Do | Don't |
 |----|-------|

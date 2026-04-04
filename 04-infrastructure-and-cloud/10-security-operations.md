@@ -24,6 +24,8 @@
 
 ---
 
+> **Principles (cloud-agnostic):** Threat modeling, vulnerability SLAs, SIEM correlation, pentesting, incident response, WAF governance, DDoS playbooks, key hierarchy, JIT privileged access, and insider-threat logging apply regardless of vendor. Sections naming **AWS Security Lake**, **Shield**, **SSO**, **CloudTrail**, **KMS**, and **S3** are **reference implementation (AWS)**.
+
 ## 🔐 1. Threat Modeling
 
 ### 1.1 STRIDE Per New Service
@@ -118,6 +120,8 @@ Snyk is the source of truth for all vulnerability data. Every repository has Sny
 ---
 
 ## 🔐 3. SIEM & Security Analytics
+
+**Reference implementation (AWS):** **Security Lake** as the central store; alternatives include **Chronicle**, **Sentinel**, **Splunk/Datadog** security lake patterns, or **S3 + OpenSearch** with the same source coverage.
 
 ### 3.1 Architecture
 
@@ -217,6 +221,8 @@ Every CI pipeline generates a **Software Bill of Materials** (SBOM) in **Cyclone
       --output-format json
     aws s3 cp sbom.cdx.json s3://sbom-store/${SERVICE_NAME}/${VERSION}/sbom.cdx.json
 ```
+
+**Reference implementation (AWS):** SBOM upload to **S3**; use **GCS**, **Azure Blob**, or artifact registry with immutable versioning on other clouds.
 
 ### 6.2 Container Signing
 
@@ -416,6 +422,8 @@ The **Security team** owns and operates WAF rules. Engineering teams escalate fa
 
 ### 12.1 Shield Advanced
 
+**Reference implementation (AWS):** **Shield Standard / Advanced** with CloudFront and Route 53; equivalents include **GCP Cloud Armor** with global LB, **Azure DDoS Protection** with Front Door / Application Gateway, or CDN vendor advanced mitigation.
+
 AWS Shield Advanced is enabled for all Tier 1 services:
 
 | Protected Resource | Shield Advanced? | Auto-Mitigation? |
@@ -451,6 +459,8 @@ Every DDoS event (confirmed or suspected) triggers a post-event review documenti
 
 ## 🔐 13. Key Management (KMS)
 
+**Reference implementation (AWS):** **KMS** aliases and CMK model; map tiers to **Cloud KMS** or **Azure Key Vault** with the same separation of duties.
+
 ### 13.1 Key Hierarchy
 
 | Data Tier | CMK Alias | Rotation | Used For |
@@ -484,6 +494,8 @@ For regulated customers requiring Bring-Your-Own-Key (BYOK):
 ## 🔐 14. Privileged Access Management (PAM)
 
 ### 14.1 JIT Access via AWS SSO
+
+**Reference implementation (AWS):** **IAM Identity Center (SSO)**; use **Google Cloud Workforce Identity**, **Azure Entra ID Privileged Identity Management**, or **Okta** JIT with the same approval, duration, and audit requirements.
 
 All privileged access is just-in-time (JIT) via AWS SSO temporary elevation:
 

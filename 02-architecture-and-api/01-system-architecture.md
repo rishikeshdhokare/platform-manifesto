@@ -1,10 +1,12 @@
 # 🏛️ System Architecture Blueprint
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Principal Engineering / Platform](https://img.shields.io/badge/owner-Principal_Engineering_/_Platform-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Principal Engineering / Platform](https://img.shields.io/badge/owner-Principal_Engineering_/_Platform-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Architectural Philosophy
+
+> **Principle:** Bounded contexts, BFFs, the event backbone, and sync vs async boundaries in this document are **language- and framework-agnostic**. Names of specific products (managed messaging, gateways, data stores, resilience libraries) describe {Company}'s **reference implementation**, not the only allowed stack.
 
 Our architecture is **domain-driven, event-native, and designed for independent deployability**. Every architectural decision should be evaluated against three questions:
 
@@ -23,7 +25,7 @@ The platform naturally decomposes into the following bounded contexts. Each doma
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         API Gateway Layer                        │
-│              (Amazon API Gateway + ALB per surface)             │
+│           (API gateway + L7 load balancer per surface)          │
 └────────┬──────────┬──────────┬───────────┬──────────────────────┘
          │          │          │           │
     ┌────▼───┐ ┌────▼───┐ ┌───▼────┐ ┌────▼────┐
@@ -58,7 +60,7 @@ The platform naturally decomposes into the following bounded contexts. Each doma
                           │
                ┌──────────▼──────────┐
                │   Event Backbone     │
-               │   (Kafka / MSK)      │
+               │   (Kafka cluster)    │
                └─────────────────────┘
 ```
 
@@ -92,7 +94,7 @@ flowchart TB
         Fraud[Fraud Engine]
     end
     subgraph backbone [Event Backbone]
-        Kafka[Kafka / MSK]
+        Kafka[Kafka cluster]
     end
     clients --> gateway
     gateway --> bffs
@@ -131,16 +133,18 @@ Use for: **user-facing requests where a real-time response is required.**
 - **Internal (service → service):** gRPC with mutual TLS
 - **Timeout policy:** All synchronous calls must have explicit timeouts (default: 2s for internal, 5s for external dependencies)
 - **Retry policy:** Exponential backoff with jitter, max 3 retries, only on idempotent operations
-- **Circuit breaker:** Resilience4j - mandatory on all synchronous outbound calls
+- **Circuit breaker:** Mandatory on all synchronous outbound calls (reference: Resilience4j on the JVM; equivalent policies required on other stacks)
+
+> **Substitution point:** Use your language or mesh-native equivalent for timeouts, retries, circuit breaking, and bulkheads (e.g. Polly on .NET, go-kit resilience, Envoy outlier detection where policy allows).
 
 ### 4.2 Asynchronous (Event-Driven)
 
 Use for: **state changes that other domains need to react to, but not in the critical path of a user request.**
 
-- **Platform:** Kafka on Amazon MSK
+- **Platform:** Kafka on a managed cluster (reference: Amazon MSK)
 - **Producer rule:** A service publishes events about its own domain - it does not publish commands to other services
 - **Consumer rule:** Consumers are responsible for idempotency - the same event may be delivered more than once
-- **Schema:** Avro, registered in AWS Glue Schema Registry - breaking schema changes are forbidden; use schema evolution rules
+- **Schema:** Avro with a governed registry (reference: AWS Glue Schema Registry; alternatives include Confluent Schema Registry, Apicurio) - breaking schema changes are forbidden; use schema evolution rules
 
 ### 4.3 Decision Guide
 
@@ -150,8 +154,10 @@ Is a real-time response required by the user?
   └─ NO → Is it a state change other domains care about?
             └─ YES → Kafka event
             └─ NO → Is it fire-and-forget within one service?
-                       └─ YES → Internal async (CompletableFuture / virtual thread)
+                       └─ YES → Internal async (tasks / virtual threads)
 ```
+
+> **Substitution point:** "Internal async" maps to your runtime's non-blocking or task APIs (e.g. CompletableFuture or virtual threads on the JVM, asyncio in Python, goroutines in Go).
 
 **Visual overview:**
 
@@ -162,7 +168,7 @@ flowchart TB
     Q1 -->|No| Q2{State change?}
     Q2 -->|Yes| Event[Kafka Event]
     Q2 -->|No| Q3{Fire and forget?}
-    Q3 -->|Yes| Async[CompletableFuture]
+    Q3 -->|Yes| Async[Internal async]
     Q3 -->|No| Skip[No action needed]
 ```
 
@@ -240,7 +246,7 @@ Each client surface has different data needs. A single API layer serving all cli
 Every service owns exactly one logical database. No exceptions.
 
 - Services communicate via APIs or events, never via shared database tables
-- Reporting and analytics data is projected into a separate data warehouse (Amazon Redshift) via change data capture (CDC) using Debezium → MSK → Redshift
+- Reporting and analytics data is projected into a separate data warehouse (reference: Amazon Redshift) via change data capture (CDC) using Debezium → Kafka → the warehouse sink
 
 ### 7.2 CQRS Where Applicable
 
@@ -261,18 +267,20 @@ For read-heavy domains (order history, provider listings), implement CQRS:
 
 Every service must implement the following:
 
-| Pattern | Library | Applied To |
-|---------|---------|-----------|
-| **Circuit Breaker** | Resilience4j | All synchronous outbound calls |
-| **Retry with backoff** | Resilience4j | Idempotent outbound calls |
-| **Bulkhead** | Resilience4j | Isolate thread pools per downstream |
-| **Timeout** | Resilience4j / Spring | All outbound calls - no unbounded waits |
+| Pattern | Library (reference) | Applied To |
+|---------|---------------------|-----------|
+| **Circuit Breaker** | Resilience4j (JVM) | All synchronous outbound calls |
+| **Retry with backoff** | Resilience4j (JVM) | Idempotent outbound calls |
+| **Bulkhead** | Resilience4j (JVM) | Isolate thread pools per downstream |
+| **Timeout** | Resilience4j / Spring WebClient (JVM) | All outbound calls - no unbounded waits |
 | **Dead Letter Queue** | Kafka DLQ topic | All Kafka consumers |
 | **Idempotency** | Custom (idempotency key in DB) | All payment and mutation operations |
 
 ---
 
 ## 🔒 9. Security Architecture
+
+> **Reference implementation (cloud / Kubernetes):** The bullets below assume {Company}'s default AWS and Kubernetes posture. Equivalent controls (workload identity, secrets stores, mesh mTLS) are required on any platform.
 
 - **Zero-trust networking:** No service trusts another based on network location alone
 - **mTLS:** All service-to-service gRPC calls use mutual TLS (Istio handles this)
@@ -317,22 +325,22 @@ Clear ownership of resilience concerns prevents two failure modes: gaps (nobody 
 |---------|-------|------|---------------|
 | **mTLS** | Istio (platform) | Istio `PeerAuthentication` | Platform team manages globally; `STRICT` mode enforced cluster-wide |
 | **Outlier detection** | Istio (platform) | `DestinationRule` | Platform provides sensible defaults (consecutive 5xx eviction); teams may override via annotation on their `DestinationRule` |
-| **Retries (HTTP/gRPC)** | Application | Resilience4j | Application configures per-downstream call; **Istio retries are DISABLED globally** to prevent double-retry amplification |
-| **Circuit breaker** | Application | Resilience4j | Application configures per-downstream; thresholds tuned based on downstream SLOs |
-| **Timeout** | Application | Resilience4j + Spring `WebClient` / `RestClient` | Application sets per-call timeout; Istio timeout set to **2× the application timeout** as a safety net only |
-| **Rate limiting (inbound)** | API Gateway + BFF | AWS API Gateway + application logic | Gateway handles global rate limits per tier; BFF handles per-user and per-session limits |
-| **Bulkhead** | Application | Resilience4j | Thread pool (or semaphore) isolation per downstream dependency; prevents a slow downstream from consuming all threads |
+| **Retries (HTTP/gRPC)** | Application | Resilience4j (reference, JVM) | Application configures per-downstream call; **Istio retries are DISABLED globally** to prevent double-retry amplification |
+| **Circuit breaker** | Application | Resilience4j (reference, JVM) | Application configures per-downstream; thresholds tuned based on downstream SLOs |
+| **Timeout** | Application | Resilience4j + Spring `WebClient` / `RestClient` (reference, JVM) | Application sets per-call timeout; Istio timeout set to **2× the application timeout** as a safety net only |
+| **Rate limiting (inbound)** | API Gateway + BFF | Managed API gateway (reference: AWS) + application logic | Gateway handles global rate limits per tier; BFF handles per-user and per-session limits |
+| **Bulkhead** | Application | Resilience4j (reference, JVM) | Thread pool (or semaphore) isolation per downstream dependency; prevents a slow downstream from consuming all threads |
 
 ### Anti-Pattern: Double Retries
 
 > **If both Istio and the application retry, a single failure can generate N × M requests.** For example, if the application retries 3 times and Istio retries 3 times, one failed request produces up to 9 downstream requests - turning a minor failure into a self-inflicted DDoS.
 >
-> **Resolution:** Istio retries are **disabled globally** via mesh-wide configuration. Applications own all retry logic via Resilience4j, where they can implement intelligent retry strategies (exponential backoff, jitter, retry budgets) with full awareness of the operation's idempotency and downstream capacity.
+> **Resolution:** Istio retries are **disabled globally** via mesh-wide configuration. Applications own all retry logic (reference: Resilience4j on the JVM), where they can implement intelligent retry strategies (exponential backoff, jitter, retry budgets) with full awareness of the operation's idempotency and downstream capacity.
 
 ### Ownership Boundaries
 
 - **Platform team** owns Istio configuration, mesh-wide policies, and the default `DestinationRule` settings. Changes require a PR to the platform infrastructure repo.
-- **Application teams** own all Resilience4j configuration within their service. Configuration lives in `application.yml` and is reviewed as part of the Production Readiness Review (PRR).
+- **Application teams** own all client resilience configuration within their service (reference: Resilience4j in `application.yml` on Spring Boot). Configuration is reviewed as part of the Production Readiness Review (PRR).
 - If a resilience concern is not listed in this table, the **application team** owns it by default.
 
 ---
@@ -371,6 +379,8 @@ The BFF (or the service itself) examines the consistency token:
 2. If no token is present, or the token is older than the replication window, route to the **reader endpoint** (replica)
 
 ### 12.4 Implementation Options
+
+> **Reference implementation:** The first row below uses Aurora PostgreSQL and JDBC. The pattern (route fresh reads to the writer) applies to any primary/replica database.
 
 | Approach | How It Works | Trade-off |
 |----------|-------------|-----------|
@@ -427,7 +437,7 @@ Event sourcing persists the state of a domain entity as a **sequence of immutabl
 | **Outbox pattern** | Events are written to an outbox table in the same transaction as the aggregate update; Debezium CDC publishes them to Kafka |
 | **State reconstruction** | Replay all events for an aggregate to rebuild current state |
 | **Snapshots** | Store a snapshot of the aggregate state every N events (e.g., every 100) to avoid replaying the full event history on every load |
-| **Event schema** | Avro, registered in Glue Schema Registry - same evolution rules as all other events |
+| **Event schema** | Avro in a schema registry (reference: AWS Glue; see [Event Schema Evolution](./08-event-schema-evolution.md)) - same evolution rules as all other events |
 
 ### 13.5 Relationship to CQRS
 
@@ -453,7 +463,7 @@ Business logic lives in the services (**smart endpoints**), not in the messaging
 
 | Infrastructure Component | Role (Dumb Pipe) | What It Does NOT Do |
 |--------------------------|-------------------|---------------------|
-| **Kafka (MSK)** | Transports events reliably between services with ordering and durability guarantees | Does not transform event payloads, route conditionally based on business rules, or enforce domain logic |
+| **Kafka (managed cluster)** | Transports events reliably between services with ordering and durability guarantees | Does not transform event payloads, route conditionally based on business rules, or enforce domain logic |
 | **API Gateway** | Handles authentication, rate limiting, and request routing to BFFs | Does not contain business logic, validate domain invariants, or orchestrate multi-service workflows |
 | **Istio service mesh** | Handles mTLS, retries, observability, and traffic management | Does not encode business routing decisions, transform payloads, or enforce domain-level authorization rules |
 

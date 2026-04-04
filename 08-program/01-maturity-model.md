@@ -1,6 +1,6 @@
 # 📊 Maturity Model
 
-![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: Platform Engineering + CTO](https://img.shields.io/badge/owner-Platform_Engineering_%2B_CTO-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: Platform Engineering + CTO](https://img.shields.io/badge/owner-Platform_Engineering_%2B_CTO-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -20,6 +20,8 @@ Each capability has four levels:
 
 **Target state:** All teams at Level 3 or above within 12 months of platform launch. Level 4 is the long-term aspiration.
 
+**Framing:** Capability levels are **universal**. Examples that cite a specific vendor (AWS), registry (ECR), library (ArchUnit, Testcontainers), or framework (Spring Actuator) are **reference implementation** pointers - interpret the same bar for your stack.
+
 ---
 
 ## 🔀 Dimension 1: Source Control & Branching
@@ -38,12 +40,12 @@ Each capability has four levels:
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
 | Unit tests | Few or no unit tests | Unit tests exist but coverage < 60% | ≥ 80% coverage; tests are meaningful | Coverage ≥ 90% on domain logic; mutation testing |
-| Integration tests | None or manual | Integration tests exist but use mocks/H2 | Testcontainers with real dependencies | Full integration suite < 3 min; reliable and fast |
+| Integration tests | None or manual | Integration tests exist but use mocks/in-memory DB | Real dependencies in CI (**reference:** Testcontainers for JVM) | Full integration suite < 3 min; reliable and fast |
 | Contract tests | None | Consumer-driven contracts exist | Pact contracts in CI; blocks provider deployment | Pact Broker tracks compatibility across all consumers |
 | E2E tests | None or manual QA | Some E2E automation | E2E covers all critical journeys; runs nightly | E2E runs pre-production; <20 min; parallelised |
 | Performance tests | Ad-hoc load tests | Load tests exist | Weekly automated load tests; baselines defined | Performance regressions detected automatically in CI |
 | Flaky tests | Flaky tests accepted | Some flaky tests quarantined | Flaky tests quarantined within 24h; 0 tolerance | Flakiness tracked as team metric; trend to zero |
-| Architecture tests | None | Some ArchUnit rules | Standard platform ArchUnit rules in all services | Team adds custom rules for their domain |
+| Architecture tests | None | Some automated architecture rules (**reference:** ArchUnit in Java) | Standard platform architecture rules in all services | Team adds custom rules for their domain |
 
 ---
 
@@ -56,7 +58,7 @@ Each capability has four levels:
 | Quality gates | No gates | Some gates, not enforced | All gates enforced; PRs blocked on failure | Gate history tracked; failures trend to zero |
 | Secret detection | No scanning | Manual review | Gitleaks in pre-commit and CI | Zero tolerance; alert on any detection event |
 | Dependency scanning | Quarterly manual | Monthly Snyk | Daily Snyk scan; CI blocks on critical/high | Auto-PRs for patch versions; < 5 open vulnerabilities at any time |
-| Container scanning | Not done | Manual periodically | Snyk on every build; blocks on critical | ECR enhanced scanning + weekly rebuild of base images |
+| Container scanning | Not done | Manual periodically | Snyk on every build; blocks on critical | Registry enhanced scanning (**reference:** ECR) + weekly rebuild of base images |
 
 ---
 
@@ -79,7 +81,7 @@ Each capability has four levels:
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
 | Logging | Unstructured logs or no logs | Structured logs, inconsistent fields | Structured JSON with all required fields; correlation IDs | Logs searchable in OpenSearch; traceId → log query from trace |
-| Metrics | No metrics | Basic Spring Actuator metrics | RED metrics + business metrics + Grafana dashboard | Custom SLO dashboard; error budget tracked |
+| Metrics | No metrics | Basic framework metrics endpoint (**reference:** Spring Actuator) | RED metrics + business metrics + Grafana dashboard | Custom SLO dashboard; error budget tracked |
 | Distributed tracing | No tracing | Some manual instrumentation | OTel agent; full trace from BFF to DB | Trace sampling optimised; tail-based sampling for errors |
 | Alerting | No alerts | Some alerts, no runbooks | P1/P2 alerts with runbooks for all services | Alerts reviewed quarterly; false positive rate < 5% |
 | SLOs | Not defined | SLOs defined; error budget policy defined and enforced | SLOs tracked in Grafana; burn-rate alerting configured | Error budget automated; freeze on budget exhaustion with self-service override |
@@ -92,7 +94,7 @@ Each capability has four levels:
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
-| Secrets management | Secrets in code or env vars | Secrets in Secrets Manager but manually managed | All secrets via External Secrets Operator; auto-rotated | Rotation tested; zero manual secret handling |
+| Secrets management | Secrets in code or env vars | Secrets in a managed store but manually managed (**reference:** Secrets Manager) | All secrets via cluster operator sync (**reference:** External Secrets Operator); auto-rotated | Rotation tested; zero manual secret handling |
 | Auth & authz | API key or no auth | JWT auth at gateway only | JWT validated + resource-level authorisation in services | RBAC model documented; access reviews quarterly |
 | Dependency vulnerabilities | Not tracked | Tracked, slow remediation | Critical/high fixed within SLA | Patch PRs merged same day; zero high CVEs at any time |
 | IaC security | No scanning | Manual review | tfsec + Checkov in CI; blocks on high | Security posture score tracked; improving trend |
@@ -105,7 +107,7 @@ Each capability has four levels:
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
-| Local dev setup | No docs; complex setup | README exists; setup takes > 1 day | `docker compose up` + `./gradlew bootRun` works; < 1 hour to running | Setup script installs everything; < 30 min from zero |
+| Local dev setup | No docs; complex setup | README exists; setup takes > 1 day | One-command local stack + app run (**reference:** `docker compose up` + `./gradlew bootRun` for Java) | Setup script installs everything; < 30 min from zero |
 | Onboarding | No structured onboarding | Basic README | New engineer ships to production in first week | NPS survey; onboarding continuously improved |
 | Service scaffolding | Copy-paste from another service | Template exists but outdated | Backstage template generates fully working service | Template generates CI pipeline, ArgoCD app, Backstage entry automatically |
 | Inner loop speed | Build > 2 minutes | Build 1–2 minutes | Build < 60s; test < 30s; startup < 15s | Incremental build < 10s; hot reload < 3s |
@@ -164,7 +166,7 @@ The goal is an accurate picture, not a high score.
 | Practice | L1 | L2 | L3 Target | L4 |
 |----------|----|----|-----------|-----|
 | Cost visibility | No tagging | Some resources tagged | All resources tagged; per-team cost dashboards | Cost-per-transaction tracked; anomaly detection active |
-| Budget management | No budgets | AWS budget exists but not monitored | Budget alerts at 80%/100%; monthly team review | Quarterly rightsizing; Savings Plans optimized |
+| Budget management | No budgets | Cloud budget exists but not monitored | Budget alerts at 80%/100%; monthly team review | Quarterly rightsizing; commitment discounts optimized |
 | Dev/staging optimization | Always-on everywhere | Manual scale-down | Automated scale-to-zero outside hours; staging at 50% | Spot instances for non-critical; Karpenter optimized |
 | FinOps cadence | None | Annual review | Monthly per-team review | Weekly cost anomaly triage; cost part of PR review for infra changes |
 
@@ -174,7 +176,7 @@ The goal is an accurate picture, not a high score.
 
 | Practice | L1 | L2 | L3 Target | L4 |
 |----------|----|----|-----------|-----|
-| Model serving | No ML; rule-based only | ML models exist but deployed ad-hoc | SageMaker endpoints; canary for model updates; fallback to rules | Feature store; A/B testing; automated retraining |
+| Model serving | No ML; rule-based only | ML models exist but deployed ad-hoc | Managed inference endpoints; canary for model updates; fallback to rules (**reference:** SageMaker; alternatives: Vertex AI, Azure Machine Learning) | Feature store; A/B testing; automated retraining |
 | ML observability | No monitoring | Basic accuracy tracking | Drift detection; prediction quality alerts; data quality checks | Automated retraining triggers; model performance SLOs |
 | AI governance | No governance | Informal bias awareness | Quarterly bias audits; explainability for customer-facing decisions | AI Ethics Review Board; automated fairness metrics in CI |
 | AI-assisted development | Ad-hoc tool usage | Approved tools list | Guardrails enforced; code review standards for AI PRs | AI productivity metrics tracked; contribution to platform tooling |

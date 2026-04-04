@@ -8,11 +8,18 @@
 
 All container images must use platform-approved base images. The platform team maintains and patches these images monthly, tracked in `platform-bom`.
 
-| Service Type | Base Image | Notes |
-|-------------|------------|-------|
-| Java services | `amazoncorretto:21-alpine` | Production runtime for all JVM services |
-| Node.js (frontend builds) | `node:20-alpine` | Build stage only - not for production runtime |
-| Static frontends | `nginx:1.27-alpine` | Serving pre-built SPA bundles |
+**Principle:** Pin **vendor-maintained, minimal** bases per **runtime**; production images use the approved row for that language, not generic `:latest` tags.
+
+| Runtime / use | Reference base image | Notes |
+|-----------------|---------------------|-------|
+| **Java (JVM)** | `amazoncorretto:21-alpine` | Default production runtime for JVM services |
+| **Node.js** | `node:20-alpine` | Often build stage; production may use distroless or slim Node as approved in BOM |
+| **Go** | `gcr.io/distroless/static-debian12` or `alpine` (pinned) | Prefer static binary + minimal base; align with BOM |
+| **Python** | `python:3.12-alpine` (pinned) or distroless variant per BOM | Multi-stage: build deps not in final image |
+| **.NET** | `mcr.microsoft.com/dotnet/aspnet:8.0-alpine` (pinned) | Runtime image matching target framework |
+| **Static frontends** | `nginx:1.27-alpine` | Serving pre-built SPA bundles |
+
+> **Substitution point:** Exact tags live in `platform-bom`; swap distro names only when the platform team approves a new pinned image.
 
 ### Base Image Rules
 
@@ -31,6 +38,8 @@ All container images must use platform-approved base images. The platform team m
 All services must use multi-stage builds. The final image contains only the runtime and the built artifact - never source code, build tools, or test dependencies.
 
 ### Reference Dockerfile (Java / Spring Boot)
+
+**Reference implementation (Java):** Multi-stage pattern applies to all runtimes; commands below are JVM/Gradle-specific.
 
 ```dockerfile
 # ── Build Stage ──
@@ -156,22 +165,29 @@ Immutable, traceable tags are mandatory. Every production image must be traceabl
 
 ## 📏 4. Image Size Limits
 
-Large images slow down deployments, increase cold-start times, and waste bandwidth. CI enforces size limits.
+Large images slow down deployments, increase cold-start times, and waste bandwidth. CI enforces size limits **per runtime** (not one cap for every stack).
 
-| Service Type | Maximum Size | How to Achieve |
-|-------------|-------------|----------------|
-| Java services | < 300 MB | Alpine base + layered JAR + no build tools |
-| Node.js frontends | < 200 MB | Multi-stage build + nginx for serving |
-| Go binaries | < 50 MB | Scratch or distroless base |
+| Runtime / artifact | Maximum compressed size (typical) | How to achieve |
+|--------------------|----------------------------------|----------------|
+| **Java (JVM + fat JAR)** | < 300 MB | Alpine (or approved) base + layered JAR + no build tools in final image |
+| **Node.js** (app or SSR) | < 250 MB | Multi-stage; production deps only; slim or distroless base per BOM |
+| **Python** | < 350 MB | Slim/distroless base; no compilers or venv dev deps in final image |
+| **.NET** | < 300 MB | Runtime-only base; publish trimmed/single-file when policy allows |
+| **Go** | < 50 MB | Static binary + scratch or distroless |
+| **Static frontends (nginx)** | < 200 MB | Multi-stage build + nginx for assets only |
+
+> **Substitution point:** CI should select `MAX_SIZE` from the row for the service's **primary runtime**; tune per repository in the workflow or shared script when the platform BOM defines exceptions.
 
 ### CI Enforcement
+
+**Reference implementation:** Gate on the limit that matches the image being built (example for JVM):
 
 ```yaml
 # In GitHub Actions workflow
 - name: Check image size
   run: |
     IMAGE_SIZE=$(docker image inspect $IMAGE --format='{{.Size}}')
-    MAX_SIZE=314572800  # 300MB in bytes
+    MAX_SIZE=314572800  # 300MB in bytes - Java reference; use smaller limits for Go, etc.
     if [ "$IMAGE_SIZE" -gt "$MAX_SIZE" ]; then
       echo "Image size ${IMAGE_SIZE} exceeds limit ${MAX_SIZE}"
       exit 1
@@ -183,8 +199,8 @@ Large images slow down deployments, increase cold-start times, and waste bandwid
 | Technique | Impact |
 |-----------|--------|
 | Use Alpine base images | ~200 MB smaller than Debian-based |
-| Multi-stage builds | Eliminates build tools (Gradle, npm) from final image |
-| Spring Boot layered JARs | Separates dependencies into cacheable layers |
+| Multi-stage builds | Eliminates build tools (Gradle, npm, pip, etc.) from final image |
+| Layered or cached dependency layers | JVM: Spring Boot layered JARs; other runtimes: copy lockfiles first, then deps |
 | `.dockerignore` | Prevents large files from entering build context |
 | Minimize installed packages | No curl, wget, or shells unless required for healthcheck |
 

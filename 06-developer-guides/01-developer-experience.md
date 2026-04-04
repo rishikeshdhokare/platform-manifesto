@@ -1,6 +1,6 @@
 # 🧑‍💻 Developer Experience
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -54,16 +54,25 @@ gantt
 
 ### 3.1 Prerequisites
 
+Local setup must be **repeatable per supported runtime**. The snippets below use the **Java reference implementation** (Corretto, Gradle); other runtimes follow the same contract (pinned version, wrapper or lockfile, `docker compose` for dependencies). See [Local Development](./10-local-development.md) for a runtime matrix.
+
+| Runtime | Reference toolchain (examples) |
+|---------|----------------------------------|
+| **Java** (reference) | SDKMAN + Amazon Corretto 21, Gradle wrapper in repo |
+| Node.js | nvm, fnm, or asdf + npm/pnpm lockfile |
+| Go | Official SDK or brew; `go.mod` for versions |
+| Python | pyenv, uv, or asdf + pinned dependencies |
+
 The platform provides a `setup.sh` script that installs all required tools on a fresh macOS or Ubuntu machine:
 
 ```bash
 curl -s https://platform.{company}.internal/setup.sh | bash
 ```
 
-This installs:
+This installs (Java reference path; other runtimes use their own bootstrap documented per template):
 - SDKMAN + Amazon Corretto 21
 - Docker Desktop
-- Gradle (via wrapper in each repo)
+- Gradle (via wrapper in each Java service repo)
 - AWS CLI v2 + SSO configuration
 - `kubectl` + `kubectx` + `kubens`
 - `helm`
@@ -74,7 +83,7 @@ This installs:
 
 ### 3.2 Running a Service Locally
 
-Every service in the platform follows the same pattern:
+Every service follows the same **pattern**: clone, start dependencies with Docker Compose, run with the local profile. The commands below are the **Java / Spring Boot reference implementation** (`./gradlew bootRun`); Node, Go, and other services use their repo's documented entrypoint (for example `npm run dev`, `make run`).
 
 ```bash
 # Clone the repo
@@ -84,7 +93,7 @@ cd orders-service
 # Start all dependencies (Postgres, Redis, Kafka via Docker Compose)
 docker compose up -d
 
-# Run the service
+# Run the service (Java reference)
 ./gradlew bootRun --args='--spring.profiles.active=local'
 ```
 
@@ -129,7 +138,7 @@ volumes:
 
 ### 3.4 Application Local Profile
 
-`application-local.yml` configures the service to use local Docker dependencies and disables cloud integrations:
+**Reference implementation (Spring Boot):** `application-local.yml` configures the service to use local Docker dependencies and disables cloud integrations. Other frameworks use equivalent local config files or env files with the same intent.
 
 ```yaml
 spring:
@@ -182,7 +191,7 @@ repos:
 - repo: local
   hooks:
   - id: checkstyle
-    name: Checkstyle
+    name: Checkstyle (Java reference)
     entry: ./gradlew checkstyleMain --quiet
     language: system
     pass_filenames: false
@@ -200,21 +209,17 @@ Install hooks: `pre-commit install --hook-type commit-msg`
 
 ## 💻 5. IDE Setup
 
-### 5.1 Recommended IDE: IntelliJ IDEA
+### 5.1 Recommended IDE: IntelliJ IDEA (Java reference)
 
-The platform provides a shared IntelliJ settings repository with:
-- Code style configuration (Google Java Style)
-- Run configurations for all services
-- Checkstyle plugin configuration
-- SonarLint plugin configuration
+For **Java services**, IntelliJ IDEA is the **reference implementation**: the platform provides a shared settings bundle with Google Java Style, run configurations, Checkstyle, and SonarLint. Teams on other runtimes use VS Code, Cursor, or Neovim with the linter and formatter their stack standardizes (ESLint, golangci-lint, Ruff, etc.).
 
-Import: `File → Manage IDE Settings → Import Settings → platform-ide-settings.zip`
+Import (Java): `File → Manage IDE Settings → Import Settings → platform-ide-settings.zip`
 
 ### 5.2 Required Plugins
 
 | Plugin | Purpose |
 |--------|---------|
-| **Checkstyle-IDEA** | Inline style violations |
+| **Checkstyle-IDEA** | Inline style violations (Java reference) |
 | **SonarLint** | Inline security and quality issues |
 | **EnvFile** | Load `.env.local` for run configurations |
 | **AWS Toolkit** | AWS resource browsing and Lambda testing |
@@ -224,13 +229,13 @@ Import: `File → Manage IDE Settings → Import Settings → platform-ide-setti
 
 ## 🛤️ 6. Service Scaffolding - Golden Path Template
 
-New services are created using the Backstage service template - not by copying an existing service.
+New services are created using the Backstage service template - not by copying an existing service. Use the template that matches your runtime; **Java Microservice** is the **reference implementation** documented here.
 
 ```
 Backstage → Create → Java Microservice Template
 ```
 
-The template generates:
+The Java template generates:
 - GitHub repository with correct branch protection rules
 - Standard project structure (hexagonal architecture)
 - Pre-configured `build.gradle` with platform BOM
@@ -248,7 +253,7 @@ From template creation to running locally: **< 15 minutes**.
 
 ## 🏗️ 7. Platform BOM (Bill of Materials)
 
-All services import the **platform BOM** which pins all dependency versions. Teams never specify versions for platform-managed dependencies:
+**Reference implementation (Java / Gradle):** services on the JVM import the **platform BOM**, which pins dependency versions. Teams never specify versions for platform-managed dependencies. Other runtimes use an equivalent lockfile or BOM (npm `package-lock.json` with internal registry constraints, Go workspace modules, Poetry/uv constraints, etc.) as defined by Platform.
 
 ```kotlin
 // build.gradle.kts
@@ -284,7 +289,7 @@ The inner loop is the cycle: **write code → compile → test → run**. Slow i
 | Incremental build | < 10 seconds |
 | Unit test suite (single module) | < 30 seconds |
 | Integration test suite | < 3 minutes |
-| Hot reload (Spring DevTools) | < 3 seconds |
+| Hot reload (Java reference: Spring DevTools) | < 3 seconds |
 | Application startup (local) | < 15 seconds |
 
 If a service consistently misses these targets, the team must invest in improving build performance.

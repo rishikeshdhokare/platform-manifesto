@@ -19,19 +19,26 @@
 
 ## 💻 1. Prerequisites
 
-Every {Company} engineer needs the following installed before cloning any service repository.
+Every {Company} engineer needs the **common** toolchain below plus **one runtime SDK** for the services you work on. You do not need every language installed globally unless you touch those codebases.
 
 | Tool | Minimum Version | Install |
 |------|----------------|---------|
 | **Docker Desktop** | 4.28+ | `brew install --cask docker` |
 | **Docker Compose** | v2.24+ | Bundled with Docker Desktop |
-| **Java (Temurin)** | 21 LTS | `brew install --cask temurin@21` |
-| **Node.js** | 20 LTS | `brew install node@20` |
 | **Make** | 3.81+ | Pre-installed on macOS |
 | **AWS CLI** | 2.x | `brew install awscli` |
 | **kubectl** | 1.29+ | `brew install kubectl` |
 | **Helm** | 3.14+ | `brew install helm` |
 | **pre-commit** | 3.x | `brew install pre-commit` |
+
+**Runtime SDKs (pick what your services use):**
+
+| Runtime | Minimum version | Typical install |
+|---------|-----------------|-----------------|
+| **Java** (reference) | 21 LTS | `brew install --cask temurin@21` or SDKMAN + Corretto |
+| **Node.js** | 20 LTS | `brew install node@20` or nvm |
+| **Go** | 1.22+ (platform pin) | `brew install go` or official archive |
+| **Python** | 3.11+ (platform pin) | `brew install python@3.11` or uv/pyenv |
 
 ### 1.1 Recommended IDE Plugins
 
@@ -46,7 +53,7 @@ Every {Company} engineer needs the following installed before cloning any servic
 
 ## 💻 2. Clone-to-Running in Five Minutes
 
-Every service repository follows the same bootstrap flow:
+Every service repository follows the same **bootstrap flow**; concrete targets may differ by runtime (Gradle vs npm vs `go run`). The diagram uses the **Java reference** health URL.
 
 ```mermaid
 flowchart LR
@@ -54,7 +61,7 @@ flowchart LR
     B --> C[make up]
     C --> D[make seed]
     D --> E[make run]
-    E --> F["http://localhost:8080/actuator/health"]
+    E --> F["Java ref: /actuator/health"]
 ```
 
 ```bash
@@ -63,11 +70,11 @@ cd <service-name>
 
 make setup   # installs pre-commit hooks, downloads .env.local template
 make up      # starts Docker Compose infrastructure (Postgres, Redis, Kafka, LocalStack)
-make seed    # loads minimal seed data
-make run     # starts the application with local profile
+make seed    # loads minimal seed data (Java ref: Flyway + seed SQL; other stacks use their migrator)
+make run     # Java ref: Spring local profile; see README for other runtimes
 ```
 
-The service is ready when `http://localhost:8080/actuator/health` returns `{"status": "UP"}`.
+**Java reference:** the service is ready when `http://localhost:8080/actuator/health` returns `{"status": "UP"}`. Other services use the readiness check documented in `README.md`.
 
 ---
 
@@ -182,7 +189,7 @@ To avoid conflicts when running multiple services simultaneously, each service r
 
 ### 4.1 Seed Script Convention
 
-Every service maintains seed data under `src/main/resources/db/seed/`. Seed files follow the naming convention:
+**Java reference:** services maintain seed data under `src/main/resources/db/seed/`. Other runtimes keep seeds under the path their migration tool expects. Seed files follow the naming convention:
 
 ```
 db/seed/
@@ -191,7 +198,7 @@ db/seed/
 ├── V9000.3__seed_sample_entities.sql  # domain-specific sample data
 ```
 
-The `V9000.x` prefix ensures seed scripts run after all Flyway migrations but are excluded from production by profile gating.
+The `V9000.x` prefix (**Flyway reference**) ensures seed scripts run after schema migrations but are excluded from production by profile gating.
 
 ### 4.2 Minimal Dataset Per Service
 
@@ -268,9 +275,9 @@ awslocal secretsmanager create-secret \
   --secret-string '{"stripe":"sk_test_fake","sendgrid":"SG.fake"}'
 ```
 
-### 5.3 Spring Bootstrap Load Pattern
+### 5.3 Spring bootstrap load pattern (Java reference)
 
-Services use a Spring `BootstrapConfiguration` that detects the `local` profile and routes Secrets Manager calls to LocalStack:
+Services on Spring use a `BootstrapConfiguration` that detects the `local` profile and routes Secrets Manager calls to LocalStack. Other SDKs use the same idea: endpoint override and dummy credentials when `AWS_ENDPOINT` points at LocalStack.
 
 ```java
 @Configuration
@@ -301,15 +308,15 @@ Every {Company} service repository includes a `Makefile` with standardized targe
 | `make up` | Start Docker Compose infrastructure in detached mode | Yes |
 | `make down` | Stop and remove Docker Compose containers | Yes |
 | `make reset` | `down` + remove volumes + `up` + `seed` (full reset) | Yes |
-| `make seed` | Run Flyway migrate + seed scripts against local DB | Yes |
-| `make run` | Start the application with `SPRING_PROFILES_ACTIVE=local` | No |
+| `make seed` | Run migrations + seed scripts against local DB (Java ref: Flyway) | Yes |
+| `make run` | Start the app with local config (Java ref: `SPRING_PROFILES_ACTIVE=local`) | No |
 | `make test` | Run unit + integration tests | No |
-| `make lint` | Run linters (checkstyle, spotless, eslint) | Yes |
-| `make build` | Build production artifact (JAR / Docker image) | No |
+| `make lint` | Run linters (Java: checkstyle/spotless; Node: eslint; etc.) | Yes |
+| `make build` | Build production artifact (JAR, binary, or Docker image) | No |
 | `make logs` | Tail Docker Compose logs | No |
-| `make clean` | Remove build artifacts, `.gradle`, `node_modules` | Yes |
+| `make clean` | Remove build artifacts (`.gradle`, `node_modules`, `dist`, etc.) | Yes |
 
-### 6.1 Makefile Skeleton
+### 6.1 Makefile skeleton (Java / Gradle reference)
 
 ```makefile
 .PHONY: setup up down reset seed run test lint build logs clean
@@ -404,10 +411,11 @@ Every new engineer is assigned a **buddy** from their team. The buddy:
 | `make up` fails with "port already in use" | Another service or old container is occupying the port | `docker compose down` in all service directories, or `lsof -i :<port>` to find the process |
 | Postgres container exits immediately | Corrupted volume data | `docker volume rm <service>_pgdata && make up` |
 | Kafka consumer never receives messages | Topic auto-create is disabled; topic doesn't exist locally | Run `make seed` which creates topics, or manually create via `kafka-topics --create` |
-| `./gradlew bootRun` hangs at startup | Waiting for a secret from Secrets Manager that LocalStack hasn't seeded | Verify `infra/localstack-init/01-secrets.sh` ran: `awslocal secretsmanager list-secrets` |
+| App hangs at startup waiting for secrets | Waiting for a secret from Secrets Manager that LocalStack hasn't seeded | Verify `infra/localstack-init/01-secrets.sh` ran: `awslocal secretsmanager list-secrets` |
 | Schema Registry rejects a schema | Incompatible schema change locally | Reset the registry: `docker compose down schema-registry && docker volume rm schema-registry-data && make up` |
 | Tests fail with "connection refused" on CI but pass locally | Docker Compose services not started in CI | Ensure the CI pipeline uses the `services:` block or `make up` step |
-| `make run` fails with `UnsupportedClassVersionError` | Wrong Java version | `java -version` - must be 21+. Use `sdk use java 21.x-tem` via SDKMAN. |
+| `UnsupportedClassVersionError` (Java) | Wrong JDK | `java -version` must match the service (21+ for reference stack). Use SDKMAN: `sdk use java 21.x-tem`. |
+| Wrong runtime version (Node / Go / Python) | Local SDK does not match `.nvmrc`, `go.mod`, or tool pin | Use the version in the repo; see README. |
 
 ### 8.2 M1 / ARM (Apple Silicon) Gotchas
 

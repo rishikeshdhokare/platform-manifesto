@@ -1,6 +1,6 @@
 # 📡 Observability in Practice
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -14,15 +14,19 @@ When something goes wrong in production at 2am, you should be able to answer the
 4. Which user / order / provider was affected?
 5. What did the service call downstream, and did that call fail?
 
-This guide shows you **exactly how to set up** logging, metrics, and tracing so these questions are answerable.
+This guide shows you **exactly how to set up** logging, metrics, and tracing so these questions are answerable. Examples that use **Spring Boot, Logback, Micrometer, and Actuator** are the **Reference Implementation (JVM)** for {Company}; the **same outcomes** (JSON logs, RED metrics, trace propagation) are required in **Node.js**, **Go**, **Python**, and other stacks using their standard libraries.
 
 ---
 
 ## 📡 2. Logging in Practice
 
+**Principle:** Emit **structured JSON** on stdout with the required fields from [Observability Standards](./01-observability-standards.md). The wiring below is JVM-specific.
+
 ### 2.1 Setup
 
-The platform BOM includes the correct Logback configuration. Verify this in your `build.gradle.kts`:
+**Reference Implementation (JVM / Spring Boot / Logback):** The platform BOM includes the correct Logback configuration. Verify this in your `build.gradle.kts`:
+
+**Substitution points:** **Node.js** (pino, winston with JSON), **Python** (structlog, logging JSON formatter), **Go** (zap, zerolog), **.NET** (Serilog compact JSON) - all must output the same field contract.
 
 ```kotlin
 // These are included in platform BOM - no versions needed
@@ -30,7 +34,7 @@ implementation("net.logstash.logback:logstash-logback-encoder")
 implementation("org.slf4j:slf4j-api")
 ```
 
-`src/main/resources/logback-spring.xml` - copy this exactly:
+`src/main/resources/logback-spring.xml` - copy this exactly (Reference Implementation):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -69,7 +73,7 @@ implementation("org.slf4j:slf4j-api")
 
 ### 2.2 The Logger Pattern
 
-In every class that needs logging:
+**Reference Implementation (Java / SLF4J):** In every class that needs logging:
 
 ```java
 import org.slf4j.Logger;
@@ -87,6 +91,8 @@ public class OrderService {
 ### 2.3 Correlation ID - Propagating the Request ID
 
 Every request that enters the system gets a correlation ID. This ID must flow through every log line so you can reconstruct a full request trace.
+
+**Reference Implementation (Java / Spring MVC / Kafka):**
 
 **Step 1: Extract it from the incoming request (in a filter)**
 
@@ -248,9 +254,11 @@ Output (as JSON, with correlation ID automatically included from MDC):
 
 ## 📡 3. Metrics in Practice
 
+**Principle:** Expose a **Prometheus scrape endpoint** and **RED** metrics for HTTP services. Path and library names depend on the runtime.
+
 ### 3.1 Setup - Already Done
 
-Spring Boot Actuator + Micrometer Prometheus are in the platform BOM. Verify your `application.yml`:
+**Reference Implementation (Spring Boot / Micrometer):** Actuator + Micrometer Prometheus registry are in the platform BOM. Verify your `application.yml`:
 
 ```yaml
 management:
@@ -264,9 +272,11 @@ management:
       environment: ${spring.profiles.active}
 ```
 
-Spring Boot auto-instruments HTTP requests, JVM, and database connection pools. You get those for free.
+Spring Boot auto-instruments HTTP requests, JVM, and database connection pools. **Node.js:** `prom-client` with `express-prometheus-middleware` or OpenTelemetry metrics; **Go:** `prometheus/client_golang`; **Python:** `prometheus_client` with framework middleware - align metric names and labels with platform conventions.
 
 ### 3.2 Adding Business Metrics
+
+**Reference Implementation (Java / Micrometer):**
 
 ```java
 @Service
@@ -327,6 +337,8 @@ public class OrderService {
 
 ### 3.3 Verifying Metrics Locally
 
+**Reference Implementation:** scrape path is `/actuator/prometheus` on Spring Boot. Replace with your service's metrics path if different.
+
 ```bash
 # Start your service, then:
 curl http://localhost:8080/actuator/prometheus | grep "orders_"
@@ -343,7 +355,7 @@ curl http://localhost:8080/actuator/prometheus | grep "orders_"
 
 ### 3.4 Basic Grafana Queries
 
-These are the queries to paste into Grafana panels for your service dashboard:
+These queries assume **Micrometer** HTTP metric names (`http_server_requests_*`). **Substitution:** map to your stack's HTTP histogram and counter names (for example `http_requests_*` from other Prometheus instrumentation).
 
 ```promql
 # Request rate (requests per second, over last 5 minutes)
@@ -361,11 +373,19 @@ histogram_quantile(0.99,
 # Business metric: orders completed per minute
 rate(orders_completed_total{service="orders-service"}[1m]) * 60
 
-# JVM heap usage
+# Reference Implementation (JVM): heap usage
 jvm_memory_used_bytes{service="orders-service", area="heap"}
 / jvm_memory_max_bytes{service="orders-service", area="heap"} * 100
 
-# DB connection pool saturation
+# Node.js (examples - names depend on exporter): event loop lag, heap
+# nodejs_eventloop_lag_seconds{service="orders-service"}
+# process_resident_memory_bytes{service="orders-service"}
+
+# Go (examples): goroutines and memory
+# go_goroutines{service="orders-service"}
+# process_resident_memory_bytes{service="orders-service"}
+
+# Reference Implementation (JVM / HikariCP): DB pool saturation
 hikaricp_connections_active{service="orders-service"}
 / hikaricp_connections_max{service="orders-service"} * 100
 ```
@@ -373,6 +393,8 @@ hikaricp_connections_active{service="orders-service"}
 ---
 
 ## 📡 4. Distributed Tracing in Practice
+
+**Principle:** Use **OpenTelemetry** end to end (W3C `traceparent`, OTLP to the platform collector, export to X-Ray or Tempo). Prefer **auto-instrumentation** (language agent or official zero-code packages) before hand-rolling context propagation.
 
 **Visual overview:**
 
@@ -393,14 +415,16 @@ sequenceDiagram
     Gateway-->>Client: Response
 ```
 
-### 4.1 Setup - Java Agent
+### 4.1 Setup - OpenTelemetry language agent (JVM)
 
-The OpenTelemetry Java agent is attached via the Dockerfile. No code changes needed for basic tracing.
+**Reference Implementation (Java):** Attach the OpenTelemetry **Java** language agent via the Dockerfile. No code changes needed for basic tracing on the JVM.
+
+**Substitution points:** **Node.js** - run with `node --require @opentelemetry/auto-instrumentations-node/register` or the OpenTelemetry Operator Node image; **Python** - `opentelemetry-instrument` your ASGI/WSGI server; **Go** - compile in OTel Go SDK and selected `otelhttp` / gRPC instrumentations (no single agent; same env vars where supported).
 
 ```dockerfile
 FROM amazoncorretto:21-alpine
 
-# Download the OTel agent
+# Download the OTel Java language agent
 ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar /app/otel-agent.jar
 
 COPY build/libs/orders-service.jar /app/service.jar
@@ -418,15 +442,13 @@ env:
   OTEL_RESOURCE_ATTRIBUTES: "deployment.environment=production,service.version=2.14.3"
 ```
 
-The agent automatically traces:
-- All Spring MVC HTTP requests
-- All outbound RestClient / RestTemplate calls
-- All JDBC queries
-- All Kafka producer and consumer calls
+The Java language agent automatically traces Spring MVC, JDBC, Kafka, and common HTTP clients. Other runtimes get equivalent coverage from their OTel packages.
 
 ### 4.2 Adding Custom Spans
 
-For important business operations, add custom spans so you can see them in the trace:
+For important business operations, add custom spans with the OpenTelemetry API in your language.
+
+**Reference Implementation (Java):**
 
 ```java
 import io.opentelemetry.api.trace.Tracer;
@@ -490,7 +512,7 @@ If something is slow, you can see exactly where the time is spent. If pricing ta
 
 ### 4.4 Connecting Logs to Traces
 
-The OTel agent automatically injects `traceId` and `spanId` into the MDC. Your Logback config (from section 2.1) picks these up automatically.
+**Reference Implementation (JVM):** The OpenTelemetry Java agent injects `traceId` and `spanId` into **MDC**; Logback (section 2.1) picks them up. **Node.js** - use a logging + OTel bridge (for example OpenTelemetry log correlation); **Python** - OTel logging handler or context vars; **Go** - attach trace fields in your structured logger from `span.SpanContext()`.
 
 This means you can:
 1. See a slow trace in X-Ray or Grafana Tempo
@@ -502,7 +524,9 @@ This means you can:
 
 ## 👁️ 5. Health Checks
 
-Spring Boot Actuator provides health checks. Configure them properly:
+**Principle:** Expose **liveness** and **readiness** (or a single health surface split by probe) so Kubernetes can restart stuck processes and stop routing to unprepared instances. Implementations differ by framework.
+
+**Reference Implementation (Spring Boot Actuator):** Configure as follows:
 
 ```yaml
 management:
@@ -543,8 +567,8 @@ curl http://localhost:8080/actuator/health
 ```
 
 **Liveness vs Readiness:**
-- **Liveness:** Is the JVM alive? If DOWN → Kubernetes restarts the pod
-- **Readiness:** Is the service ready to accept traffic? If DOWN → Kubernetes stops sending traffic (but doesn't restart)
+- **Liveness:** Is the **process** alive and not deadlocked? If DOWN → Kubernetes restarts the pod (on JVM this is often "is the JVM responsive"; other runtimes use the same idea).
+- **Readiness:** Is the service ready to accept traffic? If DOWN → Kubernetes stops sending traffic (but doesn't restart).
 
 Use readiness to signal "I'm starting up" or "I've lost my DB connection - stop sending me requests."
 
@@ -552,11 +576,11 @@ Use readiness to signal "I'm starting up" or "I've lost my DB connection - stop 
 
 ## 📋 6. Observability Checklist
 
-Before going to production, verify each item:
+Before going to production, verify each item. **Reference Implementation** URLs use **Actuator** on port 8080; adjust paths and ports for your stack.
 
 ```bash
 # 1. Logs are JSON
-curl -s http://localhost:8080/actuator/health  # trigger a request
+curl -s http://localhost:8080/actuator/health  # trigger a request (Spring)
 docker logs {container_id} | python3 -m json.tool  # must parse as JSON
 
 # 2. Correlation ID appears in logs

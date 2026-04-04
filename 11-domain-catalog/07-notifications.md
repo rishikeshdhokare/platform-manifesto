@@ -4,7 +4,7 @@
 ![Owner](https://img.shields.io/badge/Owner-Platform-grey?style=flat-square)
 ![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
 
-**Service identifier:** `com.{company}.notifications`
+**Service identifier:** `{company}.notifications`
 
 ---
 

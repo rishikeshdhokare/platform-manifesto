@@ -1,6 +1,6 @@
 # 🏗️ Data Platform
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Data Engineering + Platform Engineering](https://img.shields.io/badge/owner-Data_Engineering_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Data Engineering + Platform Engineering](https://img.shields.io/badge/owner-Data_Engineering_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -17,7 +17,7 @@ Each domain service is the **single source of truth** for its own data. No other
 
 ### 2.1 Standard
 
-All Kafka messages use **Avro** schemas, registered in **AWS Glue Schema Registry**.
+All Kafka messages use **Avro** schemas, registered in a **governed schema registry**. **Reference implementation (AWS):** AWS Glue Schema Registry. **Alternatives:** Confluent Schema Registry, Azure Schema Registry, or equivalent.
 
 ### 2.2 Schema Evolution Rules
 
@@ -50,6 +50,8 @@ Examples:
 ## 🏗️ 3. Analytics Data Pipeline
 
 ### 3.1 Architecture
+
+**Reference implementation (AWS):** S3, Glue, Redshift, QuickSight, MSK, and Aurora in the diagrams and prose below map to lake + ETL + warehouse + BI in any cloud.
 
 **Visual overview:**
 
@@ -107,7 +109,7 @@ Operational DBs (Aurora)
 - **Right to erasure:** Implemented via a `data-deletion-service` that accepts a customer/provider ID and triggers deletion across all operational stores and queues a downstream analytics tombstone event
 - **Data residency:** All EU customer data stored in `eu-west-1` or `eu-central-1` only; enforced by SCP
 - **Consent:** Consent records stored in a dedicated consent service; downstream systems subscribe to consent-revoked events
-- **Data inventory:** Maintained in the data catalog (AWS Glue Data Catalog + Backstage)
+- **Data inventory:** Maintained in the data catalog (**reference:** AWS Glue Data Catalog + Backstage)
 
 ---
 
@@ -144,7 +146,9 @@ Is this for real-time geospatial queries (provider locations)?
 
 ## 🧩 6. Provider Location - Geospatial Pattern
 
-Provider location updates are the highest-frequency writes on the platform (~5 updates/second/active provider). They use Redis geospatial indexes:
+Provider location updates are the highest-frequency writes on the platform (~5 updates/second/active provider). They use Redis geospatial indexes.
+
+**Reference implementation (Java / Spring Data Redis):**
 
 ```java
 // Writing provider location (from location update consumer)
@@ -305,10 +309,10 @@ SORTKEY (completed_at);
 
 | Orchestrator | Use Case |
 |-------------|----------|
-| **Apache Airflow** (MWAA) | Primary orchestrator for all batch data pipelines |
-| **AWS Step Functions** | Event-driven Lambda chains only (not for batch ETL) |
+| **Apache Airflow** (managed deployment ref: MWAA) | Primary orchestrator for all batch data pipelines |
+| **AWS Step Functions** (reference) | Event-driven Lambda chains only (not for batch ETL) |
 
-Airflow is the default. Step Functions are permitted only for lightweight, event-driven workflows where Lambda is the compute layer and no complex dependency graph exists.
+Airflow is the default. Step Functions (or your cloud's workflow engine) are permitted only for lightweight, event-driven workflows where serverless functions are the compute layer and no complex dependency graph exists.
 
 ### 10.2 DAG Naming
 
@@ -372,11 +376,11 @@ The Debezium connector will automatically pick up new columns. Removing columns 
 
 | Technology | Use Case | Status |
 |-----------|----------|--------|
-| **Kinesis Data Analytics** | Streaming SQL over Kinesis Data Streams for real-time aggregations | Adopted |
-| **Redshift Materialized Views** | Near-real-time dashboards refreshed from streaming ingestion | Adopted |
+| **Managed streaming analytics (ref: Kinesis Data Analytics)** | Streaming SQL over a managed stream for real-time aggregations | Adopted |
+| **Warehouse materialized views (ref: Redshift)** | Near-real-time dashboards refreshed from streaming ingestion | Adopted |
 | **Apache Flink** | Complex event processing, windowed aggregations | Trial (tech radar) - evaluated but not adopted for production |
 
-Kinesis Data Analytics is the approved solution for streaming analytics. For near-real-time dashboard requirements, prefer Redshift materialized views refreshed on a schedule over building custom streaming consumers.
+A managed streaming SQL or Flink-on-Kubernetes solution is acceptable where it meets SLOs. For near-real-time dashboard requirements, prefer warehouse materialized views refreshed on a schedule over building custom streaming consumers.
 
 ---
 
@@ -410,7 +414,7 @@ USING (region = current_setting('app.current_region'));
 |------|--------|----------|
 | 1 | Engineer submits access request via data catalog | Automatic |
 | 2 | Data steward reviews and approves/rejects | Domain data steward |
-| 3 | Access granted via Terraform-managed IAM/Redshift groups | Data platform team |
+| 3 | Access granted via infrastructure-as-code (**reference:** Terraform-managed IAM and Redshift groups) | Data platform team |
 
 ---
 
@@ -429,7 +433,7 @@ USING (region = current_setting('app.current_region'));
 | Tool | Purpose |
 |------|---------|
 | Airflow SLA alerts | Detects DAG runs that exceed their SLA |
-| CloudWatch custom metric | `pipeline.lag.seconds` - measures time since last successful load |
+| Cloud metrics (**reference:** CloudWatch custom metric) | `pipeline.lag.seconds` - measures time since last successful load |
 | Grafana dashboard | Pipeline freshness dashboard with per-pipeline lag visualisation |
 
 ### 14.3 Alerting

@@ -1,6 +1,6 @@
 # 🛡️ Resilience Patterns
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -17,9 +17,18 @@ With resilience patterns, a failing dependency causes **graceful degradation** -
 
 ---
 
-## 🛡️ 2. Our Library: Resilience4j
+## 🛡️ 2. Library choice (framework-agnostic patterns)
 
-We use **Resilience4j** for all resilience patterns. It is included in the platform BOM and integrates with Spring Boot and Micrometer automatically.
+**Principle:** Circuit breakers, retries with backoff, timeouts, bulkheads, and fallbacks are **required patterns** for synchronous outbound calls. They are **not** tied to one language: implement them with whatever library matches your stack, as long as behaviour and observability match this document.
+
+**Substitution points (examples):**
+- **JVM / Spring:** **Resilience4j** (below)
+- **.NET:** **Polly** (policies for retry, circuit breaker, timeout)
+- **Node.js:** **cockatiel**, **opossum**, or **@nestjs/terminus** patterns with explicit limits
+- **Go:** **gobreaker**, **sony/gobreaker**, or **hystrix-go**-style wrappers plus `context` deadlines
+- **Python:** **tenacity** (retry), **pybreaker** (circuit breaker), plus HTTP client timeouts
+
+**Reference Implementation (Java / Spring Boot / Resilience4j):** Included in the platform BOM; integrates with Spring Boot and Micrometer.
 
 ```kotlin
 // build.gradle.kts - already in platform BOM
@@ -59,6 +68,8 @@ stateDiagram-v2
 
 ### 3.2 Configuration
 
+**Reference Implementation (Resilience4j / Spring Boot):**
+
 ```yaml
 # application.yml
 resilience4j:
@@ -82,6 +93,8 @@ resilience4j:
 ```
 
 ### 3.3 Usage in Code
+
+**Reference Implementation (Java / Resilience4j):**
 
 ```java
 @Service
@@ -147,6 +160,8 @@ Automatically retries a failed call. Useful for transient failures - network bli
 
 ### 4.2 Configuration
 
+**Reference Implementation (Resilience4j):**
+
 ```yaml
 resilience4j:
   retry:
@@ -167,6 +182,8 @@ resilience4j:
 
 ### 4.3 Usage
 
+**Reference Implementation (Java / Resilience4j):**
+
 ```java
 // ✅ Retry with exponential backoff - for idempotent GET calls
 @Retry(name = "pricingService", fallbackMethod = "getDefaultPrice")
@@ -186,6 +203,8 @@ public PaymentResult capturePayment(String idempotencyKey, PriceAmount price) {
 ### 4.4 Combining Retry + Circuit Breaker
 
 Apply them together - retry first, circuit breaker outside:
+
+**Reference Implementation (Java / Resilience4j):**
 
 ```java
 // Order matters: retry is inner (executes multiple times), CB is outer (tracks outcomes)
@@ -208,6 +227,8 @@ A service without timeouts can wait indefinitely for a hung dependency. This tie
 
 ### 5.2 Configuration
 
+**Reference Implementation (Resilience4j):**
+
 ```yaml
 resilience4j:
   timelimiter:
@@ -222,7 +243,9 @@ resilience4j:
 
 ### 5.3 HTTP Client Timeouts (Separate from Resilience4j)
 
-For Spring's `RestClient` / `RestTemplate`, also set timeouts at the HTTP client level:
+Set timeouts at the **HTTP client** layer in addition to resilience policies (Resilience4j time limiter on JVM is not a substitute for socket read/connect timeouts).
+
+**Reference Implementation (Spring `RestClient` with Reactor Netty):**
 
 ```java
 @Bean
@@ -250,6 +273,8 @@ Think of it like watertight compartments in a ship - one compartment flooding do
 
 ### 6.2 Configuration
 
+**Reference Implementation (Resilience4j):**
+
 ```yaml
 resilience4j:
   bulkhead:
@@ -265,6 +290,8 @@ resilience4j:
 
 ### 6.3 Usage
 
+**Reference Implementation (Java / Resilience4j):**
+
 ```java
 @Bulkhead(name = "pricingService", type = Bulkhead.Type.SEMAPHORE)
 @CircuitBreaker(name = "pricingService", fallbackMethod = "getDefaultPrice")
@@ -277,7 +304,9 @@ public PriceEstimate getPriceEstimate(OrderRequest request) {
 
 ## 🧩 7. Complete Example: Calling the Fulfillment Service
 
-Here's a full, production-ready example combining all patterns:
+Here's a full, production-ready example combining all patterns.
+
+**Reference Implementation (Java / Resilience4j):**
 
 ```java
 @Service
@@ -335,7 +364,9 @@ public class OrderDispatchService {
 
 ## 👁️ 8. Observability for Resilience
 
-Resilience4j automatically exports metrics to Prometheus. Monitor these:
+Export **circuit breaker state**, **retry counts**, **timeout / rejection counts**, and **bulkhead saturation** to Prometheus (or equivalent) using your library's metric names.
+
+**Reference Implementation (Resilience4j)** metrics:
 
 | Metric | What It Tells You |
 |--------|--------------------|
@@ -344,10 +375,10 @@ Resilience4j automatically exports metrics to Prometheus. Monitor these:
 | `resilience4j_retry_calls_total{kind="failed_with_retry"}` | How often retries are needed |
 | `resilience4j_bulkhead_available_concurrent_calls` | How close you are to bulkhead limit |
 
-Add these to your Grafana dashboard. A circuit breaker transitioning to OPEN is a P2 alert.
+Add these to your Grafana dashboard (or the equivalent names from Polly, cockatiel, gobreaker, and so on). A circuit breaker transitioning to OPEN is a P2 alert.
 
 ```yaml
-# Alert: circuit breaker opened
+# Alert: circuit breaker opened (Resilience4j metric names)
 - alert: CircuitBreakerOpen
   expr: resilience4j_circuitbreaker_state{state="open"} == 1
   for: 1m
@@ -397,7 +428,7 @@ This philosophy works because {Company} services are designed to be stateless (o
 
 - **No in-memory state that cannot be reconstructed** - all durable state lives in Aurora, Redis, or Kafka
 - **Startup is idempotent** - a service can start, crash, and restart without side effects
-- **Restart is cheap** - Spring Boot startup targets < 15 seconds; the service is back before users notice
+- **Restart is cheap** - **Reference Implementation (Spring Boot):** startup targets < 15 seconds; other runtimes should target a similarly small cold-start window for their tier
 
 ### 10.4 When to Crash
 
@@ -405,7 +436,8 @@ This philosophy works because {Company} services are designed to be stateless (o
 |-----------|--------|-----------|
 | Corrupt or inconsistent in-memory state | Crash | Continuing with corrupt state causes cascading data integrity issues |
 | Missing critical configuration at startup | Crash | Operating without required config (DB URL, Kafka bootstrap servers) leads to silent failures |
-| `OutOfMemoryError` | Crash | JVM state is unreliable after OOM; restart is the only safe recovery |
+| **Reference (JVM)** `OutOfMemoryError` | Crash | JVM state is unreliable after OOM; restart is the only safe recovery |
+| Runaway memory in non-JVM runtimes | Crash or OOM kill | Treat like JVM OOM: process memory is untrustworthy after allocator failure |
 | Unrecoverable infrastructure failure (DB connection pool exhausted after all retries) | Crash | A restart re-initializes connection pools from scratch |
 
 ### 10.5 When NOT to Crash
@@ -421,8 +453,9 @@ This philosophy works because {Company} services are designed to be stateless (o
 
 | Mechanism | Purpose |
 |-----------|---------|
-| **`-XX:+ExitOnOutOfMemoryError`** JVM flag | Forces immediate JVM exit on OOM rather than continuing in an undefined state; set in all service Dockerfiles |
-| **Spring Boot `ExitCodeGenerator`** | Allows the application to exit with a specific exit code on fatal startup failures (e.g., missing required config, failed DB migration) |
+| **Reference (JVM)** **`-XX:+ExitOnOutOfMemoryError`** | Forces immediate JVM exit on OOM rather than continuing in an undefined state; set in JVM service images |
+| **Reference (Spring Boot)** **`ExitCodeGenerator`** | Exit with a specific code on fatal startup failures (missing config, failed migration) |
+| **Node.js / Go / Python** | Use process exit on fatal bootstrap errors; align with container `restartPolicy` |
 | **Kubernetes liveness probe** | Detects processes that are alive but stuck (deadlocked, infinite loop); kubelet kills and restarts the pod |
 | **Kubernetes readiness probe** | Gates traffic to the pod; a restarting pod does not receive requests until fully healthy |
 | **`PodDisruptionBudget`** | Ensures that crash-restart cycles do not take down all replicas simultaneously during a systemic issue |

@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Pricing Service** (`com.{company}.pricing`) is the system of record for **how much an order costs** before and after fulfillment. It turns route geometry, time, service class, and applicable rules into transparent price numbers that customers see in the app and that downstream systems use for receipts and analytics.
+The **Pricing Service** (`{company}.pricing`) is the system of record for **how much an order costs** before and after fulfillment. It turns route geometry, time, service class, and applicable rules into transparent price numbers that customers see in the app and that downstream systems use for receipts and analytics.
 
 **Core responsibilities**
 
@@ -50,7 +50,7 @@ flowchart TD
 
 **Notes**
 
-- Geolocation integration uses the platform's **Geolocation Service** (`com.{company}.geolocation`) over gRPC for canonical distance and duration.
+- Geolocation integration uses the platform's **Geolocation Service** (`{company}.geolocation`) over gRPC for canonical distance and duration.
 - Dynamic Pricing is **read-only** from Pricing's perspective; multiplier source of truth remains the Dynamic Pricing domain.
 
 ---
@@ -117,7 +117,7 @@ classDiagram
 
 ## 🔌 4. API Surface
 
-### 4.1 gRPC (`com.{company}.pricing.v1`)
+### 4.1 gRPC (`{company}.pricing.v1`)
 
 | RPC | Purpose |
 | --- | --- |
@@ -125,7 +125,7 @@ classDiagram
 | `CalculateFinalPrice` | Post-order final amount from actual distance/duration and linked estimate or order. |
 | `GetPriceBreakdown` | Retrieve a stored breakdown by `estimateId` or `orderId` for support, receipts, and BFF hydration. |
 
-gRPC API package: **`com.{company}.pricing.v1`**. Shared order identifiers and enums align with **`com.{company}.orders`** types where applicable.
+gRPC API package: **`{company}.pricing.v1`**. Shared order identifiers and enums align with **`{company}.orders`** types where applicable.
 
 ### 4.2 REST (BFF-facing)
 
@@ -156,12 +156,12 @@ sequenceDiagram
 
 ## 📤 5. Events Published
 
-All topics use the platform naming prefix `com.{company}.events`.
+All topics use the platform naming prefix `{company}.events`.
 
 | Event | Topic / type | Payload highlights | Typical consumers | Retention |
 | --- | --- | --- | --- | --- |
-| `pricing.price.estimated` | `com.{company}.events.pricing.price.estimated` | `estimateId`, `orderId?`, `breakdown`, `validUntil` | Analytics, Search ranking, Notifications | 7 days |
-| `pricing.price.calculated` | `com.{company}.events.pricing.price.calculated` | `orderId`, `finalTotalCents`, `estimateId`, `deltaFromEstimate` | Billing, Orders state, Data warehouse | 30 days |
+| `pricing.price.estimated` | `{company}.events.pricing.price.estimated` | `estimateId`, `orderId?`, `breakdown`, `validUntil` | Analytics, Search ranking, Notifications | 7 days |
+| `pricing.price.calculated` | `{company}.events.pricing.price.calculated` | `orderId`, `finalTotalCents`, `estimateId`, `deltaFromEstimate` | Billing, Orders state, Data warehouse | 30 days |
 
 ---
 
@@ -170,7 +170,7 @@ All topics use the platform naming prefix `com.{company}.events`.
 | Event | Source domain | Purpose in Pricing |
 | --- | --- | --- |
 | `dynamicpricing.multiplier.updated` | Dynamic Pricing | Invalidate or refresh cached multipliers per market/service slice; ensures new estimates use current pricing. |
-| `orders.order.completed` | Order Service (`com.{company}.orders`) | Trigger **final price reconciliation**: pull actual distance/duration, re-run rule engine, emit `pricing.price.calculated`, persist `price_calculations`. |
+| `orders.order.completed` | Order Service (`{company}.orders`) | Trigger **final price reconciliation**: pull actual distance/duration, re-run rule engine, emit `pricing.price.calculated`, persist `price_calculations`. |
 
 ```mermaid
 flowchart LR
@@ -268,12 +268,12 @@ erDiagram
 
 ```mermaid
 flowchart TB
-    subgraph Pricing_Service["Pricing Service com.{company}.pricing"]
+    subgraph Pricing_Service["Pricing Service {company}.pricing"]
         PC[Price engine]
     end
-    Geo["Geolocation Service\ncom.{company}.geolocation\ngRPC: distance, duration"]
-    DP["Dynamic Pricing\ncom.{company}.dynamicpricing\ngRPC: current multiplier"]
-    Orders["Order Service\ncom.{company}.orders\nKafka: orders.order.completed"]
+    Geo["Geolocation Service\n{company}.geolocation\ngRPC: distance, duration"]
+    DP["Dynamic Pricing\n{company}.dynamicpricing\ngRPC: current multiplier"]
+    Orders["Order Service\n{company}.orders\nKafka: orders.order.completed"]
 
     Geo -->|gRPC| PC
     DP -->|gRPC| PC

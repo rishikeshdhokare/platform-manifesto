@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Customer Profile** bounded context (`com.{company}.customers`) manages **customer accounts**, **preferences**, **saved payment method tokens**, and **order history projections** suitable for the customer app. It is the system of record for "who the customer is" in the platform sense, not for raw order orchestration or payment capture.
+The **Customer Profile** bounded context (`{company}.customers`) manages **customer accounts**, **preferences**, **saved payment method tokens**, and **order history projections** suitable for the customer app. It is the system of record for "who the customer is" in the platform sense, not for raw order orchestration or payment capture.
 
 ### 1.1 What this domain owns
 
@@ -23,14 +23,14 @@ The **Customer Profile** bounded context (`com.{company}.customers`) manages **c
 
 | Concern | Owning domain |
 |---------|----------------|
-| **Order aggregate and lifecycle** | Order Service (`com.{company}.orders`) |
-| **Payment processing, capture, refunds** | Payment Service (`com.{company}.payments.*`) |
+| **Order aggregate and lifecycle** | Order Service (`{company}.orders`) |
+| **Payment processing, capture, refunds** | Payment Service (`{company}.payments.*`) |
 
 ---
 
 ## 🧩 2. Domain Model
 
-Core types live under `com.{company}.customers.domain`. Identifiers are opaque UUIDs at the API boundary.
+Core types live under `{company}.customers.domain`. Identifiers are opaque UUIDs at the API boundary.
 
 ```mermaid
 classDiagram
@@ -100,7 +100,7 @@ Happy path: mobile app registers a new customer through the BFF, which delegates
 sequenceDiagram
     participant App as Customer App
     participant BFF as Customer BFF
-    participant CP as Customer Profile\ncom.{company}.customers
+    participant CP as Customer Profile\n{company}.customers
     participant Auth as Auth Provider
     participant Verify as Email/SMS\nverification channel
 
@@ -147,7 +147,7 @@ Base path: **`/v1/customers`**. Clients use the Customer BFF; internal callers u
 
 ## 📤 5. Events Published
 
-Producer: `com.{company}.customers` - subject prefix `customers.customer`.
+Producer: `{company}.customers` - subject prefix `customers.customer`.
 
 | Topic / event | Payload summary | Consumers |
 |---------------|-----------------|-----------|
@@ -223,7 +223,7 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    subgraph cp [Customer Profile - com.{company}.customers]
+    subgraph cp [Customer Profile - {company}.customers]
         API[REST API]
         DB[(RDS PostgreSQL)]
         OUT[Kafka produce]
@@ -262,7 +262,7 @@ flowchart TB
 | Item | Detail |
 |------|--------|
 | Team | **Team Customers** |
-| Bounded context | `com.{company}.customers` |
+| Bounded context | `{company}.customers` |
 
 Coordinate **Orders** and **Payments** for event schema changes affecting history and receipts.
 

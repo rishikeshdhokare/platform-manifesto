@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Fraud Engine** (`com.{company}.fraud`) provides **real-time fraud detection**, **risk scoring**, and **automated blocking** across orders, payments, and account lifecycle events. It centralizes **fraud rules**, **risk scores**, and **block/allow decisions** so the platform can act quickly without duplicating logic in every service.
+The **Fraud Engine** (`{company}.fraud`) provides **real-time fraud detection**, **risk scoring**, and **automated blocking** across orders, payments, and account lifecycle events. It centralizes **fraud rules**, **risk scores**, and **block/allow decisions** so the platform can act quickly without duplicating logic in every service.
 
 **This domain owns**
 
@@ -32,7 +32,7 @@ The **Fraud Engine** (`com.{company}.fraud`) provides **real-time fraud detectio
 ```mermaid
 sequenceDiagram
     participant Src as Event source\n(order, payment, registration)
-    participant FE as Fraud Engine\ncom.{company}.fraud
+    participant FE as Fraud Engine\n{company}.fraud
     participant Rules as Rule engine
     participant ML as ML scorer\n(SageMaker)
     participant Bus as Event bus
@@ -138,7 +138,7 @@ flowchart TD
 
 ## 🔌 5. API Surface
 
-### 5.1 gRPC (internal - `com.{company}.fraud.v1`)
+### 5.1 gRPC (internal - `{company}.fraud.v1`)
 
 | RPC | Purpose |
 | --- | --- |
@@ -157,7 +157,7 @@ flowchart TD
 
 ## 📤 6. Events Published
 
-All topics use the platform naming prefix `com.{company}.events`.
+All topics use the platform naming prefix `{company}.events`.
 
 | Event | Typical consumers |
 | --- | --- |

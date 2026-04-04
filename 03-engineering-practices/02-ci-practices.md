@@ -1,6 +1,6 @@
 # 🔄 CI Practices
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -140,6 +140,10 @@ Triggered on: **every push to a feature branch / every PR update**
 
 **Time budget: < 10 minutes total. If it's slower, optimise it.**
 
+**Principle (tool-agnostic):** Every PR pipeline must **check out** the change, **restore build caches**, **compile** (fail fast on syntax and types), **lint and format-check**, **run fast tests** with a **coverage gate**, **run slower integration or contract checks** as budget allows, **scan dependencies and secrets**, **analyse static quality**, and **build a container image** without publishing it. Stages map to your toolchain (Maven, npm, Poetry, Go modules, .NET SDK, etc.).
+
+**Reference implementation (Java / Gradle / GitHub Actions):**
+
 ```yaml
 # .github/workflows/pr.yml
 name: PR Pipeline
@@ -156,11 +160,12 @@ jobs:
     secrets: inherit
 ```
 
-The shared `java-pr.yml` workflow runs these stages in order:
+The shared `java-pr.yml` workflow runs these stages in order (same **intent** as above, JVM-specific commands):
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  Stage 1: Setup (30s)                                   │
+│  Principle: reproducible toolchain + cached deps        │
 │  - Checkout                                             │
 │  - Setup JDK 21 (Amazon Corretto)                       │
 │  - Restore Gradle cache                                 │
@@ -168,6 +173,7 @@ The shared `java-pr.yml` workflow runs these stages in order:
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │  Stage 2: Build & Lint (2 min)                          │
+│  Principle: compile + style + commit + secret hygiene   │
 │  - gradle build -x test                                 │
 │  - Checkstyle (Google Java Style)                       │
 │  - Conventional commit lint                             │
@@ -176,6 +182,7 @@ The shared `java-pr.yml` workflow runs these stages in order:
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │  Stage 3: Unit Tests (3 min)                            │
+│  Principle: fast feedback + coverage floor              │
 │  - gradle test (unit tests only)                        │
 │  - JaCoCo coverage report                               │
 │  - Coverage gate: ≥ 80% or fail                         │
@@ -183,12 +190,14 @@ The shared `java-pr.yml` workflow runs these stages in order:
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │  Stage 4: Integration Tests (4 min)                     │
+│  Principle: real I/O boundaries + consumer contracts      │
 │  - gradle integrationTest (Testcontainers)              │
 │  - Contract test verification (Pact)                    │
 └──────────────────────┬──────────────────────────────────┘
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │  Stage 5: Security & Quality (2 min, parallel)          │
+│  Principle: deps, static analysis, API drift, image lint│
 │  - Snyk dependency scan                                 │
 │  - SonarCloud analysis                                  │
 │  - OpenAPI diff (no breaking changes vs main)           │
@@ -197,10 +206,13 @@ The shared `java-pr.yml` workflow runs these stages in order:
                        │
 ┌──────────────────────▼──────────────────────────────────┐
 │  Stage 6: Container Build (1 min)                       │
+│  Principle: image builds and scans before merge         │
 │  - Docker build (does not push)                         │
 │  - Snyk container scan                                  │
 └─────────────────────────────────────────────────────────┘
 ```
+
+> **Substitution point:** Replace JDK/Gradle/JaCoCo with your SDK and build tool; keep the same gates (build, lint, unit coverage, integration/contract, security, container).
 
 **Visual overview:**
 
@@ -245,6 +257,8 @@ Stage 6: Release notes generation (conventional-changelog)
 
 These gates are **non-negotiable**. A PR cannot be merged if any of these fail:
 
+> **Substitution point:** "JUnit" and "JaCoCo" name the Java reference stack. Your gate is **100% pass** on the project's unit and integration suites and **≥ 80% line coverage** (or stricter where agreed), reported by your language's runner and coverage tool.
+
 | Gate | Tool | Threshold |
 |------|------|-----------|
 | Unit test pass rate | JUnit 5 | 100% |
@@ -258,18 +272,26 @@ These gates are **non-negotiable**. A PR cannot be merged if any of these fail:
 | Commit message format | commitlint | Conventional Commits compliant |
 | Checkstyle | Checkstyle (Google style) | 0 violations |
 
+**Reference implementation (Java):** The tools in the "Tool" column reflect the default JVM pipeline; thresholds apply to all services regardless of language.
+
 ---
 
 ## ⚡ 6. Build Performance
 
 ### 6.1 Gradle Caching
 
-All pipelines use Gradle remote build cache:
+**Principle:** Use **remote or CI-local build caches** keyed on lockfiles and inputs so repeated builds reuse compiled artifacts and dependencies.
+
+**Reference implementation (Java):** All pipelines use Gradle remote build cache:
 - Cache hosted on **Gradle Enterprise** (or GitHub Actions cache)
 - Cache key based on: task inputs + dependency hash
 - Expected cache hit rate: > 70% on warm runs
 
 ### 6.2 Test Parallelism
+
+**Principle:** Run **unit tests in parallel** where safe; cap **integration tests** when shared resources (containers, ports) require it; use **matrix or fan-out** across services.
+
+**Reference implementation (Java / Gradle):**
 
 - Unit tests run in parallel: `maxParallelForks = Runtime.getRuntime().availableProcessors()`
 - Integration tests run sequentially per service (Testcontainers constraint)

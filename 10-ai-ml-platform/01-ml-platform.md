@@ -2,7 +2,7 @@
 
 ![Status: Mandated](https://img.shields.io/badge/Status-Mandated-blue?style=flat-square)
 ![Owner](https://img.shields.io/badge/Owner-Platform_Engineering_%2B_Data_Science-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 ---
 
@@ -10,13 +10,15 @@
 
 Machine learning is integral to {Company}'s core product - every order involves multiple ML-powered decisions. The table below catalogues our current ML portfolio.
 
+**Framing:** Lifecycle stages (features, training, registry, serving, monitoring, fallback) are **universal**. **Reference implementation (AWS):** SageMaker-style endpoints and pipelines. **Alternatives:** Google Vertex AI, Azure Machine Learning, or self-hosted inference on Kubernetes.
+
 | Use Case | Owning Team | Model Type | Latency Requirement | Serving Strategy |
 |----------|-------------|------------|---------------------|------------------|
-| Fulfillment Optimization | Fulfillment Engineering | Gradient-boosted ranking (XGBoost) | < 50 ms (p99) | SageMaker real-time endpoint |
-| Dynamic Pricing | Pricing & Economics | Time-series regression + supply/demand heuristics | < 100 ms | SageMaker real-time endpoint |
-| Fraud Detection | Trust & Safety | Ensemble (XGBoost + rules) | < 200 ms | SageMaker real-time + in-service rule engine |
-| ETA Prediction | Maps & Routing | Deep neural network (TensorFlow) | < 100 ms | TensorFlow Serving on EKS |
-| Demand Forecasting | Business Intelligence | Prophet / LightGBM | Batch (hourly) | SageMaker Batch Transform |
+| Fulfillment Optimization | Fulfillment Engineering | Gradient-boosted ranking (XGBoost) | < 50 ms (p99) | Managed real-time endpoint (ref: SageMaker) |
+| Dynamic Pricing | Pricing & Economics | Time-series regression + supply/demand heuristics | < 100 ms | Managed real-time endpoint (ref: SageMaker) |
+| Fraud Detection | Trust & Safety | Ensemble (XGBoost + rules) | < 200 ms | Managed real-time + in-service rule engine (ref: SageMaker) |
+| ETA Prediction | Maps & Routing | Deep neural network (TensorFlow) | < 100 ms | Model server on Kubernetes (ref: TensorFlow Serving on EKS) |
+| Demand Forecasting | Business Intelligence | Prophet / LightGBM | Batch (hourly) | Managed batch inference (ref: SageMaker Batch Transform) |
 
 > **Principle:** Every ML model must have a rule-based fallback. ML enhances decisions - it must never be the only path.
 
@@ -24,7 +26,7 @@ Machine learning is integral to {Company}'s core product - every order involves 
 
 ## 🏗️ 2. ML Architecture Overview
 
-The end-to-end ML lifecycle at {Company} spans data ingestion, feature engineering, training, serving, and continuous monitoring.
+The end-to-end ML lifecycle at {Company} spans data ingestion, feature engineering, training, serving, and continuous monitoring. The diagram uses **reference implementation (AWS)** labels (S3, Redshift, SageMaker); substitute object storage, warehouse, and training/serving products from your cloud or on-prem stack.
 
 ```mermaid
 flowchart LR
@@ -97,13 +99,13 @@ flowchart LR
 
 ## 🖥️ 3. Model Serving Infrastructure
 
-Choosing the right serving strategy is critical. Use the decision guide below.
+Choosing the right serving strategy is critical. Use the decision guide below. **Reference:** the "Java/Kotlin integration" branch names one common JVM integration path; other runtimes use the same decision tree with their own in-process or sidecar options.
 
 ```mermaid
 flowchart TD
     Start([New model ready<br/>for serving]) --> Q1{Latency requirement<br/>< 50 ms?}
 
-    Q1 -->|Yes| Q1a{Java/Kotlin<br/>integration needed?}
+    Q1 -->|Yes| Q1a{JVM in-process<br/>integration needed?<br/>ref: Java/Kotlin}
     Q1a -->|Yes| TFS[TensorFlow Serving<br/>on EKS]
     Q1a -->|No| SMRT[SageMaker<br/>Real-time Endpoint]
 
@@ -119,12 +121,16 @@ flowchart TD
 
 | Pattern | Infrastructure | Use When | Auto-scaling |
 |---------|---------------|----------|-------------|
-| SageMaker Real-time | SageMaker endpoint | Low-latency predictions on demand | Target-tracking on `InvocationsPerInstance` |
-| SageMaker Batch Transform | SageMaker batch job | Hourly/daily bulk predictions | N/A (job-based) |
-| TensorFlow Serving on EKS | EKS pod with TF Serving | TensorFlow models with Java callers, ultra-low latency | HPA on CPU/latency |
+| Managed real-time (ref: SageMaker) | Vendor inference endpoint | Low-latency predictions on demand | Per-product metrics (e.g. invocations per instance) |
+| Managed batch (ref: SageMaker Batch) | Vendor batch job | Hourly/daily bulk predictions | N/A (job-based) |
+| TensorFlow Serving on Kubernetes | Pod with TF Serving | TensorFlow models with tight latency to app tier | HPA on CPU/latency |
 | In-service Rule Engine | Application code | Deterministic rules, no ML model needed | Standard service scaling |
 
+**Alternatives to SageMaker:** Vertex AI endpoints and batch jobs, Azure Machine Learning managed endpoints and batch inference, or open inference servers on Kubernetes.
+
 ### SageMaker Endpoint Configuration
+
+**Reference implementation (AWS SageMaker):**
 
 ```yaml
 # terraform/modules/sagemaker-endpoint/main.tf (conceptual)
@@ -161,7 +167,7 @@ flowchart TB
     end
 
     subgraph online [Online Feature Store]
-        Redis[(ElastiCache Redis<br/>< 5 ms reads)]
+        Redis[(Redis / memory store<br/>< 5 ms reads<br/>ref: ElastiCache)]
         direction TB
         F1[provider_acceptance_rate]
         F2[customer_order_count]
@@ -287,7 +293,7 @@ Before promoting a challenger to champion:
 
 ## ⚙️ 6. Training Pipeline
 
-All model training runs through **SageMaker Pipelines** - no ad-hoc notebook training in production.
+All model training runs through an **approved orchestrated pipeline** - no ad-hoc notebook training in production. **Reference implementation (AWS):** SageMaker Pipelines plus EventBridge for schedules; **alternatives:** Vertex AI Pipelines, Azure ML Pipelines, Kubeflow, or Airflow driving training jobs.
 
 ```mermaid
 flowchart TD
@@ -301,18 +307,18 @@ flowchart TD
     DriftAlert --> Extract
     Manual --> Extract
 
-    Extract[1. Data Extraction<br/>Query from Redshift / S3] --> Validate[2. Data Validation<br/>Great Expectations checks]
+    Extract[1. Data Extraction<br/>Warehouse / lake ref: Redshift+S3] --> Validate[2. Data Validation<br/>Great Expectations checks]
     Validate --> QualityGate{Data quality<br/>passed?}
 
     QualityGate -->|No| Fail[Pipeline fails<br/>Alert data team]
     QualityGate -->|Yes| FeatEng[3. Feature Engineering<br/>Compute training features]
 
-    FeatEng --> Train[4. Model Training<br/>SageMaker Training Job]
+    FeatEng --> Train[4. Model Training<br/>managed job ref: SageMaker]
     Train --> Evaluate[5. Evaluation<br/>Hold-out test set]
     Evaluate --> MetricGate{Metrics above<br/>threshold?}
 
     MetricGate -->|No| Reject[Model rejected<br/>Notify data scientist]
-    MetricGate -->|Yes| Register[6. Register Model<br/>MLflow / SageMaker Registry]
+    MetricGate -->|Yes| Register[6. Register Model<br/>MLflow / vendor registry]
     Register --> Notify[Notify team<br/>ready for deployment]
 
 ```
@@ -343,7 +349,7 @@ expectations = [
 
 ## 📦 7. Model Registry & Versioning
 
-Every model deployed to production is versioned and tracked in the **model registry** (MLflow backed by S3 + Aurora PostgreSQL, or SageMaker Model Registry).
+Every model deployed to production is versioned and tracked in the **model registry** (e.g. MLflow with object storage and PostgreSQL, or a cloud model registry - **reference:** SageMaker Model Registry).
 
 ### Model Metadata
 
@@ -371,7 +377,7 @@ Model updates follow the same canary strategy as service deployments:
 | Partial | 25% | 2 hours | Prediction quality drop > 1% |
 | Full | 100% | - | Ongoing monitoring |
 
-Rollback is automatic - SageMaker endpoint reverts to the previous model version if quality metrics breach thresholds.
+Rollback is automatic - the inference endpoint reverts to the previous model version if quality metrics breach thresholds (**reference:** SageMaker endpoint versions).
 
 ---
 
@@ -384,8 +390,8 @@ ML systems require observability beyond standard service metrics. Model predicti
 | Dimension | What to Monitor | Tool | Alert Threshold |
 |-----------|----------------|------|----------------|
 | Prediction quality | Accuracy, precision, recall vs baseline | Grafana + custom metrics | Degradation > 2% from baseline |
-| Feature drift | Distribution shift in input features | SageMaker Model Monitor | KL-divergence > 0.1 |
-| Prediction drift | Output distribution shift | SageMaker Model Monitor | KS-test p-value < 0.05 |
+| Feature drift | Distribution shift in input features | Drift product or custom metrics (**ref:** SageMaker Model Monitor) | KL-divergence > 0.1 |
+| Prediction drift | Output distribution shift | Drift product or custom metrics (**ref:** SageMaker Model Monitor) | KS-test p-value < 0.05 |
 | Data quality | Missing features, nulls, outliers | Great Expectations | Any critical expectation failure |
 | Latency | Prediction latency (p50, p95, p99) | Prometheus | p99 > SLA threshold |
 | Error rate | Failed predictions / total predictions | Prometheus | Error rate > 1% |
@@ -458,7 +464,7 @@ LaunchDarkly kill switches allow instant fallback activation:
 
 ## 🐍 10. Python Environment Standards
 
-ML workloads at {Company} use Python. Consistency in the Python environment is as critical as consistency in the Java/Kotlin stack.
+ML workloads at {Company} use Python. Consistency in the Python environment is as critical as consistency in the **primary application stack** (**reference:** Java/Kotlin for many services).
 
 ### Runtime & Tooling
 
@@ -497,8 +503,8 @@ shap = "0.44.1"
 | Exploration & EDA | Yes | Jupyter notebooks in `notebooks/` directory |
 | Prototyping models | Yes | Must be converted to Python packages before production |
 | Production training code | No | Must be in Python packages under `src/` |
-| Production inference code | No | Must be in Python packages or SageMaker containers |
-| Scheduled reports | No | Use Airflow/SageMaker Pipelines instead |
+| Production inference code | No | Must be in Python packages or approved inference containers (**ref:** SageMaker images) |
+| Scheduled reports | No | Use Airflow or your approved training orchestrator instead |
 
 ---
 
@@ -539,7 +545,7 @@ jobs:
     needs: data-validation
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger SageMaker Pipeline
+      - name: Trigger training pipeline (ref: SageMaker)
         run: poetry run python scripts/trigger_training.py
       - name: Wait for training completion
         run: poetry run python scripts/wait_for_pipeline.py --timeout=3600
@@ -563,7 +569,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     environment: production
     steps:
-      - name: Deploy to SageMaker (canary)
+      - name: Deploy to inference platform (ref: SageMaker canary)
         run: poetry run python scripts/deploy_canary.py
 ```
 
@@ -577,7 +583,7 @@ jobs:
 | Evaluation metrics above threshold | Yes | Automated check |
 | No data quality issues | Yes | Great Expectations |
 | Data science lead approval | Yes | GitHub required reviewer |
-| Canary deployment healthy for 30 min | Yes | SageMaker + CloudWatch |
+| Canary deployment healthy for 30 min | Yes | Inference platform + metrics (**ref:** SageMaker + CloudWatch) |
 
 ---
 
@@ -627,6 +633,8 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ### Approved GPU Instances
 
+**Reference implementation (AWS SageMaker / EC2 GPU shapes):**
+
 | Instance Type | Use Case | Approval Required |
 |---------------|----------|-------------------|
 | `ml.g5.xlarge` | Default for most training jobs | Team lead |
@@ -636,7 +644,7 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 ### Quotas
 
 - Per-team GPU hour budget is set **quarterly**
-- Tracked in AWS Cost Explorer using the `ml-team` tag
+- Tracked in cloud cost reporting using the `ml-team` tag (**reference:** AWS Cost Explorer)
 - Teams exceeding 80% of quarterly budget receive a warning; exceeding 100% requires VP Eng approval for additional hours
 
 ### Spot vs On-Demand
@@ -649,7 +657,7 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ### Stop-Loss
 
-- All SageMaker training jobs **must** set `MaxRuntimeInSeconds` (default: 86,400 - 24 hours)
+- All managed training jobs **must** set a max runtime (default: 86,400 seconds - 24 hours) (**reference:** SageMaker `MaxRuntimeInSeconds`)
 - Jobs exceeding the team's per-job budget trigger an alert to the team lead
 - Runaway training jobs are automatically terminated after `MaxRuntimeInSeconds`
 
@@ -663,7 +671,7 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ### Idle Resource Cleanup
 
-- GPU notebook instances (SageMaker Studio / Notebook Instances) are **auto-stopped after 1 hour of inactivity** via lifecycle configuration
+- GPU notebook instances (**reference:** SageMaker Studio / Notebook Instances) are **auto-stopped after 1 hour of inactivity** via lifecycle configuration
 - Weekly automated audit identifies running GPU instances with no active kernel or training job
 - Instances idle for > 24 hours are flagged and auto-stopped
 

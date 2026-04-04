@@ -1,6 +1,6 @@
 # 💥 Chaos Engineering
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -29,7 +29,11 @@ Chaos engineering is not optional. Every Tier-1 and Tier-2 service must particip
 
 ## 💥 3. Tools
 
-The platform uses a layered chaos toolchain, with each tool targeting a different level of the stack:
+Principles in this document are **cloud- and vendor-agnostic**. The platform uses a **layered chaos toolchain**, with each layer targeting a different level of the stack.
+
+**Reference implementation (AWS):** [AWS Fault Injection Simulator (FIS)](https://docs.aws.amazon.com/fis/) for controlled infrastructure faults. **Alternatives:** Gremlin (SaaS), [LitmusChaos](https://litmuschaos.io/) (Kubernetes-native, CNCF), [Chaos Mesh](https://chaos-mesh.org/) (Kubernetes), plus cloud equivalents (for example Azure Chaos Studio, Google Cloud Fault Injection).
+
+The diagram below shows one concrete mapping; swap FIS for your approved infrastructure chaos tool.
 
 ```mermaid
 graph TB
@@ -79,8 +83,8 @@ graph TB
 
 | Tool | Layer | Managed By | Fault Types |
 |------|-------|-----------|-------------|
-| **AWS FIS** | Infrastructure (AWS) | Platform Engineering | AZ failure, RDS failover, network disruption, Kafka broker failure, Redis failover |
-| **Litmus** | Kubernetes | Platform Engineering | Pod kill, CPU stress, network partition, disk fill |
+| **AWS FIS** (reference) | Infrastructure | Platform Engineering | AZ failure, managed DB failover, network disruption, Kafka broker failure, Redis failover |
+| **LitmusChaos / Chaos Mesh / Gremlin** | Kubernetes or hybrid | Platform Engineering | Pod kill, CPU stress, network partition, disk fill (tool-dependent) |
 | **Toxiproxy** | Application | Service teams | Latency injection, connection drops, bandwidth throttling, timeout simulation |
 
 ---
@@ -91,13 +95,13 @@ Every Tier-1 and Tier-2 service must maintain an experiment catalog. The table b
 
 | Experiment | Tool | Target | Expected Behavior | Blast Radius |
 |-----------|------|--------|-------------------|--------------|
-| **Pod kill** | Litmus | Single pod in target service | Kubernetes reschedules pod within 30s; no request failures due to readiness probe removal from Service endpoints | Single pod |
-| **AZ failure** | FIS | Entire availability zone | Traffic shifts to remaining AZs; no customer-facing errors; latency increase < 20% | Single AZ |
+| **Pod kill** | LitmusChaos / Chaos Mesh (example) | Single pod in target service | Kubernetes reschedules pod within 30s; no request failures due to readiness probe removal from Service endpoints | Single pod |
+| **AZ failure** | FIS or equivalent | Entire availability zone | Traffic shifts to remaining AZs; no customer-facing errors; latency increase < 20% | Single AZ |
 | **Network latency injection** | Toxiproxy | Dependency calls (e.g., pricing → geolocation) | Circuit breaker opens if latency exceeds threshold; fallback activates; upstream callers degrade gracefully | Single dependency path |
-| **Kafka broker failure** | FIS | Single MSK broker | Producers retry and rebalance to healthy brokers; consumers rebalance partitions; no message loss; processing delay < 60s | Single broker |
-| **Redis failover** | FIS | ElastiCache primary node | Replica promotes to primary; cache miss spike handled by database; application reconnects automatically | Single Redis cluster |
-| **Database failover** | FIS | RDS primary instance | Multi-AZ failover completes within 120s; connection pool reconnects; in-flight transactions retry; no data loss | Single RDS instance |
-| **Dependency timeout** | Toxiproxy | Outbound HTTP calls to downstream service | Resilience4j timeout fires; circuit breaker opens after threshold; fallback response returned to caller | Single dependency |
+| **Kafka broker failure** | FIS or equivalent | Single broker (e.g., MSK) | Producers retry and rebalance to healthy brokers; consumers rebalance partitions; no message loss; processing delay < 60s | Single broker |
+| **Redis failover** | FIS or equivalent | Managed Redis primary | Replica promotes to primary; cache miss spike handled by database; application reconnects automatically | Single Redis cluster |
+| **Database failover** | FIS or equivalent | Managed RDB primary (e.g., RDS Multi-AZ) | Failover completes within your RTO; connection pool reconnects; in-flight transactions retry; no data loss beyond RPO | Single DB instance |
+| **Dependency timeout** | Toxiproxy | Outbound HTTP calls to downstream service | Client timeout fires; circuit breaker opens after threshold; fallback response returned to caller (Resilience4j is one Java option) | Single dependency |
 
 ---
 
@@ -168,7 +172,7 @@ SERVICE:       [service name]
 METRIC:        [metric name and source]
 STEADY STATE:  [expected value/range under normal conditions]
 TOLERANCE:     [acceptable deviation during chaos]
-MEASUREMENT:   [how and where to observe - Grafana dashboard, CloudWatch alarm]
+MEASUREMENT:   [how and where to observe - e.g. metrics backend and alerting]
 ```
 
 ### Example - Fulfillment Engine
@@ -186,7 +190,7 @@ If steady-state metrics breach the tolerance bounds during chaos, the experiment
 
 ## 🛡️ 7. Circuit Breaker Validation
 
-Circuit breakers are the most critical resilience pattern on the platform. A circuit breaker that has never been triggered in a realistic scenario is a liability, not an asset. This worked example shows how to validate a Resilience4j circuit breaker using chaos engineering.
+Circuit breakers are the most critical resilience pattern on the platform. A circuit breaker that has never been triggered in a realistic scenario is a liability, not an asset. This worked example shows how to validate a circuit breaker using chaos engineering (**reference:** Resilience4j in Java).
 
 ### Worked Example: Pricing Service Circuit Breaker
 
@@ -246,7 +250,7 @@ stateDiagram-v2
 | Step | Action | Expected Result | Verify In |
 |------|--------|----------------|-----------|
 | 1 | Inject 100% failure rate on pricing service calls via Toxiproxy | All pricing calls fail with connection reset | Toxiproxy admin API |
-| 2 | Wait up to 30 seconds | Resilience4j circuit breaker transitions to OPEN | Grafana → `resilience4j_circuitbreaker_state` metric |
+| 2 | Wait up to 30 seconds | Circuit breaker transitions to OPEN | Metrics (e.g. `resilience4j_circuitbreaker_state` if using Resilience4j) |
 | 3 | Verify fallback activates | Orders service returns default price estimate (not an error) | Application logs + API response |
 | 4 | Wait for configured `waitDurationInOpenState` | Circuit breaker transitions to HALF-OPEN | Grafana |
 | 5 | Remove fault injection | Trial call succeeds; circuit breaker transitions to CLOSED | Toxiproxy admin API + Grafana |

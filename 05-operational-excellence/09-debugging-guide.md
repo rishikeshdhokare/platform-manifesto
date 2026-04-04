@@ -17,9 +17,11 @@
 
 ## 🔍 1. Local Debugging
 
-### 1.1 IntelliJ Remote Debug Configuration
+**Principle:** Local debugging always includes **container / process inspection** (shell, env, ports). **Interactive breakpoints** depend on the runtime: JDWP for JVM, inspector protocol for Node.js, Delve for Go, pdb / debugpy for Python, and so on.
 
-All {Company} Spring Boot services expose a debug port when running locally via Docker or Gradle. Attach IntelliJ's remote debugger to step through code running inside a container.
+### 1.1 Reference Implementation (JVM / IntelliJ remote debug)
+
+**Reference Implementation (Spring Boot / Gradle / Docker):** JVM services expose a debug port when running locally via Docker or Gradle. Attach IntelliJ's remote debugger to step through code running inside a container.
 
 **Gradle (direct):**
 
@@ -49,9 +51,17 @@ services:
 3. Set **Use module classpath** = the service module
 4. Click **Debug** - the IDE attaches when the service starts
 
-### 1.2 Attaching to a Docker Container
+### 1.2 Node.js, Go, and Python (substitution points)
 
-For non-JVM debugging (inspecting file systems, environment variables, network):
+| Runtime | Typical approach |
+|---------|------------------|
+| **Node.js** | Run with `node --inspect` or `node --inspect-brk` (port 9229 by default); attach **Chrome DevTools** or **VS Code** "Node.js" launch config to `localhost:9229`. For TypeScript, enable source maps. |
+| **Go** | Use **Delve** (`dlv debug`, `dlv attach`, or IDE integration); in Kubernetes use ephemeral debug pods with `dlv` only in non-production. |
+| **Python** | Use **pdb** (`breakpoint()`), **debugpy** with VS Code remote attach, or your framework's debug server; ensure the debug port is not exposed in production images. |
+
+### 1.3 Attaching to a Docker Container
+
+For shell-based inspection (file systems, environment variables, network) on any image that has a shell:
 
 ```bash
 docker exec -it <container-name> /bin/sh
@@ -60,10 +70,10 @@ docker exec -it <container-name> /bin/sh
 env | sort                        # verify environment variables
 cat /etc/hosts                    # check DNS resolution
 nc -zv postgres 5432              # test connectivity to Postgres
-curl -s http://localhost:8080/actuator/health | jq .
+curl -s http://localhost:8080/actuator/health | jq .   # Reference (Spring Actuator); use /health or /ready for other stacks
 ```
 
-### 1.3 Local Kafka Debugging
+### 1.4 Local Kafka Debugging
 
 ```bash
 # List topics
@@ -87,15 +97,17 @@ docker exec kafka kafka-consumer-groups \
 
 ## 🔍 2. Staging Environment Debugging
 
+**Principle:** Staging debugging uses **kubectl** (port-forward, exec, logs, ephemeral containers) the same way for every runtime. Which **debug port** you forward depends on the language (5005 JDWP, 9229 Node inspector, Delve-configured port, and so on).
+
 ### 2.1 kubectl Port-Forward
 
-Port-forwarding lets you access a staging pod's ports as if they were local. This is useful for hitting actuator endpoints, connecting a debugger, or querying a sidecar.
+Port-forwarding lets you access a staging pod's ports as if they were local. Use it for health endpoints, attaching a debugger, or querying a sidecar.
 
 ```bash
 # Forward the application port
 kubectl port-forward -n orders deployment/order-service 8080:8080
 
-# Forward the debug port (if enabled in staging - Tier 3 only)
+# Forward the debug port (if enabled in staging - Tier 3 only; JVM example 5005)
 kubectl port-forward -n orders pod/order-service-abc123 5005:5005
 
 # Forward PgBouncer sidecar (access staging DB via local psql)
@@ -111,9 +123,11 @@ kubectl exec -it -n orders deployment/order-service -- /bin/sh
 
 # Inside the pod
 env | grep DB_          # check database config
-cat /tmp/heapdump.hprof # retrieve a heap dump
-wget -qO- http://localhost:8080/actuator/health | jq .
+cat /tmp/heapdump.hprof # Reference (JVM): heap dump path if you generated one (jmap, JFR, or OOM on dump)
+wget -qO- http://localhost:8080/actuator/health | jq .   # Reference (Spring Actuator)
 ```
+
+**Runtime-specific dumps (when approved for staging):** **JVM** - heap dump (`.hprof`) and thread dump (`jcmd Thread.print` or `kill -3`); **Node.js** - `heapdump` module or `--heapsnapshot-near-heap-limit`; **Go** - `pprof` heap and goroutine profiles over HTTP; **Python** - `faulthandler`, `tracemalloc`, or `objgraph` in a controlled session.
 
 ### 2.3 Log Tailing
 
@@ -208,7 +222,9 @@ kubectl debug -n orders pod/order-service-abc123 \
 {service="order-service"} | json | requestId="req-789xyz"
 ```
 
-### 3.3 Standard MDC Fields for Search
+### 3.3 Standard correlation fields for search
+
+These names are what you index in OpenSearch; **MDC** (JVM) is one way to populate them - other runtimes use request context, AsyncLocal, or OpenTelemetry log bridges.
 
 | Field | Description | Indexed? | Example |
 |-------|-------------|----------|---------|
@@ -260,7 +276,7 @@ flowchart LR
 
 ### 4.3 Correlating Logs and Traces
 
-Every log line includes `traceId` and `spanId` via MDC. To jump from a log to a trace:
+Every log line includes `traceId` and `spanId` when your logging pipeline correlates with OpenTelemetry (for example MDC on the JVM). To jump from a log to a trace:
 
 1. Copy the `traceId` from the log entry in OpenSearch.
 2. Paste it into Grafana Tempo's search bar.
@@ -282,7 +298,7 @@ To jump from a trace to logs:
 |----------|-----------|-------------|------------|------------|
 | **My API returns 500** | Check application logs for the `requestId` in OpenSearch | Search for the `traceId` in Tempo to see which downstream service failed | Check the failing service's logs for the root exception | Post in the owning team's Slack channel with `requestId` and `traceId` |
 | **Kafka consumer is lagging** | Check consumer group lag: `kafka-consumer-groups --describe` or Grafana dashboard "Kafka Consumer Lag" | Check consumer pod logs for errors or slow processing | Check if the consumer is rebalancing (look for `Revoking partitions` log) | #platform-support with consumer group name and lag metrics |
-| **Latency spike on one pod** | Check pod CPU/memory in Grafana → Kubernetes dashboards | Check for GC pauses in pod logs (`-Xlog:gc*`) | Check if the pod received disproportionate traffic (load balancer distribution) | Restart the pod; if recurrent, open a Jira ticket for investigation |
+| **Latency spike on one pod** | Check pod CPU/memory in Grafana → Kubernetes dashboards | **JVM:** GC in logs (`-Xlog:gc*`); **Node.js:** event loop lag metrics; **Go:** GC pause metrics / `pprof`; **Python:** GIL contention or sync work on the event loop | Check if the pod received disproportionate traffic (load balancer distribution) | Restart the pod; if recurrent, open a Jira ticket for investigation |
 | **Can't connect to DB locally** | Verify Docker Compose is running: `docker compose ps` | Check `.env.local` for correct `DB_HOST`, `DB_PORT` | Test connectivity: `docker exec postgres pg_isready` | `make reset` to rebuild from scratch |
 | **Feature flag not working** | Verify the flag key spelling in LaunchDarkly dashboard | Check the evaluation context: `userId`, `tenantId`, targeting rules | Check service logs for `LaunchDarkly: flag not found` warnings | Confirm the flag environment (flags are per-environment) |
 

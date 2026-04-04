@@ -1,12 +1,12 @@
 # 📖 Open Source Policy
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: CTO + Legal](https://img.shields.io/badge/owner-CTO_%2B_Legal-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: CTO + Legal](https://img.shields.io/badge/owner-CTO_%2B_Legal-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Philosophy
 
-{Company} is built on open source. Our entire stack - Kubernetes, Kafka, PostgreSQL, Spring Boot, Terraform, ArgoCD, Grafana - exists because communities invested in building shared infrastructure.
+{Company} is built on open source. Our stack relies on projects such as Kubernetes, Kafka, PostgreSQL, Terraform, ArgoCD, and Grafana - plus language frameworks (for example **Spring Boot** where we use JVM services) - because communities invested in building shared infrastructure.
 
 **We respect this.** We consume responsibly, contribute where we can, and ensure license compliance is not an afterthought but a CI gate.
 

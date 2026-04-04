@@ -1,6 +1,6 @@
 # ⚙️ Configuration Management
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -13,17 +13,21 @@ Configuration management fails in two common ways:
 
 Our approach follows the **12-Factor App** principles: strict separation of config from code. Config is anything that varies between deployments (dev vs staging vs production). Code never does.
 
+**Principles (all services):** secrets never live in Git; environment-specific values come from the cloud control plane (here: Secrets Manager + SSM) or Kubernetes-injected env/volumes; committed files hold only safe defaults. Framework choice does not change those rules.
+
 ---
 
 ## ⚙️ 2. Where Each Type of Config Lives
 
+The **Spring Boot** column below is the **reference implementation** for how loading is wired; other runtimes use their config libraries (Twelve-Factor env precedence, Viper, dotnet `IConfiguration`, etc.) with the same storage backends.
+
 | Config Type | Examples | Where It Lives | How It's Loaded |
 |-------------|---------|---------------|----------------|
 | **Secrets** | DB passwords, API keys, tokens | AWS Secrets Manager | External Secrets Operator → Kubernetes Secret → mounted as volume |
-| **Environment config** | DB URLs, Kafka brokers, service URLs | AWS SSM Parameter Store | Spring Cloud AWS at startup |
-| **Application tuning** | Pool sizes, timeouts, cache TTLs | Helm values → ConfigMap | Spring `application.yml` via env var |
+| **Environment config** | DB URLs, Kafka brokers, service URLs | AWS SSM Parameter Store | Spring Cloud AWS at startup (reference) |
+| **Application tuning** | Pool sizes, timeouts, cache TTLs | Helm values → ConfigMap | Spring `application.yml` via env var (reference) |
 | **Feature flags** | Unreleased feature toggles, kill switches | LaunchDarkly | SDK at runtime (no restart needed) |
-| **Non-sensitive defaults** | Default page size, max retry count | `application.yml` in the repo | Spring Boot defaults |
+| **Non-sensitive defaults** | Default page size, max retry count | `application.yml` in the repo | Spring Boot defaults (reference) |
 
 **The golden rule:** If a value changes between environments, it must not be in `application.yml` committed to Git.
 
@@ -31,7 +35,7 @@ Our approach follows the **12-Factor App** principles: strict separation of conf
 
 ## ⚙️ 3. The Config Hierarchy
 
-Spring Boot loads configuration in this order (later entries win):
+**Reference implementation (Spring Boot):** configuration loads in this order (later entries win). Other frameworks should implement the same **precedence idea**: committed defaults < profile files < process env < remote parameter store < secrets.
 
 ```
 1. application.yml (committed to Git - safe defaults, no secrets, no env-specific values)
@@ -55,7 +59,7 @@ flowchart TB
 
 ## ⚙️ 4. application.yml - What Belongs Here
 
-Only values that are **safe to commit** and **the same in all environments**:
+**Reference implementation (Spring Boot):** only values that are **safe to commit** and **the same in all environments**. The `hibernate.dialect` and Spring Kafka keys below illustrate **non-secret, non-env-specific** defaults; equivalent settings exist for every ORM and Kafka client.
 
 ```yaml
 # application.yml - committed to Git
@@ -66,7 +70,7 @@ spring:
     open-in-view: false              # Always false - not environment-specific
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect  # Always postgres
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Reference: always PostgreSQL on this platform
   kafka:
     consumer:
       auto-offset-reset: earliest    # Same everywhere
@@ -104,7 +108,7 @@ external:
 
 ## ⚙️ 5. application-{profile}.yml - Profile Overrides
 
-Use Spring profiles for local development defaults only:
+**Reference implementation (Spring Boot):** use Spring profiles for local development defaults only:
 
 ```yaml
 # application-local.yml - committed to Git (safe, local-only values)
@@ -149,9 +153,9 @@ Kubernetes Secret (in-cluster)
       ▼
 /var/run/secrets/orders-service/db-password   ← file, not env var
       │
-      │ (Spring reads on startup)
+      │ (app reads on startup)
       ▼
-spring.datasource.password = {contents of file}
+spring.datasource.password = {contents of file}   # Spring reference property name
 ```
 
 ### 6.2 Creating a Secret
@@ -203,7 +207,7 @@ spec:
       key: /production/orders-service/stripe-api-key
 ```
 
-### 6.4 Reading Secrets in Spring Boot
+### 6.4 Reading secrets in Spring Boot (reference)
 
 Mount the Kubernetes Secret as a volume (in Helm values):
 ```yaml
@@ -260,7 +264,7 @@ aws ssm put-parameter \
   --type String  # Not SecureString - URL is not a secret
 ```
 
-### 7.3 Reading in Spring Boot
+### 7.3 Reading in Spring Boot (reference)
 
 ```kotlin
 // build.gradle.kts
@@ -418,7 +422,7 @@ Flags that are past their **planned removal date** (set when the flag is created
 ## 🔍 11. Troubleshooting Config
 
 ```bash
-# See what config Spring Boot has loaded (run locally or in a pod)
+# Java reference: inspect resolved Spring properties (run locally or in a pod)
 curl http://localhost:8080/actuator/env | python3 -m json.tool | grep "pricing"
 
 # Check that secrets are synced from AWS to Kubernetes

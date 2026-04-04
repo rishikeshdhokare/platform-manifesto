@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Dynamic Pricing** domain (`com.{company}.dynamicpricing`) balances **supply and demand** in real time across the platform network. It performs **real-time supply/demand analysis**, **pricing zone management**, and **multiplier calculation** so customers see fair, market-responsive prices and providers are incentivized to serve where demand is high.
+The **Dynamic Pricing** domain (`{company}.dynamicpricing`) balances **supply and demand** in real time across the platform network. It performs **real-time supply/demand analysis**, **pricing zone management**, and **multiplier calculation** so customers see fair, market-responsive prices and providers are incentivized to serve where demand is high.
 
 **This domain owns**
 
@@ -23,7 +23,7 @@ The **Dynamic Pricing** domain (`com.{company}.dynamicpricing`) balances **suppl
 
 | Concern | Owning domain |
 | --- | --- |
-| Base price calculation | **Pricing Service** (`com.{company}.pricing`) - composes base + distance + time; **consumes** pricing multipliers. |
+| Base price calculation | **Pricing Service** (`{company}.pricing`) - composes base + distance + time; **consumes** pricing multipliers. |
 | Order lifecycle | **Order Service** - assignment, state, completion; Dynamic Pricing **reads** order events for signals only. |
 
 ---
@@ -124,7 +124,7 @@ flowchart TB
 
 ## 🔌 5. API Surface
 
-### 5.1 gRPC (internal - `com.{company}.dynamicpricing.v1`)
+### 5.1 gRPC (internal - `{company}.dynamicpricing.v1`)
 
 | RPC | Purpose |
 | --- | --- |
@@ -142,7 +142,7 @@ flowchart TB
 
 ## 📤 6. Events Published
 
-All topics use the platform naming prefix `com.{company}.events`.
+All topics use the platform naming prefix `{company}.events`.
 
 | Event | Key consumers | Purpose |
 | --- | --- | --- |

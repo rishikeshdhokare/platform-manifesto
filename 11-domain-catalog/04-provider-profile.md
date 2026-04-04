@@ -8,7 +8,7 @@
 
 ## 📋 1. Overview
 
-The **Provider Profile** bounded context (`com.{company}.providers`) manages **provider onboarding**, **document verification and storage**, **ratings**, and **availability** as represented in the provider account - not live geolocation. It is the system of record for who may serve on the platform and whether their credentials are valid.
+The **Provider Profile** bounded context (`{company}.providers`) manages **provider onboarding**, **document verification and storage**, **ratings**, and **availability** as represented in the provider account - not live geolocation. It is the system of record for who may serve on the platform and whether their credentials are valid.
 
 ### 1.1 What this domain owns
 
@@ -23,15 +23,15 @@ The **Provider Profile** bounded context (`com.{company}.providers`) manages **p
 
 | Concern | Owning domain |
 |---------|----------------|
-| **Provider location / geospatial pool** | Fulfillment Engine (`com.{company}.fulfillment`) |
-| **Payouts, balances, settlements** | Payment Service (`com.{company}.payments.*`) |
-| **Order orchestration** | Order Service (`com.{company}.orders`) - consumes its events for ratings |
+| **Provider location / geospatial pool** | Fulfillment Engine (`{company}.fulfillment`) |
+| **Payouts, balances, settlements** | Payment Service (`{company}.payments.*`) |
+| **Order orchestration** | Order Service (`{company}.orders`) - consumes its events for ratings |
 
 ---
 
 ## 🧩 2. Domain Model
 
-Core types live under `com.{company}.providers.domain`. Identifiers are opaque UUIDs at the API boundary.
+Core types live under `{company}.providers.domain`. Identifiers are opaque UUIDs at the API boundary.
 
 ```mermaid
 classDiagram
@@ -149,7 +149,7 @@ Base path: **`/v1/providers`**. Clients typically call through the Provider BFF;
 
 ## 📤 5. Events Published
 
-Producer application: `com.{company}.providers` - Avro subjects under prefix `providers.provider` (Schema Registry).
+Producer application: `{company}.providers` - Avro subjects under prefix `providers.provider` (Schema Registry).
 
 | Topic / event | Payload summary | Consumers |
 |---------------|-----------------|-----------|
@@ -199,7 +199,7 @@ Provider Profile does **not** query Orders or Fraud databases directly - only AP
 
 ```mermaid
 flowchart TB
-    subgraph dp [Provider Profile - com.{company}.providers]
+    subgraph dp [Provider Profile - {company}.providers]
         API[REST API]
         DOM[Domain / DB]
         OUT[Kafka produce]
@@ -240,7 +240,7 @@ flowchart TB
 | Item | Detail |
 |------|--------|
 | Team | **Team Providers** |
-| Bounded context | `com.{company}.providers` |
+| Bounded context | `{company}.providers` |
 
 For cross-domain changes, coordinate **Fulfillment** (availability vs location), **Payments** (payouts), and **Fraud** (suspension policy).
 

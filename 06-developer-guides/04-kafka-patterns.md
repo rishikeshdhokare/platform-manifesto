@@ -1,6 +1,6 @@
 # 📨 Kafka Patterns
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -49,7 +49,11 @@ Before writing any Kafka code, understand these concepts:
 
 ## 📨 3. Standard Kafka Configuration
 
-### 3.1 application.yml (Producer)
+**Principles (all runtimes):** configure producers for safe delivery where the domain requires it (`acks=all`, idempotence when supported), use Schema Registry for contract evolution, and keep **consumer offset commits after successful processing** (never auto-commit for critical paths). Keep partition keys stable for per-entity ordering.
+
+**Reference implementation:** the YAML and Java below use **Spring Kafka**. Alternatives include **kafkajs** or **@confluentinc/kafka-javascript** (Node.js), **confluent-kafka-go** or **segmentio/kafka-go** (Go), **confluent-kafka-python** (Python), and the **rust-rdkafka** ecosystem (Rust), all following the same delivery and commit rules.
+
+### 3.1 application.yml (Producer) - Spring reference
 
 ```yaml
 spring:
@@ -67,7 +71,7 @@ spring:
         max.in.flight.requests.per.connection: 1  # Required with idempotence
 ```
 
-### 3.2 application.yml (Consumer)
+### 3.2 application.yml (Consumer) - Spring reference
 
 ```yaml
 spring:
@@ -87,6 +91,8 @@ spring:
 ---
 
 ## 📨 4. Writing a Producer
+
+**Pattern:** the domain exposes a **port** (publish contract); the **infrastructure adapter** owns the Kafka client. The anti-pattern is injecting the client into domain code. The Java below is **reference implementation**; map `KafkaTemplate` to your library's producer API.
 
 ### 4.1 The Wrong Way
 
@@ -116,7 +122,7 @@ public interface OrderEventPublisher {
     void publish(OrderCompletedEvent event);
 }
 
-// Domain event - plain Java record
+// Domain event - plain Java record (reference; use an immutable DTO in any language)
 // com/{company}/orders/domain/event/OrderCompletedEvent.java
 public record OrderCompletedEvent(
     OrderId orderId,
@@ -168,6 +174,8 @@ public class KafkaOrderEventPublisher implements OrderEventPublisher {
 ---
 
 ## 📨 5. Writing a Consumer
+
+**Pattern:** one listener per consumer group, manual commit after success, structured logging with correlation IDs, and DLQ / retry policy in infrastructure config. The Java **reference implementation** uses `@KafkaListener`; other clients use equivalent consume-and-commit APIs.
 
 **Visual overview:**
 

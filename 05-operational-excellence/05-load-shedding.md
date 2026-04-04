@@ -1,6 +1,6 @@
 # ⚖️ Load Shedding
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -155,9 +155,13 @@ Tiers are escalated immediately but de-escalated slowly. Each lower tier require
 
 ## ⚖️ 4. Implementation
 
+Priority checks, tier gates, queue-or-reject behavior for P2, and cache-only paths for P3 are **universal** - implement them in your edge proxy, service mesh, or application stack.
+
+**Reference implementation (Spring / Java):** The example below uses a Spring `HandlerInterceptor`. Equivalent middleware exists in other frameworks (for example Express/Fastify in Node, ASP.NET middleware, or Envoy/WASM filters at the proxy).
+
 ### 4.1 Load Shedding Interceptor
 
-The core mechanism is a Spring `HandlerInterceptor` that checks the current shedding tier (sourced from a LaunchDarkly operational flag) against the request's priority.
+The core mechanism in this reference stack is a Spring `HandlerInterceptor` that checks the current shedding tier (sourced from a LaunchDarkly operational flag) against the request's priority.
 
 ```java
 @Component
@@ -298,7 +302,7 @@ If a consumer cannot process messages fast enough, the consumer lag grows. Unbou
 
 ### 5.2 Pause/Resume Strategy
 
-Spring Kafka provides a native `pause()` / `resume()` API on the `KafkaListenerEndpointRegistry`. The strategy:
+**Reference implementation (Spring for Apache Kafka):** Spring Kafka exposes `pause()` / `resume()` on `KafkaListenerEndpointRegistry`. The same idea applies with any client that supports pausing partition consumption. The strategy:
 
 1. Monitor consumer lag via `kafka_consumer_lag` metric
 2. If lag exceeds threshold → **pause** consumption
@@ -342,7 +346,7 @@ public class KafkaBackpressureManager {
 ### 5.3 Configuration
 
 ```yaml
-# application.yml
+# application.yml (Spring reference)
 platform:
   kafka:
     backpressure:
@@ -365,7 +369,7 @@ spring:
 
 ## 🚪 6. API Gateway Rate Limiting
 
-> **Note:** The primary API edge is AWS API Gateway + WAF (see `04-infrastructure-and-cloud/07-api-gateway-strategy.md`). Kong is referenced here as an alternative for service-level rate limiting within the mesh; the platform standard is API Gateway for external traffic.
+> **Note:** **Reference implementation (AWS):** API Gateway plus WAF at the public edge (see `04-infrastructure-and-cloud/07-api-gateway-strategy.md`). Cloud-neutral equivalent: any managed API front door with WAF or bot protection plus per-route limits. Kong below illustrates **service-level** rate limiting in the mesh; your standard may place primary limits at the edge or on the gateway product you adopt.
 
 Rate limiting at the API Gateway is the first line of defence - it rejects abusive or excessive traffic before it reaches application services.
 

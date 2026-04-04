@@ -37,7 +37,7 @@ Caching is a performance optimization, not a source of truth. Every cached value
 
 ## 🧩 2. Cache-Aside Pattern
 
-Cache-aside (also called lazy-loading) is the **default caching pattern**. The application manages the cache explicitly: read from cache first; on miss, read from database and populate cache.
+Cache-aside (also called lazy-loading) is the **default caching pattern**: read cache first, on miss load from the **source of truth** (database or service), then populate the cache with a **TTL**. Invalidation stays explicit (delete key on write or via events). Framework annotations are optional sugar; the behavior is the same in any language.
 
 ### Flow
 
@@ -51,7 +51,7 @@ flowchart TD
 
 ```
 
-### Spring Cache + Redis Implementation
+### Reference implementation (Spring Cache + Redis)
 
 ```java
 @Configuration
@@ -81,7 +81,7 @@ public class CacheConfig {
 }
 ```
 
-### Service Usage
+### Service usage (Java reference)
 
 ```java
 @Service
@@ -109,7 +109,7 @@ public class PricingRuleService {
 
 ## ⚡ 3. TTL Strategy
 
-TTL (time-to-live) defines the maximum staleness window. Choose TTL based on how frequently the data changes and how damaging a stale read is.
+TTL (time-to-live) defines the maximum staleness window. Choose TTL based on change frequency and blast radius of a stale read; pair long TTLs with **event-driven invalidation** when freshness matters. The table below is guidance for any Redis or remote cache client.
 
 | Data Type | TTL | Rationale | Invalidation Strategy |
 |-----------|-----|-----------|----------------------|
@@ -168,7 +168,7 @@ sequenceDiagram
     Note over FS,Redis: Next read triggers cache-aside → fresh data loaded
 ```
 
-### Kafka Consumer for Cache Invalidation
+### Kafka consumer for cache invalidation (Java reference)
 
 ```java
 @Component
@@ -222,7 +222,7 @@ Cache invalidation is inherently idempotent - evicting a key that doesn't exist 
 
 For critical reference data, a cold cache on startup means the first requests after a deployment pay a latency penalty. The platform warms key caches during application startup.
 
-### Implementation
+### Implementation (Java reference)
 
 ```java
 @Component
@@ -256,9 +256,11 @@ public class CacheWarmer implements ApplicationRunner {
 }
 ```
 
-### Readiness Gate
+### Readiness gate
 
 The application's Kubernetes readiness probe should only return healthy **after** cache warming completes. This prevents the load balancer from routing traffic to an instance with a cold cache.
+
+**Reference implementation (Spring Boot Actuator):**
 
 ```yaml
 readinessProbe:
@@ -277,9 +279,9 @@ The `ApplicationRunner` sets a readiness flag that the health indicator checks.
 
 A **cache stampede** occurs when a popular cache key expires and hundreds of concurrent requests simultaneously query the database to re-fill it. This can overload the database.
 
-### Strategy 1: Lock-Based Fill (Mutex)
+### Strategy 1: Lock-based fill (mutex)
 
-Only one thread fills the cache; others wait for the result.
+Only one thread (or goroutine, or async worker) fills the cache; others wait or fall through to the source. **Reference implementation (Java + Redisson):**
 
 ```java
 @Service
@@ -330,9 +332,9 @@ public class StampedeProtectedCacheService {
 }
 ```
 
-### Strategy 2: Probabilistic Early Expiry
+### Strategy 2: Probabilistic early expiry
 
-Each cache entry is stored with its expiry timestamp. As the TTL approaches, each read has an increasing probability of triggering a background refresh - spreading refills over time instead of concentrating them at the expiry instant.
+Each cache entry is stored with its expiry metadata. As the TTL approaches, each read has an increasing probability of triggering a background refresh, spreading refills over time. **Reference implementation (Java):**
 
 ```java
 public PricingRule getPricingRuleWithEarlyExpiry(String cacheKey) {
@@ -406,7 +408,7 @@ A cache without observability is a liability. Every cache exposes the following 
 | Latency Heatmap | Heatmap | Identify Redis performance degradation |
 | Cache Size Trend | Time series | Capacity planning for Redis memory |
 
-### Spring Boot Actuator Integration
+### Spring Boot Actuator integration (Java reference)
 
 ```yaml
 management:
@@ -424,7 +426,7 @@ management:
 
 ## ⚡ 9. Redis Configuration
 
-### Spring Boot Application Configuration
+### Spring Boot Redis configuration (reference)
 
 ```yaml
 spring:
@@ -499,10 +501,10 @@ flowchart TD
 
     C -->|On deploy only| I[TTL: 24h+\n+ Event-driven invalidation\n+ Cache warming]
 
-    E --> J[Use @Cacheable\nwith Spring Cache]
+    E --> J[Cache-aside default]
     G --> J
     H --> J
-    I --> K[Use @Cacheable\n+ CacheWarmer\n+ Kafka invalidation listener]
+    I --> K[Warm plus invalidate]
 
 ```
 
@@ -520,9 +522,9 @@ flowchart TD
 
 ---
 
-## ⚡ 11. In-Process Caching (Caffeine)
+## ⚡ 11. In-process caching (Caffeine reference)
 
-Not all caching requires Redis. For small, frequently accessed reference data with short TTLs, an in-process cache avoids the network round-trip entirely.
+Not all caching requires Redis. For small, frequently accessed reference data with short TTLs, an **in-process** cache (per pod) avoids the network round-trip. **Caffeine** is the **Java reference implementation**; Node has `lru-cache`, Go has `ristretto` / `bigcache`, .NET has `IMemoryCache`, all with the same caveats (per-instance staleness, bounded size).
 
 ### Use Cases
 
@@ -539,9 +541,9 @@ Not all caching requires Redis. For small, frequently accessed reference data wi
 - **Session state** - must survive pod restarts; use Redis or the session store.
 - **Shared mutable state** - in-process caches are per-pod; mutations are invisible to other instances.
 
-### Invalidation via Kafka
+### Invalidation via Kafka (Java reference)
 
-When the source data changes, a Kafka event listener triggers targeted invalidation:
+When the source data changes, a Kafka consumer triggers targeted invalidation:
 
 ```java
 @KafkaListener(topics = "config.events", groupId = "${spring.application.name}-caffeine-invalidation")
@@ -557,7 +559,7 @@ This ensures that even with an in-process cache, data changes propagate within t
 
 ### Monitoring
 
-Caffeine integrates with Micrometer to expose cache metrics to Prometheus:
+**Reference (Java):** Caffeine integrates with Micrometer for Prometheus. Other runtimes expose the same hit/miss/eviction signals with their metrics libraries.
 
 | Metric | Description |
 |--------|-------------|
@@ -567,7 +569,7 @@ Caffeine integrates with Micrometer to expose cache metrics to Prometheus:
 | `cache.size` | Current number of entries |
 | Hit rate | Derived: `hits / (hits + misses)` - alert if < 80% |
 
-### Configuration
+### Configuration (Java reference)
 
 ```java
 @Configuration
@@ -586,7 +588,7 @@ public class CaffeineCacheConfig {
 }
 ```
 
-Service usage with `@Cacheable`:
+Service usage with `@Cacheable` (Java reference):
 
 ```java
 @Cacheable(value = "currencyConfig", key = "#currencyCode", cacheManager = "caffeineCacheManager")

@@ -17,6 +17,8 @@
 
 ---
 
+> **Principle:** Stable error codes, catalog registration, HTTP and gRPC status mapping, and a consistent JSON error envelope are **framework-agnostic**. Spring-specific types (`@RestControllerAdvice`, `ResponseEntity`) are **reference implementation (Java / Spring Boot)**.
+
 ## ⚠️ 1. Central Error Code Registry
 
 Every error surfaced by a {Company} service must have a registered error code in the central catalog. Error codes are globally unique, human-readable, and stable across releases.
@@ -167,7 +169,11 @@ When a domain team registers a new error and is unsure which gRPC status to use,
 
 ## ⚠️ 4. Global Exception Handler Standard
 
-Every {Company} Spring Boot service must register a `@RestControllerAdvice` that catches `DomainException` subclasses and maps them to the standard error response body.
+Every {Company} HTTP service must map `DomainException` subclasses (or your stack's equivalent typed errors) to the standard error response body at the framework boundary.
+
+**Reference implementation (Java / Spring Boot):** register `@RestControllerAdvice` that catches `DomainException` and returns `ResponseEntity<ErrorResponse>`.
+
+> **Other frameworks:** Express/Fastify error middleware and centralized error types, Go `error` wrapping with an HTTP render layer, ASP.NET Core exception filters or `IExceptionHandler` - same catalog codes and body shape.
 
 ### 4.1 DomainException Base Class
 
@@ -215,6 +221,8 @@ public enum ErrorCode {
 ```
 
 ### 4.3 GlobalExceptionHandler
+
+**Reference implementation (Java / Spring Boot):**
 
 ```java
 @RestControllerAdvice
@@ -321,6 +329,8 @@ classDiagram
 
 ### 5.1 Example: OrderNotFoundException
 
+**Reference implementation (Java):**
+
 ```java
 public class OrderNotFoundException extends DomainException {
 
@@ -335,6 +345,8 @@ public class OrderNotFoundException extends DomainException {
 ```
 
 ### 5.2 Usage in Service Layer
+
+**Reference implementation (Java / Spring Boot):**
 
 ```java
 @Service
@@ -374,6 +386,8 @@ All {Company} APIs return errors in a consistent JSON structure defined in the [
 ```
 
 ### 6.2 ErrorResponse Record
+
+**Reference implementation (Java):**
 
 ```java
 public record ErrorResponse(
@@ -536,7 +550,7 @@ The error response structure defined here aligns with the [API Standards](./02-a
 
 ### 8.1 gRPC Error Mapping
 
-For gRPC services, the error code is carried in the `Status` metadata:
+For gRPC services, the error code is carried in the `Status` metadata. **Reference implementation (Java):**
 
 ```java
 Status status = Status.NOT_FOUND

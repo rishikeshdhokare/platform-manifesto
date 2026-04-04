@@ -1,10 +1,12 @@
 # 🔄 Saga & Distributed Transaction Patterns
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. The Problem
+
+> **Principle:** Sagas, choreography vs orchestration, compensation, and idempotency are **architecture-level** concerns. They do not depend on a single language or framework. Event and package names shown as `com.{company}.*` are namespace conventions; Kafka consumer code in Java is **reference implementation (Java / Spring Boot)**.
 
 In the platform, completing an order touches multiple services: **Orders** (`com.{company}.orders`), **Payments** (`com.{company}.payments`), **Notifications** (`com.{company}.notifications`), and **Customer Profile** (`com.{company}.customerprofile`). A naïve design might mark the order complete, then capture payment, then notify the customer - each step in its own local transaction.
 
@@ -51,7 +53,7 @@ Services react to **domain events** on Kafka. There is **no central coordinator*
 
 | Aspect | Detail |
 |--------|--------|
-| **Mechanism** | Topic-based pub/sub; schemas under `com.{company}.*` namespaces in Schema Registry |
+| **Mechanism** | Topic-based pub/sub; schemas under governed registry subjects (reference: `com.{company}.*`-style namespaces in the platform schema registry) |
 | **Pros** | Loosely coupled teams and deployables; no orchestrator SPOF; aligns with domain boundaries |
 | **Cons** | End-to-end progress is implicit; debugging requires correlation IDs and tracing across many consumers |
 
@@ -191,7 +193,9 @@ flowchart TD
 
 **Mandatory pattern:** use the **`processed_events` table** (or equivalent) as documented in [Kafka Patterns - Idempotent consumers](../06-developer-guides/04-kafka-patterns.md): dedupe by **`(event_id, topic)`** in the **same database transaction** as the business side effect, then acknowledge the message.
 
-**Code example - idempotent payment capture** (`com.{company}.payments`):
+**Code example - idempotent payment capture** (`com.{company}.payments`) - **reference implementation (Java / Spring Boot):**
+
+> **Substitution point:** Implement the same transactional dedupe (`processed_events` + business side effect + ack) with your stack's consumer SDK and unit-of-work primitives.
 
 ```java
 @Component
@@ -272,7 +276,7 @@ flowchart LR
 | Payment capture | **5 minutes** | Publish **`saga.payment.capture.timeout`** (or internal compensating command); **trigger compensation** in Orders / Notifications per §4 |
 | Notification dispatch | **30 seconds** | Retry with backoff; after max retries, route to DLQ (§8); do **not** block payment completion |
 
-**Scheduler:** a **workflow or job runner** (e.g. Quartz, Spring `@Scheduled`, or Temporal if adopted) **scans for timed-out saga legs every 1 minute** and emits timeout/compensation events. Orchestrated settlement sagas store **deadline** per step in orchestrator state.
+**Scheduler:** a **workflow or job runner** (e.g. Quartz, Spring `@Scheduled`, Temporal, or cloud schedulers) **scans for timed-out saga legs every 1 minute** and emits timeout/compensation events. Orchestrated settlement sagas store **deadline** per step in orchestrator state.
 
 ---
 

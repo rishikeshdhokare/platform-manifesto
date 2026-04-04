@@ -61,7 +61,7 @@ Mobile apps **are** the product for {Company} customers and providers. Every int
 
 ## 🔗 3. BFF Pattern for Mobile
 
-Each mobile client has a dedicated **Backend-for-Frontend (BFF)** that acts as its API gateway. The BFF is owned by the mobile team and exists to serve the mobile client's exact needs. BFF runtime is Java/Spring Boot per the approved tech stack (see [`01-platform-standards/01-tech-stack.md`](../01-platform-standards/01-tech-stack.md)).
+Each mobile client has a dedicated **Backend-for-Frontend (BFF)** that acts as its API gateway. The BFF is owned by the mobile team and exists to serve the mobile client's exact needs. BFFs use the primary backend framework per the approved tech stack (see [`01-platform-standards/01-tech-stack.md`](../01-platform-standards/01-tech-stack.md)).
 
 ### Architecture
 
@@ -73,8 +73,8 @@ flowchart LR
     end
 
     subgraph "BFF Layer"
-        RBFF["Customer BFF\n(Java / Spring Boot)"]
-        DBFF["Provider BFF\n(Java / Spring Boot)"]
+        RBFF["Customer BFF"]
+        DBFF["Provider BFF"]
     end
 
     subgraph "Internal Services"

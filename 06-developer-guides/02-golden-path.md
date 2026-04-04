@@ -1,6 +1,6 @@
 # 🛤️ Golden Path
 
-![Status: Reference](https://img.shields.io/badge/status-Reference-yellow?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Reference](https://img.shields.io/badge/status-Reference-yellow?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -9,6 +9,8 @@
 The golden path is a **complete, opinionated, end-to-end walkthrough** of building and shipping a service on this platform. It covers everything from creating the repository to running code in production, observable and monitored.
 
 This is not a tutorial - it is **the way things are done here**. Following it means you get all platform capabilities (CI, CD, observability, security, service catalog) for free.
+
+**Multi-runtime rule:** {Company} maintains a **golden path for every supported runtime** (scaffold, local run, CI, deploy, observability). The steps below document the **Java Microservice reference implementation**; other templates mirror the same stages with runtime-native build tools and health endpoints.
 
 **Visual overview:**
 
@@ -46,7 +48,7 @@ flowchart LR
 
 ### Step 1: Scaffold the Service
 
-Open Backstage and use the **Java Microservice** template:
+Open Backstage and use the **Java Microservice** template (**reference implementation**):
 
 ```
 Backstage → Create → Java Microservice
@@ -80,13 +82,15 @@ docker compose up -d
 # Verify dependencies healthy
 docker compose ps
 
-# Run the service
+# Run the service (Java reference)
 ./gradlew bootRun --args='--spring.profiles.active=local'
 
-# Verify it starts
+# Verify it starts (Spring Boot Actuator reference)
 curl http://localhost:8080/actuator/health
 # → {"status":"UP"}
 ```
+
+Other runtimes use the health URL and command documented in that service's README (for example `/healthz` and `npm run dev`).
 
 **Time: < 10 minutes**
 
@@ -94,7 +98,7 @@ curl http://localhost:8080/actuator/health
 
 ### Step 3: Project Structure
 
-The template generates this structure - understand it before adding code:
+**Reference implementation:** the Java template generates this structure - understand it before adding code. Hexagonal layout and OpenAPI-first apply to all services; folder names differ by language.
 
 ```
 orders-service/
@@ -186,7 +190,7 @@ Raise a PR for API review **before** implementing. This is the API-first contrac
 
 ### Step 5: Write the Domain Logic
 
-Write the domain layer first - pure Java, no framework dependencies:
+Write the domain layer first with **no framework imports** (pure Java below as **reference implementation**):
 
 ```java
 // domain/Order.java
@@ -251,7 +255,7 @@ class OrderTest {
 
 ### Step 6: Add Integration Tests
 
-Test the persistence and Kafka layers with Testcontainers:
+**Reference implementation (Java):** test persistence and Kafka with Testcontainers. Other stacks use equivalent integration harnesses (testcontainers for Go, Docker services in CI, etc.) per platform standards.
 
 ```java
 // integration/OrderRepositoryIntegrationTest.java
@@ -426,7 +430,7 @@ Production Readiness
 
 ## 🏗️ JVM Options Template
 
-All Java services deployed via the shared Helm chart use a standard set of JVM flags. These are configured in the Helm chart's default values and applied automatically to every service.
+**Reference implementation (Java):** JVM services deployed via the shared backend Helm chart use a standard set of JVM flags in the chart defaults. Node, Go, and .NET services use their own **runtime tuning** (Node `--max-old-space-size`, Go `GOGC`, .NET GC heap limits) documented in the runtime-specific golden path; the principle is the same: align memory and diagnostics with container limits.
 
 ### Standard JVM Flags
 
@@ -450,7 +454,7 @@ All Java services deployed via the shared Helm chart use a standard set of JVM f
 
 ### Overriding JVM Options
 
-Teams may override JVM flags in their service's Helm values file. Any override must be documented in an ADR explaining why the default is not suitable for the service's workload.
+Teams may override JVM flags in their service's Helm values file (**Java reference**). Any override must be documented in an ADR explaining why the default is not suitable for the service's workload.
 
 ```yaml
 # values-production.yaml

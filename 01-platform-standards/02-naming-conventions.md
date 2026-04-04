@@ -28,21 +28,23 @@ Consistent naming across repos, services, and deployment artifacts eliminates gu
 
 ---
 
-## ☕ 2. Java Packages
+## 📦 2. Backend Packages / Modules
 
-| Layer | Pattern | Example |
-|-------|---------|---------|
-| **Base** | `com.{company}.{domain}` | `com.{company}.orders`, `com.{company}.pricing` |
-| **Domain** | `com.{company}.{domain}.domain` | `com.{company}.orders.domain` |
-| **Application** | `com.{company}.{domain}.application` | `com.{company}.orders.application` |
-| **Infrastructure** | `com.{company}.{domain}.infrastructure` | `com.{company}.orders.infrastructure` |
-| **API** | `com.{company}.{domain}.api` | `com.{company}.orders.api` |
+**Principle:** Organize code by hexagonal architecture layers. The naming convention depends on your language's ecosystem.
+
+| Layer | Purpose | Java Example | Node.js/Go Example |
+|-------|---------|---------|---------|
+| **Base** | Root namespace | `com.{company}.{domain}` | `@{company}/{domain}` / `{company}/{domain}` |
+| **Domain** | Entities, value objects, domain events | `com.{company}.{domain}.domain` | `src/domain/` |
+| **Application** | Use cases, command/query handlers | `com.{company}.{domain}.application` | `src/application/` |
+| **Infrastructure** | DB repos, messaging, HTTP clients | `com.{company}.{domain}.infrastructure` | `src/infrastructure/` |
+| **API** | Controllers, endpoints, DTOs | `com.{company}.{domain}.api` | `src/api/` |
 
 ```
-com.{company}.orders
+{domain}/
 ├── domain/           # Entities, value objects, domain events
 ├── application/      # Use cases, command/query handlers
-├── infrastructure/   # DB repos, Kafka producers, HTTP clients
+├── infrastructure/   # DB repos, message producers, HTTP clients
 └── api/              # REST controllers, gRPC endpoints, DTOs
 ```
 
@@ -172,7 +174,7 @@ Every AWS resource must carry these tags:
 {
   "timestamp": "2026-03-15T10:23:45.123Z",
   "level": "INFO",
-  "logger": "com.{company}.orders.application.CreateOrderUseCase",
+  "logger": "{company}.orders.application.CreateOrderUseCase",
   "message": "Order created",
   "traceId": "abc123def456",
   "spanId": "789ghi",
@@ -215,7 +217,7 @@ Every AWS resource must carry these tags:
 |----------|---------|---------|
 | Repository | `{company}/{domain}-{service-name}` | `{company}/orders-service` |
 | Service | `{domain}-{service-type}` | `orders-service` |
-| Java package | `com.{company}.{domain}.{layer}` | `com.{company}.orders.domain` |
+| Backend package | `{company}.{domain}.{layer}` | `{company}.orders.domain` or `@{company}/orders` |
 | REST path | `/v{N}/{resource-plural}/{id}` | `/v1/orders/ord_abc123` |
 | gRPC package | `{company}.{domain}.v{N}` | `{company}.orders.v1` |
 | Kafka topic | `{domain}.{entity}.{event-verb}` | `orders.order.completed` |

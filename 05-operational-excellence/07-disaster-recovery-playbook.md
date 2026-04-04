@@ -1,29 +1,37 @@
 # 🔥 Disaster Recovery Playbook
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + CTO](https://img.shields.io/badge/owner-Platform_Engineering_+_CTO-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + CTO](https://img.shields.io/badge/owner-Platform_Engineering_+_CTO-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Scope
 
-This playbook covers **region-level failure recovery** - what to do when an entire AWS region becomes unavailable and the platform must fail over to a secondary region.
+This playbook covers **region-level failure recovery** - what to do when an entire cloud region becomes unavailable and the platform must fail over to a secondary region. Examples name **AWS**; principles apply to any hyperscaler or multi-region footprint.
 
 **This is NOT the same as:**
 - **Service-level incident management** - see [04-incident-management.md](./04-incident-management.md) for single-service outages, degraded performance, or bug-caused incidents
 - **Load shedding** - see [05-load-shedding.md](./05-load-shedding.md) for handling demand spikes within a healthy region
 
 **This IS for:**
-- Complete AWS region outage (e.g., eu-west-1 becomes unavailable)
-- Multi-AZ failure within the primary region
+- Complete region outage (example: `eu-west-1` in AWS becomes unavailable)
+- Multi-zone failure within the primary region
 - Region-wide networking issues that prevent serving traffic
 
 These events are rare but catastrophic. When they happen, every minute counts - which is why this playbook exists and why we rehearse it quarterly.
+
+### Universal principles (cloud-agnostic)
+
+- **RPO / RTO** are contractual targets; design replication and failover to meet them per tier.
+- **Active-passive or active-active** is an architecture choice; the playbook below uses active-passive with a warm secondary.
+- **Failover** moves traffic and write authority to the healthy region; **failback** returns carefully after replication catch-up and reconciliation.
+- **DNS or global load balancing** steers clients; **database promotion** moves the writer; **event replication** (Kafka mirror, bus replay) must be validated for offset lag.
+- **Substitution points:** map each step to your cloud - **DNS failover** via health-checked records or global load balancer (Route 53, Cloud DNS, Azure Traffic Manager, NS1, etc.); **database** via cross-region read replica and controlled promotion (Aurora Global Database, Cloud SQL cross-region replica, Azure geo-replication, etc.); **Kubernetes** via multi-cluster GitOps (names vary; the procedure is the same).
 
 ---
 
 ## 🔥 2. Current DR Posture
 
-The platform runs an **active-passive** disaster recovery architecture with automated health checking and manual failover.
+**Reference implementation (AWS):** The platform runs an **active-passive** disaster recovery architecture with automated health checking and manual failover. Region names, service names, and CLI examples below are **AWS-specific**; keep the same sequence when you substitute equivalents.
 
 ```mermaid
 graph TB
@@ -90,6 +98,8 @@ The secondary region is kept in a **warm standby** configuration:
 
 ## 🔥 3. RTO / RPO by Service Tier
 
+Recovery priorities and time objectives below are **universal**. Named components (Aurora, EKS, etc.) refer to the **reference implementation (AWS)** in Sections 2 and 5 unless stated otherwise.
+
 | Tier | Services | RTO (Recovery Time) | RPO (Data Loss Window) | Recovery Priority |
 |------|----------|---------------------|------------------------|-------------------|
 | **Tier 1 - Critical** | Orders, Fulfillment, Payments, Provider Location | **15 minutes** | **< 5 seconds** | First - validate these before anything else |
@@ -125,6 +135,8 @@ The secondary region is kept in a **warm standby** configuration:
 ---
 
 ## 🔥 4. Failover Decision
+
+Decision rights and timing thresholds are **universal**. References to the AWS status page are **reference implementation (AWS)** - use your provider's status and support channels in the same way.
 
 ### 4.1 Who Decides
 
@@ -173,7 +185,7 @@ flowchart TD
 
 ## 🔥 5. Failover Procedure
 
-Once authorised, execute the following steps **in order**. Each step has a responsible party and an estimated duration.
+**Reference implementation (AWS):** Once authorised, execute the following steps **in order**. Each step has a responsible party and an estimated duration. Replace CLI and product names with your cloud's global database failover, DNS API, managed Kafka mirror, and multi-cluster deploy tooling while preserving verification intent.
 
 **Pre-requisite:** Open a dedicated Slack channel `#incident-dr-{YYYY-MM-DD}` and notify all participants.
 
@@ -187,7 +199,7 @@ Once authorised, execute the following steps **in order**. Each step has a respo
 | 4 | **Update Route 53 DNS.** Switch all DNS records to point to secondary region ALBs. Set TTL to 60s for fast propagation. | Platform Engineer | 2 min | `dig api.{company}.{tld}` resolves to eu-central-1 ALB. Health checks show secondary as healthy. |
 | 5 | **Verify MSK MirrorMaker data is current.** Check that Kafka topic offsets in eu-central-1 are within acceptable lag of eu-west-1's last known offset. | Platform Engineer | 2 min | Consumer group offsets are within 30 seconds of primary's last checkpoint. |
 | 6 | **Trigger ArgoCD sync in secondary EKS cluster.** Scale all deployments to production replica counts. Enable auto-sync for continuous deployment. | Platform Engineer | 5–8 min | All deployments show `Running` with expected replica counts. `argocd app list` shows all apps as `Synced` and `Healthy`. |
-| 7 | **Validate health checks for all Tier 1 services.** Run the Tier 1 smoke test suite. Verify orders can be created, completed, and payments captured. | QA Engineer | 5 min | Smoke test suite passes. `GET /actuator/health` returns `UP` for all Tier 1 services. |
+| 7 | **Validate health checks for all Tier 1 services.** Run the Tier 1 smoke test suite. Verify orders can be created, completed, and payments captured. | QA Engineer | 5 min | Smoke test suite passes. Health endpoints return OK for all Tier 1 services (e.g. Spring Actuator `/actuator/health` if applicable). |
 | 8 | **Validate Tier 2 services.** Run Tier 2 smoke tests. Verify pricing, auth, and notifications are functional. | QA Engineer | 5 min | Tier 2 smoke test suite passes. |
 | 9 | **Update external status page.** Post current status to status.{company}.{tld}. Notify partners via API status webhook. | Comms Lead | 1 min | Status page shows "Operating with reduced redundancy - DR active". |
 | 10 | **Monitor for 30 minutes.** Watch all dashboards for anomalies. Verify error rates, latency, and throughput are within acceptable ranges. | All | 30 min | Metrics are stable. No new alerts fire. |
@@ -236,7 +248,7 @@ argocd app sync --all --context {company}-eu-central-1
 
 ## 🔥 6. Failback Procedure
 
-Once the primary region (eu-west-1) is restored by AWS, we must carefully return to it. Failback is **not urgent** - take time to do it safely.
+**Reference implementation (AWS):** Once the primary region (`eu-west-1`) is restored by the cloud provider, we must carefully return to it. Failback is **not urgent** - take time to do it safely.
 
 ### 6.1 Pre-Failback Checklist
 
@@ -284,12 +296,12 @@ Once the primary region (eu-west-1) is restored by AWS, we must carefully return
 
 In rare cases, both regions may have accepted writes during the outage window - for example, if DNS propagation was slow and some clients continued hitting the primary while others were already routed to the secondary.
 
-### 7.1 Why Aurora Handles Most of It
+### 7.1 Why the global database pattern handles most of it
 
-Aurora Global Database uses **last writer wins** semantics during failover. Because we promote the secondary to writer and the primary loses writer capability, true split-brain at the database level is extremely unlikely.
+**Reference implementation (AWS):** Aurora Global Database uses **last writer wins** semantics during failover. Your managed database's promotion semantics may differ; document them in the same way. Because we promote the secondary to writer and the primary loses writer capability, true split-brain at the database level is extremely unlikely.
 
 However, if the primary region experienced a **partial** failure (network partition rather than full outage), it's possible that:
-- Some writes reached the primary Aurora before it became unavailable
+- Some writes reached the primary database before it became unavailable
 - Those writes may not have replicated to the secondary before promotion
 - This constitutes data loss within the RPO window (< 5 seconds for Tier 1)
 
@@ -567,6 +579,8 @@ Platform Engineer on-call
 
 ## 🔥 11. DNS Strategy
 
+**Reference implementation (AWS):** The tables below use Route 53 and CloudWatch. **Cloud-neutral:** apply the same TTL, health-check, and synthetic monitoring ideas with your DNS and observability stack.
+
 ### TTL Configuration
 
 | Record Type | TTL | Rationale |
@@ -598,7 +612,7 @@ Platform Engineer on-call
 
 ## 🔥 12. Rollback SLA
 
-When a production deployment causes issues, rollback speed is critical. The following SLA tiers define the maximum time from incident detection to a rolled-back, stable state.
+**Reference implementation (GitOps / ArgoCD):** When a production deployment causes issues, rollback speed is critical. The following SLA tiers define the maximum time from incident detection to a rolled-back, stable state.
 
 | Tier | Rollback Method | Target Time | Detail |
 |------|----------------|-------------|--------|

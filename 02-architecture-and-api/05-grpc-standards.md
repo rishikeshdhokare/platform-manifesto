@@ -1,10 +1,12 @@
 # 🔗 gRPC Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🧭 1. When to Use gRPC
+
+> **Principle:** `.proto` contracts and wire behavior are **language-neutral**. Generated stubs differ by runtime, but package layout, versioning, deadlines, and security rules apply to every stack. Java, Spring Boot, and Gradle examples in this document are **reference implementation (Java / Spring Boot)** unless noted otherwise.
 
 The platform uses **gRPC** for high-performance, typed, internal communication between platform services. **REST** remains the default for anything that crosses the public boundary or serves mobile and web clients through a BFF.
 
@@ -60,13 +62,15 @@ Protobuf `package` identifiers use dot-separated segments:
 
 Examples:
 
-| Service | Protobuf package | Java package option (`java_package`) |
+| Service | Protobuf package | Java option (`java_package`, reference) |
 |---------|------------------|----------------------------------------|
 | Pricing | `{company}.pricing.v1` | `com.{company}.pricing.v1` |
 | Orders | `{company}.orders.v1` | `com.{company}.orders.v1` |
 | Fulfillment | `{company}.fulfillment.v1` | `com.{company}.fulfillment.v1` |
 
-Use **`java_package`** and **`java_multiple_files`** (or equivalent for other languages) so generated code namespaces align with **`com.{company}.*`** and do not flatten into a single giant class.
+Use **`java_package`** and **`java_multiple_files`** on `.proto` for JVM services (or **`go_package`**, **C# namespaces**, **Python `package` layout**, etc.) so generated code namespaces stay consistent and do not flatten into a single giant module.
+
+> **Other frameworks:** Go uses `grpc-go` and `protoc-gen-go-grpc`; Node.js uses `@grpc/grpc-js` and `grpc-tools`; .NET uses `Grpc.Net.Client` / server packages; Python uses `grpcio` and `grpcio-tools`. All must consume the same published protos from `{company}/api-protos`.
 
 ### 2.2 File naming
 
@@ -145,11 +149,13 @@ flowchart LR
 
 ## 🧰 4. Code Generation
 
-Generated source **must not** be committed to Git. CI generates (or Gradle generates locally) into **`build/generated/source/proto`** (Gradle default for the protobuf plugin).
+Generated source **must not** be committed to Git. CI or local builds generate into a tool-specific output directory (reference: **`build/generated/source/proto`** for Gradle).
 
 ### 4.1 Gradle (`build.gradle.kts`) - full example
 
-Apply the official Protobuf plugin and gRPC; align versions via BOM or explicit versions managed by Platform Engineering.
+**Reference implementation (Java / Spring Boot):** apply the official Protobuf plugin and gRPC; align versions via BOM or explicit versions managed by Platform Engineering.
+
+> **Substitution point:** Use Buf, Bazel, Maven protobuf plugin, or language-native codegen - same rule: generated output is build-artifact only, not committed.
 
 ```kotlin
 import com.google.protobuf.gradle.*
@@ -225,7 +231,9 @@ tasks.named<JavaCompile>("compileJava") {
 
 ## ☕ 5. Spring Boot Integration
 
-Use **`net.devh:grpc-spring-boot-starter`** for servers and clients unless Platform Engineering approves an alternative.
+**Reference implementation (Java / Spring Boot):** use **`net.devh:grpc-spring-boot-starter`** for servers and clients unless Platform Engineering approves an alternative.
+
+> **Other frameworks:** Register gRPC servers with **grpc-go** `grpc.NewServer`, **Node.js** `@grpc/grpc-js` `Server`, **.NET** minimal hosting + `MapGrpcService`, **Python** `grpc.aio` or synchronous `grpc.server` - with the same ports, health checks, and interceptors conceptually mapped to Section 5.3 and Section 11.
 
 ### 5.1 Server configuration
 
@@ -259,6 +267,8 @@ Register global interceptors as Spring beans implementing `ServerInterceptor` / 
 
 ### 5.4 Worked example: Pricing gRPC server + Orders gRPC client
 
+**Reference implementation (Java / Spring Boot)** for server and blocking client stubs.
+
 #### Proto (`proto/pricing_service.proto`)
 
 ```protobuf
@@ -289,7 +299,7 @@ message CalculatePriceResponse {
 }
 ```
 
-#### Server implementation (Pricing service)
+#### Server implementation (Pricing service) - reference (Java / Spring Boot)
 
 ```java
 package com.{company}.pricing.adapter.grpc;
@@ -330,7 +340,7 @@ public class PricingGrpcController extends PricingServiceGrpc.PricingServiceImpl
 }
 ```
 
-#### Client usage (Orders service)
+#### Client usage (Orders service) - reference (Java / Spring Boot)
 
 ```java
 package com.{company}.orders.adapter.grpc;
@@ -402,7 +412,7 @@ Map gRPC **status codes** to **domain exceptions** at the adapter boundary (inco
 
 ### 6.2 Error metadata propagation
 
-Use **`Metadata`** for stable machine-readable codes and correlation (not stack traces):
+Use **`Metadata`** for stable machine-readable codes and correlation (not stack traces). **Reference implementation (Java):**
 
 ```java
 import io.grpc.Metadata;
@@ -440,7 +450,7 @@ Tune per-RPC in configuration for known heavy operations (with Platform Engineer
 
 ### 7.2 Client-side configuration
 
-Prefer explicit deadlines on the stub (as in Section 5.4) or a **client interceptor** that applies defaults:
+Prefer explicit deadlines on the stub (as in Section 5.4) or a **client interceptor** that applies defaults. **Reference implementation (Java):**
 
 ```java
 import io.grpc.CallOptions;
@@ -473,11 +483,11 @@ public class DefaultDeadlineInterceptor implements ClientInterceptor {
 }
 ```
 
-Register this bean for gRPC clients so stubs without `withDeadlineAfter` still get **2s** (internal) by default.
+Register this interceptor (or equivalent) for gRPC clients so stubs without explicit deadlines still get **2s** (internal) by default.
 
 ### 7.3 Server-side deadline propagation
 
-When a server calls downstream gRPC services, **propagate the remaining time** from the incoming context instead of starting a fresh 2s window:
+When a server calls downstream gRPC services, **propagate the remaining time** from the incoming context instead of starting a fresh 2s window. **Reference implementation (Java):**
 
 ```java
 import io.grpc.Context;
@@ -503,10 +513,10 @@ Use the **gRPC Health Checking Protocol** (`grpc.health.v1.Health`) for Kubernet
 
 ### 8.1 Readiness and liveness
 
-- **Liveness:** process is up; minimal checks (default health service may return `SERVING` if JVM is alive).
+- **Liveness:** process is up; minimal checks (default health service may return `SERVING` if the runtime is alive; on the JVM, that is the common default).
 - **Readiness:** dependencies satisfied (e.g. DB connection pool, critical caches); return `NOT_SERVING` until ready so the Service stops sending traffic.
 
-Enable the health service in Spring Boot gRPC starter (check current starter docs for `grpc.server.health-service-enabled` or equivalent bean registration).
+Enable the health service in your stack (reference: Spring Boot gRPC starter `grpc.server.health-service-enabled` or equivalent registration).
 
 ### 8.2 Kubernetes deployment example
 
@@ -562,7 +572,7 @@ sequenceDiagram
 
 ### 9.1 OpenTelemetry gRPC instrumentation
 
-Use **OpenTelemetry Java agent** or **explicit gRPC interceptors** that create spans for each RPC:
+Use your language's **OpenTelemetry gRPC instrumentation** or **explicit interceptors** that create spans for each RPC (reference: **OpenTelemetry Java agent** on the JVM):
 
 - **Server:** span name `{company}.{Service}/{Method}` (or generic `{package}.{Service}/{method}`).
 - **Client:** child span under the active context; inject **W3C trace context** into outgoing metadata.
@@ -603,7 +613,7 @@ sequenceDiagram
 
 ### 10.1 Unit tests - `InProcessChannel` (no network)
 
-Use **in-process** transport for fast, deterministic tests of adapters and interceptors:
+Use **in-process** transport for fast, deterministic tests of adapters and interceptors. **Reference implementation (Java):**
 
 ```java
 import com.{company}.pricing.v1.PricingServiceGrpc;
@@ -659,7 +669,7 @@ class PricingGrpcControllerTest {
 
 ### 10.2 Integration tests - real server on random port
 
-Start **Netty** (or Spring Boot test context) on **port 0**, read the bound port, and point the client at `localhost:{port}`:
+Start the gRPC server on **port 0**, read the bound port, and point the client at `localhost:{port}` (reference: **Netty** server with **Spring Boot** test context on the JVM):
 
 ```java
 import org.junit.jupiter.api.Test;
@@ -683,11 +693,11 @@ class PricingGrpcIntegrationTest {
 }
 ```
 
-For plain gRPC without Spring, use **`GrpcServerBuilder.forPort(0)`**, start, then **`server.getPort()`** for the client channel target.
+For plain gRPC without Spring on the JVM, use **`GrpcServerBuilder.forPort(0)`**, start, then **`server.getPort()`** for the client channel target. Other languages use the equivalent "bind ephemeral port" pattern from their gRPC server API.
 
 ### 10.3 Consumer tests - mock gRPC server
 
-For **Orders** testing **Pricing** integration, use **grpc-java testing** `MutableHandlerRegistry` or **WireMock gRPC** / **Testcontainers** with a minimal fake `PricingService` implementation that returns canned responses. Prefer **contract tests** generated from the same `.proto` so breaking changes fail CI before deploy.
+For **Orders** testing **Pricing** integration, use your stack's in-process or fake server helpers (reference: **grpc-java** `MutableHandlerRegistry`) or **WireMock gRPC** / **Testcontainers** with a minimal fake `PricingService` implementation that returns canned responses. Prefer **contract tests** generated from the same `.proto` so breaking changes fail CI before deploy.
 
 ---
 
@@ -785,9 +795,9 @@ Document the business justification in an ADR before enabling sticky sessions.
 
 When a client cancels a request, the server **MUST** observe the cancellation and stop processing promptly.
 
-### 13.1 Server-side detection (Spring Boot)
+### 13.1 Server-side detection
 
-Use `StreamObserver.setOnCancelHandler()` to detect client cancellation:
+**Reference implementation (Java):** use `StreamObserver.setOnCancelHandler()` to detect client cancellation (same pattern applies to other languages via server-streaming cancellation callbacks):
 
 ```java
 @Override
@@ -817,7 +827,7 @@ public void calculatePrice(
 
 ### 13.2 Downstream call cancellation
 
-If the server has made downstream gRPC calls, cancel them via `Context.current().withCancellation()`:
+If the server has made downstream gRPC calls, cancel them when the inbound call is cancelled (reference: **`Context.current().withCancellation()`** in Java):
 
 ```java
 CancellableContext cancellableContext = Context.current().withCancellation();

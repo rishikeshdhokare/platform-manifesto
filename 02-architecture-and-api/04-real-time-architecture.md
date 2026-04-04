@@ -1,10 +1,12 @@
 # ⚡ Real-Time Architecture
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
 ## 🎯 1. Why Real-Time Matters
+
+> **Principle:** WebSockets, SSE, push, and long polling are **transport- and framework-agnostic**. STOMP-over-SockJS and Spring APIs below are {Company}'s **reference implementation (Java / Spring Boot)** on the BFF tier.
 
 The platform is inherently real-time. Customers need live provider location, providers need instant order offers, and both need immediate status updates. REST polling wastes bandwidth and battery, increases server load, and delivers stale data under load. This document defines **mandated patterns** for real-time communication across platform surfaces: customer and provider apps (`com.{company}`), internal tools, and partner integrations that consume `api.{company}.com` and related endpoints.
 
@@ -21,7 +23,7 @@ Goals:
 
 | Pattern | Direction | Connection | Best for | Avoid when |
 |--------|-----------|------------|----------|------------|
-| **WebSocket** (STOMP over SockJS) | Bidirectional | Persistent | Live maps, order status, provider–customer coordination, typing/co-presence | One-off server pushes with no client stream; very simple read-only streams |
+| **WebSocket** (reference: STOMP over SockJS on Spring) | Bidirectional | Persistent | Live maps, order status, provider–customer coordination, typing/co-presence | One-off server pushes with no client stream; very simple read-only streams |
 | **SSE** (Server-Sent Events) | Server → client | Long-lived HTTP | Live price estimates, single-direction dashboards, progressive logs | You need client→server on the same channel; legacy proxies break chunked responses |
 | **Push notifications** (FCM / APNs) | Server → device | Stateless (token-based) | Offline users, high-priority alerts, re-engagement | In-app-only flows where the app is foreground; high-frequency telemetry |
 | **Long polling** | Simulated server push | Repeated HTTP | Fallback when WebSocket/SSE blocked; constrained corporate networks | Default choice; battery and latency cost |
@@ -40,10 +42,10 @@ flowchart TD
     A[Need real-time update?] --> B{User likely offline or app backgrounded?}
     B -->|Yes| C[Push notification FCM/APNs]
     B -->|No| D{Client must send frequent messages to server?}
-    D -->|Yes| E[WebSocket STOMP over SockJS]
+    D -->|Yes| E[WebSocket subprotocol]
     D -->|No| F{Strictly one-way server to client?}
     F -->|Yes| G{Simple stream / few event types?}
-    G -->|Yes| H[SSE SseEmitter]
+    G -->|Yes| H[SSE stream]
     G -->|No| I[WebSocket or domain-specific stream]
     F -->|No| E
     E --> J{WebSocket blocked or fails?}
@@ -57,6 +59,8 @@ flowchart TD
 
 ### Stack
 
+> **Reference implementation (Java / Spring Boot):** Spring WebSocket with **STOMP** and **SockJS** fallback. **Other frameworks:** Socket.IO (Node.js), Gorilla WebSocket or native `net/http` upgrades (Go), SignalR (.NET), or raw WebSockets with your own framing - same auth, authorization, and channel naming rules apply.
+
 - **Spring WebSocket** with **STOMP** as the messaging protocol.
 - **SockJS** fallback for environments where raw WebSockets are problematic.
 - **BFF layer** (Customer BFF, Provider BFF) terminates connections for mobile clients; internal services publish domain events to Kafka; BFFs subscribe and map to STOMP destinations.
@@ -67,7 +71,7 @@ flowchart TD
 2. **Authenticate** - Client sends a STOMP `CONNECT` frame with a **JWT** (header or first message per BFF contract). The server validates issuer, audience, and expiry for `api.{company}.com` APIs.
 3. **Subscribe** - Client issues `SUBSCRIBE` frames only to **allowed destinations** derived from identity (order id, provider id, etc.).
 4. **Receive** - Server pushes `MESSAGE` frames on subscribed topics.
-5. **Heartbeat** - STOMP heart-beating per Spring config; idle connections are closed per policy.
+5. **Heartbeat** - STOMP heart-beating per server config (reference: Spring WebSocket settings); idle connections are closed per policy.
 6. **Disconnect** - Client `DISCONNECT` or network drop; server cleans session and Redis subscription mappings if used for cross-pod fan-out.
 
 ### Channel naming
@@ -80,7 +84,7 @@ Use predictable, hierarchical topics (examples):
 | `/topic/orders/{orderId}/provider-location` | Throttled provider position for the active order |
 | `/topic/providers/{providerId}/location` | Provider app live location stream (authorization: provider self or ops) |
 | `/topic/providers/{providerId}/offers` | Incoming order offers for the provider |
-| `/user/queue/notifications` | Per-user private queue (Spring convention) |
+| `/user/queue/notifications` | Per-user private queue (reference: Spring STOMP convention) |
 
 Prefix with environment if needed in non-prod; production uses standard host routing.
 
@@ -155,7 +159,7 @@ flowchart LR
         ME[Fulfillment Engine]
         RGEO[(Redis GEOADD)]
         RBFF[Customer BFF]
-        WS[WebSocket STOMP]
+        WS[WebSocket fan-out]
     end
     subgraph Customer["Customer App"]
         R[Live map UI]
@@ -172,7 +176,9 @@ flowchart LR
 
 ### Example: Kafka consumer pushing to WebSocket
 
-Spring-style consumer that publishes to a messaging template bound to the broker used for STOMP relay (or to Redis for cross-pod fan-out). Adjust bean names to your deployment.
+**Reference implementation (Java / Spring Boot):** consumer that publishes to a messaging template bound to the broker used for STOMP relay (or to Redis for cross-pod fan-out). Adjust bean names to your deployment.
+
+> **Substitution point:** In Node.js, bridge Kafka to Socket.IO rooms; in Go, publish to a hub that writes to Gorilla WebSocket clients; in .NET, use SignalR groups with a background service consuming the bus.
 
 ```java
 @Component
@@ -210,7 +216,7 @@ public class ProviderLocationWebSocketBridge {
 }
 ```
 
-For **multi-pod** BFF deployments, prefer publishing to **Redis Pub/Sub** from a dedicated component and having each pod's listener forward to local `SimpMessagingTemplate` sessions - see §6.
+For **multi-pod** BFF deployments, prefer publishing to **Redis Pub/Sub** from a dedicated component and having each pod's listener forward to local WebSocket sessions (reference: `SimpMessagingTemplate` on Spring) - see §6.
 
 ---
 
@@ -338,7 +344,7 @@ flowchart TB
 ```mermaid
 flowchart TD
     WS{WebSocket OK?}
-    WS -->|Yes| RT[Real-time STOMP messages]
+    WS -->|Yes| RT[Real-time messages]
     WS -->|No| POLL[HTTP poll every 3s]
     PUSH{Push sent?}
     PUSH -->|Fail| RETRY[Backoff retry max 3]
@@ -356,7 +362,11 @@ flowchart TD
 - **One-directional** server-to-client streams where **WebSocket is overkill**.
 - **Example use case:** **live price estimate** updates while the customer stays on the estimate screen (`api.{company}.com/customer/estimates/stream` style endpoint).
 
-### Spring MVC `SseEmitter` example
+### SSE endpoint example
+
+**Reference implementation (Java / Spring Boot):** Spring MVC `SseEmitter`.
+
+> **Other frameworks:** Express/Fastify SSE helpers, Go `http.Flush`, ASP.NET Core `IAsyncEnumerable` or manual `text/event-stream` - preserve `Last-Event-ID` reconnection semantics from §8.
 
 ```java
 @RestController
@@ -406,7 +416,7 @@ public class PriceEstimateStreamController {
 | Metric | Description |
 |--------|-------------|
 | `{company}_ws_connections_active` | Active WebSocket sessions **per pod** |
-| `{company}_ws_messages_sent_total` | Outbound STOMP messages per second |
+| `{company}_ws_messages_sent_total` | Outbound WebSocket messages per second |
 | `{company}_ws_connection_errors_total` | Auth failures, protocol errors, abnormal closes |
 | `{company}_sse_streams_active` | Open SSE emitters (per service) |
 | `{company}_push_delivery_attempts_total` | FCM/APNs attempts and outcomes |
@@ -427,7 +437,7 @@ public class PriceEstimateStreamController {
 flowchart LR
     K[Kafka record traceId] --> C[Consumer span]
     C --> R[Redis publish span]
-    R --> W[STOMP send span]
+    R --> W[WS send span]
     W --> U[Client received]
 ```
 
@@ -437,7 +447,7 @@ flowchart LR
 
 - **WebSocket** connections require a **valid JWT**, validated on **`CONNECT`** before subscriptions.
 - **Channel authorization:** middleware **must** verify the principal may access each requested destination (order ownership, provider id match, ops role).
-- **Rate limiting:** **max 100 messages per second per connection** (client→server); enforce at STOMP interceptor; reject with ERROR and metrics.
+- **Rate limiting:** **max 100 messages per second per connection** (client→server); enforce at the WebSocket/STOMP interceptor (reference: Spring `ChannelInterceptor`); reject with ERROR and metrics.
 - **TLS:** all production WebSocket traffic uses **`wss://`** only; no `ws://` in production.
 - **CORS / Origin:** allow connections only from **`*.{company}.com`** origins (and explicit mobile deep-link origins if applicable); block arbitrary third-party sites from using customer credentials in the browser.
 

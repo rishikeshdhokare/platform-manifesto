@@ -23,7 +23,7 @@ Every *"how should I do this?"* answered. Every *"which tool should I use?"* dec
 
 ---
 
-[🆕 Onboarding](./ONBOARDING.md) &nbsp;·&nbsp; [📖 Glossary](./GLOSSARY.md) &nbsp;·&nbsp; [🏛️ Architecture](02-architecture-and-api/01-system-architecture.md) &nbsp;·&nbsp; [⚙️ Spring Boot](03-engineering-practices/09-spring-boot-standards.md) &nbsp;·&nbsp; [🛤️ Golden Path](06-developer-guides/02-golden-path.md) &nbsp;·&nbsp; [🚨 Incidents](05-operational-excellence/04-incident-management.md)
+[🆕 Onboarding](./ONBOARDING.md) &nbsp;·&nbsp; [📖 Glossary](./GLOSSARY.md) &nbsp;·&nbsp; [🏛️ Architecture](02-architecture-and-api/01-system-architecture.md) &nbsp;·&nbsp; [⚙️ Backend Standards](03-engineering-practices/09-backend-framework-standards.md) &nbsp;·&nbsp; [🛤️ Golden Path](06-developer-guides/02-golden-path.md) &nbsp;·&nbsp; [🚨 Incidents](05-operational-excellence/04-incident-management.md)
 
 </div>
 
@@ -57,7 +57,7 @@ One source of truth. One set of standards. Every team, every service, every envi
 | You are... | Start here | Then explore |
 |:-----------|:-----------|:-------------|
 | 🆕 **Day 1 new joiner** | [`ONBOARDING.md`](./ONBOARDING.md) | Tech stack → Golden Path → Git workflow |
-| ⚙️ **Backend engineer** | [Spring Boot Standards](03-engineering-practices/09-spring-boot-standards.md) | Architecture, Kafka, Caching, Testing |
+| ⚙️ **Backend engineer** | [Backend Framework Standards](03-engineering-practices/09-backend-framework-standards.md) | Architecture, Kafka, Caching, Testing |
 | 🌐 **Frontend engineer** | [Web Frontend Standards](09-mobile-and-frontend/02-web-frontend-standards.md) | Frontend CI/CD, Design System |
 | 📱 **Mobile engineer** | [Mobile Standards](09-mobile-and-frontend/01-mobile-standards.md) | Android / iOS / React Native guides |
 | 🏛️ **Tech lead** | [System Architecture](02-architecture-and-api/01-system-architecture.md) | Service Decomposition, Team Topology |
@@ -146,7 +146,7 @@ flowchart TB
     end
 
     subgraph gateway [API Gateway Layer]
-        APIGW[Amazon API Gateway + WAF]
+        APIGW[API Gateway + WAF]
     end
 
     subgraph bff [BFF Layer]
@@ -173,18 +173,18 @@ flowchart TB
     end
 
     subgraph platform [Platform Layer]
-        Kafka[Kafka / MSK]
-        Aurora[(Aurora PostgreSQL)]
-        Redis[(ElastiCache Redis)]
-        OpenSearch[(OpenSearch)]
-        S3[(S3)]
+        Kafka[Event Streaming]
+        Aurora[(Relational DB)]
+        Redis[(Cache Layer)]
+        OpenSearch[(Search Engine)]
+        S3[(Object Storage)]
     end
 
     subgraph infra [Infrastructure]
-        EKS[Amazon EKS]
-        Istio[Istio Service Mesh]
-        ArgoCD[ArgoCD GitOps]
-        Prometheus[Prometheus + Grafana]
+        K8s[Kubernetes]
+        Mesh[Service Mesh]
+        GitOps[GitOps Engine]
+        Observability[Observability Stack]
     end
 
     clients --> gateway
@@ -195,10 +195,10 @@ flowchart TB
     supporting --> platform
     core --> Kafka
     supporting --> Kafka
-    EKS --> core
-    EKS --> supporting
-    EKS --> bff
-    Istio --> EKS
+    K8s --> core
+    K8s --> supporting
+    K8s --> bff
+    Mesh --> K8s
 ```
 
 <br/>
@@ -220,7 +220,7 @@ The approved tech stack, naming conventions, repository structure, service catal
 
 | File | What You'll Learn |
 |------|-------------------|
-| [`01-tech-stack.md`](01-platform-standards/01-tech-stack.md) | Java 21, Spring Boot 3, React, React Native, AWS services, and why we chose them |
+| [`01-tech-stack.md`](01-platform-standards/01-tech-stack.md) | Approved languages, frameworks, cloud services, data stores, and the principles behind each choice |
 | [`02-naming-conventions.md`](01-platform-standards/02-naming-conventions.md) | How to name everything - services, repos, packages, topics, buckets, metrics, flags |
 | [`03-repository-standards.md`](01-platform-standards/03-repository-standards.md) | Required files, README template, branch protection, PR template, repo lifecycle |
 | [`04-service-catalog.md`](01-platform-standards/04-service-catalog.md) | Backstage catalog-info.yaml spec, lifecycle states, scorecards, ownership |
@@ -266,7 +266,7 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spr
 | [`06-code-review-guide.md`](03-engineering-practices/06-code-review-guide.md) | How to give and receive feedback that makes code better |
 | [`07-ab-testing.md`](03-engineering-practices/07-ab-testing.md) | Experiment design, statistical rigor, guardrails, product analytics |
 | [`08-deprecation-lifecycle.md`](03-engineering-practices/08-deprecation-lifecycle.md) | How we sunset APIs, events, services, and flags |
-| [`09-spring-boot-standards.md`](03-engineering-practices/09-spring-boot-standards.md) | Logging, config, health checks, LaunchDarkly, virtual threads, versioning |
+| [`09-backend-framework-standards.md`](03-engineering-practices/09-backend-framework-standards.md) | Structured logging, config layering, health checks, feature flags, graceful shutdown, versioning |
 | [`10-frontend-ci-cd.md`](03-engineering-practices/10-frontend-ci-cd.md) | Frontend golden path, monorepo structure, preview environments |
 | [`11-qa-standards.md`](03-engineering-practices/11-qa-standards.md) | Test environments, test data, bug triage severity, device matrix |
 
@@ -471,6 +471,25 @@ flowchart TB
 ```
 
 > *Solid arrows = synchronous (gRPC) · Dashed arrows = asynchronous (Kafka events)*
+
+---
+
+## 🔧 Customize This Manifesto
+
+This manifesto is **opinionated about principles, flexible about tooling**. The architectural patterns, operational standards, and engineering practices are universal. The specific technologies named throughout are our **reference implementation** - one proven instantiation of those principles.
+
+| What's universal | What's a reference choice (substitute yours) |
+|:-----------------|:---------------------------------------------|
+| Structured JSON logging with correlation IDs | Logback, Pino, Serilog, Zap |
+| Schema-validated async event streaming | Kafka, Pulsar, NATS, RabbitMQ |
+| Managed relational database per service | PostgreSQL/Aurora, Cloud SQL, Azure SQL, PlanetScale |
+| Infrastructure as code, no ClickOps | Terraform, Pulumi, CDK, Crossplane |
+| Container orchestration with GitOps | EKS, GKE, AKS, self-managed Kubernetes |
+| Backend framework with health checks and metrics | Spring Boot, Express/Fastify, ASP.NET, Go stdlib, Django/FastAPI |
+| Feature flags for progressive rollout | LaunchDarkly, Unleash, Flagsmith, Split |
+| Automated CI/CD with quality gates | GitHub Actions, GitLab CI, CircleCI, Jenkins |
+
+> **Adopting this manifesto?** Search for specific tool names (e.g., "Spring Boot", "Aurora", "EKS") and replace them with your equivalents. The principles, patterns, and operational standards carry over unchanged.
 
 ---
 

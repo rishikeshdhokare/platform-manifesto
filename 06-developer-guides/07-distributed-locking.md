@@ -7,7 +7,7 @@
 ## 📋 Table of Contents
 
 1. [When You Need Distributed Locks](#1-when-you-need-distributed-locks)
-2. [Optimistic Locking with JPA @Version](#2-optimistic-locking-with-jpa-version)
+2. [Optimistic Locking (database)](#2-optimistic-locking-database)
 3. [Redis Distributed Locks with Redisson](#3-redis-distributed-locks-with-redisson)
 4. [Lock Timeout and Lease Expiry](#4-lock-timeout-and-lease-expiry)
 5. [Double-Assignment Prevention](#5-double-assignment-prevention)
@@ -35,15 +35,17 @@ In a platform serving concurrent requests, certain operations **must not happen 
 
 The form of coordination depends on the scope:
 
-- **Same database row?** → Optimistic locking with `@Version` (Section 2).
+- **Same database row?** → Optimistic locking with a version column (Section 2; JPA `@Version` is the Java reference).
 - **Cross-service coordination?** → Redis distributed lock with Redisson (Section 3).
 - **Neither?** → You probably don't need a lock (Section 8).
 
 ---
 
-## 🔐 2. Optimistic Locking with JPA @Version
+## 🔐 2. Optimistic Locking (database)
 
-Optimistic locking is the **default choice**. It requires no external infrastructure, has zero contention overhead in the happy path, and leverages the database's own MVCC guarantees.
+Optimistic locking is the **default choice** when writers target the **same row in one database**. It requires no external infrastructure, has low contention overhead in the happy path, and uses the database's MVCC semantics. **Every mainstream stack** can express this: JPA `@Version`, Hibernate, SQLAlchemy version counters, TypeORM `@VersionColumn`, Drizzle/Prisma optimistic checks, or raw SQL `UPDATE ... WHERE id = ? AND version = ?`.
+
+The Java examples below are **reference implementation**.
 
 ### How It Works
 
@@ -393,7 +395,7 @@ class ProviderAssignmentConcurrencyTest {
 | **Nested locks** | Thread holds Lock A, tries Lock B; another thread holds B, tries A → deadlock | Avoid nested locks; redesign to single lock scope |
 | **Business logic in lock scope** | Holding a lock while calling an external API (payment gateway) → long hold times | Do the external call outside the lock; use saga pattern |
 | **Ignoring lock failure** | `tryLock` returns `false` and the code proceeds anyway | Always check the return value; fail or retry explicitly |
-| **Using `synchronized` in a distributed system** | `synchronized` only works within a single JVM | Use database or Redis locks for multi-instance coordination |
+| **Process-local mutex in a distributed system** | `synchronized`, single-process locks, or one-runtime locks only coordinate one instance | Use database version columns or Redis (or another cluster-wide lock) for multi-instance coordination |
 | **Forgetting `finally` block** | Exception in critical section → lock never released | Always unlock in `finally` |
 
 ---
@@ -406,14 +408,14 @@ class ProviderAssignmentConcurrencyTest {
 flowchart TD
     A[Do two processes write to\nthe same entity concurrently?] -->|No| B[You don't need a lock]
     A -->|Yes| C{Is the entity in\na single database?}
-    C -->|Yes| D[Use @Version\nOptimistic Locking]
+    C -->|Yes| D[Use version column\nOptimistic Locking]
     C -->|No| E{Do writers span\nmultiple services?}
     E -->|Yes| F[Use Redisson\nRedis Distributed Lock]
     E -->|No| G{Is contention\nexpected to be high?}
     G -->|Yes| F
     G -->|No| D
 
-    D --> H[Add @Retryable\nfor conflict handling]
+    D --> H[Add retries\nfor conflict handling]
     F --> I[Set waitTime + leaseTime\nUnlock in finally block]
 
 ```
@@ -422,7 +424,7 @@ flowchart TD
 
 | Question | Answer | Lock Type |
 |----------|--------|-----------|
-| Same DB, low contention? | `@Version` on the JPA entity | Optimistic (DB) |
+| Same DB, low contention? | Version column (JPA `@Version` in Java reference) | Optimistic (DB) |
 | Same DB, high contention? | Consider Redisson or redesign to reduce contention | Redis |
 | Cross-service, same entity? | Redisson with entity-scoped lock key | Redis |
 | Cross-service, saga/workflow? | You need a saga, not a lock | None (saga) |

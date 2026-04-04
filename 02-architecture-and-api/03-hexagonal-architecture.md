@@ -1,6 +1,10 @@
 # 🔷 Hexagonal Architecture Guide
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2025-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+
+---
+
+> **Pattern scope:** Hexagonal (ports and adapters) architecture is **language- and framework-agnostic**. The layers, dependency rule, and testing strategy apply to any stack. This document uses **Java with Spring-style wiring** as the **reference implementation** so teams have a concrete map; map the same roles to your runtime (for example, services and repositories in .NET, modules in Node.js, or use cases in Go).
 
 ---
 
@@ -15,7 +19,7 @@ Hexagonal architecture (also called "Ports and Adapters") is a way of structurin
 | Unit tests require a database to run | Domain logic has no DB dependency - tests run in milliseconds |
 | Changing from RDS to Aurora requires touching business logic | The DB is an adapter - swap it without touching the domain |
 | Kafka details leak into service logic | Kafka is an adapter - domain just calls a port interface |
-| Spring annotations spread throughout the codebase | Spring lives in the infrastructure layer only |
+| Framework annotations or globals spread through core logic | Framework code lives in the infrastructure (adapter) layer only |
 
 The rule is simple: **the domain knows nothing about the outside world.**
 
@@ -27,23 +31,25 @@ The rule is simple: **the domain knows nothing about the outside world.**
 ┌──────────────────────────────────────────────────────────┐
 │                      API Layer                           │
 │   (Controllers, DTOs, OpenAPI, request/response mapping) │
-│                   Spring MVC lives here                  │
+│        HTTP/gRPC handlers live here (e.g. Spring MVC)    │
 └────────────────────────┬─────────────────────────────────┘
                          │ calls
 ┌────────────────────────▼─────────────────────────────────┐
 │                    Domain Layer                          │
 │   (Entities, Services, Repository interfaces, Events)   │
-│              Pure Java - zero framework imports          │
+│         Pure domain - zero framework imports             │
 │           This is what you TEST and PROTECT              │
 └────────────────────────┬─────────────────────────────────┘
                          │ implements
 ┌────────────────────────▼─────────────────────────────────┐
 │                Infrastructure Layer                      │
-│   (JPA repositories, Kafka producers, HTTP clients,      │
-│    AWS SDK calls, Spring config, Flyway migrations)      │
+│   (ORM adapters, Kafka producers, HTTP clients,          │
+│    cloud SDKs, framework config, DB migrations)          │
 │              Framework code lives here only              │
 └──────────────────────────────────────────────────────────┘
 ```
+
+> **Substitution point:** In the API layer, "controllers" map to handlers or route modules in other stacks. In infrastructure, JPA-style adapters map to your ORM or data access layer; "Spring config" maps to composition root / DI bootstrap for your framework.
 
 **Visual overview:**
 
@@ -77,6 +83,8 @@ flowchart TB
 
 ## 🧩 3. Full Worked Example - Orders Service
 
+**Reference implementation (Java):** The package layout and code below illustrate the pattern. Use the same **roles** (ports, domain model, adapters, API entry) in your language; names and annotations will differ.
+
 Let's walk through the complete structure for the Orders Service.
 
 ### 3.1 Package Structure
@@ -93,7 +101,7 @@ com.{company}.orders/
 │   └── exception/
 │       └── GlobalExceptionHandler.java
 │
-├── domain/                                 ← Domain Layer (pure Java)
+├── domain/                                 ← Domain Layer (no framework imports)
 │   ├── model/
 │   │   ├── Order.java                     ← Core entity
 │   │   ├── OrderId.java                   ← Value object
@@ -133,7 +141,9 @@ com.{company}.orders/
 
 #### The Entity: `Order.java`
 
-This is pure Java. Zero Spring. Zero JPA. Zero Kafka. It **enforces its own invariants**.
+This is pure domain code. No framework imports, no persistence mapping, no messaging clients. It **enforces its own invariants**.
+
+> **Other frameworks:** The equivalent is a plain domain type in any language (not an ORM entity, not an HTTP DTO).
 
 ```java
 package com.{company}.orders.domain.model;
@@ -318,7 +328,9 @@ public class OrderService {
 
 #### JPA Adapter: `JpaOrderRepository.java`
 
-This **implements** the domain's `OrderRepository` port. Spring and JPA live here.
+This **implements** the domain's `OrderRepository` port. Persistence and framework wiring live here only.
+
+> **Substitution point:** `@Repository` and Spring Data are Java/Spring specifics. In another stack, the adapter might be a class that implements the port using your ORM, SQL client, or repository pattern, registered in your composition root (Spring `@Bean`, ASP.NET DI, manual wiring, etc.).
 
 ```java
 package com.{company}.orders.infrastructure.persistence;
@@ -365,6 +377,8 @@ interface SpringDataOrderRepository extends JpaRepository<OrderEntity, String> {
 
 #### Kafka Adapter: `KafkaOrderEventPublisher.java`
 
+> **Substitution point:** `@Component` marks a Spring-managed adapter. Other runtimes use equivalent registration (DI container, factory, or module exports).
+
 ```java
 package com.{company}.orders.infrastructure.kafka;
 
@@ -400,7 +414,9 @@ public class KafkaOrderEventPublisher implements OrderEventPublisher {
 
 #### Spring Config: `DomainConfig.java`
 
-This wires together domain services (which have no Spring annotations) with their infrastructure adapters.
+This wires together domain services (no framework annotations on the domain) with their infrastructure adapters.
+
+> **Substitution point:** `@Configuration` / `@Bean` are the Spring composition root. Any stack needs **one place** that constructs domain services and injects real adapters (constructor injection, service provider, or functional composition).
 
 ```java
 package com.{company}.orders.infrastructure.config;
@@ -425,6 +441,8 @@ public class DomainConfig {
 ---
 
 ### 3.4 API Layer - The Entry Point
+
+> **Substitution point:** `@RestController`, `ResponseEntity`, and JWT parameter types are Spring Web / Jakarta idioms. Map to your HTTP framework's handlers, response types, and auth context.
 
 ```java
 package com.{company}.orders.api;
@@ -476,9 +494,13 @@ public class OrderController {
 
 | Layer | Test Type | What You Mock |
 |-------|-----------|--------------|
-| Domain (entities, services) | Unit tests | Nothing - pure Java, no mocks needed for entities; mock ports for services |
-| Infrastructure (JPA, Kafka) | Integration tests | Nothing - use Testcontainers with real DB/Kafka |
-| API (controllers) | `@WebMvcTest` slice tests | Mock the domain service |
+| Domain (entities, services) | Unit tests | Nothing - pure domain, no mocks needed for entities; mock ports for services |
+| Infrastructure (DB, messaging) | Integration tests | Nothing - use real dependencies in containers or test doubles as your stack supports |
+| API (HTTP entry) | Narrow slice or contract tests | Mock or substitute the application / domain service |
+
+> **Substitution point:** `@WebMvcTest` is Spring's controller slice. Other frameworks use equivalent HTTP-layer tests without starting the full stack.
+
+**Reference implementation (Java):**
 
 ```java
 class OrderServiceTest {
@@ -509,6 +531,8 @@ class OrderServiceTest {
 
 ## ❌ 5. Common Mistakes to Avoid
 
+> **Substitution point:** The examples below use Spring and JPA names. The underlying mistakes are universal: persistence or messaging types in the domain, framework injection in core logic, skipping ports, and fat controllers or anemic domain models.
+
 | Mistake | Why It's Wrong | Fix |
 |---------|---------------|-----|
 | `@Entity` on domain model | JPA annotation in domain - breaks separation | Separate `OrderEntity` (infra) from `Order` (domain) |
@@ -521,6 +545,10 @@ class OrderServiceTest {
 ---
 
 ## 📏 6. The ArchUnit Rules That Enforce This
+
+**Principle:** Architectural rules should fail the build when layers leak (domain depending on frameworks, API calling infrastructure directly, etc.).
+
+**Reference implementation (Java):** [ArchUnit](https://www.archunit.org/) expresses those rules against the bytecode. Comparable tools exist for other ecosystems (for example dependency-cruiser or custom lint rules in TypeScript, import-linter in Python, NetArchTest for .NET, or module boundaries in Go).
 
 These are pre-configured in the platform template:
 

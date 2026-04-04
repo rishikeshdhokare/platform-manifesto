@@ -106,7 +106,7 @@ Tags enable filtering, grouping, and reporting across the catalog. Every compone
 | `java` | Java-based service |
 | `typescript` | TypeScript frontend or BFF |
 | `python` | Python service or data pipeline |
-| `spring-boot` | Uses Spring Boot framework |
+| `spring-boot` | Uses Spring Boot framework (reference tag; adapt to your framework) |
 | `react` | React frontend |
 | `react-native` | React Native mobile app |
 

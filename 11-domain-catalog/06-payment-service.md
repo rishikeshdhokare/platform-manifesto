@@ -4,13 +4,13 @@
 ![Owner](https://img.shields.io/badge/Owner-Team_Payments-grey?style=flat-square)
 ![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--31-grey?style=flat-square)
 
-**Service identifier:** `com.{company}.payments`
+**Service identifier:** `{company}.payments`
 
 ---
 
 ## 📋 1. Overview
 
-The **Payment Service** is the bounded context responsible for **payment processing**, **settlements**, **customer wallets**, and **refunds** after an order's financial outcome is known. It integrates with external payment providers (e.g., Stripe, Adyen) under the `com.{company}.orders` ecosystem contracts.
+The **Payment Service** is the bounded context responsible for **payment processing**, **settlements**, **customer wallets**, and **refunds** after an order's financial outcome is known. It integrates with external payment providers (e.g., Stripe, Adyen) under the `{company}.orders` ecosystem contracts.
 
 ### 1.1 Ownership
 
@@ -48,7 +48,7 @@ flowchart LR
 
 ## 🔄 2. Payment lifecycle
 
-State transitions for a single payment intent tied to an order (`com.{company}.orders` correlation).
+State transitions for a single payment intent tied to an order (`{company}.orders` correlation).
 
 ```mermaid
 stateDiagram-v2
@@ -84,9 +84,9 @@ End-to-end flow from order completion through payout, including failure and retr
 
 ```mermaid
 sequenceDiagram
-    participant Orders as Order Service<br/>com.{company}.orders
+    participant Orders as Order Service<br/>{company}.orders
     participant Bus as Event Bus
-    participant Pay as Payment Service<br/>com.{company}.payments
+    participant Pay as Payment Service<br/>{company}.payments
     participant Prov as Payment Provider<br/>Stripe / Adyen
     participant Payout as Payout Rail
 
@@ -220,7 +220,7 @@ Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header 
 | `GET` | `/v1/payments/{id}` | Payment status, amounts (cents), timestamps, linked order id. |
 | `GET` | `/v1/wallets/{customerId}` | Wallet balance and recent transaction summary (paginated). |
 
-**Internal contract packages:** `com.{company}.payments.api` (REST), `com.{company}.payments.events` (async).
+**Internal contract packages:** `{company}.payments.api` (REST), `{company}.payments.events` (async).
 
 ---
 
@@ -240,7 +240,7 @@ Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header 
 
 | Event name | Producer | Purpose |
 |------------|----------|---------|
-| `orders.order.completed` | Order Service (`com.{company}.orders`) | Trigger authorize → capture → settlement → payout pipeline for the finalized price. |
+| `orders.order.completed` | Order Service (`{company}.orders`) | Trigger authorize → capture → settlement → payout pipeline for the finalized price. |
 | `orders.order.cancelled` | Order Service | Void uncaptured authorizations or apply cancellation fee policy via capture/refund rules. |
 
 ---
@@ -318,7 +318,7 @@ erDiagram
 
 ```mermaid
 flowchart TB
-    subgraph daily [Daily reconciliation job - com.{company}.payments]
+    subgraph daily [Daily reconciliation job - {company}.payments]
         J[L internal ledger<br/>payments / payouts]
         P[Provider reports<br/>settlements / fees]
         J --> C[Compare totals & line items]
@@ -354,7 +354,7 @@ flowchart TB
 |------|------------|
 | **Owning team** | **Team Payments** |
 | **Escalations** | P2 reconciliation, payout failures, PCI-related incidents |
-| **Related domains** | Orders (`com.{company}.orders`), Pricing, Fraud Engine, Customer/Provider profiles |
+| **Related domains** | Orders (`{company}.orders`), Pricing, Fraud Engine, Customer/Provider profiles |
 
 ---
 <div align="center">
