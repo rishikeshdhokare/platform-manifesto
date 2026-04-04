@@ -201,6 +201,25 @@ Informal, team-initiated lunch sessions. No formal approval or scheduling proces
 | **PIR publication rate** | % of P1/P2 incidents with PIR published within 5 days | 100% |
 
 ---
+
+## 📚 10. Recommended External Resources
+
+A curated list of foundational reading for engineers at {Company}. These resources shaped the principles, patterns, and practices codified in this manifesto.
+
+| Resource | Topic | Why It Matters |
+|----------|-------|----------------|
+| **The Twelve-Factor App** ([12factor.net](https://12factor.net)) | Service design | Foundation for cloud-native service architecture — config, dependencies, statelessness, and disposability |
+| **Designing Data-Intensive Applications** (Kleppmann) | Data & distributed systems | Required reading for anyone building event-driven systems, working with replication, or designing for consistency |
+| **Building Microservices** (Newman) | Service decomposition | Aligns with our architecture philosophy — bounded contexts, independent deployability, and evolutionary design |
+| **Site Reliability Engineering** (Google) | Operations | Foundation for our SRE and observability practices — SLOs, error budgets, toil reduction, and incident response |
+| **Accelerate** (Forsgren, Humble, Kim) | Engineering metrics | The research behind our DORA metrics adoption — deployment frequency, lead time, MTTR, and change failure rate |
+| **Release It!** (Nygard) | Resilience | Patterns behind our circuit breaker and stability patterns — bulkheads, timeouts, and designing for production |
+| **Team Topologies** (Skelton, Pais) | Organization | The model behind our team structure — stream-aligned teams, platform teams, and interaction modes |
+| **Clean Architecture** (Martin) | Hexagonal architecture | Principles behind our ports & adapters approach — dependency inversion, separation of concerns, and testability |
+
+> This is not a mandatory reading list. Start with what's relevant to your current work. Ask in `#book-club` for recommendations.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
