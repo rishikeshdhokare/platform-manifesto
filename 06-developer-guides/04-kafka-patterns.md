@@ -8,6 +8,17 @@
 
 Kafka is not a replacement for REST APIs. Use it for the right problem.
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    Q1{Realtime response?}
+    Q1 -->|Yes| SyncCall[gRPC / REST]
+    Q1 -->|No| Q2{Others react?}
+    Q2 -->|Yes| KafkaEvt[Kafka Event]
+    Q2 -->|No| Internal[In-process Async]
+```
+
 | Use Kafka When | Use REST/gRPC Instead When |
 |---------------|---------------------------|
 | A state change in one service needs to trigger work in another service | You need a real-time response from the other service |
@@ -157,6 +168,19 @@ public class KafkaOrderEventPublisher implements OrderEventPublisher {
 ---
 
 ## 📨 5. Writing a Consumer
+
+**Visual overview:**
+
+```mermaid
+sequenceDiagram
+    participant Svc as Producer
+    participant Kafka
+    participant Grp as Consumer Group
+    Svc->>Kafka: Publish event
+    Kafka->>Grp: Deliver to partition
+    Grp->>Grp: Process + commit
+    Grp-->>Kafka: Offset committed
+```
 
 ### 5.1 The Basic Pattern
 

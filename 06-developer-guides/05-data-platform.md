@@ -51,6 +51,18 @@ Examples:
 
 ### 3.1 Architecture
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    DB[(Service DB)] -->|CDC| Debezium[Debezium]
+    Debezium --> Kafka[Kafka]
+    Kafka --> S3[(S3 Data Lake)]
+    S3 --> Glue[Glue ETL]
+    Glue --> Redshift[(Redshift)]
+    Redshift --> QS[QuickSight]
+```
+
 ```
 Operational DBs (Aurora)
         │

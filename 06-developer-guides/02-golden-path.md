@@ -10,6 +10,19 @@ The golden path is a **complete, opinionated, end-to-end walkthrough** of buildi
 
 This is not a tutorial — it is **the way things are done here**. Following it means you get all platform capabilities (CI, CD, observability, security, service catalog) for free.
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Scaffold[Backstage Scaffold] --> Clone[Clone + Deps]
+    Clone --> Dev[Local Dev]
+    Dev --> PR[Open PR]
+    PR --> CI[CI Pipeline]
+    CI --> Stage[Deploy Staging]
+    Stage --> Canary[Canary Prod]
+    Canary --> Prod[Full Production]
+```
+
 ---
 
 ## 🛤️ End-to-End Steps

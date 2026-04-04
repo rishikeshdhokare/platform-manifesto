@@ -20,6 +20,24 @@ Why:
 
 ## 💻 2. Flyway Setup
 
+**Visual overview:**
+
+```mermaid
+sequenceDiagram
+    participant Dev as Engineer
+    participant Git
+    participant CI
+    participant K8s as EKS
+    participant Fly as Flyway
+    Dev->>Git: Add V003__migration.sql
+    Git->>CI: PR triggers validation
+    CI->>CI: Flyway validate
+    CI-->>Dev: PR approved
+    Dev->>Git: Merge to main
+    Git->>K8s: Deploy new version
+    K8s->>Fly: Startup auto-migrate
+```
+
 Flyway is included in the platform BOM. It runs automatically on application startup.
 
 ```kotlin
