@@ -50,6 +50,8 @@ One source of truth. One set of standards. Every team, every service, every envi
 
 > 📖 **Living document.** It evolves as our platform matures and as we learn from production. Changes require a PR with at least one Staff Engineer approval.
 
+> 🔧 **Adopting this for your organization?** The principles are universal; the specific tools are our reference implementation. See [Customize This Manifesto](#-customize-this-manifesto) for how to swap in your own stack.
+
 ---
 
 ## 🧭 Pick Your Path
@@ -224,7 +226,7 @@ The approved tech stack, naming conventions, repository structure, service catal
 | [`02-naming-conventions.md`](01-platform-standards/02-naming-conventions.md) | How to name everything - services, repos, packages, topics, buckets, metrics, flags |
 | [`03-repository-standards.md`](01-platform-standards/03-repository-standards.md) | Required files, README template, branch protection, PR template, repo lifecycle |
 | [`04-service-catalog.md`](01-platform-standards/04-service-catalog.md) | Backstage catalog-info.yaml spec, lifecycle states, scorecards, ownership |
-| [`05-container-standards.md`](01-platform-standards/05-container-standards.md) | Base images, Dockerfile standards, tagging, size limits, signing, ECR |
+| [`05-container-standards.md`](01-platform-standards/05-container-standards.md) | Base images, Dockerfile standards, tagging, size limits, signing, registry |
 
 </details>
 
@@ -254,7 +256,7 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 
 <br/>
 
-The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spring Boot platform.
+The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend framework standards.
 
 | File | What You'll Learn |
 |------|-------------------|
@@ -277,13 +279,13 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spr
 
 <br/>
 
-AWS architecture, security, FinOps, multi-tenancy, and everything Terraform.
+Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 
 | File | What You'll Learn |
 |------|-------------------|
-| [`01-cloud-architecture.md`](04-infrastructure-and-cloud/01-cloud-architecture.md) | AWS accounts, VPC topology, EKS, Aurora, MSK, backup & restore |
-| [`02-infra-components.md`](04-infrastructure-and-cloud/02-infra-components.md) | Istio, Backstage, ArgoCD, ECR - and the self-service boundaries |
-| [`03-security.md`](04-infrastructure-and-cloud/03-security.md) | Shift-left security, IAM/IRSA, PII handling, KMS, egress control |
+| [`01-cloud-architecture.md`](04-infrastructure-and-cloud/01-cloud-architecture.md) | Account structure, network topology, compute, data tier, backup & restore |
+| [`02-infra-components.md`](04-infrastructure-and-cloud/02-infra-components.md) | Service mesh, developer portal, GitOps, container registry, and self-service boundaries |
+| [`03-security.md`](04-infrastructure-and-cloud/03-security.md) | Shift-left security, identity and access, PII handling, encryption, egress control |
 | [`04-configuration-management.md`](04-infrastructure-and-cloud/04-configuration-management.md) | Secrets vs config vs flags - what lives where |
 | [`05-finops.md`](04-infrastructure-and-cloud/05-finops.md) | Cost allocation, rightsizing, reservations, real-time cost visibility |
 | [`06-capacity-planning.md`](04-infrastructure-and-cloud/06-capacity-planning.md) | Demand modeling, pre-scaling, load test-driven validation |
@@ -305,7 +307,7 @@ Observability, resilience, incidents, chaos engineering, and what to do when thi
 |------|-------------------|
 | [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
 | [`02-observability-in-practice.md`](05-operational-excellence/02-observability-in-practice.md) | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
-| [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - Resilience4j worked examples |
+| [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - with worked examples |
 | [`04-incident-management.md`](05-operational-excellence/04-incident-management.md) | Response playbook, on-call structure, PIR template, change management |
 | [`05-load-shedding.md`](05-operational-excellence/05-load-shedding.md) | Priority tiers, backpressure, graceful degradation, auto-remediation |
 | [`06-chaos-engineering.md`](05-operational-excellence/06-chaos-engineering.md) | Fault injection, game days, resilience validation |
@@ -326,12 +328,12 @@ The guides you keep open while writing code.
 |------|-------------------|
 | [`01-developer-experience.md`](06-developer-guides/01-developer-experience.md) | Local setup, onboarding milestones, buddy program, documentation standards |
 | [`02-golden-path.md`](06-developer-guides/02-golden-path.md) | Scaffold to production in one walkthrough |
-| [`03-database-migrations.md`](06-developer-guides/03-database-migrations.md) | Flyway, expand-contract, large table migrations |
+| [`03-database-migrations.md`](06-developer-guides/03-database-migrations.md) | Automated schema migrations, expand-contract, large table strategies |
 | [`04-kafka-patterns.md`](06-developer-guides/04-kafka-patterns.md) | Producers, consumers, DLQ, idempotency, topic creation, DLQ replay |
-| [`05-data-platform.md`](06-developer-guides/05-data-platform.md) | CDC, Redshift conventions, Airflow orchestration, data access controls |
+| [`05-data-platform.md`](06-developer-guides/05-data-platform.md) | CDC, data warehouse conventions, pipeline orchestration, data access controls |
 | [`06-multi-region-patterns.md`](06-developer-guides/06-multi-region-patterns.md) | Region config, i18n, localization, UX writing |
 | [`07-distributed-locking.md`](06-developer-guides/07-distributed-locking.md) | Optimistic locking, Redis locks, preventing double-assignment |
-| [`08-cache-patterns.md`](06-developer-guides/08-cache-patterns.md) | Cache-aside, TTL, event-driven invalidation, Caffeine, stampede prevention |
+| [`08-cache-patterns.md`](06-developer-guides/08-cache-patterns.md) | Cache-aside, TTL, event-driven invalidation, in-process caching, stampede prevention |
 | [`09-data-governance.md`](06-developer-guides/09-data-governance.md) | Data stewards, quality SLAs, retention matrices, analytics contracts |
 | [`10-local-development.md`](06-developer-guides/10-local-development.md) | Docker Compose, database seeding, your first PR |
 

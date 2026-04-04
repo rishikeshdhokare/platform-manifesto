@@ -16,23 +16,7 @@ This is not a tutorial - it is **the way things are done here**. Following it me
 
 ```mermaid
 flowchart LR
-    Scaffold[Backstage Scaffold] --> Clone[Clone + Deps]
-    Clone --> Dev[Local Dev]
-    Dev --> PR[Open PR]
-    PR --> CI[CI Pipeline]
-    CI --> Stage[Deploy Staging]
-    Stage --> Canary[Canary Prod]
-    Canary --> Prod[Full Production]
-```
-
-The full software development lifecycle from idea to production:
-
-**Visual overview:**
-
-```mermaid
-flowchart LR
-    Idea[Idea] --> PRD[PRD]
-    PRD --> TDD[Tech Design]
+    Idea[Idea] --> TDD[Tech Design]
     TDD --> Scaffold[Scaffold]
     Scaffold --> Code[Code]
     Code --> PR[PR + CI]
