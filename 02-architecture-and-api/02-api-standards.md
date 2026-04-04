@@ -363,6 +363,16 @@ All rate-limited responses return `429 Too Many Requests` with a `Retry-After` h
 3. Once approved, implementation begins
 4. CI validates implementation against contract using `openapi-diff` (breaking changes in CI fail the build)
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Design[Design Spec] --> Review[API Review]
+    Review --> Implement[Implement]
+    Implement --> Contract[Contract Test]
+    Contract --> Publish[Publish to Backstage]
+```
+
 ### 10.2 Contract Location
 
 - Each service owns its OpenAPI spec at `api/openapi.yaml` in the repo root

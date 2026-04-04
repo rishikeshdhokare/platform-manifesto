@@ -45,6 +45,32 @@ The rule is simple: **the domain knows nothing about the outside world.**
 └──────────────────────────────────────────────────────────┘
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    subgraph api [API Adapters]
+        REST[REST Controller]
+        GRPC[gRPC Service]
+    end
+    subgraph app [Application Layer]
+        Ports[Use Case Ports]
+    end
+    subgraph domain [Domain Core]
+        Model[Domain Model]
+        Logic[Business Rules]
+    end
+    subgraph infra [Infrastructure Adapters]
+        DB[(PostgreSQL)]
+        MQ[Kafka Producer]
+        Ext[External API Client]
+    end
+    api --> Ports
+    Ports --> Model
+    Model --> Logic
+    infra --> Ports
+```
+
 **Dependency rule:** Arrows always point inward. Domain never imports from infrastructure or API.
 
 ---

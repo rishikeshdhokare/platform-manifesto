@@ -62,6 +62,46 @@ The platform naturally decomposes into the following bounded contexts. Each doma
                └─────────────────────┘
 ```
 
+**Visual overview (Mermaid version):**
+
+```mermaid
+flowchart TB
+    subgraph clients [Clients]
+        CustomerApp[Customer App]
+        ProviderApp[Provider App]
+        OpsPortal[Ops Portal]
+    end
+    subgraph gateway [Edge]
+        APIGW[API Gateway + WAF]
+    end
+    subgraph bffs [BFF Layer]
+        CustBFF[Customer BFF]
+        ProvBFF[Provider BFF]
+        OpsBFF[Ops BFF]
+    end
+    subgraph core [Core Domains]
+        Orders[Order Service]
+        Fulfill[Fulfillment Engine]
+        Pricing[Pricing Service]
+    end
+    subgraph support [Supporting]
+        Payments[Payment Service]
+        Notif[Notifications]
+        Geo[Geolocation]
+        DynPrice[Dynamic Pricing]
+        Fraud[Fraud Engine]
+    end
+    subgraph backbone [Event Backbone]
+        Kafka[Kafka / MSK]
+    end
+    clients --> gateway
+    gateway --> bffs
+    bffs --> core
+    bffs --> support
+    core --> Kafka
+    support --> Kafka
+```
+
 ---
 
 ## 🧩 3. Domain Ownership Map
@@ -111,6 +151,19 @@ Is a real-time response required by the user?
             └─ YES → Kafka event
             └─ NO → Is it fire-and-forget within one service?
                        └─ YES → Internal async (CompletableFuture / virtual thread)
+```
+
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    Q1{Real-time response?}
+    Q1 -->|Yes| Sync[REST or gRPC]
+    Q1 -->|No| Q2{State change?}
+    Q2 -->|Yes| Event[Kafka Event]
+    Q2 -->|No| Q3{Fire and forget?}
+    Q3 -->|Yes| Async[CompletableFuture]
+    Q3 -->|No| Skip[No action needed]
 ```
 
 ---
