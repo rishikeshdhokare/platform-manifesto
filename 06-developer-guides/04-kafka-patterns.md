@@ -482,6 +482,8 @@ docker exec -it kafka kafka-consumer-groups \
 
 ## 📋 12. Topic Creation Workflow
 
+> For schema evolution rules and the breaking change playbook, see [`02-architecture-and-api/08-event-schema-evolution.md`](../02-architecture-and-api/08-event-schema-evolution.md).
+
 Topics are not self-service - creation is a controlled process to ensure consistency and data governance.
 
 ### 12.1 Request Process
@@ -501,7 +503,7 @@ Topics are not self-service - creation is a controlled process to ensure consist
 | **Replication factor** | 3 | Not overridable in production |
 | **Retention** | 7 days | Data steward approval for longer retention |
 | **Cleanup policy** | `delete` | `compact` requires ADR |
-| **Schema subject** | `{domain}.{entity}.{event}.v1` | Must match naming convention |
+| **Schema subject** | `{topic}-value` | Schema subjects follow the naming convention `{topic}-value` (see [`01-platform-standards/02-naming-conventions.md`](../01-platform-standards/02-naming-conventions.md) section 4) |
 
 ### 12.3 Approval Matrix
 

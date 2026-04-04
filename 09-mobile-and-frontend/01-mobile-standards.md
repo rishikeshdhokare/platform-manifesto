@@ -48,7 +48,7 @@ Mobile apps **are** the product for {Company} customers and providers. Every int
 | **Language** | TypeScript (strict mode) | Type safety across the entire client codebase |
 | **State Management** | Zustand | Lightweight, predictable, minimal boilerplate |
 | **Navigation** | React Navigation | De facto standard, deep linking support |
-| **Networking** | Axios + React Query | Caching, retries, and background refetch |
+| **Networking** | Axios + TanStack Query | Caching, retries, and background refetch |
 | **Local Storage** | SQLite (via `react-native-quick-sqlite`) | Offline data persistence |
 | **Maps** | Mapbox GL | Custom styling, regional coverage, offline tiles |
 | **Unit Testing** | Jest | Fast, well-integrated with React Native |
@@ -61,7 +61,7 @@ Mobile apps **are** the product for {Company} customers and providers. Every int
 
 ## 🔗 3. BFF Pattern for Mobile
 
-Each mobile client has a dedicated **Backend-for-Frontend (BFF)** that acts as its API gateway. The BFF is owned by the mobile team and exists to serve the mobile client's exact needs.
+Each mobile client has a dedicated **Backend-for-Frontend (BFF)** that acts as its API gateway. The BFF is owned by the mobile team and exists to serve the mobile client's exact needs. BFF runtime is Java/Spring Boot per the approved tech stack (see [`01-platform-standards/01-tech-stack.md`](../01-platform-standards/01-tech-stack.md)).
 
 ### Architecture
 
@@ -73,8 +73,8 @@ flowchart LR
     end
 
     subgraph "BFF Layer"
-        RBFF["Customer BFF\n(Node.js / TypeScript)"]
-        DBFF["Provider BFF\n(Node.js / TypeScript)"]
+        RBFF["Customer BFF\n(Java / Spring Boot)"]
+        DBFF["Provider BFF\n(Java / Spring Boot)"]
     end
 
     subgraph "Internal Services"

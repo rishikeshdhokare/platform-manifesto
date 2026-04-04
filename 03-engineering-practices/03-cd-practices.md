@@ -252,9 +252,9 @@ Feature flags are how we **decouple deployment from release**. Code ships to pro
 ### 6.3 Flag Lifecycle Rules
 
 - Every flag has an **owner** and a **review date** set at creation
-- Release flags must be **removed within 2 sprints** of being fully rolled out
+- Release flags must be **removed within 30 days** of being fully rolled out per the deprecation lifecycle (see [`08-deprecation-lifecycle.md`](./08-deprecation-lifecycle.md))
 - Permanent ops flags (kill switches) are exempt from removal but must be reviewed quarterly
-- Flag names follow: `{domain}-{feature}-{type}` e.g. `fulfillment-new-algorithm-release`
+- Flag keys follow the naming convention `{type}.{team}.{feature}.{yyyy-mm}` (see [`01-platform-standards/02-naming-conventions.md`](../01-platform-standards/02-naming-conventions.md) section 8) e.g. `release.orders.new-checkout.2026-04`
 - No business logic should permanently depend on a flag - flags are temporary
 
 **Visual overview:**
@@ -274,7 +274,7 @@ stateDiagram-v2
 
 ```java
 // Good: flag wraps the new code path
-if (flagClient.boolVariation("fulfillment-ml-model-release", context, false)) {
+if (flagClient.boolVariation("release.fulfillment.ml-model.2026-04", context, false)) {
     return mlFulfillmentService.findBestProvider(request);
 } else {
     return legacyFulfillmentService.findBestProvider(request);

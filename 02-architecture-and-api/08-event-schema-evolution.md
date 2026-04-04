@@ -238,6 +238,8 @@ If service A must process event X before service B processes event Y, and X and 
 
 ## 📏 7. Breaking Change Playbook
 
+> For the operational workflow of creating a new topic (Backstage request, Terraform provisioning, defaults), see [`06-developer-guides/04-kafka-patterns.md`](../06-developer-guides/04-kafka-patterns.md). This section covers only the schema migration strategy.
+
 When a schema change is fundamentally incompatible - a field type change, a field removal, or a semantic change that alters the meaning of existing fields - follow this playbook. There are no shortcuts.
 
 ### 7.1 Steps
@@ -245,7 +247,7 @@ When a schema change is fundamentally incompatible - a field type change, a fiel
 | Step | Action | Detail |
 |------|--------|--------|
 | 1 | **Create new topic** | Name the new topic with a `v2` suffix (e.g., `orders.order.created.v2`). Register the new schema. |
-| 2 | **Dual-publish** | The producer publishes to **both** the old topic (v1) and the new topic (v2) simultaneously. Minimum dual-publish window: **30 days**. |
+| 2 | **Dual-publish** | The producer publishes to **both** the old topic (v1) and the new topic (v2) simultaneously. Minimum dual-publish window: **6 months**, per the deprecation lifecycle (see [`03-engineering-practices/08-deprecation-lifecycle.md`](../03-engineering-practices/08-deprecation-lifecycle.md)). The breaking change playbook timeline must not be shorter than the deprecation policy. |
 | 3 | **Consumer migration** | Notify all consumer teams. Consumers migrate to the new topic at their own pace within the migration window. |
 | 4 | **Monitor migration** | Track consumer group lag on the old topic. Migration is complete when all consumer groups on v1 have zero lag and have been decommissioned. |
 | 5 | **Deprecate old topic** | Mark the v1 topic as deprecated. Follow the deprecation lifecycle (see `03-engineering-practices/08-deprecation-lifecycle.md`). |
