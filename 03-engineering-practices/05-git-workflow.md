@@ -32,6 +32,19 @@ git pull origin main
 
 ### 2.2 Create a Short-Lived Branch
 
+**Visual overview:**
+
+```mermaid
+gitGraph
+    commit id: "main"
+    branch feature/add-endpoint
+    commit id: "implement"
+    commit id: "add tests"
+    checkout main
+    merge feature/add-endpoint id: "PR merged"
+    commit id: "next commit"
+```
+
 ```bash
 # Branch from main — never from another feature branch
 git checkout -b feat/RIDE-1234-add-price-calculation

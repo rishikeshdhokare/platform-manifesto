@@ -31,6 +31,19 @@ Testing is not a phase that follows development — it is a design activity that
        └──────────└─────────────────────┘──────┘
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    E2E["E2E Tests<br/>~5%"]
+    Integration["Integration Tests<br/>~15%"]
+    Contract["Contract Tests<br/>~10%"]
+    Unit["Unit Tests<br/>~70%"]
+    E2E --- Integration
+    Integration --- Contract
+    Contract --- Unit
+```
+
 | Layer | Volume | Speed | Scope | Runs In |
 |-------|--------|-------|-------|---------|
 | Unit | ~60% | < 1ms/test | Single class or function | Local + CI every PR |

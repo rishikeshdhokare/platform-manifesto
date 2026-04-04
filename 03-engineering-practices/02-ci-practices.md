@@ -202,6 +202,18 @@ The shared `java-pr.yml` workflow runs these stages in order:
 └─────────────────────────────────────────────────────────┘
 ```
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Checkout[Checkout] --> Build[Build]
+    Build --> Test[Unit Test]
+    Test --> Lint[Static Analysis]
+    Lint --> Security[Security Scan]
+    Security --> Docker[Container Build]
+    Docker --> Push[Push to ECR]
+```
+
 ### 4.3 Main Branch Pipeline
 
 Triggered on: **every merge to `main`**
