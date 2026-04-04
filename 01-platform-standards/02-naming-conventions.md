@@ -85,7 +85,7 @@ Every externally-visible ID should carry a type prefix to avoid ambiguity:
 
 - Topics use **lowercase dot-separated** names
 - Event verbs are **past tense** (e.g., `created`, `completed`, `cancelled`)
-- One entity type per topic — never mix `order.created` and `payment.received` in the same topic
+- One entity type per topic - never mix `order.created` and `payment.received` in the same topic
 - Retry topics: `{topic}.retry.{attempt}` (e.g., `orders.order.completed.retry.1`)
 
 ---
@@ -203,7 +203,7 @@ Every AWS resource must carry these tags:
 
 ### Lifecycle Rules
 
-- Every flag key includes a **date suffix** — flags older than 6 months trigger a cleanup alert
+- Every flag key includes a **date suffix** - flags older than 6 months trigger a cleanup alert
 - `release` flags must be removed within 30 days of full rollout
 - `ops` flags are permanent and reviewed quarterly
 

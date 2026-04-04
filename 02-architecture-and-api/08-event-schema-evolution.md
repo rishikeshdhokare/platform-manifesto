@@ -25,7 +25,7 @@ All Kafka topics on the {Company} platform use **Avro** for message serializatio
 
 | Mode | Default? | When to Use | Approval Required |
 |------|----------|-------------|-------------------|
-| **BACKWARD** | Yes — all topics | New schema can read data written by the old schema. Consumers can be upgraded before producers. | None — this is the default |
+| **BACKWARD** | Yes - all topics | New schema can read data written by the old schema. Consumers can be upgraded before producers. | None - this is the default |
 | **FORWARD** | No | Old schema can read data written by the new schema. Producers can be upgraded before consumers. | RFC approval required |
 | **FULL** | No (recommended for high-traffic) | Both BACKWARD and FORWARD compatible. Either side can be upgraded first. | Recommended for topics with > 10 consumer groups |
 | **NONE** | Forbidden | No compatibility enforcement. | Never permitted in production |
@@ -81,7 +81,7 @@ Adding a new type to a union is permitted under BACKWARD compatibility:
 // Before
 "type": ["null", "string"]
 
-// After — added int to the union
+// After - added int to the union
 "type": ["null", "string", "int"]
 ```
 
@@ -94,13 +94,13 @@ The following changes are **never permitted** without following the breaking cha
 | Change | Why It Breaks |
 |--------|--------------|
 | **Remove a field** | Consumers reading old messages expect the field to exist |
-| **Rename a field** | Avro uses field names for resolution — a rename is effectively a remove + add |
+| **Rename a field** | Avro uses field names for resolution - a rename is effectively a remove + add |
 | **Change a field's type** | A consumer expecting `string` will fail if it receives `int` |
 | **Reorder enum values** | Avro enums are encoded by ordinal position; reordering changes the meaning of existing data |
 | **Change topic partition count** | Rebalances all consumer groups; messages with the same key may land on a different partition, breaking ordering guarantees. Requires RFC. |
 | **Change the partition key field** | Existing consumers rely on per-key ordering; changing the key field breaks ordering semantics |
 
-> **Explicit rule:** Removing a field — even one with a default value — is a **BREAKING** change that requires the breaking change playbook (§7). This applies regardless of compatibility mode. The fact that a field has a default value does not make its removal safe for consumers that depend on it.
+> **Explicit rule:** Removing a field - even one with a default value - is a **BREAKING** change that requires the breaking change playbook (§7). This applies regardless of compatibility mode. The fact that a field has a default value does not make its removal safe for consumers that depend on it.
 
 ### 3.1 Schema Validation in CI
 
@@ -185,7 +185,7 @@ Partition keys with very high cardinality (e.g., `orderId` in a system processin
 
 | Cardinality | Risk | Mitigation |
 |-------------|------|------------|
-| Very high (> 1M distinct keys/day) | None — good distribution | Default behavior |
+| Very high (> 1M distinct keys/day) | None - good distribution | Default behavior |
 | Moderate (1K–1M) | Acceptable | Monitor partition lag skew |
 | Low (< 1K) | Hot partitions, consumer lag skew | Add a sub-key (e.g., `country:shard-N`) or use a different key |
 
@@ -238,7 +238,7 @@ If service A must process event X before service B processes event Y, and X and 
 
 ## 📏 7. Breaking Change Playbook
 
-When a schema change is fundamentally incompatible — a field type change, a field removal, or a semantic change that alters the meaning of existing fields — follow this playbook. There are no shortcuts.
+When a schema change is fundamentally incompatible - a field type change, a field removal, or a semantic change that alters the meaning of existing fields - follow this playbook. There are no shortcuts.
 
 ### 7.1 Steps
 
@@ -349,7 +349,7 @@ void shouldHandleMissingOptionalFieldsGracefully() {
     GenericRecord record = new GenericData.Record(SCHEMA_V2);
     record.put("orderId", "order-456");
     record.put("status", "COMPLETED");
-    // deliveryInstructions intentionally not set — should default to null
+    // deliveryInstructions intentionally not set - should default to null
 
     OrderEvent parsed = consumer.deserialize(record);
 

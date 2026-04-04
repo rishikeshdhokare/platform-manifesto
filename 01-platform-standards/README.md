@@ -1,8 +1,8 @@
-# 📐 01 — Platform Standards
+# 📐 01 - Platform Standards
 
 ![Docs](https://img.shields.io/badge/docs-5-blue?style=flat-square)
 
-> Foundational technology decisions — the approved stack, tooling, naming, repository structure, service catalog, and container standards every team builds on.
+> Foundational technology decisions - the approved stack, tooling, naming, repository structure, service catalog, and container standards every team builds on.
 
 | Document | Description |
 |----------|-------------|

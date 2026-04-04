@@ -6,15 +6,15 @@
 
 ## 🎯 1. What Is Hexagonal Architecture and Why Do We Use It?
 
-Hexagonal architecture (also called "Ports and Adapters") is a way of structuring a service so that **business logic is completely independent of infrastructure** — databases, Kafka, HTTP, AWS SDKs.
+Hexagonal architecture (also called "Ports and Adapters") is a way of structuring a service so that **business logic is completely independent of infrastructure** - databases, Kafka, HTTP, AWS SDKs.
 
 **Why it matters for us:**
 
 | Problem Without It | How Hexagonal Solves It |
 |-------------------|------------------------|
-| Unit tests require a database to run | Domain logic has no DB dependency — tests run in milliseconds |
-| Changing from RDS to Aurora requires touching business logic | The DB is an adapter — swap it without touching the domain |
-| Kafka details leak into service logic | Kafka is an adapter — domain just calls a port interface |
+| Unit tests require a database to run | Domain logic has no DB dependency - tests run in milliseconds |
+| Changing from RDS to Aurora requires touching business logic | The DB is an adapter - swap it without touching the domain |
+| Kafka details leak into service logic | Kafka is an adapter - domain just calls a port interface |
 | Spring annotations spread throughout the codebase | Spring lives in the infrastructure layer only |
 
 The rule is simple: **the domain knows nothing about the outside world.**
@@ -33,7 +33,7 @@ The rule is simple: **the domain knows nothing about the outside world.**
 ┌────────────────────────▼─────────────────────────────────┐
 │                    Domain Layer                          │
 │   (Entities, Services, Repository interfaces, Events)   │
-│              Pure Java — zero framework imports          │
+│              Pure Java - zero framework imports          │
 │           This is what you TEST and PROTECT              │
 └────────────────────────┬─────────────────────────────────┘
                          │ implements
@@ -75,7 +75,7 @@ flowchart TB
 
 ---
 
-## 🧩 3. Full Worked Example — Orders Service
+## 🧩 3. Full Worked Example - Orders Service
 
 Let's walk through the complete structure for the Orders Service.
 
@@ -129,7 +129,7 @@ com.{company}.orders/
 
 ---
 
-### 3.2 Domain Layer — The Heart
+### 3.2 Domain Layer - The Heart
 
 #### The Entity: `Order.java`
 
@@ -314,7 +314,7 @@ public class OrderService {
 
 ---
 
-### 3.3 Infrastructure Layer — Adapters
+### 3.3 Infrastructure Layer - Adapters
 
 #### JPA Adapter: `JpaOrderRepository.java`
 
@@ -424,7 +424,7 @@ public class DomainConfig {
 
 ---
 
-### 3.4 API Layer — The Entry Point
+### 3.4 API Layer - The Entry Point
 
 ```java
 package com.{company}.orders.api;
@@ -476,8 +476,8 @@ public class OrderController {
 
 | Layer | Test Type | What You Mock |
 |-------|-----------|--------------|
-| Domain (entities, services) | Unit tests | Nothing — pure Java, no mocks needed for entities; mock ports for services |
-| Infrastructure (JPA, Kafka) | Integration tests | Nothing — use Testcontainers with real DB/Kafka |
+| Domain (entities, services) | Unit tests | Nothing - pure Java, no mocks needed for entities; mock ports for services |
+| Infrastructure (JPA, Kafka) | Integration tests | Nothing - use Testcontainers with real DB/Kafka |
 | API (controllers) | `@WebMvcTest` slice tests | Mock the domain service |
 
 ```java
@@ -511,7 +511,7 @@ class OrderServiceTest {
 
 | Mistake | Why It's Wrong | Fix |
 |---------|---------------|-----|
-| `@Entity` on domain model | JPA annotation in domain — breaks separation | Separate `OrderEntity` (infra) from `Order` (domain) |
+| `@Entity` on domain model | JPA annotation in domain - breaks separation | Separate `OrderEntity` (infra) from `Order` (domain) |
 | `@Autowired` in domain service | Spring in domain | Constructor inject via `DomainConfig` |
 | Calling `KafkaTemplate` from domain service | Kafka in domain | Define `OrderEventPublisher` port; inject it |
 | Calling another service's repository directly | Cross-domain DB access | Go via API or event |

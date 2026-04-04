@@ -63,12 +63,12 @@ flowchart TD
 
 ### Connection lifecycle
 
-1. **Connect** — Client opens SockJS/WebSocket to the BFF (e.g. `wss://api.{company}.com/customer/ws`).
-2. **Authenticate** — Client sends a STOMP `CONNECT` frame with a **JWT** (header or first message per BFF contract). The server validates issuer, audience, and expiry for `api.{company}.com` APIs.
-3. **Subscribe** — Client issues `SUBSCRIBE` frames only to **allowed destinations** derived from identity (order id, provider id, etc.).
-4. **Receive** — Server pushes `MESSAGE` frames on subscribed topics.
-5. **Heartbeat** — STOMP heart-beating per Spring config; idle connections are closed per policy.
-6. **Disconnect** — Client `DISCONNECT` or network drop; server cleans session and Redis subscription mappings if used for cross-pod fan-out.
+1. **Connect** - Client opens SockJS/WebSocket to the BFF (e.g. `wss://api.{company}.com/customer/ws`).
+2. **Authenticate** - Client sends a STOMP `CONNECT` frame with a **JWT** (header or first message per BFF contract). The server validates issuer, audience, and expiry for `api.{company}.com` APIs.
+3. **Subscribe** - Client issues `SUBSCRIBE` frames only to **allowed destinations** derived from identity (order id, provider id, etc.).
+4. **Receive** - Server pushes `MESSAGE` frames on subscribed topics.
+5. **Heartbeat** - STOMP heart-beating per Spring config; idle connections are closed per policy.
+6. **Disconnect** - Client `DISCONNECT` or network drop; server cleans session and Redis subscription mappings if used for cross-pod fan-out.
 
 ### Channel naming
 
@@ -210,7 +210,7 @@ public class ProviderLocationWebSocketBridge {
 }
 ```
 
-For **multi-pod** BFF deployments, prefer publishing to **Redis Pub/Sub** from a dedicated component and having each pod's listener forward to local `SimpMessagingTemplate` sessions—see §6.
+For **multi-pod** BFF deployments, prefer publishing to **Redis Pub/Sub** from a dedicated component and having each pod's listener forward to local `SimpMessagingTemplate` sessions - see §6.
 
 ---
 
@@ -322,7 +322,7 @@ flowchart TB
 
 - **Connection limits:** target **10,000 concurrent WebSocket connections per pod** (tune by CPU/memory); enforce hard caps to protect the fleet.
 - **HPA:** scale on **active connection count** and CPU; include custom metrics from the BFF (e.g. `{company}_ws_active_connections`).
-- **Sticky sessions:** **Istio `DestinationRule`** (or equivalent) **loadBalancer consistentHash** on connection establishment so SockJS/WebSocket upgrades land on the same pod **for that connection's lifetime**—still use Redis for **broadcast** consistency when any pod may publish.
+- **Sticky sessions:** **Istio `DestinationRule`** (or equivalent) **loadBalancer consistentHash** on connection establishment so SockJS/WebSocket upgrades land on the same pod **for that connection's lifetime** - still use Redis for **broadcast** consistency when any pod may publish.
 
 ---
 
@@ -415,8 +415,8 @@ public class PriceEstimateStreamController {
 
 | Condition | Priority |
 |-----------|----------|
-| Connection count **> 80%** of per-pod limit | **P2** — scale or shed load |
-| **Message delivery latency** (Kafka consume → client receive) **> 5s** sustained | **P2** — investigate broker, Redis, or pod saturation |
+| Connection count **> 80%** of per-pod limit | **P2** - scale or shed load |
+| **Message delivery latency** (Kafka consume → client receive) **> 5s** sustained | **P2** - investigate broker, Redis, or pod saturation |
 
 ### Traces
 

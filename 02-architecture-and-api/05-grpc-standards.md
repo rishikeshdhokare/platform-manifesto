@@ -10,26 +10,26 @@ The platform uses **gRPC** for high-performance, typed, internal communication b
 
 **Typical gRPC use cases:**
 
-- **Fulfillment → Geolocation** — low-latency route and ETA lookups during provider assignment
-- **Orders → Pricing** — synchronous price calculation and re-rating during active orders
-- **Orders → Payments** — authorized, mesh-protected initiation of payment operations
+- **Fulfillment → Geolocation** - low-latency route and ETA lookups during provider assignment
+- **Orders → Pricing** - synchronous price calculation and re-rating during active orders
+- **Orders → Payments** - authorized, mesh-protected initiation of payment operations
 - Any **internal** path where **sub-100 ms p99** and **strong contracts** (protobuf) matter more than human-readable JSON
 
 **REST remains mandatory for:**
 
 - **External and public APIs** (`api.{company}.com`, partner webhooks, public documentation)
-- **BFF → client** — mobile and web clients never call gRPC directly; they use REST, GraphQL, or real-time channels as defined in platform standards
+- **BFF → client** - mobile and web clients never call gRPC directly; they use REST, GraphQL, or real-time channels as defined in platform standards
 
-### 1.1 gRPC vs REST — scenario comparison
+### 1.1 gRPC vs REST - scenario comparison
 
 | Scenario | Prefer gRPC | Prefer REST |
 |----------|-------------|-------------|
-| Mobile app → backend | | Yes — BFF + REST |
-| Partner HTTP integration | | Yes — versioned REST + OpenAPI |
-| Service A → Service B (same cluster, mesh) | Yes — when latency or type safety matters | Yes — for simple CRUD with existing REST stacks |
-| Streaming location / high QPS internal fan-out | Yes — HTTP/2, multiplexing | Rarely |
-| Debugging with `curl` in production | | Yes — or use grpcurl for gRPC |
-| Browser direct call | | Yes — gRPC-Web only via gateway if ever needed |
+| Mobile app → backend | | Yes - BFF + REST |
+| Partner HTTP integration | | Yes - versioned REST + OpenAPI |
+| Service A → Service B (same cluster, mesh) | Yes - when latency or type safety matters | Yes - for simple CRUD with existing REST stacks |
+| Streaming location / high QPS internal fan-out | Yes - HTTP/2, multiplexing | Rarely |
+| Debugging with `curl` in production | | Yes - or use grpcurl for gRPC |
+| Browser direct call | | Yes - gRPC-Web only via gateway if ever needed |
 
 ### 1.2 Decision flow
 
@@ -48,7 +48,7 @@ flowchart TD
 
 ## 📜 2. Proto File Conventions
 
-The **{company}/api-protos** monorepo is the DEFAULT and ONLY source of truth for all proto definitions. Per-service `proto/` directories are NOT permitted. All services consume generated code from the published `api-protos` artifact (see Section 14 — Proto Management). The package layout conventions below apply to files within the monorepo.
+The **{company}/api-protos** monorepo is the DEFAULT and ONLY source of truth for all proto definitions. Per-service `proto/` directories are NOT permitted. All services consume generated code from the published `api-protos` artifact (see Section 14 - Proto Management). The package layout conventions below apply to files within the monorepo.
 
 ### 2.1 Package naming
 
@@ -147,7 +147,7 @@ flowchart LR
 
 Generated source **must not** be committed to Git. CI generates (or Gradle generates locally) into **`build/generated/source/proto`** (Gradle default for the protobuf plugin).
 
-### 4.1 Gradle (`build.gradle.kts`) — full example
+### 4.1 Gradle (`build.gradle.kts`) - full example
 
 Apply the official Protobuf plugin and gRPC; align versions via BOM or explicit versions managed by Platform Engineering.
 
@@ -217,7 +217,7 @@ tasks.named<JavaCompile>("compileJava") {
 
 **Rules:**
 
-- Proto definitions live exclusively in the **{company}/api-protos** monorepo — per-service `proto/` directories are not permitted.
+- Proto definitions live exclusively in the **{company}/api-protos** monorepo - per-service `proto/` directories are not permitted.
 - Output under **`build/generated/source/proto`** only.
 - Add **`build/`** to `.gitignore`; never commit `**/generated/**` gRPC/Java outputs.
 
@@ -230,7 +230,7 @@ Use **`net.devh:grpc-spring-boot-starter`** for servers and clients unless Platf
 ### 5.1 Server configuration
 
 ```yaml
-# application.yml — Pricing service
+# application.yml - Pricing service
 grpc:
   server:
     port: 9090
@@ -601,7 +601,7 @@ sequenceDiagram
 
 ## 🧪 10. Testing
 
-### 10.1 Unit tests — `InProcessChannel` (no network)
+### 10.1 Unit tests - `InProcessChannel` (no network)
 
 Use **in-process** transport for fast, deterministic tests of adapters and interceptors:
 
@@ -657,7 +657,7 @@ class PricingGrpcControllerTest {
 }
 ```
 
-### 10.2 Integration tests — real server on random port
+### 10.2 Integration tests - real server on random port
 
 Start **Netty** (or Spring Boot test context) on **port 0**, read the bound port, and point the client at `localhost:{port}`:
 
@@ -685,7 +685,7 @@ class PricingGrpcIntegrationTest {
 
 For plain gRPC without Spring, use **`GrpcServerBuilder.forPort(0)`**, start, then **`server.getPort()`** for the client channel target.
 
-### 10.3 Consumer tests — mock gRPC server
+### 10.3 Consumer tests - mock gRPC server
 
 For **Orders** testing **Pricing** integration, use **grpc-java testing** `MutableHandlerRegistry` or **WireMock gRPC** / **Testcontainers** with a minimal fake `PricingService` implementation that returns canned responses. Prefer **contract tests** generated from the same `.proto` so breaking changes fail CI before deploy.
 
@@ -714,7 +714,7 @@ Use **Istio `AuthorizationPolicy`** for **service-to-service** access control (e
 
 ### 12.1 Default: Istio/Envoy L7 balancing
 
-Istio's Envoy sidecar handles **L7 load balancing** for gRPC. Because gRPC uses HTTP/2 multiplexing, all requests over a single connection go to the same pod — connection-level (L4) balancing is insufficient and will cause hot-spotting.
+Istio's Envoy sidecar handles **L7 load balancing** for gRPC. Because gRPC uses HTTP/2 multiplexing, all requests over a single connection go to the same pod - connection-level (L4) balancing is insufficient and will cause hot-spotting.
 
 ### 12.2 Kubernetes headless Services
 
@@ -891,14 +891,14 @@ CI in the `api-protos` repo publishes new artifact versions on every merge to `m
 
 ### 14.4 Versioning
 
-Proto package versions follow the **`{company}.{domain}.v{N}`** convention. A new major version means a new package — `{company}.pricing.v1` and `{company}.pricing.v2` coexist as separate packages during migration (see Section 3).
+Proto package versions follow the **`{company}.{domain}.v{N}`** convention. A new major version means a new package - `{company}.pricing.v1` and `{company}.pricing.v2` coexist as separate packages during migration (see Section 3).
 
 ### 14.5 Review process
 
 Proto changes require approval from:
 
-1. **The owning team** — the team responsible for the domain.
-2. **At least one consumer team** — a team that depends on the proto contract.
+1. **The owning team** - the team responsible for the domain.
+2. **At least one consumer team** - a team that depends on the proto contract.
 
 This ensures changes are validated from both the producer and consumer perspective before merge.
 

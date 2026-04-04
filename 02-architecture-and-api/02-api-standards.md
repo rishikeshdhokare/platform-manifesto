@@ -6,10 +6,10 @@
 
 ## 🎯 1. Principles
 
-Every API we expose is a product. It will be consumed by mobile apps, partner integrations, internal services, and tools we haven't built yet. APIs are versioned contracts — once published, they must not be broken.
+Every API we expose is a product. It will be consumed by mobile apps, partner integrations, internal services, and tools we haven't built yet. APIs are versioned contracts - once published, they must not be broken.
 
 **Non-negotiable rules:**
-- APIs are designed **API-first** — the OpenAPI spec is written before implementation begins
+- APIs are designed **API-first** - the OpenAPI spec is written before implementation begins
 - APIs are **versioned from day one**
 - APIs never return stack traces or internal error details to callers
 - APIs are **idempotent where they mutate state**
@@ -55,7 +55,7 @@ POST /providers/{providerId}/suspend
 POST /payments/{paymentId}/refund
 ```
 
-These are acceptable — they represent state transitions, not arbitrary RPC.
+These are acceptable - they represent state transitions, not arbitrary RPC.
 
 ---
 
@@ -73,11 +73,11 @@ These are acceptable — they represent state transitions, not arbitrary RPC.
 
 ### 3.1 Idempotency Details
 
-**Scope:** The `Idempotency-Key` is scoped per authenticated principal — specifically `tenant + user`. The same key submitted by different principals is treated as different operations. This prevents cross-tenant collisions in multi-tenant environments.
+**Scope:** The `Idempotency-Key` is scoped per authenticated principal - specifically `tenant + user`. The same key submitted by different principals is treated as different operations. This prevents cross-tenant collisions in multi-tenant environments.
 
-**Payload mismatch:** If the same `Idempotency-Key` is submitted with a **different request payload** than the original, the server returns `422 Unprocessable Entity` with error code `IDEMPOTENCY_KEY_PAYLOAD_MISMATCH`. The server does not execute the new payload — the original result stands.
+**Payload mismatch:** If the same `Idempotency-Key` is submitted with a **different request payload** than the original, the server returns `422 Unprocessable Entity` with error code `IDEMPOTENCY_KEY_PAYLOAD_MISMATCH`. The server does not execute the new payload - the original result stands.
 
-**PATCH operations:** `PATCH` is inherently idempotent — applying the same patch twice produces the same result. No `Idempotency-Key` is required for PATCH requests (though clients may include one; the server will honour it if present).
+**PATCH operations:** `PATCH` is inherently idempotent - applying the same patch twice produces the same result. No `Idempotency-Key` is required for PATCH requests (though clients may include one; the server will honour it if present).
 
 **gRPC:** For mutation RPCs in internal gRPC services, include an `idempotency_key` field in the request message:
 
@@ -90,7 +90,7 @@ message CreatePaymentRequest {
 }
 ```
 
-The same storage and TTL semantics apply as for REST — the key is stored in the idempotency table with the serialised response, and replayed if the same key is received within 24 hours.
+The same storage and TTL semantics apply as for REST - the key is stored in the idempotency table with the serialised response, and replayed if the same key is received within 24 hours.
 
 ---
 
@@ -153,14 +153,14 @@ Sunset: Sat, 31 Dec 2025 23:59:59 GMT
 ### 5.3 Field Naming
 
 - **JSON fields:** `camelCase`
-- **Date/time fields:** ISO 8601 with timezone — `2024-11-15T14:30:00Z`
-- **IDs:** String UUIDs — never expose sequential integers as public IDs
-- **Enums:** `SCREAMING_SNAKE_CASE` — `ORDER_IN_PROGRESS`, `PAYMENT_FAILED`
-- **Currency:** Integer cents/pence — never floating point. Include currency code separately.
+- **Date/time fields:** ISO 8601 with timezone - `2024-11-15T14:30:00Z`
+- **IDs:** String UUIDs - never expose sequential integers as public IDs
+- **Enums:** `SCREAMING_SNAKE_CASE` - `ORDER_IN_PROGRESS`, `PAYMENT_FAILED`
+- **Currency:** Integer cents/pence - never floating point. Include currency code separately.
   ```json
   { "amount": 1250, "currency": "USD" }
   ```
-- **Coordinates:** GeoJSON-compatible — `{ "lat": 40.7128, "lng": -74.0060 }`
+- **Coordinates:** GeoJSON-compatible - `{ "lat": 40.7128, "lng": -74.0060 }`
 
   > **Note:** JSON API payloads use `{"lat": N, "lng": N}` objects. GeoJSON endpoints use `[lng, lat]` per GeoJSON spec.
 
@@ -179,7 +179,7 @@ GET /v1/orders?limit=20&cursor=eyJpZCI6IjEyMyJ9
 | Parameter | Default | Max | Description |
 |-----------|---------|-----|-------------|
 | `limit` | 20 | 100 | Number of items per page |
-| `cursor` | — | — | Opaque cursor from previous response |
+| `cursor` | - | - | Opaque cursor from previous response |
 
 ### 6.2 Response
 
@@ -200,17 +200,17 @@ When there are no more pages, `nextCursor` is `null` and `hasMore` is `false`.
 
 Maximum traversal depth is **10,000 items** (i.e., 500 pages at `limit=20`). Requests that attempt to paginate beyond 10,000 items receive a `400 Bad Request` with error code `PAGINATION_DEPTH_EXCEEDED` and a message instructing the caller to apply filters (date range, status, etc.) to narrow the result set.
 
-This limit exists to protect database performance — deep cursor-based pagination still requires index traversal proportional to depth.
+This limit exists to protect database performance - deep cursor-based pagination still requires index traversal proportional to depth.
 
 ### 6.4 Cursor Encoding & Expiry
 
-- **Encoding:** Cursors are **opaque, base64-encoded strings**. Clients must not parse, construct, or modify cursors — they are server-generated and server-interpreted.
+- **Encoding:** Cursors are **opaque, base64-encoded strings**. Clients must not parse, construct, or modify cursors - they are server-generated and server-interpreted.
 - **Expiry:** Cursors expire after **1 hour**. A request with an expired cursor returns `400 Bad Request` with error code `CURSOR_EXPIRED`. The client must restart pagination from the beginning.
 - **Contents:** Internally, cursors encode the last-seen sort key(s) and direction. The encoding format is an implementation detail and may change without notice.
 
 ### 6.5 Consistency
 
-- Where the underlying data store supports it, cursors use **snapshot isolation** — the result set is consistent as of the time the first page was requested.
+- Where the underlying data store supports it, cursors use **snapshot isolation** - the result set is consistent as of the time the first page was requested.
 - For data stores without snapshot isolation (e.g., OpenSearch), results **may shift** between pages if the underlying data changes (inserts, deletes, re-sorting). This must be documented in the API spec for affected endpoints.
 - APIs that cannot guarantee cursor consistency must include a `consistency: "best-effort"` field in the pagination response object.
 
@@ -220,7 +220,7 @@ This limit exists to protect database performance — deep cursor-based paginati
 
 ### 7.1 Standard Error Shape
 
-All errors — validation, auth, not found, server errors — use this shape:
+All errors - validation, auth, not found, server errors - use this shape:
 
 ```json
 {
@@ -242,8 +242,8 @@ All errors — validation, auth, not found, server errors — use this shape:
 | Field | Description |
 |-------|-------------|
 | `code` | Machine-readable, `SCREAMING_SNAKE_CASE`, stable across versions |
-| `message` | Human-readable, may change — do not parse in code |
-| `requestId` | For support — correlates to logs |
+| `message` | Human-readable, may change - do not parse in code |
+| `requestId` | For support - correlates to logs |
 | `timestamp` | When the error occurred |
 | `details` | Optional array of field-level issues (validation errors) |
 
@@ -259,10 +259,10 @@ All errors — validation, auth, not found, server errors — use this shape:
 | `401 Unauthorized` | Missing or invalid authentication |
 | `403 Forbidden` | Authenticated but not authorised |
 | `404 Not Found` | Resource does not exist (or caller is not authorised to know it exists) |
-| `409 Conflict` | State conflict — e.g. order already cancelled |
+| `409 Conflict` | State conflict - e.g. order already cancelled |
 | `422 Unprocessable Entity` | Business rule violation (different from 400 validation) |
 | `429 Too Many Requests` | Rate limit exceeded; include `Retry-After` header |
-| `500 Internal Server Error` | Unhandled server error — never expose internals |
+| `500 Internal Server Error` | Unhandled server error - never expose internals |
 | `503 Service Unavailable` | Deliberate unavailability (circuit open, maintenance) |
 
 **Never use:** `200` with an error payload body. Never return `500` with stack traces.
@@ -274,21 +274,21 @@ All errors — validation, auth, not found, server errors — use this shape:
 ### 8.1 Authentication
 
 - All external APIs require a JWT Bearer token in the `Authorization` header
-- JWTs are issued by our identity provider (Auth0 / Cognito — see team decision)
-- JWTs must be validated at the **BFF layer** — downstream services trust the claims forwarded by the BFF (internal JWT propagation)
+- JWTs are issued by our identity provider (Auth0 / Cognito - see team decision)
+- JWTs must be validated at the **BFF layer** - downstream services trust the claims forwarded by the BFF (internal JWT propagation)
 - Token expiry: **15 minutes** for access tokens; refresh tokens are long-lived with rotation
 
 ### 8.2 Authorisation
 
 - Authorisation is enforced **at the service level**, not just at the gateway
 - Services must validate that the calling principal has rights to the requested resource
-- Never use sequential IDs in URLs — UUID prevents enumeration attacks
+- Never use sequential IDs in URLs - UUID prevents enumeration attacks
 
 ### 8.3 API Keys (Partner APIs)
 
 - Partner API access uses API keys with scopes
 - API keys are issued via the developer portal, rotatable, and revocable
-- API keys are hashed at rest — the platform stores the hash, not the key
+- API keys are hashed at rest - the platform stores the hash, not the key
 
 ---
 
@@ -331,7 +331,7 @@ Token bucket is the default. Sliding window is used only when the downstream sys
 
 All rate-limited endpoints allow a **burst of 2× the sustained rate for up to 10 seconds**. For example, an endpoint with a sustained limit of 60 req/min (1 req/s) may burst to 2 req/s for 10 seconds before rate limiting applies.
 
-Burst is implemented via the token bucket's bucket depth — set to `sustained_rate × 10`.
+Burst is implemented via the token bucket's bucket depth - set to `sustained_rate × 10`.
 
 ### 9.4 Fairness & Noisy Neighbour Prevention
 
@@ -346,11 +346,11 @@ Burst is implemented via the token bucket's bucket depth — set to `sustained_r
 | **API Gateway** | Global rate limits per tier (unauthenticated, authenticated, partner) | AWS API Gateway usage plans + throttling |
 | **BFF** | Per-user / per-session rate limits (e.g., max 5 order creations per minute per user) | Application-level rate limiter (Resilience4j `RateLimiter` or Redis-backed counter) |
 
-The API Gateway is the first line of defence — it protects backend services from traffic floods. The BFF applies business-level rate limits that require awareness of the authenticated user context.
+The API Gateway is the first line of defence - it protects backend services from traffic floods. The BFF applies business-level rate limits that require awareness of the authenticated user context.
 
 ### 9.6 Response
 
-All rate-limited responses return `429 Too Many Requests` with a `Retry-After` header indicating the number of seconds until the client may retry. Clients must respect this header — SDKs and BFFs should implement automatic backoff.
+All rate-limited responses return `429 Too Many Requests` with a `Retry-After` header indicating the number of seconds until the client may retry. Clients must respect this header - SDKs and BFFs should implement automatic backoff.
 
 ---
 
@@ -359,7 +359,7 @@ All rate-limited responses return `429 Too Many Requests` with a `Retry-After` h
 ### 10.1 API-First Process
 
 1. Engineer drafts the OpenAPI 3.1 spec in `api/openapi.yaml`
-2. PR raised for review — API contract review is separate from implementation review
+2. PR raised for review - API contract review is separate from implementation review
 3. Once approved, implementation begins
 4. CI validates implementation against contract using `openapi-diff` (breaking changes in CI fail the build)
 
@@ -408,7 +408,7 @@ GET /v1/orders?q=premium                     # full-text search (where supported
 
 ## 📏 12. API Lifecycle Management
 
-Publishing an API version is easy. Managing its lifecycle — tracking consumers, enforcing deprecation, and sunsetting — is harder. These rules ensure we don't accumulate zombie API versions.
+Publishing an API version is easy. Managing its lifecycle - tracking consumers, enforcing deprecation, and sunsetting - is harder. These rules ensure we don't accumulate zombie API versions.
 
 ### 12.1 Version Usage Tracking
 
@@ -429,9 +429,9 @@ When a new version is released:
 
 1. **Day 0:** New version published. Old version marked with `Deprecation: true` and `Sunset` response headers.
 2. **Week 1:** Backstage sends automated notification to all registered consumers of the old version.
-3. **Monthly:** Deprecation dashboard reviewed — which consumers still use the old version?
+3. **Monthly:** Deprecation dashboard reviewed - which consumers still use the old version?
 4. **Month 6:** Warning emails to consumer teams still on old version.
-5. **Month 11:** Final warning — old version will be removed in 30 days.
+5. **Month 11:** Final warning - old version will be removed in 30 days.
 6. **Month 12:** Old version removed. Requests return `410 Gone`.
 
 ### 12.3 Consumer Migration Tracking
@@ -464,14 +464,14 @@ GraphQL adds significant operational complexity that our current platform toolin
 | Concern | REST/gRPC (current) | GraphQL (additional burden) |
 |---------|---------------------|----------------------------|
 | **Caching** | Standard HTTP caching (CDN, `Cache-Control`) | Requires custom cache strategies; POST-based queries defeat HTTP caches |
-| **Monitoring** | Per-endpoint metrics (RED method) | Single `/graphql` endpoint — all queries look the same without custom instrumentation |
+| **Monitoring** | Per-endpoint metrics (RED method) | Single `/graphql` endpoint - all queries look the same without custom instrumentation |
 | **Authorization** | Per-endpoint middleware | Per-field authorization required; easy to accidentally expose data |
 | **N+1 queries** | Explicit in code; visible in traces | Hidden in resolver chains; requires DataLoader discipline |
 | **Rate limiting** | Per-endpoint limits | Query complexity varies wildly; simple rate limits are insufficient |
 
 ### 13.3 Exception Process
 
-If a team believes GraphQL is the right solution for a **BFF aggregation** use case (e.g., a mobile BFF that aggregates 5+ downstream services into a single screen), they may propose it via the RFC process (see Ways of Working — RFC Process).
+If a team believes GraphQL is the right solution for a **BFF aggregation** use case (e.g., a mobile BFF that aggregates 5+ downstream services into a single screen), they may propose it via the RFC process (see Ways of Working - RFC Process).
 
 The RFC must address:
 - Why REST aggregation in the BFF is insufficient
@@ -495,7 +495,7 @@ GraphQL services approved via RFC must enforce **all** of the following:
 
 If a GraphQL service is approved, it must implement custom observability to match the visibility we get from REST endpoints:
 
-- Per-operation-name metrics (rate, errors, duration) — operation names are required on all queries
+- Per-operation-name metrics (rate, errors, duration) - operation names are required on all queries
 - Query complexity tracking as a Prometheus histogram
 - Slow query logging (queries exceeding complexity threshold or duration > 1s)
 - Depth violation alerts
@@ -514,18 +514,18 @@ The BFF validates the external JWT and forwards identity claims to downstream se
 | `X-{Company}-Roles` | Comma-separated role list from JWT | User roles for authorization |
 | `X-{Company}-Tenant-Id` | Tenant identifier from JWT | Tenant context for multi-tenant isolation |
 
-Downstream services trust these headers because the request arrives over the Istio mesh with mTLS — the BFF's SPIFFE identity is verified by the sidecar. Services do not re-validate the original JWT.
+Downstream services trust these headers because the request arrives over the Istio mesh with mTLS - the BFF's SPIFFE identity is verified by the sidecar. Services do not re-validate the original JWT.
 
 ### 14.2 Service-to-Service Authentication
 
 | Communication Path | Auth Mechanism | Token Required? |
 |--------------------|---------------|-----------------|
-| BFF → internal service | Istio mTLS + forwarded JWT claim headers | No additional token — mTLS identity is sufficient |
-| Service → service (same mesh) | Istio mTLS (SPIFFE identity) | No — mesh identity verified automatically |
-| Service → external API | OAuth2 client credentials or API key | Yes — managed via Secrets Manager |
+| BFF → internal service | Istio mTLS + forwarded JWT claim headers | No additional token - mTLS identity is sufficient |
+| Service → service (same mesh) | Istio mTLS (SPIFFE identity) | No - mesh identity verified automatically |
+| Service → external API | OAuth2 client credentials or API key | Yes - managed via Secrets Manager |
 | External partner → API Gateway | API key or OAuth2 Bearer token | Yes |
 
-For service-to-service calls within the mesh, Istio's **SPIFFE-based mTLS** provides mutual authentication. No additional JWT or API key is needed — the `AuthorizationPolicy` controls which service identities may call which endpoints.
+For service-to-service calls within the mesh, Istio's **SPIFFE-based mTLS** provides mutual authentication. No additional JWT or API key is needed - the `AuthorizationPolicy` controls which service identities may call which endpoints.
 
 ---
 

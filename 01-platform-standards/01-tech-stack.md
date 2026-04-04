@@ -6,7 +6,7 @@
 
 ## 🎯 1. Overview
 
-This document defines the approved technology stack for all new and replatformed services. Deviation from this stack requires an ADR and explicit approval from the Platform team. The goal is not uniformity for its own sake — it is to reduce cognitive overhead, enable rotation of engineers across teams, and concentrate platform investment in a small number of well-understood tools.
+This document defines the approved technology stack for all new and replatformed services. Deviation from this stack requires an ADR and explicit approval from the Platform team. The goal is not uniformity for its own sake - it is to reduce cognitive overhead, enable rotation of engineers across teams, and concentrate platform investment in a small number of well-understood tools.
 
 ---
 
@@ -16,16 +16,16 @@ This document defines the approved technology stack for all new and replatformed
 
 | Decision | Rationale |
 |----------|-----------|
-| **Java 21 (LTS)** — primary language | Virtual threads (Project Loom), strong ecosystem, excellent AWS SDK support, wide hiring pool |
-| **Java 17** — minimum for existing services not yet on 21 | Still LTS, security-maintained |
+| **Java 21 (LTS)** - primary language | Virtual threads (Project Loom), strong ecosystem, excellent AWS SDK support, wide hiring pool |
+| **Java 17** - minimum for existing services not yet on 21 | Still LTS, security-maintained |
 
-**We do not accept new services in:** Scala, Groovy, Kotlin (unless a team has an existing Kotlin codebase — it may remain, but new services start in Java).
+**We do not accept new services in:** Scala, Groovy, Kotlin (unless a team has an existing Kotlin codebase - it may remain, but new services start in Java).
 
 ### 2.2 Build Tool
 
-- **Gradle (Kotlin DSL)** — mandatory for all new Java services
+- **Gradle (Kotlin DSL)** - mandatory for all new Java services
 - Maven is acceptable for existing services; new services must use Gradle
-- All builds must be **reproducible** — no floating dependency versions (use `implementation("group:artifact:1.2.3")`, not `1.+`)
+- All builds must be **reproducible** - no floating dependency versions (use `implementation("group:artifact:1.2.3")`, not `1.+`)
 - Dependency locking via `gradle.lockfile` is required in all services
 
 ### 2.3 Framework
@@ -41,7 +41,7 @@ This document defines the approved technology stack for all new and replatformed
 
 ### 2.4 Runtime
 
-- **JDK:** Amazon Corretto 21 — used in all container base images and CI
+- **JDK:** Amazon Corretto 21 - used in all container base images and CI
 - **Container base image:** `amazoncorretto:21-alpine` for production; never `latest`
 - All services run as **non-root** inside containers
 - JVM flags are standardised via a shared `jvm.options` template (see Golden Path)
@@ -54,9 +54,9 @@ This document defines the approved technology stack for all new and replatformed
 
 | Decision | Rationale |
 |----------|-----------|
-| **TypeScript** — mandatory for all web frontend | Type safety, better tooling, fewer runtime errors |
+| **TypeScript** - mandatory for all web frontend | Type safety, better tooling, fewer runtime errors |
 | **React 18+** | Component model, ecosystem maturity, hiring pool |
-| **Next.js** — recommended for new web apps | SSR/SSG, routing, API routes, image optimization |
+| **Next.js** - recommended for new web apps | SSR/SSG, routing, API routes, image optimization |
 
 ### 3.2 Build & Tooling
 
@@ -79,11 +79,11 @@ This document defines the approved technology stack for all new and replatformed
 
 ### 3.4 Standards
 
-- All web apps are SPA or SSR — no server-rendered templates (JSP, Thymeleaf, etc.)
-- CSS: Tailwind CSS or CSS Modules — no CSS-in-JS runtime solutions in production
+- All web apps are SPA or SSR - no server-rendered templates (JSP, Thymeleaf, etc.)
+- CSS: Tailwind CSS or CSS Modules - no CSS-in-JS runtime solutions in production
 - Bundle size budget: < 200KB initial JS (gzipped). Monitored in CI
 - Core Web Vitals (LCP < 2.5s, FID < 100ms, CLS < 0.1) monitored and alerted
-- Accessibility: WCAG 2.1 AA compliance — tested with axe-core in CI
+- Accessibility: WCAG 2.1 AA compliance - tested with axe-core in CI
 
 ---
 
@@ -93,8 +93,8 @@ This document defines the approved technology stack for all new and replatformed
 
 | Decision | Rationale |
 |----------|-----------|
-| **React Native** — primary framework | Cross-platform, shared codebase, JS/TS ecosystem |
-| **TypeScript** — mandatory | Same benefits as web; consistent language across frontend |
+| **React Native** - primary framework | Cross-platform, shared codebase, JS/TS ecosystem |
+| **TypeScript** - mandatory | Same benefits as web; consistent language across frontend |
 | **Native modules** | Allowed when RN cannot meet performance or platform API requirements (camera, Bluetooth, etc.) |
 
 ### 4.2 Architecture
@@ -155,21 +155,21 @@ Java is our primary language and receives full platform support (golden path, BO
 
 A non-Java language is justified when:
 
-1. **Ecosystem gap** — the required library ecosystem does not exist in Java (e.g., ML training with PyTorch, TensorFlow)
-2. **Performance proof** — benchmarks demonstrate that Java cannot meet the latency or throughput requirement (rare with virtual threads)
-3. **Team expertise** — the team has deep expertise in the alternative language AND the use case is isolated (no shared library dependencies)
+1. **Ecosystem gap** - the required library ecosystem does not exist in Java (e.g., ML training with PyTorch, TensorFlow)
+2. **Performance proof** - benchmarks demonstrate that Java cannot meet the latency or throughput requirement (rare with virtual threads)
+3. **Team expertise** - the team has deep expertise in the alternative language AND the use case is isolated (no shared library dependencies)
 
 ### What "Partial Support" Means
 
 - CI templates exist but are maintained on a best-effort basis
-- No platform BOM — teams manage their own dependency versions
+- No platform BOM - teams manage their own dependency versions
 - No Backstage scaffolding template (except TypeScript frontend)
-- Observability standards (structured logging, Prometheus metrics, OTel tracing) still apply — teams must implement them
+- Observability standards (structured logging, Prometheus metrics, OTel tracing) still apply - teams must implement them
 
 ### Anti-Patterns
 
-- Starting a new domain service in Python or Go because "it would be faster" — without benchmarks
-- Using TypeScript for a BFF because "the frontend team knows it" — without evaluating the operational cost of a second runtime in production
+- Starting a new domain service in Python or Go because "it would be faster" - without benchmarks
+- Using TypeScript for a BFF because "the frontend team knows it" - without evaluating the operational cost of a second runtime in production
 - Mixing languages within a single service (e.g., Java service calling Python scripts)
 
 ---
@@ -182,7 +182,7 @@ A non-Java language is justified when:
 |----------|--------|
 | **Engine** | PostgreSQL 15+ |
 | **Managed service** | Amazon RDS (Multi-AZ) for standard workloads; Amazon Aurora PostgreSQL for high-throughput domains (fulfillment, pricing) |
-| **Migrations** | Flyway — mandatory. No manual schema changes in any environment |
+| **Migrations** | Flyway - mandatory. No manual schema changes in any environment |
 | **Connection pooling** | PgBouncer sidecar, or RDS Proxy for serverless workloads |
 
 ### 6.2 Caching
@@ -192,13 +192,13 @@ A non-Java language is justified when:
 | **Engine** | Redis 7+ |
 | **Managed service** | Amazon ElastiCache for Redis (cluster mode enabled for production) |
 | **Use cases** | Session state, rate limiting, geospatial indexes (provider location), hot read caches |
-| **Prohibited use** | Redis must not be used as a primary data store — data there must be reconstructible |
+| **Prohibited use** | Redis must not be used as a primary data store - data there must be reconstructible |
 
 ### 6.3 In-Process Caching
 
 | Decision | Detail |
 |----------|--------|
-| **Library** | Caffeine — for config and reference data only |
+| **Library** | Caffeine - for config and reference data only |
 | **TTL** | < 5 minutes maximum |
 | **Max entries** | 10,000 per cache instance |
 | **Use cases** | Configuration lookups, reference/master data, feature flag snapshots |
@@ -216,18 +216,18 @@ A non-Java language is justified when:
 | Decision | Detail |
 |----------|--------|
 | **Platform** | Amazon MSK (Managed Streaming for Apache Kafka) |
-| **Client library** | `spring-kafka` — no direct Kafka client usage |
+| **Client library** | `spring-kafka` - no direct Kafka client usage |
 | **Schema format** | Avro with Schema Registry (AWS Glue Schema Registry) |
 | **Topic naming** | `{domain}.{entity}.{event}` e.g. `orders.order.completed` |
 
 ### 6.5 Search
 
-- **Amazon OpenSearch Service** — for full-text and geo search workloads
+- **Amazon OpenSearch Service** - for full-text and geo search workloads
 - Not a general-purpose store; data in OpenSearch must be projected from a canonical source
 
 ### 6.6 Object Storage
 
-- **Amazon S3** — for all binary/blob storage
+- **Amazon S3** - for all binary/blob storage
 - Versioning enabled on all production buckets
 - No public buckets; all access via pre-signed URLs or CloudFront
 
@@ -237,7 +237,7 @@ A non-Java language is justified when:
 
 ### 7.1 Provider
 
-**AWS — primary and exclusive cloud provider.**
+**AWS - primary and exclusive cloud provider.**
 
 | Service Category | AWS Service |
 |-----------------|-------------|
@@ -256,7 +256,7 @@ A non-Java language is justified when:
 
 ### 7.2 Infrastructure as Code
 
-- **Terraform** — mandatory for all AWS infrastructure
+- **Terraform** - mandatory for all AWS infrastructure
 - **Terraform version:** pinned via `.terraform-version` (tfenv)
 - **Module strategy:** Internal module registry in GitHub; no direct use of community modules without Platform team review
 - **State backend:** S3 + DynamoDB locking, per environment
@@ -305,14 +305,14 @@ A non-Java language is justified when:
 
 ---
 
-## 📋 11. Approved vs Unapproved — Quick Reference
+## 📋 11. Approved vs Unapproved - Quick Reference
 
 | Category | ✅ Approved | ❌ Not Approved |
 |----------|------------|----------------|
 | Language | Java 21 | Scala, Ruby, PHP, C++ |
 | Framework | Spring Boot 3.x | Quarkus, Micronaut (no platform support) |
 | DB (relational) | PostgreSQL / Aurora | MySQL, Oracle, MSSQL |
-| DB (document) | — (use RDS) | MongoDB (not on approved list) |
+| DB (document) | - (use RDS) | MongoDB (not on approved list) |
 | Messaging | Kafka (MSK) | RabbitMQ, SQS for domain events |
 | IaC | Terraform | CDK, CloudFormation directly |
 | CI/CD | GitHub Actions + ArgoCD | Jenkins, CircleCI, Bitbucket Pipelines |
@@ -330,11 +330,11 @@ Single-page applications use **Authorization Code with PKCE**:
 | Aspect | Standard |
 |--------|----------|
 | **Flow** | Authorization Code + PKCE (RFC 7636) |
-| **Token storage** | In-memory only — never `localStorage` or `sessionStorage` |
+| **Token storage** | In-memory only - never `localStorage` or `sessionStorage` |
 | **Token lifetime** | Access token: 15 minutes; refresh token: rotating, httpOnly cookie |
-| **Silent refresh** | Hidden iframe or service worker — no full-page redirect |
+| **Silent refresh** | Hidden iframe or service worker - no full-page redirect |
 
-Tokens stored in `localStorage` are accessible to any JavaScript running on the page (XSS risk). In-memory storage is lost on page refresh — the silent refresh mechanism re-obtains tokens without user interaction.
+Tokens stored in `localStorage` are accessible to any JavaScript running on the page (XSS risk). In-memory storage is lost on page refresh - the silent refresh mechanism re-obtains tokens without user interaction.
 
 ### 12.2 SSR Authentication (BFF-Managed Session)
 
@@ -346,7 +346,7 @@ Server-side rendered applications use **httpOnly cookies** managed by the BFF:
 | **Session backend** | BFF manages the session; tokens never reach the browser |
 | **CSRF protection** | Double-submit cookie pattern or synchronizer token |
 
-The BFF acts as a confidential client — it holds the client secret and exchanges tokens with the identity provider on behalf of the browser.
+The BFF acts as a confidential client - it holds the client secret and exchanges tokens with the identity provider on behalf of the browser.
 
 ### 12.3 Silent Refresh Mechanisms
 
@@ -354,7 +354,7 @@ The BFF acts as a confidential client — it holds the client secret and exchang
 |-----------|-------------|
 | **Hidden iframe** | Default for SPAs where the IdP supports `prompt=none` |
 | **Service worker** | When iframe-based refresh is blocked by third-party cookie policies |
-| **Refresh token rotation** | Always enabled — each refresh token is single-use; a reused token revokes the entire session |
+| **Refresh token rotation** | Always enabled - each refresh token is single-use; a reused token revokes the entire session |
 
 ---
 

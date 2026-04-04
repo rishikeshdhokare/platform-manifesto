@@ -6,11 +6,11 @@
 
 ## 🎯 1. The Problem
 
-In the platform, completing an order touches multiple services: **Orders** (`com.{company}.orders`), **Payments** (`com.{company}.payments`), **Notifications** (`com.{company}.notifications`), and **Customer Profile** (`com.{company}.customerprofile`). A naïve design might mark the order complete, then capture payment, then notify the customer — each step in its own local transaction.
+In the platform, completing an order touches multiple services: **Orders** (`com.{company}.orders`), **Payments** (`com.{company}.payments`), **Notifications** (`com.{company}.notifications`), and **Customer Profile** (`com.{company}.customerprofile`). A naïve design might mark the order complete, then capture payment, then notify the customer - each step in its own local transaction.
 
 If **payment capture fails after the order is already marked `COMPLETED`**, the system is inconsistent: the business says the order finished, but money was not collected. You cannot hold a single database lock across service boundaries. **Two-phase commit (2PC)** across microservices is impractical: it requires all participants to be available for the prepare phase, couples availability, and does not fit our event-driven, independently deployable services.
 
-**Platform standard:** model multi-step business processes as **sagas** — a sequence of local transactions coordinated by **messages** (choreography or orchestration), each with a defined **compensation** path when something goes wrong.
+**Platform standard:** model multi-step business processes as **sagas** - a sequence of local transactions coordinated by **messages** (choreography or orchestration), each with a defined **compensation** path when something goes wrong.
 
 ```mermaid
 flowchart TB
@@ -74,7 +74,7 @@ sequenceDiagram
 
 ### Orchestration
 
-A **saga orchestrator** — either a dedicated service (e.g. `com.{company}.saga.settlement`) or a designated coordinator such as Orders for a narrow flow — **sends commands** and **waits for replies** (or correlates async responses). State machines in the orchestrator record which step is active.
+A **saga orchestrator** - either a dedicated service (e.g. `com.{company}.saga.settlement`) or a designated coordinator such as Orders for a narrow flow - **sends commands** and **waits for replies** (or correlates async responses). State machines in the orchestrator record which step is active.
 
 | Aspect | Detail |
 |--------|--------|
@@ -157,13 +157,13 @@ sequenceDiagram
 
 ## 🧩 4. Compensation Patterns
 
-When a saga step **fails**, earlier **forward** effects must be **compensated** (semantic undo — not always a literal delete). Compensation is also triggered on **timeouts** (see §7).
+When a saga step **fails**, earlier **forward** effects must be **compensated** (semantic undo - not always a literal delete). Compensation is also triggered on **timeouts** (see §7).
 
 | Step (forward) | Compensation action | Owner |
 |----------------|---------------------|--------|
 | Order marked `COMPLETED` | Transition order to **`PAYMENT_FAILED`** (or `COMPLETED_PENDING_PAYMENT` per product rules); block provider payout until resolved | `com.{company}.orders` |
 | Payment authorized / hold placed | **Void** or **release** authorization per PSP rules | `com.{company}.payments` |
-| Receipt notification sent | Send **corrective** notification ("payment issue — we're retrying" / final failure copy) | `com.{company}.notifications` |
+| Receipt notification sent | Send **corrective** notification ("payment issue - we're retrying" / final failure copy) | `com.{company}.notifications` |
 | Customer profile history updated | **Append** a compensating record or mark entry as `VOIDED` (never silent delete of audit trail) | `com.{company}.customerprofile` |
 | Analytics / DWH fact written | Emit **correcting** event or late-arriving negative adjustment | Data platform |
 
@@ -189,9 +189,9 @@ flowchart TD
 
 **Every saga participant MUST be idempotent.** Kafka provides **at-least-once** delivery; the same event can be processed twice after a crash between business logic and offset commit.
 
-**Mandatory pattern:** use the **`processed_events` table** (or equivalent) as documented in [Kafka Patterns — Idempotent consumers](../06-developer-guides/04-kafka-patterns.md): dedupe by **`(event_id, topic)`** in the **same database transaction** as the business side effect, then acknowledge the message.
+**Mandatory pattern:** use the **`processed_events` table** (or equivalent) as documented in [Kafka Patterns - Idempotent consumers](../06-developer-guides/04-kafka-patterns.md): dedupe by **`(event_id, topic)`** in the **same database transaction** as the business side effect, then acknowledge the message.
 
-**Code example — idempotent payment capture** (`com.{company}.payments`):
+**Code example - idempotent payment capture** (`com.{company}.payments`):
 
 ```java
 @Component

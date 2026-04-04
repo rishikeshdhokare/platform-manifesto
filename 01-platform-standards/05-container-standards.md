@@ -11,7 +11,7 @@ All container images must use platform-approved base images. The platform team m
 | Service Type | Base Image | Notes |
 |-------------|------------|-------|
 | Java services | `amazoncorretto:21-alpine` | Production runtime for all JVM services |
-| Node.js (frontend builds) | `node:20-alpine` | Build stage only — not for production runtime |
+| Node.js (frontend builds) | `node:20-alpine` | Build stage only - not for production runtime |
 | Static frontends | `nginx:1.27-alpine` | Serving pre-built SPA bundles |
 
 ### Base Image Rules
@@ -28,7 +28,7 @@ All container images must use platform-approved base images. The platform team m
 
 ## 📦 2. Dockerfile Standards
 
-All services must use multi-stage builds. The final image contains only the runtime and the built artifact — never source code, build tools, or test dependencies.
+All services must use multi-stage builds. The final image contains only the runtime and the built artifact - never source code, build tools, or test dependencies.
 
 ### Reference Dockerfile (Java / Spring Boot)
 
@@ -71,8 +71,8 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 | Multi-stage build | Keeps build tools out of production image |
 | `COPY` only built artifact | No source code, no `.git`, no test files in final image |
 | `HEALTHCHECK` instruction | Enables Docker and orchestrator health monitoring |
-| OCI labels (`org.opencontainers.image.*`) | Traceability — link image to source repo and version |
-| Non-root `USER` | Defense in depth — limits container escape impact |
+| OCI labels (`org.opencontainers.image.*`) | Traceability - link image to source repo and version |
+| Non-root `USER` | Defense in depth - limits container escape impact |
 | `.dockerignore` | Prevents unnecessary files from entering the build context |
 
 ### Required .dockerignore
@@ -282,7 +282,7 @@ Amazon ECR is the single approved container registry. No other registry (Docker 
 | **Registry** | Amazon ECR (one account per environment) |
 | **Repository naming** | `{Company}/{service-name}` |
 | **Cross-account access** | ECR pull-through cache for non-prod accounts |
-| **Public images** | Prohibited in production — use approved mirrors |
+| **Public images** | Prohibited in production - use approved mirrors |
 | **Image pull policy** | `IfNotPresent` for tagged images, never `Always` |
 
 ### Repository Structure
@@ -300,7 +300,7 @@ ECR (prod account)
 
 ### Mirror Policy
 
-External dependencies (e.g., Redis, PostgreSQL for local dev) must be pulled through an approved ECR pull-through cache — never directly from Docker Hub in CI or production.
+External dependencies (e.g., Redis, PostgreSQL for local dev) must be pulled through an approved ECR pull-through cache - never directly from Docker Hub in CI or production.
 
 | Source | Approved Mirror |
 |--------|----------------|

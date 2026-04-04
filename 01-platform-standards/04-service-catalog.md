@@ -6,7 +6,7 @@
 
 ## 🎯 1. Why a Service Catalog
 
-A service catalog is the **single pane of glass** for every service on the platform. Without it, answering basic questions — who owns this service? what does it depend on? is it healthy? — requires tribal knowledge, Slack archaeology, or guesswork.
+A service catalog is the **single pane of glass** for every service on the platform. Without it, answering basic questions - who owns this service? what does it depend on? is it healthy? - requires tribal knowledge, Slack archaeology, or guesswork.
 
 | Question | Without Catalog | With Catalog |
 |----------|----------------|--------------|
@@ -31,7 +31,7 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: orders-service
-  description: "Order lifecycle management — creation, fulfillment, cancellation"
+  description: "Order lifecycle management - creation, fulfillment, cancellation"
   tags:
     - java
     - spring-boot
@@ -231,7 +231,7 @@ Operations      █████████████████████�
 
 ## 👥 7. Ownership Enforcement
 
-Every service must have a clearly defined owning team. Unowned services are a liability — no one responds to incidents, no one reviews PRs, no one maintains dependencies.
+Every service must have a clearly defined owning team. Unowned services are a liability - no one responds to incidents, no one reviews PRs, no one maintains dependencies.
 
 ### Rules
 

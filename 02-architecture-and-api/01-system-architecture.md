@@ -131,16 +131,16 @@ Use for: **user-facing requests where a real-time response is required.**
 - **Internal (service → service):** gRPC with mutual TLS
 - **Timeout policy:** All synchronous calls must have explicit timeouts (default: 2s for internal, 5s for external dependencies)
 - **Retry policy:** Exponential backoff with jitter, max 3 retries, only on idempotent operations
-- **Circuit breaker:** Resilience4j — mandatory on all synchronous outbound calls
+- **Circuit breaker:** Resilience4j - mandatory on all synchronous outbound calls
 
 ### 4.2 Asynchronous (Event-Driven)
 
 Use for: **state changes that other domains need to react to, but not in the critical path of a user request.**
 
 - **Platform:** Kafka on Amazon MSK
-- **Producer rule:** A service publishes events about its own domain — it does not publish commands to other services
-- **Consumer rule:** Consumers are responsible for idempotency — the same event may be delivered more than once
-- **Schema:** Avro, registered in AWS Glue Schema Registry — breaking schema changes are forbidden; use schema evolution rules
+- **Producer rule:** A service publishes events about its own domain - it does not publish commands to other services
+- **Consumer rule:** Consumers are responsible for idempotency - the same event may be delivered more than once
+- **Schema:** Avro, registered in AWS Glue Schema Registry - breaking schema changes are forbidden; use schema evolution rules
 
 ### 4.3 Decision Guide
 
@@ -168,7 +168,7 @@ flowchart TB
 
 ---
 
-## 📨 5. Event Backbone — Kafka Topics
+## 📨 5. Event Backbone - Kafka Topics
 
 ### 5.1 Topic Naming Convention
 
@@ -226,7 +226,7 @@ Each client surface has different data needs. A single API layer serving all cli
 
 ### 6.3 BFF Anti-Patterns (Forbidden)
 
-- Business logic in BFFs — BFFs orchestrate, they do not calculate
+- Business logic in BFFs - BFFs orchestrate, they do not calculate
 - Direct database access from BFFs
 - BFFs calling other BFFs
 - Shared BFF across two different client surfaces
@@ -247,7 +247,7 @@ Every service owns exactly one logical database. No exceptions.
 For read-heavy domains (order history, provider listings), implement CQRS:
 - **Write model:** Normalised relational store (Aurora)
 - **Read model:** Denormalised projection (OpenSearch or a read replica)
-- Projections are rebuilt from events — they are not the source of truth
+- Projections are rebuilt from events - they are not the source of truth
 
 ### 7.3 Eventual Consistency Rules
 
@@ -257,7 +257,7 @@ For read-heavy domains (order history, provider listings), implement CQRS:
 
 ---
 
-## 🛡️ 8. Resilience Patterns — Mandatory
+## 🛡️ 8. Resilience Patterns - Mandatory
 
 Every service must implement the following:
 
@@ -266,7 +266,7 @@ Every service must implement the following:
 | **Circuit Breaker** | Resilience4j | All synchronous outbound calls |
 | **Retry with backoff** | Resilience4j | Idempotent outbound calls |
 | **Bulkhead** | Resilience4j | Isolate thread pools per downstream |
-| **Timeout** | Resilience4j / Spring | All outbound calls — no unbounded waits |
+| **Timeout** | Resilience4j / Spring | All outbound calls - no unbounded waits |
 | **Dead Letter Queue** | Kafka DLQ topic | All Kafka consumers |
 | **Idempotency** | Custom (idempotency key in DB) | All payment and mutation operations |
 
@@ -277,8 +277,8 @@ Every service must implement the following:
 - **Zero-trust networking:** No service trusts another based on network location alone
 - **mTLS:** All service-to-service gRPC calls use mutual TLS (Istio handles this)
 - **JWT:** All external API calls carry a signed JWT; BFFs validate and strip before forwarding
-- **IRSA:** All AWS API calls from pods use IAM Roles for Service Accounts — no static credentials
-- **No secrets in environment variables** — all secrets from AWS Secrets Manager at startup
+- **IRSA:** All AWS API calls from pods use IAM Roles for Service Accounts - no static credentials
+- **No secrets in environment variables** - all secrets from AWS Secrets Manager at startup
 
 ---
 
@@ -325,7 +325,7 @@ Clear ownership of resilience concerns prevents two failure modes: gaps (nobody 
 
 ### Anti-Pattern: Double Retries
 
-> **If both Istio and the application retry, a single failure can generate N × M requests.** For example, if the application retries 3 times and Istio retries 3 times, one failed request produces up to 9 downstream requests — turning a minor failure into a self-inflicted DDoS.
+> **If both Istio and the application retry, a single failure can generate N × M requests.** For example, if the application retries 3 times and Istio retries 3 times, one failed request produces up to 9 downstream requests - turning a minor failure into a self-inflicted DDoS.
 >
 > **Resolution:** Istio retries are **disabled globally** via mesh-wide configuration. Applications own all retry logic via Resilience4j, where they can implement intelligent retry strategies (exponential backoff, jitter, retry budgets) with full awareness of the operation's idempotency and downstream capacity.
 
@@ -341,11 +341,11 @@ Clear ownership of resilience concerns prevents two failure modes: gaps (nobody 
 
 ### 12.1 The Problem
 
-In a system with read replicas (Aurora reader endpoints), a user who writes data and then immediately reads it back may see stale data — the write has not yet replicated to the reader. This creates confusing UX: "I just updated my profile, but it still shows the old name."
+In a system with read replicas (Aurora reader endpoints), a user who writes data and then immediately reads it back may see stale data - the write has not yet replicated to the reader. This creates confusing UX: "I just updated my profile, but it still shows the old name."
 
 ### 12.2 Pattern: Consistency Token
 
-After a write operation, the writing service returns a **consistency token** — typically the last write timestamp or a monotonically increasing sequence number — in the response.
+After a write operation, the writing service returns a **consistency token** - typically the last write timestamp or a monotonically increasing sequence number - in the response.
 
 ```json
 {
@@ -375,10 +375,10 @@ The BFF (or the service itself) examines the consistency token:
 | Approach | How It Works | Trade-off |
 |----------|-------------|-----------|
 | **Aurora `target_session_attrs=read-write` fallback** | JDBC connection property that falls back to the writer endpoint if the reader cannot satisfy the session's consistency requirement | Simple but couples routing to the JDBC driver |
-| **Explicit primary routing for N seconds** | After a write, the BFF routes all reads for that user to the primary for a fixed window (e.g., 5 seconds) | Time-based — may over-route to primary, but simple and predictable |
+| **Explicit primary routing for N seconds** | After a write, the BFF routes all reads for that user to the primary for a fixed window (e.g., 5 seconds) | Time-based - may over-route to primary, but simple and predictable |
 | **Sequence-based routing** | Compare the consistency token (sequence number) against the replica's last applied sequence; route to primary if replica is behind | Most precise but requires querying replica lag per request |
 
-The recommended default is **explicit primary routing for 5 seconds after write** — it is simple, predictable, and sufficient for user-facing flows.
+The recommended default is **explicit primary routing for 5 seconds after write** - it is simple, predictable, and sufficient for user-facing flows.
 
 ### 12.5 Scope
 
@@ -406,7 +406,7 @@ Event sourcing persists the state of a domain entity as a **sequence of immutabl
 
 | Scenario | Why Event Sourcing Fits |
 |----------|------------------------|
-| **Audit-critical domains** (payments, order state machines) | Full, immutable history of every state change — no data is ever lost or overwritten |
+| **Audit-critical domains** (payments, order state machines) | Full, immutable history of every state change - no data is ever lost or overwritten |
 | **Complex business rules with undo/compensation** | Reversing a state change is appending a compensating event, not mutating a row |
 | **Regulatory compliance requiring full history** | Event log provides a complete, tamper-evident audit trail |
 | **Temporal queries** ("what was the order status at 14:32?") | Replay events up to a point in time to reconstruct past state |
@@ -427,15 +427,15 @@ Event sourcing persists the state of a domain entity as a **sequence of immutabl
 | **Outbox pattern** | Events are written to an outbox table in the same transaction as the aggregate update; Debezium CDC publishes them to Kafka |
 | **State reconstruction** | Replay all events for an aggregate to rebuild current state |
 | **Snapshots** | Store a snapshot of the aggregate state every N events (e.g., every 100) to avoid replaying the full event history on every load |
-| **Event schema** | Avro, registered in Glue Schema Registry — same evolution rules as all other events |
+| **Event schema** | Avro, registered in Glue Schema Registry - same evolution rules as all other events |
 
 ### 13.5 Relationship to CQRS
 
 Event sourcing and CQRS are complementary but independent patterns. When used together:
 
-- **Event sourcing is the write model** — commands produce events that are appended to the event store
-- **Projections are the read model** — events are consumed and projected into denormalized read-optimized stores (OpenSearch, read replicas, materialized views)
-- Projections can be rebuilt from scratch by replaying the event log — they are disposable and not the source of truth
+- **Event sourcing is the write model** - commands produce events that are appended to the event store
+- **Projections are the read model** - events are consumed and projected into denormalized read-optimized stores (OpenSearch, read replicas, materialized views)
+- Projections can be rebuilt from scratch by replaying the event log - they are disposable and not the source of truth
 
 ### 13.6 Anti-Pattern: Event Sourcing Everywhere
 
@@ -447,7 +447,7 @@ Event sourcing adds complexity: event versioning, snapshot management, projectio
 
 ### 14.1 Principle
 
-Business logic lives in the services (**smart endpoints**), not in the messaging or networking infrastructure (**dumb pipes**). Infrastructure components transport data reliably, enforce security policies, and provide observability — but they do not make business decisions.
+Business logic lives in the services (**smart endpoints**), not in the messaging or networking infrastructure (**dumb pipes**). Infrastructure components transport data reliably, enforce security policies, and provide observability - but they do not make business decisions.
 
 ### 14.2 What "Dumb Pipe" Means in Our Stack
 

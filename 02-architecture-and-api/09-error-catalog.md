@@ -50,7 +50,7 @@ Every error surfaced by a {Company} service must have a registered error code in
 
 | Domain | Owner Team |
 |--------|-----------|
-| `PLATFORM` | Platform Engineering — for infrastructure-level errors |
+| `PLATFORM` | Platform Engineering - for infrastructure-level errors |
 | `AUTH` | Identity & Access team |
 | `GATEWAY` | API Gateway / BFF team |
 

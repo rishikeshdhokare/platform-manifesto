@@ -6,7 +6,7 @@
 
 ## 🧭 1. When to Split a Service
 
-Splitting a service is expensive — it introduces network boundaries, distributed transactions, and operational overhead. Only split when the **cost of keeping things together** exceeds the cost of separation.
+Splitting a service is expensive - it introduces network boundaries, distributed transactions, and operational overhead. Only split when the **cost of keeping things together** exceeds the cost of separation.
 
 ### 1.1 Split Signals
 
@@ -14,7 +14,7 @@ Splitting a service is expensive — it introduces network boundaries, distribut
 |--------|-------------|-----------|
 | **Team ownership conflict** | Two teams need to modify the same service frequently, causing merge conflicts and coordination overhead | > 3 cross-team PRs per sprint |
 | **Independent scaling needs** | One part of the service needs to scale horizontally while another does not | > 3x difference in peak load between components |
-| **Different deployment cadences** | One part changes daily, another changes monthly — coupled deployments slow the fast part down | > 5x difference in deployment frequency |
+| **Different deployment cadences** | One part changes daily, another changes monthly - coupled deployments slow the fast part down | > 5x difference in deployment frequency |
 | **Size** | The service has grown beyond what a single team can reason about | > 20k LOC (excluding tests and generated code) |
 | **Bounded context sprawl** | The service owns entities that belong to different business domains | Service manages both `Order` and `Payment` entities |
 | **Different reliability requirements** | One component is latency-critical (P99 < 50ms) while another is batch-tolerant | Significantly different SLO requirements |
@@ -25,20 +25,20 @@ Splitting a service is expensive — it introduces network boundaries, distribut
 ```mermaid
 flowchart TD
     Start["🔍 Should I split<br/>this service?"] --> A{"Team ownership<br/>conflict?"}
-    A -->|"Yes — two teams<br/>fight over PRs"| Split["✂️ Strong signal<br/>to SPLIT"]
+    A -->|"Yes - two teams<br/>fight over PRs"| Split["✂️ Strong signal<br/>to SPLIT"]
     A -->|"No"| B{"Independent<br/>scaling needs?"}
 
-    B -->|"Yes — > 3x load<br/>difference"| Split
+    B -->|"Yes - > 3x load<br/>difference"| Split
     B -->|"No"| C{"Different deployment<br/>cadences?"}
 
-    C -->|"Yes — > 5x frequency<br/>difference"| Split
+    C -->|"Yes - > 5x frequency<br/>difference"| Split
     C -->|"No"| D{"Size > 20k<br/>LOC?"}
 
     D -->|"Yes"| E{"Can you identify<br/>a clean bounded<br/>context boundary?"}
     D -->|"No"| Keep["🔗 Keep together"]
 
     E -->|"Yes"| Split
-    E -->|"No"| F["⚠️ Refactor internally<br/>first — modular monolith"]
+    E -->|"No"| F["⚠️ Refactor internally<br/>first - modular monolith"]
 
     Split --> G["Proceed to<br/>§8 Split Process"]
     Keep --> H["Revisit in<br/>3 months"]
@@ -48,18 +48,18 @@ flowchart TD
 
 ## 🧭 2. When to Merge Services
 
-Merging is the reverse — and equally valid. Two services that should be one create unnecessary operational overhead, network calls, and deployment complexity.
+Merging is the reverse - and equally valid. Two services that should be one create unnecessary operational overhead, network calls, and deployment complexity.
 
 ### 2.1 Merge Signals
 
 | Signal | Description |
 |--------|-------------|
-| **Shared lifecycle** | Both services are always updated together — a change in one requires a change in the other |
+| **Shared lifecycle** | Both services are always updated together - a change in one requires a change in the other |
 | **Always deployed together** | You cannot deploy A without deploying B (and vice versa) |
 | **Single team owns both** | One team owns both services and context-switches between them |
-| **Tiny services** | Either service is < 2k LOC — the operational overhead exceeds the code complexity |
-| **Synchronous call chain** | A calls B synchronously for every request — they are functionally one service split by a network boundary |
-| **Shared database** | Both services read/write the same tables — the DB is the real boundary, not the service |
+| **Tiny services** | Either service is < 2k LOC - the operational overhead exceeds the code complexity |
+| **Synchronous call chain** | A calls B synchronously for every request - they are functionally one service split by a network boundary |
+| **Shared database** | Both services read/write the same tables - the DB is the real boundary, not the service |
 
 ### 2.2 Merge Validation
 
@@ -73,9 +73,9 @@ Before merging, confirm:
 
 ## 🧩 3. Conway's Law Alignment
 
-> *"Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations."* — Melvin Conway
+> *"Organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations."* - Melvin Conway
 
-We **embrace Conway's Law intentionally** — service boundaries should mirror team boundaries. When they don't, friction emerges: coordination overhead, unclear ownership, and slow decision-making.
+We **embrace Conway's Law intentionally** - service boundaries should mirror team boundaries. When they don't, friction emerges: coordination overhead, unclear ownership, and slow decision-making.
 
 ### 3.1 Team → Service Mapping
 
@@ -197,7 +197,7 @@ For each service, ask:
 | Question | Healthy Answer | Unhealthy Answer |
 |----------|---------------|-----------------|
 | Can you name the bounded context? | "This is the Order lifecycle context" | "It does orders and payments" |
-| Does every entity belong to this context? | Yes — all entities relate to the same domain | No — `Payment` has nothing to do with `Order` lifecycle |
+| Does every entity belong to this context? | Yes - all entities relate to the same domain | No - `Payment` has nothing to do with `Order` lifecycle |
 | Could another team understand this service's domain in one sentence? | Yes | It takes a 30-minute explanation |
 | Does the service's API name match its domain? | `orders-service` manages orders | `core-service` manages everything |
 
@@ -211,7 +211,7 @@ Wrong service boundaries reveal themselves through coupling. If two services are
 
 | Indicator | What It Means | Action |
 |-----------|--------------|--------|
-| **Shared database tables** | Services are coupled at the data layer — one service's schema change can break the other | Split the table or merge the services |
+| **Shared database tables** | Services are coupled at the data layer - one service's schema change can break the other | Split the table or merge the services |
 | **Synchronous call chains** | Service A cannot respond without calling B, which cannot respond without calling C | Consider merging A+B or making the call async |
 | **Coordinated deployments** | "We need to deploy A before B" = temporal coupling | Either merge or introduce a versioned API contract |
 | **Shared libraries with business logic** | Business logic in a shared lib means the boundary is in the lib, not the services | Move the logic into one service |
@@ -275,8 +275,8 @@ flowchart TD
 |--------|----------------|-----------------|---------|
 | **Team** | Commercial team (pricing rules squad) | Commercial team (demand squad) | Different sub-teams → **Split** |
 | **Data** | Pricing rules, base rates, distance/time matrices | Real-time demand/supply signals, zone polygons, pricing multipliers | Different data domains → **Split** |
-| **Scaling** | Moderate — price calculation per order request | High — processes location events from every active provider every 5 seconds | Very different scaling → **Split** |
-| **Deployment cadence** | Monthly — pricing rules change infrequently | Weekly — algorithm tuning is continuous | Different cadences → **Split** |
+| **Scaling** | Moderate - price calculation per order request | High - processes location events from every active provider every 5 seconds | Very different scaling → **Split** |
+| **Deployment cadence** | Monthly - pricing rules change infrequently | Weekly - algorithm tuning is continuous | Different cadences → **Split** |
 | **Failure impact** | Order cannot be priced → critical | Dynamic pricing defaults to 1.0x → degraded but functional | Different failure modes → **Split** |
 | **Bounded context** | "How much does this order cost?" | "What is the demand multiplier in this zone right now?" | Different questions → **Split** |
 
@@ -335,7 +335,7 @@ When the decision is made to split, follow this process to minimize disruption.
 Every split must have a rollback plan. If the new service is not stable within 2 weeks of full traffic migration:
 1. Route traffic back to the original service
 2. Conduct a retrospective
-3. Fix issues and retry — or decide the split was premature
+3. Fix issues and retry - or decide the split was premature
 
 ---
 
