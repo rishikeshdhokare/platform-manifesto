@@ -1,33 +1,59 @@
 <div align="center">
 
+<br/>
+
 # 🏗️ {Company} Platform Engineering Manifesto
 
-### The operating system for how we build software.
+*The engineering playbook for teams that ship fast and sleep well.*
 
-[![Docs](https://img.shields.io/badge/docs-87_documents-blue?style=for-the-badge)](.)
-[![Sections](https://img.shields.io/badge/sections-11-green?style=for-the-badge)](.)
-[![Last Updated](https://img.shields.io/badge/last_updated-2026-orange?style=for-the-badge)](.)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=for-the-badge)](.)
+<br/>
 
-**One manifesto. 87 documents. Every decision you shouldn't have to make twice.**
+[![Docs](https://img.shields.io/badge/87_documents-0076D6?style=for-the-badge&logo=readthedocs&logoColor=white)](.)
+[![Sections](https://img.shields.io/badge/11_sections-6C3FC5?style=for-the-badge&logo=bookstack&logoColor=white)](.)
+[![Updated](https://img.shields.io/badge/2026-00A86B?style=for-the-badge&logo=calendar&logoColor=white)](.)
+[![PRs Welcome](https://img.shields.io/badge/PRs_welcome-FF1493?style=for-the-badge&logo=github&logoColor=white)](.)
 
-*Opinionated by design. When in doubt, follow it. When you disagree, raise a PR.*
+<br/>
+
+Every *"how should I do this?"* answered. Every *"which tool should I use?"* decided.<br/>
+**87 opinions. Zero meetings required.**
+
+<br/>
+
+`Opinionated by design` &nbsp; `Follow by default` &nbsp; `Challenge by PR`
+
+---
+
+[🆕 Onboarding](./ONBOARDING.md) &nbsp;·&nbsp; [📖 Glossary](./GLOSSARY.md) &nbsp;·&nbsp; [🏛️ Architecture](02-architecture-and-api/01-system-architecture.md) &nbsp;·&nbsp; [⚙️ Spring Boot](03-engineering-practices/09-spring-boot-standards.md) &nbsp;·&nbsp; [🛤️ Golden Path](06-developer-guides/02-golden-path.md) &nbsp;·&nbsp; [🚨 Incidents](05-operational-excellence/04-incident-management.md)
 
 </div>
 
 ---
 
-## 🤔 Why This Exists
+## 💡 What This Is (And What It Isn't)
 
-Every hour an engineer spends debating *"which database should I use?"* or *"how do I structure this service?"* is an hour not spent solving customer problems. This manifesto exists to **eliminate that tax**.
-
-It is the **single source of truth** for our engineering platform - the standards, practices, tools, and architecture every team is expected to adopt. Consistency compounds: every shared decision here is one fewer decision each team makes alone.
-
-> 📖 This is a **living document**. It evolves as our platform matures, as industry practices shift, and as we learn from running systems in production. All changes require a PR with at least one Staff Engineer approval.
+| ✅ This is | ❌ This is not |
+|:-----------|:---------------|
+| A decision record that prevents re-debates | A suggestion box you can ignore |
+| A living playbook, updated from production lessons | A dusty wiki page someone wrote two years ago |
+| Opinionated and prescriptive by design | A buffet of options for every preference |
+| The fastest path from idea to production | The *only* path - deviations just need an ADR |
 
 ---
 
-## 🧭 Where Do I Start?
+## 🤔 Why This Exists
+
+You've seen it before. A new service gets built. The team picks a different database. Invents their own error format. Structures logs differently. Deploys with a custom pipeline. Six months later, nobody can debug across services, onboarding takes weeks, and every team is solving the same problems in isolation.
+
+**This manifesto exists to make that impossible.**
+
+One source of truth. One set of standards. Every team, every service, every environment. Consistency compounds - every shared decision here is one fewer decision each team makes alone.
+
+> 📖 **Living document.** It evolves as our platform matures and as we learn from production. Changes require a PR with at least one Staff Engineer approval.
+
+---
+
+## 🧭 Pick Your Path
 
 | You are... | Start here | Then explore |
 |:-----------|:-----------|:-------------|
@@ -42,28 +68,74 @@ It is the **single source of truth** for our engineering platform - the standard
 | 📊 **Product manager** | [Product Operations](07-ways-of-working/10-product-operations.md) | A/B Testing, Engineering Metrics |
 | 🔒 **Security engineer** | [Security Operations](04-infrastructure-and-cloud/10-security-operations.md) | Security Standards, Privacy Engineering |
 
-> 💡 Don't know a term? Check the [**Glossary**](./GLOSSARY.md).
+> 💡 Lost on a term? The [**Glossary**](./GLOSSARY.md) has you covered.
 
 ---
 
-## 🎯 The 8 Principles
+## 🎯 The Non-Negotiables
 
-These aren't aspirations. They're constraints. Every technical decision in this manifesto traces back to one of these.
+Eight principles. Not aspirations - **constraints**. Every technical decision in this manifesto traces back to one of these.
 
-| | Principle | In Practice |
-|:-:|-----------|-------------|
-| 🛤️ | **Pave the golden path** | Make the right way the easy way. Teams feel *pulled* toward standards, not pushed. |
-| 📦 | **Ship artifacts, not code** | The same container image built in CI runs in production. Never rebuild between environments. |
-| 👁️ | **Observable by default** | Logs, metrics, and traces ship from day one. Observability is not a retrofit. |
-| 🔒 | **Own your data, respect boundaries** | Services own their data stores. Cross-service DB access is forbidden. No exceptions. |
-| 📝 | **Everything in Git** | Infrastructure, config, runbooks, ADRs. If it's not in Git, it doesn't exist. |
-| 🤖 | **Automate the boring** | Pipelines handle repetition. Humans handle architecture and product problems. |
-| 💥 | **Design for failure** | Every dependency will fail. Circuit breakers, retries, fallbacks, graceful degradation. |
-| 🛡️ | **Security is not a phase** | It runs in every pipeline, in every environment, from the first commit. |
+<table>
+<tr>
+<td align="center" width="50%">
+
+🛤️<br/><b>Pave the golden path</b><br/><sub>Make the right way the easy way. Teams feel <i>pulled</i> toward standards, not pushed.</sub>
+
+</td>
+<td align="center" width="50%">
+
+📦<br/><b>Ship artifacts, not code</b><br/><sub>The same container image built in CI runs in production. Never rebuild between environments.</sub>
+
+</td>
+</tr>
+<tr>
+<td align="center">
+
+👁️<br/><b>Observable by default</b><br/><sub>Logs, metrics, and traces ship from day one. Observability is not a retrofit.</sub>
+
+</td>
+<td align="center">
+
+🔒<br/><b>Own your data, respect boundaries</b><br/><sub>Services own their data stores. Cross-service DB access is forbidden. No exceptions.</sub>
+
+</td>
+</tr>
+<tr>
+<td align="center">
+
+📝<br/><b>Everything in Git</b><br/><sub>Infrastructure, config, runbooks, ADRs. If it's not in Git, it doesn't exist.</sub>
+
+</td>
+<td align="center">
+
+🤖<br/><b>Automate the boring</b><br/><sub>Pipelines handle repetition. Humans handle architecture and product problems.</sub>
+
+</td>
+</tr>
+<tr>
+<td align="center">
+
+💥<br/><b>Design for failure</b><br/><sub>Every dependency will fail. Circuit breakers, retries, fallbacks, graceful degradation.</sub>
+
+</td>
+<td align="center">
+
+🛡️<br/><b>Security is not a phase</b><br/><sub>It runs in every pipeline, in every environment, from the first commit.</sub>
+
+</td>
+</tr>
+</table>
+
+<br/>
+
+<div align="center"><sub><i>Those are the beliefs. Here's the system they built. ↓</i></sub></div>
 
 ---
 
-## 🗺️ Platform at a Glance
+## 🗺️ The Big Picture
+
+From client apps to infrastructure, here's how the pieces fit together.
 
 ```mermaid
 flowchart TB
@@ -130,14 +202,18 @@ flowchart TB
     Istio --> EKS
 ```
 
+<br/>
+
+<div align="center"><sub><i>That's the 30,000-foot view. Now here's every document, organized by domain. ↓</i></sub></div>
+
 ---
 
-## 📚 What's Inside
+## 📚 The Full Library
 
-**87 documents** across 11 sections. Click any section to expand.
+**87 documents. 11 sections.** Click any section to explore.
 
 <details>
-<summary><b>📐 01 - Platform Standards</b> &nbsp;·&nbsp; <i>What we build with and how we name things</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
+<summary><b>📐 01 - Platform Standards</b> &nbsp;·&nbsp; <i>The foundation layer - touch this, everything changes</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
 
 <br/>
 
@@ -154,7 +230,7 @@ The approved tech stack, naming conventions, repository structure, service catal
 </details>
 
 <details>
-<summary><b>🏛️ 02 - Architecture & API</b> &nbsp;·&nbsp; <i>How the system fits together</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
+<summary><b>🏛️ 02 - Architecture & API</b> &nbsp;·&nbsp; <i>Domains, contracts, and the rules between services</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
 
 <br/>
 
@@ -175,7 +251,7 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 </details>
 
 <details>
-<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>How we write and ship code</i> &nbsp;·&nbsp; <code>11 docs</code></summary>
+<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>Testing, CI/CD, code review - the daily craft</i> &nbsp;·&nbsp; <code>11 docs</code></summary>
 
 <br/>
 
@@ -198,7 +274,7 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spr
 </details>
 
 <details>
-<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The platform under the platform</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
@@ -220,7 +296,7 @@ AWS architecture, security, FinOps, multi-tenancy, and everything Terraform.
 </details>
 
 <details>
-<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>Keeping it running</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
+<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
 
 <br/>
 
@@ -241,7 +317,7 @@ Observability, resilience, incidents, chaos engineering, and what to do when thi
 </details>
 
 <details>
-<summary><b>🛠️ 06 - Developer Guides</b> &nbsp;·&nbsp; <i>Hands-on playbooks</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🛠️ 06 - Developer Guides</b> &nbsp;·&nbsp; <i>The tabs you keep open while coding</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
@@ -263,7 +339,7 @@ The guides you keep open while writing code.
 </details>
 
 <details>
-<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>How we work together</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
@@ -285,7 +361,7 @@ Team structure, decision-making, hiring, career growth, and knowledge sharing.
 </details>
 
 <details>
-<summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>Where we are and where we're going</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
+<summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>The honest scorecard - where we are and where we're headed</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
 
 <br/>
 
@@ -302,7 +378,7 @@ Maturity assessment, migration roadmap, metrics, and vendor management.
 </details>
 
 <details>
-<summary><b>📱 09 - Mobile & Frontend</b> &nbsp;·&nbsp; <i>What users actually see and touch</i> &nbsp;·&nbsp; <code>6 docs</code></summary>
+<summary><b>📱 09 - Mobile & Frontend</b> &nbsp;·&nbsp; <i>Apps, browsers, pixels - the user-facing layer</i> &nbsp;·&nbsp; <code>6 docs</code></summary>
 
 <br/>
 
@@ -320,7 +396,7 @@ Everything for the engineers building client applications.
 </details>
 
 <details>
-<summary><b>🤖 10 - AI/ML Platform</b> &nbsp;·&nbsp; <i>Model infrastructure and responsible AI</i> &nbsp;·&nbsp; <code>2 docs</code></summary>
+<summary><b>🤖 10 - AI/ML Platform</b> &nbsp;·&nbsp; <i>ML pipelines, model governance, and AI guardrails</i> &nbsp;·&nbsp; <code>2 docs</code></summary>
 
 <br/>
 
@@ -332,7 +408,7 @@ Everything for the engineers building client applications.
 </details>
 
 <details>
-<summary><b>🗂️ 11 - Domain Catalog</b> &nbsp;·&nbsp; <i>Every bounded context, documented</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🗂️ 11 - Domain Catalog</b> &nbsp;·&nbsp; <i>Service-by-service deep dives with APIs, events, and SLOs</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
 
 <br/>
 
@@ -353,9 +429,13 @@ Detailed documentation for every domain service - APIs, events, data models, SLO
 
 </details>
 
+<br/>
+
+<div align="center"><sub><i>Every service in the diagram above, documented in detail. ↓</i></sub></div>
+
 ---
 
-## 🗺️ Domain Map
+## 🔗 How Services Connect
 
 ```mermaid
 flowchart TB
@@ -395,15 +475,17 @@ flowchart TB
 
 ---
 
-## 📏 Governance
+## 📏 How This Evolves
+
+This isn't set in stone - it's set in Git. Here's how to shape it.
 
 | | Aspect | Rule |
 |:-:|--------|------|
 | 👤 | **Owner** | Platform Engineering team |
-| 🔀 | **How to change it** | PR required - at least one Staff Engineer or Principal approval |
-| 📋 | **How to deviate** | Any exception requires an ADR documenting the rationale |
-| 🗓️ | **Review cadence** | Maturity model quarterly with Tech Leads; full manifesto bi-annually |
-| 💬 | **How to disagree** | Start in `#engineering-discussions` or raise it at Architecture Clinic → then open a PR |
+| 🔀 | **Change it** | PR required - at least one Staff Engineer or Principal approval |
+| 📋 | **Deviate from it** | Document your rationale in an ADR. No silent exceptions |
+| 🗓️ | **Review cadence** | Quarterly with Tech Leads; full manifesto bi-annually |
+| 💬 | **Disagree with it** | `#engineering-discussions` or Architecture Clinic, then open a PR |
 
 ---
 
@@ -430,6 +512,9 @@ Plus [`ONBOARDING.md`](./ONBOARDING.md) and [`GLOSSARY.md`](./GLOSSARY.md) at th
 
 ---
 
-*Built with ❤️ by {Company} Platform Engineering - 2026*
+*Built with conviction by {Company} Platform Engineering.*
+
+*The best engineering cultures don't just build great software.*<br/>
+*They write down how - and then keep making it better.*
 
 </div>
