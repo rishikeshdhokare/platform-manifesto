@@ -23,6 +23,23 @@ flowchart LR
     Canary --> Prod[Full Production]
 ```
 
+The full software development lifecycle from idea to production:
+
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Idea[Idea] --> PRD[PRD]
+    PRD --> TDD[Tech Design]
+    TDD --> Scaffold[Scaffold]
+    Scaffold --> Code[Code]
+    Code --> PR[PR + CI]
+    PR --> Stage[Deploy Staging]
+    Stage --> Canary[Canary Prod]
+    Canary --> Prod[Production]
+    Prod --> Observe[Observe]
+```
+
 ---
 
 ## 🛤️ End-to-End Steps

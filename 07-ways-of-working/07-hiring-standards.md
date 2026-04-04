@@ -110,6 +110,19 @@ Every onsite loop includes one **bar-raiser** — an interviewer from outside th
 | **Focus** | Evaluates against the {Company}-wide rubric, not team-specific needs |
 | **Training** | Bar-raisers complete a 4-hour calibration workshop before joining the rotation |
 
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Screen[Recruiter Screen] --> Phone[Tech Phone Screen]
+    Phone --> Onsite[Onsite 3 Rounds]
+    Onsite --> Debrief[Debrief]
+    Debrief --> Bar[Bar-Raiser Review]
+    Bar --> Decision{Hire?}
+    Decision -->|Yes| Offer[Offer]
+    Decision -->|No| Reject[Decline]
+```
+
 ---
 
 ## 🎯 6. Bias Mitigation
