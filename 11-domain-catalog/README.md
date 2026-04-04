@@ -1,7 +1,5 @@
 # 🗂️ 11 - Domain Catalog
 
-![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
-
 Detailed documentation for each bounded context in the platform - responsibilities, APIs, events, data models, dependencies, and team ownership.
 
 ## 🗺️ Domain Landscape

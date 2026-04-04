@@ -1,7 +1,5 @@
 # 🚨 05 - Operational Excellence
 
-![Docs](https://img.shields.io/badge/docs-9-blue?style=flat-square)
-
 How we keep services healthy in production - observability, resilience, and incident response.
 
 | Document | Description |

@@ -1,7 +1,5 @@
 # 📈 08 - Program
 
-![Docs](https://img.shields.io/badge/docs-5-blue?style=flat-square)
-
 Where we are, where we're going, and how we measure progress.
 
 | Document | Description |

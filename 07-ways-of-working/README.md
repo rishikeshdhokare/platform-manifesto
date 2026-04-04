@@ -1,7 +1,5 @@
 # 🤝 07 - Ways of Working
 
-![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
-
 Team structure, decision-making processes, and how we collaborate.
 
 | Document | Description |

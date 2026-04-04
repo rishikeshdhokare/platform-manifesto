@@ -38,11 +38,10 @@ Every numbered `.md` file in a section folder MUST have:
 
 When adding, removing, or renaming ANY document:
 
-1. Update the **section README.md** file table and doc count badge
+1. Update the **section README.md** file table
 2. Update the **root README.md** collapsible section table
-3. Update the **root README.md** "By The Numbers" table AND hero badge count
-4. Search ALL .md files for references to old filenames and update them
-5. Verify no broken internal links
+3. Search ALL .md files for references to old filenames and update them
+4. Verify no broken internal links
 
 ---
 
@@ -80,8 +79,6 @@ When adding, removing, or renaming ANY document:
 ```markdown
 # 📐 NN -- Section Title
 
-![Docs](https://img.shields.io/badge/docs-N-blue?style=flat-square)
-
 > One-line description.
 
 | Document | Description |
@@ -104,6 +101,5 @@ When adding, removing, or renaming ANY document:
 - [ ] No ride-hailing or company-specific terminology
 - [ ] All internal markdown links resolve
 - [ ] Section README lists all files in the directory
-- [ ] Root README doc count matches actual files
 - [ ] Shields.io badge year is current
 - [ ] Every new diagram follows the mermaid rules above

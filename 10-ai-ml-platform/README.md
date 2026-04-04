@@ -1,7 +1,5 @@
 # 🤖 10 - AI/ML Platform
 
-![Docs](https://img.shields.io/badge/docs-2-blue?style=flat-square)
-
 Machine learning infrastructure, AI governance, and responsible AI practices.
 
 | Document | Description |

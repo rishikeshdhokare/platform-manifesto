@@ -1,7 +1,5 @@
 # 🏗️ 02 - Architecture & API
 
-![Docs](https://img.shields.io/badge/docs-9-blue?style=flat-square)
-
 > How our system is structured and how services communicate with each other and the outside world.
 
 | Document | Description |

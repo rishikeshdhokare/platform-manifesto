@@ -1,7 +1,5 @@
 # ⚙️ 03 - Engineering Practices
 
-![Docs](https://img.shields.io/badge/docs-11-blue?style=flat-square)
-
 > How we write, review, test, and ship code. The day-to-day craft of engineering.
 
 | Document | Description |

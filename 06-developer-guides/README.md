@@ -1,7 +1,5 @@
 # 🛠️ 06 - Developer Guides
 
-![Docs](https://img.shields.io/badge/docs-10-blue?style=flat-square)
-
 Hands-on guides for building things the right way. Reference these while writing code.
 
 | Document | Description |

@@ -1,7 +1,5 @@
 # 📱 09 - Mobile & Frontend
 
-![Docs](https://img.shields.io/badge/docs-6-blue?style=flat-square)
-
 Standards for the client applications that customers and providers interact with every day.
 
 | Document | Description |

@@ -8,7 +8,6 @@
 
 <br/>
 
-[![Docs](https://img.shields.io/badge/87_documents-0076D6?style=for-the-badge&logo=readthedocs&logoColor=white)](.)
 [![Sections](https://img.shields.io/badge/11_sections-6C3FC5?style=for-the-badge&logo=bookstack&logoColor=white)](.)
 [![Updated](https://img.shields.io/badge/2026-00A86B?style=for-the-badge&logo=calendar&logoColor=white)](.)
 [![PRs Welcome](https://img.shields.io/badge/PRs_welcome-FF1493?style=for-the-badge&logo=github&logoColor=white)](.)
@@ -16,7 +15,7 @@
 <br/>
 
 Every *"how should I do this?"* answered. Every *"which tool should I use?"* decided.<br/>
-**87 opinions. Zero meetings required.**
+**Opinionated. Zero meetings required.**
 
 <br/>
 
@@ -210,10 +209,10 @@ flowchart TB
 
 ## 📚 The Full Library
 
-**87 documents. 11 sections.** Click any section to explore.
+Click any section to explore.
 
 <details>
-<summary><b>📐 01 - Platform Standards</b> &nbsp;·&nbsp; <i>The foundation layer - touch this, everything changes</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
+<summary><b>📐 01 - Platform Standards</b> &nbsp;·&nbsp; <i>The foundation layer - touch this, everything changes</i></summary>
 
 <br/>
 
@@ -230,7 +229,7 @@ The approved tech stack, naming conventions, repository structure, service catal
 </details>
 
 <details>
-<summary><b>🏛️ 02 - Architecture & API</b> &nbsp;·&nbsp; <i>Domains, contracts, and the rules between services</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
+<summary><b>🏛️ 02 - Architecture & API</b> &nbsp;·&nbsp; <i>Domains, contracts, and the rules between services</i></summary>
 
 <br/>
 
@@ -251,7 +250,7 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 </details>
 
 <details>
-<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>Testing, CI/CD, code review - the daily craft</i> &nbsp;·&nbsp; <code>11 docs</code></summary>
+<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>Testing, CI/CD, code review - the daily craft</i></summary>
 
 <br/>
 
@@ -274,7 +273,7 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and the Spr
 </details>
 
 <details>
-<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i></summary>
 
 <br/>
 
@@ -296,7 +295,7 @@ AWS architecture, security, FinOps, multi-tenancy, and everything Terraform.
 </details>
 
 <details>
-<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i> &nbsp;·&nbsp; <code>9 docs</code></summary>
+<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i></summary>
 
 <br/>
 
@@ -317,7 +316,7 @@ Observability, resilience, incidents, chaos engineering, and what to do when thi
 </details>
 
 <details>
-<summary><b>🛠️ 06 - Developer Guides</b> &nbsp;·&nbsp; <i>The tabs you keep open while coding</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🛠️ 06 - Developer Guides</b> &nbsp;·&nbsp; <i>The tabs you keep open while coding</i></summary>
 
 <br/>
 
@@ -339,7 +338,7 @@ The guides you keep open while writing code.
 </details>
 
 <details>
-<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i></summary>
 
 <br/>
 
@@ -361,7 +360,7 @@ Team structure, decision-making, hiring, career growth, and knowledge sharing.
 </details>
 
 <details>
-<summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>The honest scorecard - where we are and where we're headed</i> &nbsp;·&nbsp; <code>5 docs</code></summary>
+<summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>The honest scorecard - where we are and where we're headed</i></summary>
 
 <br/>
 
@@ -378,7 +377,7 @@ Maturity assessment, migration roadmap, metrics, and vendor management.
 </details>
 
 <details>
-<summary><b>📱 09 - Mobile & Frontend</b> &nbsp;·&nbsp; <i>Apps, browsers, pixels - the user-facing layer</i> &nbsp;·&nbsp; <code>6 docs</code></summary>
+<summary><b>📱 09 - Mobile & Frontend</b> &nbsp;·&nbsp; <i>Apps, browsers, pixels - the user-facing layer</i></summary>
 
 <br/>
 
@@ -396,7 +395,7 @@ Everything for the engineers building client applications.
 </details>
 
 <details>
-<summary><b>🤖 10 - AI/ML Platform</b> &nbsp;·&nbsp; <i>ML pipelines, model governance, and AI guardrails</i> &nbsp;·&nbsp; <code>2 docs</code></summary>
+<summary><b>🤖 10 - AI/ML Platform</b> &nbsp;·&nbsp; <i>ML pipelines, model governance, and AI guardrails</i></summary>
 
 <br/>
 
@@ -408,7 +407,7 @@ Everything for the engineers building client applications.
 </details>
 
 <details>
-<summary><b>🗂️ 11 - Domain Catalog</b> &nbsp;·&nbsp; <i>Service-by-service deep dives with APIs, events, and SLOs</i> &nbsp;·&nbsp; <code>10 docs</code></summary>
+<summary><b>🗂️ 11 - Domain Catalog</b> &nbsp;·&nbsp; <i>Service-by-service deep dives with APIs, events, and SLOs</i></summary>
 
 <br/>
 
@@ -490,27 +489,6 @@ This isn't set in stone - it's set in Git. Here's how to shape it.
 ---
 
 <div align="center">
-
-### 📊 By The Numbers
-
-| Section | Documents |
-|:--------|:---------:|
-| Platform Standards | 5 |
-| Architecture & API | 9 |
-| Engineering Practices | 11 |
-| Infrastructure & Cloud | 10 |
-| Operational Excellence | 9 |
-| Developer Guides | 10 |
-| Ways of Working | 10 |
-| Program | 5 |
-| Mobile & Frontend | 6 |
-| AI/ML Platform | 2 |
-| Domain Catalog | 10 |
-| **Total** | **87** |
-
-Plus [`ONBOARDING.md`](./ONBOARDING.md) and [`GLOSSARY.md`](./GLOSSARY.md) at the root.
-
----
 
 *Built with conviction by {Company} Platform Engineering.*
 
