@@ -6,7 +6,7 @@
 
 ## 🎯 1. Philosophy
 
-Security is not a phase, a team, or a checklist. It is a practice that runs through every commit, every pipeline, and every architecture decision. **Shift left** — find and fix security issues at development time, not after they reach production.
+Security is not a phase, a team, or a checklist. It is a practice that runs through every commit, every pipeline, and every architecture decision. **Shift left** - find and fix security issues at development time, not after they reach production.
 
 The platform enforces security automatically where possible. Where human judgment is required, this document provides the rules.
 
@@ -50,13 +50,13 @@ Secret violation = P1 security incident. Rotate immediately, then investigate.
 | Medium | Tracked in Snyk | Fix within 30 days |
 | Low | Logged | Fix in next maintenance window |
 
-Snyk PRs for dependency updates are automatically raised — teams must not ignore them.
+Snyk PRs for dependency updates are automatically raised - teams must not ignore them.
 
 ### 3.3 Base Image Policy
 
 - All production container images must use `amazoncorretto:21-alpine` or an approved hardened base
 - Images are rebuilt weekly to pick up OS-level security patches (automated pipeline)
-- `latest` tag is **never** used for base images in Dockerfiles — always pin to a digest or version
+- `latest` tag is **never** used for base images in Dockerfiles - always pin to a digest or version
 - Images run as non-root (enforced by Kubernetes PodSecurityPolicy)
 
 ---
@@ -67,19 +67,19 @@ Snyk PRs for dependency updates are automatically raised — teams must not igno
 
 - All external API endpoints require **JWT Bearer token** authentication
 - JWTs are signed with RS256 (asymmetric); public key published at `/.well-known/jwks.json`
-- Token validation happens at the **BFF layer** — downstream services receive a forwarded, already-validated identity context
+- Token validation happens at the **BFF layer** - downstream services receive a forwarded, already-validated identity context
 - Token expiry: **15 minutes** for access tokens; no exceptions for convenience
 
 ### 4.2 Internal Service Authentication
 
-- **All service-to-service calls use mTLS** via Istio — no exceptions
+- **All service-to-service calls use mTLS** via Istio - no exceptions
 - Services do not implement their own mTLS; Istio's `STRICT` peer authentication mode enforces it
-- `AuthorizationPolicy` objects restrict which services may call which — principle of least privilege
+- `AuthorizationPolicy` objects restrict which services may call which - principle of least privilege
 
-### 4.3 AWS IAM — IRSA
+### 4.3 AWS IAM - IRSA
 
 - Every pod has an associated IAM role via **IRSA (IAM Roles for Service Accounts)**
-- Each role grants only the permissions that service needs — no wildcard permissions
+- Each role grants only the permissions that service needs - no wildcard permissions
 - No static AWS credentials in any service (no `AWS_ACCESS_KEY_ID` env vars)
 - IAM policies are defined in Terraform and reviewed in PRs
 
@@ -115,7 +115,7 @@ Example IRSA policy for orders-service:
 ### 4.4 Authorisation in Services
 
 - Services must authorise the **requesting principal** against the **requested resource**
-- Never trust data in the request body for identity — use the claims in the forwarded JWT
+- Never trust data in the request body for identity - use the claims in the forwarded JWT
 - Implement authorisation at the **service/domain layer**, not just at the API gateway:
   ```java
   // Bad: relies solely on gateway auth
@@ -160,7 +160,7 @@ The platform handles customer and provider personal data. All engineers must und
 | **Operational** | Order IDs, transaction statistics | Standard controls |
 | **Public** | Provider ratings (aggregated) | No special controls |
 
-- PII must never appear in logs — log masking is configured in the platform logging template for common field names
+- PII must never appear in logs - log masking is configured in the platform logging template for common field names
 - PII must never be used as cache keys or URL parameters
 - GDPR right-to-erasure requests are handled via a data deletion service (not manual DB ops)
 
@@ -170,7 +170,7 @@ The platform handles customer and provider personal data. All engineers must und
 - Connections require TLS (enforced by `rds.force_ssl` parameter)
 - Database credentials are rotated automatically every 30 days via Secrets Manager
 - Read-only service accounts for read-only use cases
-- No direct developer access to production databases — all queries go through audit-logged bastion access
+- No direct developer access to production databases - all queries go through audit-logged bastion access
 
 ---
 
@@ -197,16 +197,16 @@ flowchart LR
 ### 6.2 Web Application Firewall
 
 **AWS WAF** is deployed in front of all public endpoints with the following managed rule groups enabled:
-- AWS Managed Rules — Common Rule Set
-- AWS Managed Rules — Known Bad Inputs
-- AWS Managed Rules — SQL Database
+- AWS Managed Rules - Common Rule Set
+- AWS Managed Rules - Known Bad Inputs
+- AWS Managed Rules - SQL Database
 - IP reputation list (blocks known malicious IPs)
 - Rate-based rules (anti-scraping, anti-credential-stuffing)
 
 ### 6.3 DDoS Protection
 
-- **AWS Shield Standard** — on all infrastructure by default
-- **AWS Shield Advanced** — on Tier 1 critical services (additional cost, justified for platform safety criticality)
+- **AWS Shield Standard** - on all infrastructure by default
+- **AWS Shield Advanced** - on Tier 1 critical services (additional cost, justified for platform safety criticality)
 
 ---
 
@@ -214,7 +214,7 @@ flowchart LR
 
 ### 7.1 SAST (Static Analysis)
 
-- **SonarCloud** runs on every PR — blocks on critical security hotspots
+- **SonarCloud** runs on every PR - blocks on critical security hotspots
 - Findings are tracked and must be resolved within the SLA above
 
 ### 7.2 DAST (Dynamic Analysis)
@@ -249,7 +249,7 @@ flowchart LR
 ### 8.2 Credential Exposure Protocol
 
 If a secret is detected in a commit or log:
-1. **Rotate the credential immediately** — do not wait for investigation
+1. **Rotate the credential immediately** - do not wait for investigation
 2. Revoke the exposed credential in the relevant system
 3. Scan Git history for any downstream propagation
 4. Open a P1 security incident ticket
@@ -272,7 +272,7 @@ GuardDuty HIGH/CRITICAL findings page on-call immediately via PagerDuty.
 | Framework | Status | Scope |
 |-----------|--------|-------|
 | **GDPR** | Ongoing | All customer/provider data processing |
-| **PCI-DSS** | Level 2 | Payment processing (via tokenisation — offloaded to payment provider) |
+| **PCI-DSS** | Level 2 | Payment processing (via tokenisation - offloaded to payment provider) |
 | **SOC 2 Type II** | In progress | Platform infrastructure |
 
 All compliance controls are mapped to the engineering practices in this manifesto. Audit evidence is collected automatically via AWS Config, CloudTrail, and Security Hub.
@@ -336,7 +336,7 @@ All rotation schedules are tracked in a **Grafana dashboard** (`Security → Sec
 
 ## 🔒 11. Container Runtime Security
 
-### 11.1 Runtime threat detection — Falco
+### 11.1 Runtime threat detection - Falco
 
 **Falco** is deployed as a DaemonSet on all EKS nodes, monitoring syscalls for anomalous behavior.
 
@@ -356,7 +356,7 @@ All rotation schedules are tracked in a **Grafana dashboard** (`Security → Sec
 - **Critical-level alerts** → automatic pod termination + `#security-alerts` notification + PagerDuty page.
 - All Falco events are shipped to the central SIEM for correlation and forensic analysis.
 
-### 11.3 Admission control — Kyverno
+### 11.3 Admission control - Kyverno
 
 **Kyverno** policies enforce the following at admission time (pod creation is rejected if any rule fails):
 
@@ -435,9 +435,9 @@ flowchart LR
 
 The EgressGateway provides:
 
-- **Access logging** — every external request is logged with source service, destination, response code, and latency.
-- **TLS origination** — the gateway handles TLS to external endpoints; pods send plaintext to the sidecar.
-- **Circuit breaking** — protects against cascading failures from slow external dependencies.
+- **Access logging** - every external request is logged with source service, destination, response code, and latency.
+- **TLS origination** - the gateway handles TLS to external endpoints; pods send plaintext to the sidecar.
+- **Circuit breaking** - protects against cascading failures from slow external dependencies.
 
 ### 12.4 Allowed external domains
 
@@ -514,7 +514,7 @@ All privileged access to production infrastructure uses **temporary elevation** 
 | Parameter | Value |
 |-----------|-------|
 | **Maximum session duration** | 4 hours |
-| **Approval required** | Yes — manager or security team approval via SSO request workflow |
+| **Approval required** | Yes - manager or security team approval via SSO request workflow |
 | **Auto-expiry** | Sessions terminate automatically after the granted duration |
 | **Scope** | Least-privilege role for the specific task (not broad admin access) |
 
@@ -550,7 +550,7 @@ Emergency access for critical production incidents when normal JIT access is una
 |-----------|-------|
 | **Credential storage** | Sealed credentials in AWS Secrets Manager (separate account) |
 | **Access** | Requires two-person authorization (dual-key retrieval) |
-| **Post-use review** | Mandatory review within 24 hours — all actions during break-glass session are audited |
+| **Post-use review** | Mandatory review within 24 hours - all actions during break-glass session are audited |
 | **Rotation** | Credentials are rotated immediately after each use |
 
 Break-glass access triggers an automatic PagerDuty alert to the security team and creates a post-incident review ticket.

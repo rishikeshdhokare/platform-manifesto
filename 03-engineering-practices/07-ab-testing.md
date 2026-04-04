@@ -6,7 +6,7 @@
 
 ## 🎯 1. Purpose
 
-A/B testing is how we make product decisions with data instead of opinions. This document defines how {Company} runs feature experiments — hypothesis formation, test design, statistical rigor, and operational guardrails.
+A/B testing is how we make product decisions with data instead of opinions. This document defines how {Company} runs feature experiments - hypothesis formation, test design, statistical rigor, and operational guardrails.
 
 This is the **general product A/B testing standard**. For ML-specific experimentation (model champion/challenger, shadow scoring), see `10-ai-ml-platform/01-ml-platform.md`.
 
@@ -120,10 +120,10 @@ Always start with a small allocation to catch bugs and regressions before exposi
 
 All A/B tests are implemented as **LaunchDarkly experiments**. The feature flag platform handles:
 
-- **Random, sticky assignment** — users consistently see the same variant
-- **Segment targeting** — run experiments on specific user cohorts
-- **Mutual exclusion** — prevent users from being in conflicting experiments
-- **Kill switch** — instantly disable a variant if guardrails are breached
+- **Random, sticky assignment** - users consistently see the same variant
+- **Segment targeting** - run experiments on specific user cohorts
+- **Mutual exclusion** - prevent users from being in conflicting experiments
+- **Kill switch** - instantly disable a variant if guardrails are breached
 
 ### 5.2 Flag Naming Convention
 
@@ -193,14 +193,14 @@ flowchart TB
 | Error rate by variant | Continuous | Kill the experiment immediately |
 | Latency p99 by variant | Continuous | Kill if > 20% regression |
 | Crash rate by variant | Daily | Kill if treatment is worse |
-| Sample ratio mismatch (SRM) | Daily | Investigate — assignment bug |
+| Sample ratio mismatch (SRM) | Daily | Investigate - assignment bug |
 | Guardrail metrics | Daily | Kill if any guardrail degrades significantly |
 
 ### 6.3 Duration Rules
 
 - **Minimum runtime:** 7 days (to capture weekly seasonality)
 - **Maximum runtime:** 30 days (stale experiments waste opportunity cost)
-- **Never peek and stop early** — wait for the pre-calculated sample size, or use sequential testing methods
+- **Never peek and stop early** - wait for the pre-calculated sample size, or use sequential testing methods
 
 ---
 

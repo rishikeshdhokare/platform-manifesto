@@ -6,11 +6,11 @@
 
 ## 🎯 1. Philosophy
 
-Continuous Integration means **integrating into the main branch continuously** — not once a sprint, not once a week, but multiple times a day. The CI pipeline is the guardian of main: nothing that breaks the build, fails tests, or violates quality gates gets in.
+Continuous Integration means **integrating into the main branch continuously** - not once a sprint, not once a week, but multiple times a day. The CI pipeline is the guardian of main: nothing that breaks the build, fails tests, or violates quality gates gets in.
 
 **The two laws of CI:**
 1. The main branch is always in a releasable state
-2. If the build is broken, fixing it is the team's top priority — everything else stops
+2. If the build is broken, fixing it is the team's top priority - everything else stops
 
 ---
 
@@ -21,9 +21,9 @@ Continuous Integration means **integrating into the main branch continuously** �
 We practice **trunk-based development** (TBD). All engineers commit to `main` either directly (for very small changes) or via **short-lived feature branches** (lifespan < 2 days).
 
 **Why TBD and not GitFlow / long-lived branches:**
-- Long-lived branches create merge debt — the longer a branch lives, the harder it merges
+- Long-lived branches create merge debt - the longer a branch lives, the harder it merges
 - GitFlow encourages batching changes, which conflicts with CI/CD principles
-- TBD forces small, incremental, always-integrating changes — which surfaces problems early
+- TBD forces small, incremental, always-integrating changes - which surfaces problems early
 
 ### 2.2 Branch Naming
 
@@ -72,7 +72,7 @@ Examples:
 
 Types: `feat`, `fix`, `refactor`, `test`, `docs`, `chore`, `perf`, `ci`, `build`
 
-Commit messages are **linted in CI** — a PR with non-conforming commit messages fails.
+Commit messages are **linted in CI** - a PR with non-conforming commit messages fails.
 
 ---
 
@@ -120,7 +120,7 @@ Reviewers are expected to check for:
 - API contract adherence (does it follow API standards?)
 - Observability (does it log and emit metrics appropriately?)
 
-Reviewers are **not** expected to enforce formatting — that is the linter's job.
+Reviewers are **not** expected to enforce formatting - that is the linter's job.
 
 **Review SLA:** PRs must receive a first review within **1 business day**. Stale PRs (no activity for 3 days) are auto-flagged on the team Slack channel.
 
@@ -130,7 +130,7 @@ Reviewers are **not** expected to enforce formatting — that is the linter's jo
 
 ### 4.1 Platform
 
-**GitHub Actions** — all pipelines are defined in `.github/workflows/` in the service repository.
+**GitHub Actions** - all pipelines are defined in `.github/workflows/` in the service repository.
 
 The platform team provides **reusable workflow templates** in the central `platform-workflows` repository. Services reference these rather than copy-pasting pipeline YAML.
 
@@ -282,15 +282,15 @@ All pipelines use Gradle remote build cache:
 | PR pipeline | < 10 min | > 15 min triggers review |
 | Main pipeline | < 15 min | > 20 min triggers review |
 
-If a pipeline consistently exceeds its SLA, the team is expected to optimise it — slow feedback loops kill CI culture.
+If a pipeline consistently exceeds its SLA, the team is expected to optimise it - slow feedback loops kill CI culture.
 
 ---
 
 ## 📋 7. Notifications & Visibility
 
 - **Slack:** CI failures on `main` post to `#ci-failures-{team}` channel immediately
-- **GitHub:** All checks visible on PR — no merge until green
-- **Dashboard:** Platform CI health dashboard in Grafana — tracks build times, failure rates, flakiness per service
+- **GitHub:** All checks visible on PR - no merge until green
+- **Dashboard:** Platform CI health dashboard in Grafana - tracks build times, failure rates, flakiness per service
 
 ---
 
@@ -303,7 +303,7 @@ Dynamic Application Security Testing is performed quarterly against the staging 
 | Parameter | Value |
 |-----------|-------|
 | **Tool** | OWASP ZAP (containerized, latest stable) |
-| **Target** | Staging environment — all public-facing API endpoints |
+| **Target** | Staging environment - all public-facing API endpoints |
 | **Frequency** | Quarterly (scheduled CI pipeline) |
 | **Scan type** | Full active scan + API scan (OpenAPI-driven) |
 
@@ -329,11 +329,11 @@ A weekly `terraform plan` runs in CI for the `platform-config` repository to det
 | **Frequency** | Weekly (Monday 04:00 UTC) |
 | **Repository** | `platform-config` |
 | **Action on drift** | Alert to `#platform-alerts` Slack channel |
-| **Auto-remediate** | No — drift is investigated manually before applying |
+| **Auto-remediate** | No - drift is investigated manually before applying |
 
 ### 9.2 Drift Alert Format
 
-Alerts include: environment, resource type, resource name, and a summary of the detected drift. The on-call platform engineer investigates whether the drift was caused by manual changes (ClickOps — a compliance violation) or by an external process.
+Alerts include: environment, resource type, resource name, and a summary of the detected drift. The on-call platform engineer investigates whether the drift was caused by manual changes (ClickOps - a compliance violation) or by an external process.
 
 ---
 

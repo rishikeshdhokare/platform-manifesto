@@ -233,10 +233,10 @@ Automated rollback triggers (configured in the CD pipeline):
 
 | Severity | Definition | Example | Fix SLA |
 |----------|-----------|---------|---------|
-| **S1 — Critical** | Service down or data loss affecting all users | Payment processing failure, app crashes on launch, data corruption | **4 hours** (all-hands incident) |
-| **S2 — Major** | Core feature broken for a segment of users | Orders fail for a specific region, push notifications not delivering on Android 14 | **1 sprint** (highest priority in next sprint) |
-| **S3 — Moderate** | Non-core feature broken or degraded experience | Profile photo upload fails intermittently, slow loading on order history | **2 sprints** |
-| **S4 — Minor** | Cosmetic issue or minor inconvenience | Misaligned text on settings screen, tooltip typo | **Backlog** (prioritised when capacity allows) |
+| **S1 - Critical** | Service down or data loss affecting all users | Payment processing failure, app crashes on launch, data corruption | **4 hours** (all-hands incident) |
+| **S2 - Major** | Core feature broken for a segment of users | Orders fail for a specific region, push notifications not delivering on Android 14 | **1 sprint** (highest priority in next sprint) |
+| **S3 - Moderate** | Non-core feature broken or degraded experience | Profile photo upload fails intermittently, slow loading on order history | **2 sprints** |
+| **S4 - Minor** | Cosmetic issue or minor inconvenience | Misaligned text on settings screen, tooltip typo | **Backlog** (prioritised when capacity allows) |
 
 ### 7.2 Triage Process
 
@@ -317,14 +317,14 @@ export default function () {
 
 ## 🔒 9. Security Testing
 
-### 9.1 SAST — Static Application Security Testing
+### 9.1 SAST - Static Application Security Testing
 
 - **SonarCloud** runs on **every PR**.
 - Security hotspots must be reviewed and resolved before merge.
 - Critical and High vulnerabilities are **merge-blocking**.
 - Cross-reference: [04-infrastructure-and-cloud/03-security.md](../04-infrastructure-and-cloud/03-security.md)
 
-### 9.2 DAST — Dynamic Application Security Testing
+### 9.2 DAST - Dynamic Application Security Testing
 
 - **OWASP ZAP** scans run **quarterly** against staging.
 - Scans cover the OWASP Top 10 vulnerability categories.

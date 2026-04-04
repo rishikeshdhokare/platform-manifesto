@@ -47,15 +47,15 @@ The choice of isolation pattern depends on four factors: compliance requirements
 flowchart TD
     Start["New multi-tenant\nservice"] --> Q1{"Regulatory requirement\nfor physical data\nseparation?"}
 
-    Q1 -->|"Yes — e.g., financial\nregulation, healthcare"| Q1a{"Must compute\nalso be isolated?"}
+    Q1 -->|"Yes - e.g., financial\nregulation, healthcare"| Q1a{"Must compute\nalso be isolated?"}
     Q1 -->|"No"| Q2{"What level of\ndata isolation?"}
 
     Q1a -->|"Yes"| CLUSTER["Cluster per tenant\n(dedicated EKS cluster\nor namespace)"]
     Q1a -->|"No"| DB["Database per tenant"]
 
-    Q2 -->|"Strong — tenants\nmust not share\nany tables"| Q3{"Can you accept\nhigher ops cost?"}
-    Q2 -->|"Moderate — schema-level\nseparation is sufficient"| SCHEMA["Schema per tenant"]
-    Q2 -->|"Lightweight — row-level\nseparation is acceptable"| RLS["Shared everything\n(Row-Level Security)"]
+    Q2 -->|"Strong - tenants\nmust not share\nany tables"| Q3{"Can you accept\nhigher ops cost?"}
+    Q2 -->|"Moderate - schema-level\nseparation is sufficient"| SCHEMA["Schema per tenant"]
+    Q2 -->|"Lightweight - row-level\nseparation is acceptable"| RLS["Shared everything\n(Row-Level Security)"]
 
     Q3 -->|"Yes"| DB
     Q3 -->|"No"| SCHEMA
@@ -146,7 +146,7 @@ Each tenant gets a dedicated PostgreSQL schema within a shared database. Tables 
 | **Schema naming** | `tenant_<tenant_id>` (e.g., `tenant_acme`, `tenant_globex`) |
 | **Migrations** | Flyway runs per-schema migrations; a tenant provisioning job creates the schema and applies all migrations |
 | **Connection routing** | Application sets the `search_path` to the tenant's schema on each request |
-| **Cross-tenant queries** | Not possible without explicit `SET search_path` — natural isolation |
+| **Cross-tenant queries** | Not possible without explicit `SET search_path` - natural isolation |
 
 **Connection routing:**
 
@@ -169,7 +169,7 @@ Each tenant gets a dedicated database (Aurora cluster or RDS instance). The appl
 | **Provisioning** | Automated via Terraform module; new tenant → new Aurora cluster |
 | **Connection routing** | Application maintains a tenant → datasource mapping; resolved at request time |
 | **Migrations** | Flyway runs against each tenant database independently |
-| **Cost** | Significantly higher — each tenant incurs a minimum Aurora cost |
+| **Cost** | Significantly higher - each tenant incurs a minimum Aurora cost |
 | **When to use** | Regulated industries (fintech, healthcare) where data must not share physical storage |
 
 ### 3.5 Cluster per Tenant
@@ -256,7 +256,7 @@ spec:
 | Aurora/RDS | AWS KMS (cluster-level or per-tenant key via envelope encryption) |
 | S3 | SSE-KMS with tenant-specific key prefix |
 | ElastiCache (Redis) | Encryption at rest enabled; shared key (per-tenant keys not supported by ElastiCache) |
-| Kafka (MSK) | SSE-KMS at the broker level; per-topic keys not supported — use application-level encryption for tenant isolation |
+| Kafka (MSK) | SSE-KMS at the broker level; per-topic keys not supported - use application-level encryption for tenant isolation |
 
 ---
 
@@ -293,9 +293,9 @@ Grafana dashboards include a `tenant_id` variable filter, allowing operators to 
 
 | Dashboard | Panels |
 |-----------|--------|
-| **Tenant Overview** | Request volume, error rate, P99 latency — per tenant |
+| **Tenant Overview** | Request volume, error rate, P99 latency - per tenant |
 | **Tenant SLO Tracking** | Availability and latency SLO burn rate per tenant |
-| **Resource Consumption** | CPU, memory, DB connections, Kafka consumer lag — per tenant |
+| **Resource Consumption** | CPU, memory, DB connections, Kafka consumer lag - per tenant |
 | **Noisy Neighbor Detection** | Top tenants by request volume, error rate, and resource consumption |
 
 ### 6.4 Per-Tenant SLO Tracking

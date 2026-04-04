@@ -6,11 +6,11 @@
 
 ## 🎯 1. Why Code Review Matters
 
-Code review is the most effective quality gate we have — not because it catches all bugs (it doesn't), but because it:
+Code review is the most effective quality gate we have - not because it catches all bugs (it doesn't), but because it:
 - Spreads knowledge about the codebase across the team
 - Catches design problems before they're baked in
 - Ensures standards are applied consistently
-- Builds shared ownership — everyone is responsible for the codebase, not just the author
+- Builds shared ownership - everyone is responsible for the codebase, not just the author
 
 Done well, code review is a **collaborative and educational** experience. Done poorly, it is a source of friction, resentment, and delay.
 
@@ -30,7 +30,7 @@ Read every line of your diff before requesting review. Ask yourself:
 
 The single most impactful thing you can do for your reviewers is to keep PRs small.
 
-Research consistently shows: reviewers find fewer bugs in large PRs, spend less time per line, and give worse feedback — not because they're less diligent, but because reviewing 800 lines is cognitively exhausting.
+Research consistently shows: reviewers find fewer bugs in large PRs, spend less time per line, and give worse feedback - not because they're less diligent, but because reviewing 800 lines is cognitively exhausting.
 
 **Target:** < 400 lines changed. **Hard limit:** 800 lines (requires justification in PR description).
 
@@ -63,7 +63,7 @@ undercompensated for long routes.
 - Tested manually in dev with a 3-stop order: price was correctly summed
 
 ## Notes for reviewer
-The PriceCalculationStrategy interface is new — if you think the strategy 
+The PriceCalculationStrategy interface is new - if you think the strategy 
 pattern is overkill here, happy to discuss. I added it because we'll 
 likely need a different strategy for shared orders (RIDE-2001).
 ```
@@ -73,7 +73,7 @@ likely need a different strategy for shared orders (RIDE-2001).
 - If you've fixed it: "Done."
 - If you disagree: Explain why, respectfully. Don't just silently ignore it.
 - If you don't understand it: Ask for clarification.
-- If you've discussed it offline: "Discussed with @reviewer — we agreed to [outcome]."
+- If you've discussed it offline: "Discussed with @reviewer - we agreed to [outcome]."
 
 ---
 
@@ -81,53 +81,53 @@ likely need a different strategy for shared orders (RIDE-2001).
 
 ### 3.1 Review SLA
 
-- **First review within 1 business day** — unreviewed PRs block your colleague's work
+- **First review within 1 business day** - unreviewed PRs block your colleague's work
 - If you're too busy: leave a comment saying when you'll review, or ask someone else to take it
 - Stale PRs (no activity for 3 days) are auto-flagged to the team lead
 
 ### 3.2 What to Review
 
 **Do review:**
-- Correctness — does it do what it says?
-- Test coverage — is the behaviour tested? Are edge cases covered?
-- Design — is the solution appropriately simple? Are responsibilities in the right place?
-- Security — no secrets, no injection risks, no overly permissive access
-- API contracts — does it follow the [API standards](../02-architecture-and-api/02-api-standards.md)?
-- Observability — does it log key events? Does it emit metrics for business-critical paths?
-- Error handling — are errors handled correctly, not swallowed?
+- Correctness - does it do what it says?
+- Test coverage - is the behaviour tested? Are edge cases covered?
+- Design - is the solution appropriately simple? Are responsibilities in the right place?
+- Security - no secrets, no injection risks, no overly permissive access
+- API contracts - does it follow the [API standards](../02-architecture-and-api/02-api-standards.md)?
+- Observability - does it log key events? Does it emit metrics for business-critical paths?
+- Error handling - are errors handled correctly, not swallowed?
 
 **Don't review (automated tools do this):**
-- Formatting — Checkstyle handles this
-- Style (indentation, spaces) — automated
-- Import order — automated
-- Coverage percentage — SonarCloud enforces this
+- Formatting - Checkstyle handles this
+- Style (indentation, spaces) - automated
+- Import order - automated
+- Coverage percentage - SonarCloud enforces this
 
 ### 3.3 How to Leave Good Feedback
 
 The tone of a comment matters as much as its content. Code review comments should be:
-- **Specific** — reference the exact code, not a vague concern
-- **Actionable** — say what you'd change, not just that something is wrong
-- **Explained** — say *why* the change matters
-- **Kind** — critique the code, not the author
+- **Specific** - reference the exact code, not a vague concern
+- **Actionable** - say what you'd change, not just that something is wrong
+- **Explained** - say *why* the change matters
+- **Kind** - critique the code, not the author
 
 Use prefixes to signal the weight of your comment:
 
 | Prefix | Meaning |
 |--------|---------|
 | **[blocking]** | Must be addressed before merge |
-| **[suggestion]** | Take it or leave it — my preference, not a requirement |
-| **[question]** | I don't understand this — help me |
+| **[suggestion]** | Take it or leave it - my preference, not a requirement |
+| **[question]** | I don't understand this - help me |
 | **[nit]** | Very minor; address if you want; don't feel obligated |
-| **[praise]** | This is good — called out explicitly |
+| **[praise]** | This is good - called out explicitly |
 
 ---
 
-## 💡 4. Comment Examples — Good and Bad
+## 💡 4. Comment Examples - Good and Bad
 
 ### Correctness
 
 ```
-// ❌ Bad comment — vague; author doesn't know what to fix
+// ❌ Bad comment - vague; author doesn't know what to fix
 "This doesn't look right"
 
 // ✅ Good comment
@@ -141,20 +141,20 @@ this will throw a NullPointerException. Suggest:
 ### Design
 
 ```
-// ❌ Bad comment — dismissive; no alternative offered
+// ❌ Bad comment - dismissive; no alternative offered
 "This is over-engineered"
 
 // ✅ Good comment
 [suggestion] The PriceCalculationStrategy interface is a nice pattern, but given we 
 currently only have one implementation, it adds indirection without current benefit. 
-YAGNI applies here. Happy to revisit when RIDE-2001 is scoped — at that point the 
+YAGNI applies here. Happy to revisit when RIDE-2001 is scoped - at that point the 
 pattern will pay off. What do you think?
 ```
 
 ### Testing
 
 ```
-// ❌ Bad comment — generic; not actionable
+// ❌ Bad comment - generic; not actionable
 "Needs more tests"
 
 // ✅ Good comment
@@ -167,7 +167,7 @@ Can you add a test for that case?
 ### Praise (Don't Forget This)
 
 ```
-// ✅ Good — call out good work specifically; builds culture
+// ✅ Good - call out good work specifically; builds culture
 [praise] The use of the Outbox pattern here is exactly right for this use case. 
 The atomic save + outbox write guarantees we never lose the event. Well done.
 ```
@@ -175,8 +175,8 @@ The atomic save + outbox write guarantees we never lose the event. Well done.
 ### Nits
 
 ```
-// ✅ Good nit — minor; flagged clearly; author can use judgment
-[nit] Variable name `d` could be more descriptive — maybe `providerId`?
+// ✅ Good nit - minor; flagged clearly; author can use judgment
+[nit] Variable name `d` could be more descriptive - maybe `providerId`?
 ```
 
 ---
@@ -191,7 +191,7 @@ Don't silently ignore it. Don't get defensive. Have the conversation:
 Author: "Thanks for the suggestion. My thinking was X because Y. 
          Do you see a risk I'm missing, or is this a preference?"
 
-Reviewer: "Fair point on X. My concern was specifically Z — but if 
+Reviewer: "Fair point on X. My concern was specifically Z - but if 
            your reasoning accounts for that, I'm happy to defer."
 ```
 
@@ -253,7 +253,7 @@ For these, ask specifically:
 **Comment without approval** when: You have questions or suggestions but want to let someone else make the approval decision.
 
 **Don't:**
-- Approve PRs you haven't read to unblock a teammate — this defeats the point
+- Approve PRs you haven't read to unblock a teammate - this defeats the point
 - Block a PR indefinitely over a [nit] or [suggestion]
 - Add [blocking] tags to preference-based feedback
 
@@ -272,7 +272,7 @@ Code
 Tests
 [ ] Unit tests for new logic (especially edge cases)
 [ ] Integration test if DB or Kafka is involved
-[ ] Tests are meaningful — they would catch the bug they're testing for
+[ ] Tests are meaningful - they would catch the bug they're testing for
 
 Standards
 [ ] Follows coding standards (./04-coding-standards.md)

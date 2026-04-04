@@ -6,14 +6,14 @@
 
 ## 🎯 1. Our Approach: Trunk-Based Development
 
-We practice **trunk-based development (TBD)**. All engineers integrate their work into `main` frequently — at least once a day, ideally multiple times.
+We practice **trunk-based development (TBD)**. All engineers integrate their work into `main` frequently - at least once a day, ideally multiple times.
 
 If you're coming from GitFlow or long-lived feature branches, this feels wrong at first. It isn't. Here's why TBD is better:
 
 | GitFlow / Long Branches | Trunk-Based Development |
 |------------------------|------------------------|
 | Branches live for weeks | Branches live for hours or days (max 2 days) |
-| Integration pain saved up until merge | Integration pain distributed — small and constant |
+| Integration pain saved up until merge | Integration pain distributed - small and constant |
 | "Merge hell" before release | Main is always releasable |
 | Bugs found late, hard to bisect | Bugs found immediately, easy to find |
 | Deploy when branch is "ready" | Deploy continuously |
@@ -46,7 +46,7 @@ gitGraph
 ```
 
 ```bash
-# Branch from main — never from another feature branch
+# Branch from main - never from another feature branch
 git checkout -b feat/RIDE-1234-add-price-calculation
 ```
 
@@ -56,7 +56,7 @@ Types: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`
 
 ### 2.3 Work in Small Commits
 
-Commit frequently — every logical unit of change. Don't save one big commit at the end.
+Commit frequently - every logical unit of change. Don't save one big commit at the end.
 
 ```bash
 # Add the domain model
@@ -76,7 +76,7 @@ Each commit should leave the codebase in a working state.
 
 ### 2.4 Keep Your Branch in Sync With Main
 
-If main has moved while you're working (it usually has), rebase — don't merge:
+If main has moved while you're working (it usually has), rebase - don't merge:
 
 ```bash
 # Pull latest main and rebase your work on top of it
@@ -102,10 +102,10 @@ gh pr create --title "feat(pricing): add price calculation" --fill
 
 Fill in the PR template honestly. A description like "adds stuff" will fail code review.
 
-### 2.6 After Approval — Squash and Merge
+### 2.6 After Approval - Squash and Merge
 
 When your PR is approved:
-- Use **"Squash and merge"** in GitHub — this creates one clean commit on main per PR
+- Use **"Squash and merge"** in GitHub - this creates one clean commit on main per PR
 - The squash commit message should follow Conventional Commits format
 - Delete the branch after merging
 
@@ -115,20 +115,20 @@ When your PR is approved:
 
 ### Scenario 1: My feature will take more than 2 days
 
-This is the most common challenge. The solution is **feature flags** — ship the code disabled.
+This is the most common challenge. The solution is **feature flags** - ship the code disabled.
 
 ```java
-// Day 1 — merge the data model and DB migration (behind a flag, but flag is off)
-// Day 2 — merge the service logic (flag still off)
-// Day 3 — merge the API endpoint
-// Day 4 — enable the flag for internal testing
-// Day 5 — enable for 10% of users
+// Day 1 - merge the data model and DB migration (behind a flag, but flag is off)
+// Day 2 - merge the service logic (flag still off)
+// Day 3 - merge the API endpoint
+// Day 4 - enable the flag for internal testing
+// Day 5 - enable for 10% of users
 ```
 
 Each day's work is a small, independent PR that merges to main. The feature only becomes visible when the flag is turned on.
 
 ```java
-// Code is in production but inactive — no one sees it yet
+// Code is in production but inactive - no one sees it yet
 if (flagClient.boolVariation("pricing-new-price-calculation", context, false)) {
     return newPriceCalculationService.calculate(request);
 } else {
@@ -174,7 +174,7 @@ git rebase origin/main
 # Option 1 (preferred): Revert the bad commit
 git revert {bad-commit-sha}
 git push origin main
-# This creates a new commit that undoes the bad one — safe and auditable
+# This creates a new commit that undoes the bad one - safe and auditable
 
 # Option 2: Fix forward (if the fix is small and fast)
 git checkout -b fix/RIDE-9999-fix-broken-price-calculation
@@ -210,14 +210,14 @@ git reset --hard HEAD~1
 
 ---
 
-## 📏 4. Commit Messages — Conventional Commits
+## 📏 4. Commit Messages - Conventional Commits
 
 Every commit must follow this format:
 
 ```
 {type}({scope}): {short description}
 
-{optional body — explain WHY, not WHAT}
+{optional body - explain WHY, not WHAT}
 
 {optional footer: BREAKING CHANGE, Closes, Refs}
 ```
@@ -268,7 +268,7 @@ git commit -m "fix stuff"
 git commit -m "WIP"
 git commit -m "changes"
 git commit -m "Update OrderService.java"
-git commit -m "RIDE-1234"   # just a ticket number — no description
+git commit -m "RIDE-1234"   # just a ticket number - no description
 ```
 
 ---
@@ -277,11 +277,11 @@ git commit -m "RIDE-1234"   # just a ticket number — no description
 
 ### For the PR Author
 
-- **Keep PRs small** — < 400 lines. Large PRs get poor reviews.
-- **Fill in the template** — make it easy for the reviewer to understand context
-- **Review your own PR first** — read every line before requesting review; catch your own mistakes
-- **Respond to all comments** — even if just "done" or "discussed offline"
-- **Don't take feedback personally** — it's about the code, not about you
+- **Keep PRs small** - < 400 lines. Large PRs get poor reviews.
+- **Fill in the template** - make it easy for the reviewer to understand context
+- **Review your own PR first** - read every line before requesting review; catch your own mistakes
+- **Respond to all comments** - even if just "done" or "discussed offline"
+- **Don't take feedback personally** - it's about the code, not about you
 
 ### For the Reviewer
 
@@ -408,7 +408,7 @@ PRs that do not change observable behavior (pure refactoring, test additions, CI
 
 ### 8.6 Auto-Generation
 
-Tools like `conventional-changelog` can generate changelog entries from commit messages. This is **optional** — human-curated entries are preferred for clarity and readability. Auto-generated changelogs tend to include noise (every commit) rather than signal (meaningful changes).
+Tools like `conventional-changelog` can generate changelog entries from commit messages. This is **optional** - human-curated entries are preferred for clarity and readability. Auto-generated changelogs tend to include noise (every commit) rather than signal (meaningful changes).
 
 ### 8.7 Audience
 

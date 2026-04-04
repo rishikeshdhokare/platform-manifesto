@@ -83,7 +83,7 @@ All {Company} Spring Boot services emit logs as structured JSON. Plain-text logs
 To temporarily enable DEBUG for a specific logger in production (with sampling):
 
 ```yaml
-# Applied via ConfigMap override — requires Platform Engineering approval
+# Applied via ConfigMap override - requires Platform Engineering approval
 logging:
   level:
     com.{company}.orders.adapter.kafka: DEBUG
@@ -135,7 +135,7 @@ flowchart TB
 
 | Layer | Example | Source | Overrides Previous? |
 |-------|---------|--------|-------------------|
-| `application.yml` | `server.port=8080` | Git repository | — (base) |
+| `application.yml` | `server.port=8080` | Git repository | - (base) |
 | `application-staging.yml` | `spring.datasource.url=jdbc:...staging` | Git repository | Yes |
 | Environment Variables | `SPRING_DATASOURCE_PASSWORD=***` | Kubernetes ConfigMap/Secret | Yes |
 | AWS Secrets Manager | DB credentials, API keys | Fetched at bootstrap via `spring-cloud-aws-starter-secrets-manager` | Yes |
@@ -242,9 +242,9 @@ spring:
 | `/actuator/health/readiness` | Yes | Yes (web) | Readiness probe |
 | `/actuator/info` | Yes | Yes (web) | Build info, Git commit |
 | `/actuator/prometheus` | Yes | Yes (web) | Prometheus metrics scrape endpoint |
-| `/actuator/env` | No | No | Exposes configuration — security risk |
-| `/actuator/beans` | No | No | Exposes internals — no production use |
-| `/actuator/configprops` | No | No | Exposes configuration — security risk |
+| `/actuator/env` | No | No | Exposes configuration - security risk |
+| `/actuator/beans` | No | No | Exposes internals - no production use |
+| `/actuator/configprops` | No | No | Exposes configuration - security risk |
 | `/actuator/shutdown` | No | No | Never enabled in any environment |
 | `/actuator/threaddump` | No | No | Available on-demand via `kubectl exec` |
 | `/actuator/heapdump` | No | No | Available on-demand via `kubectl exec` |
@@ -557,7 +557,7 @@ Internal service-to-service calls use mTLS enforced by the service mesh (Istio).
 | **Certificate authority** | AWS Private CA |
 | **Certificate rotation** | Automatic via Istio / cert-manager (90-day rotation) |
 | **RBAC** | Istio `AuthorizationPolicy` restricts which services can call which |
-| **Mutual TLS mode** | `STRICT` — plaintext is rejected |
+| **Mutual TLS mode** | `STRICT` - plaintext is rejected |
 
 ---
 
@@ -786,7 +786,7 @@ flowchart LR
 | Step | Command | Gate |
 |------|---------|------|
 | Publish consumer pacts | `./gradlew pactPublish` | Consumer CI |
-| Verify provider against pacts | `./gradlew pactVerify` | Provider CI — **must pass before merge** |
+| Verify provider against pacts | `./gradlew pactVerify` | Provider CI - **must pass before merge** |
 | Can-I-Deploy check | `pact-broker can-i-deploy --pacticipant order-service --version 2.3.1` | Pre-deploy gate |
 
 ---

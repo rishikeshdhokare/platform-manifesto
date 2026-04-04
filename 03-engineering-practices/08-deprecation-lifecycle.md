@@ -35,7 +35,7 @@ This document governs the deprecation and sunset process for all shared platform
 
 ## 📏 2. Deprecation Timelines
 
-Every deprecated artifact has a defined **sunset window** — the period between the deprecation announcement and the removal date. The window length varies by artifact type to reflect the migration effort and blast radius.
+Every deprecated artifact has a defined **sunset window** - the period between the deprecation announcement and the removal date. The window length varies by artifact type to reflect the migration effort and blast radius.
 
 | Artifact Type | Sunset Window | Rationale |
 |---------------|--------------|-----------|
@@ -150,7 +150,7 @@ flowchart TD
     B -->|"No"| D["Removal APPROVED\nProceed with deletion"]
 
     C --> E{"Exception\napproved?"}
-    E -->|"Yes — VP Eng"| D
+    E -->|"Yes - VP Eng"| D
     E -->|"No"| F["Extend sunset\nby 30 days\nRepeat notification"]
     F --> A
 ```

@@ -70,11 +70,11 @@ frontend/
 │   ├── admin-dashboard/       # React SPA for internal ops
 │   └── mobile/                # React Native app
 ├── packages/
-│   ├── ui/                    # @{company}/ui — shared component library
-│   ├── api-client/            # @{company}/api-client — typed API client
-│   ├── config-eslint/         # @{company}/config-eslint — shared ESLint config
-│   ├── config-typescript/     # @{company}/config-typescript — shared tsconfig
-│   └── utils/                 # @{company}/utils — shared utility functions
+│   ├── ui/                    # @{company}/ui - shared component library
+│   ├── api-client/            # @{company}/api-client - typed API client
+│   ├── config-eslint/         # @{company}/config-eslint - shared ESLint config
+│   ├── config-typescript/     # @{company}/config-typescript - shared tsconfig
+│   └── utils/                 # @{company}/utils - shared utility functions
 ├── turbo.json
 ├── package.json
 ├── pnpm-workspace.yaml
@@ -88,11 +88,11 @@ frontend/
 
 | Package | npm Scope | Published? |
 |---------|-----------|-----------|
-| `@{company}/ui` | `@{company}` | Yes — internal registry |
-| `@{company}/api-client` | `@{company}` | Yes — internal registry |
-| `@{company}/config-eslint` | `@{company}` | Yes — internal registry |
-| `@{company}/config-typescript` | `@{company}` | Yes — internal registry |
-| `@{company}/utils` | `@{company}` | Yes — internal registry |
+| `@{company}/ui` | `@{company}` | Yes - internal registry |
+| `@{company}/api-client` | `@{company}` | Yes - internal registry |
+| `@{company}/config-eslint` | `@{company}` | Yes - internal registry |
+| `@{company}/config-typescript` | `@{company}` | Yes - internal registry |
+| `@{company}/utils` | `@{company}` | Yes - internal registry |
 
 ### 2.2 Turborepo Pipeline
 
@@ -307,7 +307,7 @@ flowchart LR
 | Asset | S3 Path | Cache-Control | Rationale |
 |-------|---------|---------------|-----------|
 | `index.html` | `/index.html` | `max-age=0, must-revalidate` | Always fetch latest entry point |
-| JS bundles | `/assets/index-a1b2c3.js` | `max-age=31536000, immutable` | Content-hashed — changes hash on update |
+| JS bundles | `/assets/index-a1b2c3.js` | `max-age=31536000, immutable` | Content-hashed - changes hash on update |
 | CSS files | `/assets/styles-d4e5f6.css` | `max-age=31536000, immutable` | Content-hashed |
 | Images | `/assets/logo-g7h8i9.png` | `max-age=31536000, immutable` | Content-hashed |
 | `favicon.ico` | `/favicon.ico` | `max-age=86400` | Changes rarely |

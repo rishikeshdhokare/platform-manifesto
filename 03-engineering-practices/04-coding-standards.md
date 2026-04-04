@@ -6,7 +6,7 @@
 
 ## 🎯 1. Philosophy
 
-Code is read far more than it is written. Every decision in this guide optimises for **readability, predictability, and maintainability** — not brevity or cleverness.
+Code is read far more than it is written. Every decision in this guide optimises for **readability, predictability, and maintainability** - not brevity or cleverness.
 
 When in doubt, ask: *"Will a colleague who has never seen this code understand it in 30 seconds?"* If the answer is no, simplify.
 
@@ -14,7 +14,7 @@ When in doubt, ask: *"Will a colleague who has never seen this code understand i
 
 ## 🔄 2. Automated Enforcement
 
-Most style rules are enforced automatically. You do not need to memorise them — your IDE and CI will tell you when you're wrong.
+Most style rules are enforced automatically. You do not need to memorise them - your IDE and CI will tell you when you're wrong.
 
 | Tool | What It Enforces | When It Runs |
 |------|-----------------|-------------|
@@ -24,7 +24,7 @@ Most style rules are enforced automatically. You do not need to memorise them �
 
 Import the platform IntelliJ settings to get formatting on save automatically.
 
-The rules below cover things tools **cannot** enforce — judgment calls that require human standards.
+The rules below cover things tools **cannot** enforce - judgment calls that require human standards.
 
 ---
 
@@ -43,25 +43,25 @@ The rules below cover things tools **cannot** enforce — judgment calls that re
 | Test class | `{ClassUnderTest}Test` | `OrderServiceTest` |
 | Test method | `methodName_givenCondition_expectedBehaviour` | `calculatePrice_givenDynamicPricing_returnsMultiplied` |
 
-### 3.2 Be Specific — No Generic Names
+### 3.2 Be Specific - No Generic Names
 
 Generic names hide intent and make code harder to search and understand.
 
 ```java
-// ❌ Bad — what is "data"? what is "result"? what is "obj"?
+// ❌ Bad - what is "data"? what is "result"? what is "obj"?
 public Object process(Object data) {
     Object result = service.handle(data);
     return result;
 }
 
-// ✅ Good — names communicate intent
+// ✅ Good - names communicate intent
 public PriceEstimate calculatePrice(OrderRequest orderRequest) {
     PriceEstimate priceEstimate = pricingService.estimate(orderRequest);
     return priceEstimate;
 }
 ```
 
-### 3.3 Booleans — Use Positive, Readable Names
+### 3.3 Booleans - Use Positive, Readable Names
 
 ```java
 // ❌ Bad
@@ -75,7 +75,7 @@ boolean hasProvider;
 boolean isDynamicPricingEnabled;
 ```
 
-### 3.4 Collections — Use Plural Nouns
+### 3.4 Collections - Use Plural Nouns
 
 ```java
 // ❌ Bad
@@ -96,7 +96,7 @@ Set<String> activeZones;
 A class should have one reason to change. If you find yourself writing "and" when describing what a class does, it probably needs to be split.
 
 ```java
-// ❌ Bad — OrderService does too many things
+// ❌ Bad - OrderService does too many things
 public class OrderService {
     public Order createOrder(...) { ... }
     public void sendConfirmationEmail(...) { ... }   // notification concern
@@ -104,7 +104,7 @@ public class OrderService {
     public void updateProviderLocation(...) { ... }    // location concern
 }
 
-// ✅ Good — each class has one job
+// ✅ Good - each class has one job
 public class OrderService {
     public Order requestOrder(OrderRequest request) { ... }
     public void startOrder(OrderId orderId) { ... }
@@ -116,21 +116,21 @@ public class OrderService {
 
 - **Domain classes:** No hard limit, but if a class exceeds ~200 lines, review it
 - **Service classes:** Should rarely exceed 150 lines; extract collaborators
-- **Controllers:** Should be thin — no business logic; typically < 80 lines
+- **Controllers:** Should be thin - no business logic; typically < 80 lines
 
-### 4.3 Immutability — Prefer It
+### 4.3 Immutability - Prefer It
 
 Make objects immutable where possible. Mutable shared state is the root of most concurrency bugs.
 
 ```java
-// ❌ Bad — mutable, anyone can change anything
+// ❌ Bad - mutable, anyone can change anything
 public class OrderRequest {
     public String customerId;
     public Location dispatch;
     public Location delivery;
 }
 
-// ✅ Good — immutable value object
+// ✅ Good - immutable value object
 public final class OrderRequest {
     private final CustomerId customerId;
     private final Location dispatch;
@@ -142,7 +142,7 @@ public final class OrderRequest {
         this.delivery = Objects.requireNonNull(delivery, "delivery must not be null");
     }
 
-    // Only getters — no setters
+    // Only getters - no setters
     public CustomerId getCustomerId() { return customerId; }
     public Location getDispatch() { return dispatch; }
     public Location getDelivery() { return delivery; }
@@ -156,21 +156,21 @@ public final class OrderRequest {
 ### 5.1 Method Length
 
 - **Target:** < 20 lines per method
-- **Limit:** 40 lines — if exceeded, extract sub-methods
+- **Limit:** 40 lines - if exceeded, extract sub-methods
 - A method that needs a comment to explain each "section" should be broken into named sub-methods
 
 ### 5.2 Number of Parameters
 
 - **Target:** ≤ 3 parameters
-- **Limit:** 5 — beyond this, introduce a parameter object
+- **Limit:** 5 - beyond this, introduce a parameter object
 
 ```java
-// ❌ Bad — 6 parameters, easy to pass in wrong order
+// ❌ Bad - 6 parameters, easy to pass in wrong order
 public PriceEstimate calculate(String city, String vehicleType,
     double distanceKm, int durationMinutes,
     boolean isDynamic, double dynamicMultiplier) { ... }
 
-// ✅ Good — parameter object groups related data
+// ✅ Good - parameter object groups related data
 public PriceEstimate calculate(PriceCalculationRequest request) { ... }
 
 public record PriceCalculationRequest(
@@ -182,10 +182,10 @@ public record PriceCalculationRequest(
 ) {}
 ```
 
-### 5.3 Return Early — Avoid Deep Nesting
+### 5.3 Return Early - Avoid Deep Nesting
 
 ```java
-// ❌ Bad — deeply nested, hard to follow the happy path
+// ❌ Bad - deeply nested, hard to follow the happy path
 public Order processOrder(String orderId, String providerId) {
     Order order = orderRepository.findById(orderId);
     if (order != null) {
@@ -209,7 +209,7 @@ public Order processOrder(String orderId, String providerId) {
     }
 }
 
-// ✅ Good — guard clauses, happy path is linear
+// ✅ Good - guard clauses, happy path is linear
 public Order processOrder(String orderId, String providerId) {
     Order order = orderRepository.findById(orderId)
         .orElseThrow(() -> new OrderNotFoundException(orderId));
@@ -233,7 +233,7 @@ public Order processOrder(String orderId, String providerId) {
 ### 5.4 No Magic Numbers or Strings
 
 ```java
-// ❌ Bad — what does 3 mean? what is "COMPLETED"?
+// ❌ Bad - what does 3 mean? what is "COMPLETED"?
 if (order.getAttempts() > 3) { ... }
 if (status.equals("COMPLETED")) { ... }
 
@@ -248,14 +248,14 @@ if (status == OrderStatus.COMPLETED) { ... }
 
 ## ❌ 6. Error Handling
 
-### 6.1 Use Typed Exceptions — Never Generic Ones
+### 6.1 Use Typed Exceptions - Never Generic Ones
 
 ```java
 // ❌ Bad
 throw new RuntimeException("Order not found");
 throw new Exception("Something went wrong");
 
-// ✅ Good — typed, domain-specific exceptions
+// ✅ Good - typed, domain-specific exceptions
 throw new OrderNotFoundException(orderId);
 throw new InvalidOrderStateException(currentStatus);
 throw new ProviderUnavailableException(providerId);
@@ -296,21 +296,21 @@ public class InvalidOrderStateException extends DomainException {
 ### 6.3 Never Swallow Exceptions
 
 ```java
-// ❌ Bad — exception silently swallowed; caller has no idea what happened
+// ❌ Bad - exception silently swallowed; caller has no idea what happened
 try {
     orderService.completeOrder(orderId);
 } catch (Exception e) {
     // do nothing
 }
 
-// ❌ Also bad — logged but still swallowed; flow continues incorrectly
+// ❌ Also bad - logged but still swallowed; flow continues incorrectly
 try {
     orderService.completeOrder(orderId);
 } catch (Exception e) {
     log.error("Error completing order", e);
 }
 
-// ✅ Good — handle it properly or let it propagate
+// ✅ Good - handle it properly or let it propagate
 try {
     orderService.completeOrder(orderId);
 } catch (OrderNotFoundException e) {
@@ -324,15 +324,15 @@ try {
 ### 6.4 Log-and-Throw Is an Anti-Pattern
 
 ```java
-// ❌ Bad — this exception will be logged twice: here and by the caller
+// ❌ Bad - this exception will be logged twice: here and by the caller
 try {
     providerService.dispatch(providerId, orderId);
 } catch (Exception e) {
     log.error("Failed to dispatch provider", e);  // log here
-    throw e;                                        // and rethrow — double logging
+    throw e;                                        // and rethrow - double logging
 }
 
-// ✅ Good — let it propagate; the top-level handler logs it once
+// ✅ Good - let it propagate; the top-level handler logs it once
 providerService.dispatch(providerId, orderId);
 ```
 
@@ -343,17 +343,17 @@ providerService.dispatch(providerId, orderId);
 ### 7.1 Never Return Null from a Method
 
 ```java
-// ❌ Bad — caller must remember to null-check; easy to forget
+// ❌ Bad - caller must remember to null-check; easy to forget
 public Provider findProvider(String providerId) {
     return providerRepository.findById(providerId); // returns null if not found
 }
 
-// ✅ Good — use Optional; forces caller to handle the empty case
+// ✅ Good - use Optional; forces caller to handle the empty case
 public Optional<Provider> findProvider(String providerId) {
     return providerRepository.findById(providerId);
 }
 
-// ✅ Also good — throw if not finding is exceptional (not a normal case)
+// ✅ Also good - throw if not finding is exceptional (not a normal case)
 public Provider getProvider(String providerId) {
     return providerRepository.findById(providerId)
         .orElseThrow(() -> new ProviderNotFoundException(providerId));
@@ -363,7 +363,7 @@ public Provider getProvider(String providerId) {
 ### 7.2 Validate Constructor Arguments
 
 ```java
-// ✅ Good — fail fast; don't let invalid objects exist
+// ✅ Good - fail fast; don't let invalid objects exist
 public Order(OrderId id, CustomerId customerId, Location dispatch, Location delivery) {
     this.id = Objects.requireNonNull(id, "id must not be null");
     this.customerId = Objects.requireNonNull(customerId, "customerId must not be null");
@@ -390,11 +390,11 @@ public @Nullable Provider findNearestAvailableProvider(Location location) { ... 
 The need for a comment is often a signal that the code should be clearer.
 
 ```java
-// ❌ Bad — comment explains what the code does (the code should do that itself)
+// ❌ Bad - comment explains what the code does (the code should do that itself)
 // Get order by id and check if it's in progress
 if (orderRepo.findById(id).getStatus() == OrderStatus.IN_PROGRESS) { ... }
 
-// ✅ Good — method name communicates intent; no comment needed
+// ✅ Good - method name communicates intent; no comment needed
 if (order.isInProgress()) { ... }
 ```
 
@@ -403,15 +403,15 @@ if (order.isInProgress()) { ... }
 Comments are valuable when they explain **why**, not **what**:
 
 ```java
-// ✅ Good — explains non-obvious business rule
+// ✅ Good - explains non-obvious business rule
 // Providers who cancel more than 3 orders in 24h are temporarily suspended
 // per our provider agreement (section 4.2). This is intentional friction,
-// not a bug — do not remove without product sign-off.
+// not a bug - do not remove without product sign-off.
 if (provider.getCancellationsInLast24Hours() >= 3) {
     suspensionService.temporarilySuspend(provider.getId());
 }
 
-// ✅ Good — explains a workaround
+// ✅ Good - explains a workaround
 // Stripe sometimes sends duplicate webhook events within 60 seconds.
 // We use the idempotency key to deduplicate before processing.
 if (paymentEventRepository.existsByIdempotencyKey(event.getIdempotencyKey())) {
@@ -428,7 +428,7 @@ Every `// TODO` comment must reference a Jira ticket:
 // ✅ Good
 // TODO(RIDE-1234): Replace polling with WebSocket push when infra is ready
 
-// ❌ Bad — no tracking; will never be fixed
+// ❌ Bad - no tracking; will never be fixed
 // TODO: fix this later
 ```
 
@@ -465,7 +465,7 @@ public record PriceCalculationRequest(
 ) {}
 ```
 
-Do **not** use records for domain entities that have lifecycle and changing state — use classes.
+Do **not** use records for domain entities that have lifecycle and changing state - use classes.
 
 ---
 
@@ -478,17 +478,17 @@ Always use SLF4J. Never use `System.out.println`.
 System.out.println("Order started: " + orderId);
 e.printStackTrace();
 
-// ❌ Bad — string concatenation in log calls (evaluated even if log level disabled)
+// ❌ Bad - string concatenation in log calls (evaluated even if log level disabled)
 log.debug("Processing order: " + orderId + " for customer: " + customerId);
 
-// ✅ Good — parameterised logging (lazy evaluation)
+// ✅ Good - parameterised logging (lazy evaluation)
 log.debug("Processing order: {} for customer: {}", orderId, customerId);
 
-// ✅ Good — structured context for searchability
+// ✅ Good - structured context for searchability
 log.info("Order completed. orderId={}, durationSecs={}, priceAmount={}",
     order.getId(), order.getDurationSeconds(), order.getPriceAmount());
 
-// ✅ Good — always include exception object (not just message) so stack trace is captured
+// ✅ Good - always include exception object (not just message) so stack trace is captured
 log.error("Failed to dispatch provider. orderId={}, providerId={}", orderId, providerId, e);
 ```
 
@@ -496,10 +496,10 @@ log.error("Failed to dispatch provider. orderId={}, providerId={}", orderId, pro
 
 ## 📏 11. Dependency Injection
 
-Always inject via constructor — never via field injection (`@Autowired` on fields).
+Always inject via constructor - never via field injection (`@Autowired` on fields).
 
 ```java
-// ❌ Bad — field injection; hides dependencies; makes testing harder
+// ❌ Bad - field injection; hides dependencies; makes testing harder
 @Service
 public class OrderService {
     @Autowired
@@ -508,7 +508,7 @@ public class OrderService {
     private PricingClient pricingClient;
 }
 
-// ✅ Good — constructor injection; dependencies explicit; easy to test
+// ✅ Good - constructor injection; dependencies explicit; easy to test
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
@@ -534,7 +534,7 @@ public class OrderService {
 
 ---
 
-## 📋 12. Quick Reference — Do / Don't
+## 📋 12. Quick Reference - Do / Don't
 
 | Do | Don't |
 |----|-------|

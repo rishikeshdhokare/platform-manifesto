@@ -20,12 +20,12 @@
 
 ## 🎯 1. Why Capacity Planning Matters
 
-Platform demand is **not random** — it is highly predictable. Rush hours, weekends, holidays, and promotional events create repeatable demand curves. Capacity planning exploits this predictability to ensure:
+Platform demand is **not random** - it is highly predictable. Rush hours, weekends, holidays, and promotional events create repeatable demand curves. Capacity planning exploits this predictability to ensure:
 
-- **Customers always get served** — under-provisioned fulfillment infrastructure means dropped requests and lost revenue.
-- **Providers stay connected** — WebSocket and location-ingestion infrastructure must handle peak concurrently-connected providers without degradation.
-- **Costs stay controlled** — over-provisioning wastes money. Right-provisioning with pre-scaling for known peaks is the standard approach.
-- **New region launches go smoothly** — every new region follows a capacity model that translates expected demand into infrastructure requirements before day one.
+- **Customers always get served** - under-provisioned fulfillment infrastructure means dropped requests and lost revenue.
+- **Providers stay connected** - WebSocket and location-ingestion infrastructure must handle peak concurrently-connected providers without degradation.
+- **Costs stay controlled** - over-provisioning wastes money. Right-provisioning with pre-scaling for known peaks is the standard approach.
+- **New region launches go smoothly** - every new region follows a capacity model that translates expected demand into infrastructure requirements before day one.
 
 ### Demand Characteristics
 
@@ -336,11 +336,11 @@ Load test results are stored in S3 and published to the `#capacity-planning` Sla
 ### Monthly Review Checklist
 
 - [ ] Review CPU/memory utilization vs. requests for each service.
-- [ ] Check HPA scaling events — are we hitting maxReplicas too often?
+- [ ] Check HPA scaling events - are we hitting maxReplicas too often?
 - [ ] Review Kafka consumer lag trends per topic.
 - [ ] Check Aurora connection pool utilization and query latency.
 - [ ] Check Redis memory utilization and eviction rates.
-- [ ] Review upcoming events for the next 30 days — do we need pre-scaling configs?
+- [ ] Review upcoming events for the next 30 days - do we need pre-scaling configs?
 - [ ] Update capacity model with latest load test results.
 
 ---

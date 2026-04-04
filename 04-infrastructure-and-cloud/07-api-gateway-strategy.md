@@ -6,7 +6,7 @@
 
 ## 🎯 1. Overview
 
-Amazon API Gateway sits at the edge of the platform. It is the **single entry point** for all external traffic — mobile apps, partner integrations, and internal operations dashboards alike.
+Amazon API Gateway sits at the edge of the platform. It is the **single entry point** for all external traffic - mobile apps, partner integrations, and internal operations dashboards alike.
 
 API Gateway owns the following responsibilities at the edge:
 
@@ -43,9 +43,9 @@ flowchart LR
 
 **Key design decisions:**
 
-- CloudFront handles TLS and edge caching — API Gateway never receives unencrypted traffic.
+- CloudFront handles TLS and edge caching - API Gateway never receives unencrypted traffic.
 - WAF inspects every request *before* it reaches API Gateway, so malicious traffic is dropped early.
-- API Gateway performs authentication and routing — the cheapest operations happen last to avoid wasting compute on blocked requests.
+- API Gateway performs authentication and routing - the cheapest operations happen last to avoid wasting compute on blocked requests.
 - BFF pods are the only services exposed to API Gateway. All internal services are only accessible within the VPC.
 
 ---
@@ -98,13 +98,13 @@ Each environment has its own API Gateway stage:
 | `staging` | `api-staging.{company}.app` | Pre-production validation |
 | `prod` | `api.{company}.app` | Production traffic |
 
-### Terraform Example — Route Configuration
+### Terraform Example - Route Configuration
 
 ```hcl
 resource "aws_apigatewayv2_api" "platform_http_api" {
   name          = "{company}-platform-api"
   protocol_type = "HTTP"
-  description   = "Platform HTTP API — routes to BFF services"
+  description   = "Platform HTTP API - routes to BFF services"
 
   cors_configuration {
     allow_origins = var.allowed_origins
@@ -173,9 +173,9 @@ All authenticated routes use a **Lambda authorizer** that validates JWTs issued 
 2. Decode the JWT header to determine the signing key ID (`kid`).
 3. Fetch the public key from the JWKS endpoint (cached in Lambda memory).
 4. **Validate the JWT signature** using RS256.
-5. **Validate expiry** — reject tokens where `exp` < current time.
-6. **Validate issuer** — `iss` must match the Cognito user pool.
-7. **Validate audience** — `aud` must match the expected client ID.
+5. **Validate expiry** - reject tokens where `exp` < current time.
+6. **Validate issuer** - `iss` must match the Cognito user pool.
+7. **Validate audience** - `aud` must match the expected client ID.
 8. Extract claims (`sub`, `role`, `tenant`) and return an IAM policy.
 
 ### Authorization Response
@@ -259,7 +259,7 @@ flowchart TD
 | **Standard** | 500,000 | 100 | 50 | Negotiated |
 | **Enterprise** | 5,000,000 | 1,000 | 500 | Negotiated |
 
-> **Burst vs Sustained:** Burst limit allows short spikes (e.g., app launch). Sustained rate is the steady-state maximum. API Gateway uses the token bucket algorithm — burst fills the bucket, sustained is the refill rate.
+> **Burst vs Sustained:** Burst limit allows short spikes (e.g., app launch). Sustained rate is the steady-state maximum. API Gateway uses the token bucket algorithm - burst fills the bucket, sustained is the refill rate.
 
 ---
 
@@ -416,7 +416,7 @@ API Gateway response caching is enabled for selected GET endpoints to reduce bac
 1. **All API Gateway configuration is managed in Terraform.** No console changes. Ever.
 2. Changes are applied via CI/CD pipeline (`terraform plan` on PR, `terraform apply` on merge).
 3. State is stored in S3 with DynamoDB locking.
-4. Drift detection runs daily — any console-applied change triggers a P3 alert.
+4. Drift detection runs daily - any console-applied change triggers a P3 alert.
 
 ### Module Structure
 
@@ -433,7 +433,7 @@ modules/
     outputs.tf         # Exported values (API endpoint, etc.)
 ```
 
-### Terraform Snippet — Basic Route with Authorizer
+### Terraform Snippet - Basic Route with Authorizer
 
 ```hcl
 module "customer_bff_route" {

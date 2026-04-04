@@ -37,7 +37,7 @@ Every new service must complete a STRIDE threat model before its [Production Rea
 | **Repudiation** | Can an actor deny performing an action? | User disputes a payment they authorized |
 | **Information Disclosure** | Can sensitive data leak? | PII in logs, error messages exposing stack traces |
 | **Denial of Service** | Can the service be overwhelmed? | Unbounded query without pagination |
-| **Elevation of Privilege** | Can a user gain unauthorized access? | IDOR — accessing another tenant's resources |
+| **Elevation of Privilege** | Can a user gain unauthorized access? | IDOR - accessing another tenant's resources |
 
 ### 1.2 Quarterly Platform-Wide Review
 
@@ -141,11 +141,11 @@ The security team maintains a backlog of detection rules prioritized by MITRE AT
 
 | Priority | Detection Rule | MITRE Technique |
 |----------|---------------|-----------------|
-| P0 | Impossible travel (login from two countries within 1 hour) | T1078 — Valid Accounts |
-| P0 | Secrets Manager bulk read (> 10 secrets in 5 minutes) | T1552 — Unsecured Credentials |
-| P1 | IAM policy change outside Terraform | T1098 — Account Manipulation |
-| P1 | Unusual outbound data transfer (> 1 GB to unknown IP) | T1041 — Exfiltration Over C2 |
-| P2 | New admin user created outside provisioning pipeline | T1136 — Create Account |
+| P0 | Impossible travel (login from two countries within 1 hour) | T1078 - Valid Accounts |
+| P0 | Secrets Manager bulk read (> 10 secrets in 5 minutes) | T1552 - Unsecured Credentials |
+| P1 | IAM policy change outside Terraform | T1098 - Account Manipulation |
+| P1 | Unusual outbound data transfer (> 1 GB to unknown IP) | T1041 - Exfiltration Over C2 |
+| P2 | New admin user created outside provisioning pipeline | T1136 - Create Account |
 
 ---
 
@@ -164,10 +164,10 @@ Penetration test findings follow the same SLA as CVE vulnerabilities:
 
 | Finding Severity | SLA | Retest Required? |
 |-----------------|-----|-----------------|
-| Critical | 48 hours | Yes — within 1 week of fix |
-| High | 7 days | Yes — within 2 weeks of fix |
-| Medium | 30 days | Yes — next quarterly test |
-| Low | 90 days | No — verified in next annual test |
+| Critical | 48 hours | Yes - within 1 week of fix |
+| High | 7 days | Yes - within 2 weeks of fix |
+| Medium | 30 days | Yes - next quarterly test |
+| Low | 90 days | No - verified in next annual test |
 
 ### 4.3 Mandatory Retest
 
@@ -179,7 +179,7 @@ Every Critical and High finding must be retested by the original tester (or an e
 
 ### 5.1 Platform
 
-{Company} operates a private bug bounty program via **HackerOne** (or **Bugcrowd** — selected during program setup).
+{Company} operates a private bug bounty program via **HackerOne** (or **Bugcrowd** - selected during program setup).
 
 ### 5.2 Scope
 
@@ -269,11 +269,11 @@ Security incidents have a distinct playbook from operational incidents. The key 
 
 Before any remediation, preserve evidence:
 
-1. **Snapshot affected systems** — EBS snapshots, RDS snapshots, container image tags
-2. **Export logs** — CloudTrail, VPC Flow Logs, application logs for the incident window
-3. **Capture memory** — If malware is suspected, take a memory dump before terminating the instance
-4. **Lock down credentials** — Rotate, do not delete, compromised credentials (preserves audit trail)
-5. **Document timeline** — All actions taken during incident response
+1. **Snapshot affected systems** - EBS snapshots, RDS snapshots, container image tags
+2. **Export logs** - CloudTrail, VPC Flow Logs, application logs for the incident window
+3. **Capture memory** - If malware is suspected, take a memory dump before terminating the instance
+4. **Lock down credentials** - Rotate, do not delete, compromised credentials (preserves audit trail)
+5. **Document timeline** - All actions taken during incident response
 
 ### 7.3 Law Enforcement Coordination
 
@@ -304,7 +304,7 @@ flowchart TD
 | Regulation | Notification Deadline | Notify To |
 |------------|----------------------|-----------|
 | **GDPR** (EU) | 72 hours from awareness | Lead supervisory authority |
-| **CCPA** (California) | "Expeditiously" — target 72 hours | California Attorney General (if > 500 residents) |
+| **CCPA** (California) | "Expeditiously" - target 72 hours | California Attorney General (if > 500 residents) |
 | **HIPAA** (US healthcare) | 60 days | HHS + affected individuals |
 | **PCI DSS** | 24 hours (for card brands) | Acquiring bank + card brands |
 | **SOC 2** | No fixed timeline, but "promptly" | Auditor notification |
@@ -364,10 +364,10 @@ flowchart TD
 
 | Program | Frequency | Audience | Compliance Tracked? |
 |---------|-----------|----------|-------------------|
-| **Secure SDLC** | Annual | All engineers | Yes — completion required for continued commit access |
+| **Secure SDLC** | Annual | All engineers | Yes - completion required for continued commit access |
 | **OWASP Top 10** | Annual (part of Secure SDLC) | All engineers | Yes |
-| **Phishing simulations** | Quarterly | All employees | Yes — reported to CISO |
-| **New-joiner security orientation** | Within first 2 weeks | All new hires | Yes — HR tracks |
+| **Phishing simulations** | Quarterly | All employees | Yes - reported to CISO |
+| **New-joiner security orientation** | Within first 2 weeks | All new hires | Yes - HR tracks |
 
 ### 10.2 Optional Training
 
@@ -455,9 +455,9 @@ Every DDoS event (confirmed or suspected) triggers a post-event review documenti
 
 | Data Tier | CMK Alias | Rotation | Used For |
 |-----------|-----------|----------|----------|
-| **Tier 1 — Critical** | `alias/tier1-critical` | Annual (automatic) | Payment data, authentication secrets |
-| **Tier 2 — Sensitive** | `alias/tier2-sensitive` | Annual (automatic) | PII, user data at rest |
-| **Tier 3 — Internal** | `alias/tier3-internal` | Annual (automatic) | Application config, non-sensitive data |
+| **Tier 1 - Critical** | `alias/tier1-critical` | Annual (automatic) | Payment data, authentication secrets |
+| **Tier 2 - Sensitive** | `alias/tier2-sensitive` | Annual (automatic) | PII, user data at rest |
+| **Tier 3 - Internal** | `alias/tier3-internal` | Annual (automatic) | Application config, non-sensitive data |
 | **Container signing** | `alias/container-signing` | Annual (manual ceremony) | cosign image signatures |
 | **Backup encryption** | `alias/backup-encryption` | Annual (automatic) | RDS snapshots, S3 backup buckets |
 

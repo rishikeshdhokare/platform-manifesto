@@ -8,7 +8,7 @@
 
 Our cloud platform runs exclusively on **AWS**. All compute runs on **Amazon EKS**. All infrastructure is defined in **Terraform**. Nothing is provisioned by hand.
 
-This document describes the target deployment architecture — network topology, compute layout, data tier placement, and disaster recovery posture.
+This document describes the target deployment architecture - network topology, compute layout, data tier placement, and disaster recovery posture.
 
 ---
 
@@ -19,7 +19,7 @@ We use a **multi-account strategy** following AWS Organizations best practices:
 ```
 AWS Organization (Root)
 │
-├── Management Account         (billing, org policies only — no workloads)
+├── Management Account         (billing, org policies only - no workloads)
 │
 ├── Security OU
 │   ├── Security Tooling       (GuardDuty, SecurityHub, CloudTrail aggregation)
@@ -51,7 +51,7 @@ flowchart TB
 
 ### 2.1 Account Rules
 
-- Production account has **no developer access** by default — only CI/CD pipelines and on-call engineers via break-glass access (with full audit trail)
+- Production account has **no developer access** by default - only CI/CD pipelines and on-call engineers via break-glass access (with full audit trail)
 - All accounts are enrolled in **AWS Config**, **CloudTrail**, and **GuardDuty**
 - SCPs (Service Control Policies) prevent disabling security services in any account
 - Root account MFA is mandatory; root account credentials are in a sealed vault
@@ -68,17 +68,17 @@ Each environment account has a single VPC with the following subnet structure:
 VPC: 10.{env}.0.0/16
 │
 ├── Public Subnets (one per AZ)
-│   ├── 10.{env}.0.0/24    (AZ-a) — ALB, NAT Gateway only
+│   ├── 10.{env}.0.0/24    (AZ-a) - ALB, NAT Gateway only
 │   ├── 10.{env}.1.0/24    (AZ-b)
 │   └── 10.{env}.2.0/24    (AZ-c)
 │
-├── Private Subnets — Application (one per AZ)
-│   ├── 10.{env}.10.0/24   (AZ-a) — EKS worker nodes
+├── Private Subnets - Application (one per AZ)
+│   ├── 10.{env}.10.0/24   (AZ-a) - EKS worker nodes
 │   ├── 10.{env}.11.0/24   (AZ-b)
 │   └── 10.{env}.12.0/24   (AZ-c)
 │
-└── Private Subnets — Data (one per AZ)
-    ├── 10.{env}.20.0/24   (AZ-a) — RDS, ElastiCache, MSK
+└── Private Subnets - Data (one per AZ)
+    ├── 10.{env}.20.0/24   (AZ-a) - RDS, ElastiCache, MSK
     ├── 10.{env}.21.0/24   (AZ-b)
     └── 10.{env}.22.0/24   (AZ-c)
 ```
@@ -107,7 +107,7 @@ Internet
 └────────────────┬────────────────┘
                  │
 ┌────────────────▼────────────────┐
-│  EKS — Application Pods         │ (private application subnet)
+│  EKS - Application Pods         │ (private application subnet)
 │  (Istio service mesh)           │
 └────────────────┬────────────────┘
                  │
@@ -132,7 +132,7 @@ Internet
 
 ---
 
-## ☁️ 4. Compute — Amazon EKS
+## ☁️ 4. Compute - Amazon EKS
 
 ### 4.1 Cluster Architecture
 
@@ -156,9 +156,9 @@ Internet
 ### 4.3 Namespace Standards
 
 Every service namespace has:
-- **Resource quotas** — CPU and memory limits enforced
-- **Network policies** — deny all by default; explicit allow rules for each service-to-service path
-- **Pod security standards** — `restricted` profile (no root, no privilege escalation)
+- **Resource quotas** - CPU and memory limits enforced
+- **Network policies** - deny all by default; explicit allow rules for each service-to-service path
+- **Pod security standards** - `restricted` profile (no root, no privilege escalation)
 
 ### 4.4 Workload Standards
 
@@ -180,7 +180,7 @@ spec:
           - topologyKey: "topology.kubernetes.io/zone"
       containers:
       - resources:
-          requests:                  # Always set — required for scheduling
+          requests:                  # Always set - required for scheduling
             cpu: "250m"
             memory: "512Mi"
           limits:
@@ -240,13 +240,13 @@ spec:
 |---------|-------|
 | Engine | Aurora PostgreSQL 15 |
 | Instance class | `db.r6g.2xlarge` (production) |
-| Multi-AZ | Yes — writer + 2 readers |
+| Multi-AZ | Yes - writer + 2 readers |
 | Failover | Automatic, < 30 seconds |
 | Encryption | AES-256 at rest, TLS in transit |
 | Backup | Continuous backups, 35-day retention |
 | Deletion protection | Enabled (production) |
 | Performance Insights | Enabled |
-| Parameter group | Custom — `max_connections`, `shared_buffers` tuned per service |
+| Parameter group | Custom - `max_connections`, `shared_buffers` tuned per service |
 
 ### 5.2 Amazon ElastiCache for Redis
 
@@ -330,24 +330,24 @@ Non-tagged resources trigger a Config compliance alert.
 
 | Region | Role |
 |--------|------|
-| `eu-west-1` (Ireland) | Primary — active traffic |
-| `eu-central-1` (Frankfurt) | Secondary — warm standby |
+| `eu-west-1` (Ireland) | Primary - active traffic |
+| `eu-central-1` (Frankfurt) | Secondary - warm standby |
 
 ### 7.2 RTO / RPO by Service Tier
 
 | Tier | Examples | RTO | RPO |
 |------|---------|-----|-----|
-| **Tier 1 — Critical** | Orders, Fulfillment, Payments | < 30 min | < 1 min |
-| **Tier 2 — Important** | Provider/Customer Profile, Pricing | < 30 min | < 5 min |
-| **Tier 3 — Standard** | Notifications, Reporting | < 2 hours | < 30 min |
+| **Tier 1 - Critical** | Orders, Fulfillment, Payments | < 30 min | < 1 min |
+| **Tier 2 - Important** | Provider/Customer Profile, Pricing | < 30 min | < 5 min |
+| **Tier 3 - Standard** | Notifications, Reporting | < 2 hours | < 30 min |
 
 > **Note:** The Tier 1 RTO target of 30 minutes aligns with the operational procedure in the disaster recovery playbook.
 
 ### 7.3 Failover Approach
 
-- **Aurora Global Database** for Tier 1 services — cross-region read replica, < 1 second replication lag
-- **Route 53 health checks** — automatic DNS failover when primary endpoint is unhealthy
-- **MSK MirrorMaker 2** — Kafka topic replication to secondary region
+- **Aurora Global Database** for Tier 1 services - cross-region read replica, < 1 second replication lag
+- **Route 53 health checks** - automatic DNS failover when primary endpoint is unhealthy
+- **MSK MirrorMaker 2** - Kafka topic replication to secondary region
 - Failover runbooks are tested via **quarterly DR exercises**
 
 ---
@@ -355,7 +355,7 @@ Non-tagged resources trigger a Config compliance alert.
 ## 💰 8. Cost Management
 
 - All AWS costs are tagged and allocated to teams via cost center tags
-- Monthly cost review per team — anomalies trigger Slack alerts
+- Monthly cost review per team - anomalies trigger Slack alerts
 - **Cost guardrails:**
   - Dev environment scales down to zero outside working hours (Karpenter node termination schedule)
   - Staging runs at 50% of production sizing

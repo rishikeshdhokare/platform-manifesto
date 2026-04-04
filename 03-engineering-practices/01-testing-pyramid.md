@@ -6,9 +6,9 @@
 
 ## 🎯 1. Philosophy
 
-Testing is not a phase that follows development — it is a design activity that happens concurrently with development. Tests are the first consumers of your code. If a unit is hard to test, the design is wrong.
+Testing is not a phase that follows development - it is a design activity that happens concurrently with development. Tests are the first consumers of your code. If a unit is hard to test, the design is wrong.
 
-**Our target:** Tests that are fast, deterministic, and tell you exactly what broke. A flaky test is worse than no test — it erodes trust in the entire suite.
+**Our target:** Tests that are fast, deterministic, and tell you exactly what broke. A flaky test is worse than no test - it erodes trust in the entire suite.
 
 ### 1.1 The Pyramid
 
@@ -70,20 +70,20 @@ A unit test exercises a **single class or function in complete isolation**. All 
 
 ### 2.3 Rules
 
-- Tests must be **independent** — no shared mutable state between tests
+- Tests must be **independent** - no shared mutable state between tests
 - Test names follow: `methodName_givenCondition_expectedBehaviour`
   ```java
   @Test
   void calculatePrice_givenDynamicPricingActive_returnsMultipliedPrice() { ... }
   ```
-- Prefer **one assertion concept per test** — multiple `assertThat` calls are fine if they assert the same concept
-- No `Thread.sleep()` — use `CompletableFuture` / `Awaitility` if timing matters
+- Prefer **one assertion concept per test** - multiple `assertThat` calls are fine if they assert the same concept
+- No `Thread.sleep()` - use `CompletableFuture` / `Awaitility` if timing matters
 - No file system or network access in unit tests
 
 ### 2.4 Coverage Policy
 
 - **Minimum coverage gate:** 80% line coverage, enforced in CI (SonarCloud)
-- Coverage is a floor, not a target — 80% with meaningful tests is better than 95% with trivial ones
+- Coverage is a floor, not a target - 80% with meaningful tests is better than 95% with trivial ones
 - Coverage thresholds are configured per module in `build.gradle`:
   ```kotlin
   jacocoTestCoverageVerification {
@@ -93,7 +93,7 @@ A unit test exercises a **single class or function in complete isolation**. All 
   }
   ```
 - Domain logic (services, domain objects) should be closer to **95%**
-- Controller / adapter layers do not need >80% — they are covered by integration tests
+- Controller / adapter layers do not need >80% - they are covered by integration tests
 
 ### 2.5 What Not to Unit Test
 
@@ -107,7 +107,7 @@ A unit test exercises a **single class or function in complete isolation**. All 
 
 ### 3.1 Definition
 
-An integration test exercises **a service's interaction with its real dependencies** — database, Kafka, external HTTP calls (stubbed via WireMock). The application starts (or a slice of it) and exercises real I/O.
+An integration test exercises **a service's interaction with its real dependencies** - database, Kafka, external HTTP calls (stubbed via WireMock). The application starts (or a slice of it) and exercises real I/O.
 
 ### 3.2 Framework & Libraries
 
@@ -147,7 +147,7 @@ public abstract class BaseIntegrationTest {
 
 ### 3.4 Test Data Strategy
 
-- **No shared test data across tests** — each test seeds its own data and cleans up
+- **No shared test data across tests** - each test seeds its own data and cleans up
 - Use `@Transactional` on tests that write to the DB to auto-rollback after each test
 - For Kafka tests, use unique topic names per test or partition by test run ID
 - Test data builders (Builder pattern) must exist for every domain entity:
@@ -162,8 +162,8 @@ public abstract class BaseIntegrationTest {
 
 - Integration tests live in `src/test/java` in a package ending in `integration`
 - They must be tagged with `@Tag("integration")` so they can be run separately
-- Integration test suite must complete in **< 5 minutes** — if it doesn't, split the service
-- No `Thread.sleep()` — use `Awaitility` for async assertions:
+- Integration test suite must complete in **< 5 minutes** - if it doesn't, split the service
+- No `Thread.sleep()` - use `Awaitility` for async assertions:
   ```java
   Awaitility.await()
       .atMost(10, SECONDS)
@@ -180,7 +180,7 @@ Contract tests fill the gap between unit tests (no real dependencies) and E2E te
 
 ### 4.2 Framework
 
-**Pact** — Consumer-Driven Contract Testing.
+**Pact** - Consumer-Driven Contract Testing.
 
 - Consumers define pacts (contracts) in their own test suite
 - Pacts are published to **Pact Broker** (self-hosted or PactFlow)
@@ -233,17 +233,17 @@ class OrderServicePactProviderTest {
 
 - Every new inter-service dependency requires a Pact consumer test before the integration is built
 - Pact verification runs in the provider's CI pipeline on every PR
-- A provider cannot be deployed if it breaks a consumer pact — this is enforced via can-i-deploy in the CD pipeline
+- A provider cannot be deployed if it breaks a consumer pact - this is enforced via can-i-deploy in the CD pipeline
 
 ---
 
 ## 🔗 4.6 Kafka Event Contract Tests
 
-HTTP APIs are covered by Pact (see above). Kafka event schemas need equivalent protection — if the Orders Service changes the shape of `orders.order.completed`, the Payments consumer must not break silently.
+HTTP APIs are covered by Pact (see above). Kafka event schemas need equivalent protection - if the Orders Service changes the shape of `orders.order.completed`, the Payments consumer must not break silently.
 
 ### Framework
 
-**Pact v4 Message Contracts** — extends Pact to asynchronous message-based interactions.
+**Pact v4 Message Contracts** - extends Pact to asynchronous message-based interactions.
 
 ### Consumer Side (Defining Expected Message Shape)
 
@@ -352,8 +352,8 @@ E2E tests exercise **complete user journeys** from the API layer through to real
 - E2E tests run nightly against `staging` environment, not on every PR
 - E2E tests run on the pre-production environment before every production release
 - E2E test failures **block** production releases
-- E2E tests must clean up after themselves — they cannot leave state in the environment
-- E2E test suite must complete in **< 30 minutes** — parallelize if needed
+- E2E tests must clean up after themselves - they cannot leave state in the environment
+- E2E test suite must complete in **< 30 minutes** - parallelize if needed
 
 ---
 
@@ -395,7 +395,7 @@ The platform template ships with a standard set of ArchUnit rules. Teams may add
 
 | Tool | Use Case |
 |------|---------|
-| **Gatling** | Load testing — scripted in Scala/Java |
+| **Gatling** | Load testing - scripted in Scala/Java |
 | **k6** | Ad-hoc performance tests, CI-friendly |
 
 ### 7.2 Performance Baselines
@@ -429,13 +429,13 @@ A flaky test is a test that passes and fails without code changes. Flaky tests a
 
 ## 🔄 9. Accessibility Testing in CI
 
-Accessibility is not an afterthought — it is tested in CI alongside functional tests.
+Accessibility is not an afterthought - it is tested in CI alongside functional tests.
 
 ### 9.1 Web Frontends
 
 - **axe-core** is integrated into all Playwright E2E tests via `@axe-core/playwright`
 - Every E2E test page navigation includes an accessibility scan
-- **WCAG 2.1 AA** violations **fail the build** — no exceptions
+- **WCAG 2.1 AA** violations **fail the build** - no exceptions
 - Known false positives are suppressed with documented justification in the axe configuration file, reviewed quarterly
 
 ### 9.2 Mobile
@@ -485,8 +485,8 @@ Payment payment = PaymentFixture.aPayment()
 
 ### 10.3 Rules
 
-- Fixtures produce **valid domain objects** by default — callers override only the fields relevant to their test
-- Fixtures must not depend on Spring context or database — they are plain Java builders
+- Fixtures produce **valid domain objects** by default - callers override only the fields relevant to their test
+- Fixtures must not depend on Spring context or database - they are plain Java builders
 - Each domain team owns and maintains their fixture module
 
 ---
@@ -500,8 +500,8 @@ Payment payment = PaymentFixture.aPayment()
 | **gRPC** | `grpc-testing` InProcessServer with canned responses | Testcontainers with real gRPC server |
 | **Kafka** | EmbeddedKafka (`spring-kafka-test`) | Testcontainers Confluent image (`confluentinc/cp-kafka`) |
 | **External HTTP** | WireMock (stubbed responses) | WireMock (stubbed responses) |
-| **PostgreSQL** | — (unit tests do not touch DB) | Testcontainers (`postgres:15-alpine`) |
-| **Redis** | — (unit tests do not touch Redis) | Testcontainers (`redis:7-alpine`) |
+| **PostgreSQL** | - (unit tests do not touch DB) | Testcontainers (`postgres:15-alpine`) |
+| **Redis** | - (unit tests do not touch Redis) | Testcontainers (`redis:7-alpine`) |
 
 ### 11.2 Performance Testing in Staging
 
@@ -522,11 +522,11 @@ Each service must document its **test data shape** in `docs/performance.md`:
 
 ### 12.1 Purpose
 
-Code coverage tells you which lines were executed by tests — it does not tell you whether the tests actually **verified correct behavior**. Mutation testing fills this gap by introducing small code changes (mutations) into the production code and checking whether the test suite detects them. If a mutation survives (tests still pass), the tests are not asserting strongly enough.
+Code coverage tells you which lines were executed by tests - it does not tell you whether the tests actually **verified correct behavior**. Mutation testing fills this gap by introducing small code changes (mutations) into the production code and checking whether the test suite detects them. If a mutation survives (tests still pass), the tests are not asserting strongly enough.
 
 ### 12.2 Tool
 
-**PIT (Pitest)** for Java — integrated as a Gradle plugin in the platform BOM.
+**PIT (Pitest)** for Java - integrated as a Gradle plugin in the platform BOM.
 
 ```kotlin
 // build.gradle.kts
@@ -547,15 +547,15 @@ pitest {
 
 | Scope | Mutation Testing Required? |
 |-------|---------------------------|
-| **Tier 1 services** (payments, orders, fulfillment) | Yes — critical business logic must be mutation-tested |
-| **Critical business logic** (pricing calculations, order state machines, payment processing) | Yes — these are the highest-risk code paths |
+| **Tier 1 services** (payments, orders, fulfillment) | Yes - critical business logic must be mutation-tested |
+| **Critical business logic** (pricing calculations, order state machines, payment processing) | Yes - these are the highest-risk code paths |
 | **Tier 2/3 services** | Recommended but not required |
-| **All services universally** | No — mutation testing is slow and computationally expensive; apply it where the risk justifies the cost |
+| **All services universally** | No - mutation testing is slow and computationally expensive; apply it where the risk justifies the cost |
 
 ### 12.4 Mutation Score Target
 
 - **>70% mutation score** for critical domains (pricing, payments, order lifecycle)
-- This is **not a hard gate in CI** — it is tracked and reviewed during code reviews and quarterly quality assessments
+- This is **not a hard gate in CI** - it is tracked and reviewed during code reviews and quarterly quality assessments
 - A low mutation score in critical code paths should trigger a conversation about test quality, not a blind push for higher numbers
 
 ### 12.5 How to Run
@@ -563,17 +563,17 @@ pitest {
 | Context | Command | Frequency |
 |---------|---------|-----------|
 | **Local development** | `./gradlew pitest` | On demand, before raising a PR that touches critical logic |
-| **CI (Tier 1 services)** | Scheduled CI job | Weekly (not on every PR — too slow) |
+| **CI (Tier 1 services)** | Scheduled CI job | Weekly (not on every PR - too slow) |
 | **Results dashboard** | Pitest HTML report published to build artifacts | Reviewed in sprint retrospectives |
 
 ### 12.6 Interpreting Results
 
 | Result | Meaning | Action |
 |--------|---------|--------|
-| **Killed mutant** | A test detected the mutation and failed — the test is effective | No action needed |
-| **Survived mutant** | Tests still passed despite the mutation — assertions are too weak | Strengthen test assertions; the test may be exercising the code but not verifying the output |
+| **Killed mutant** | A test detected the mutation and failed - the test is effective | No action needed |
+| **Survived mutant** | Tests still passed despite the mutation - assertions are too weak | Strengthen test assertions; the test may be exercising the code but not verifying the output |
 | **No coverage mutant** | No test covers this line at all | Add test coverage for the uncovered code |
-| **Timed out mutant** | The mutation caused an infinite loop detected by Pitest's timeout | Generally treated as "killed" — the mutation was detected |
+| **Timed out mutant** | The mutation caused an infinite loop detected by Pitest's timeout | Generally treated as "killed" - the mutation was detected |
 
 Survived mutants indicate **weak test assertions**, not necessarily missing tests. A test that calls the method but only asserts `assertNotNull(result)` will show high code coverage but low mutation score.
 

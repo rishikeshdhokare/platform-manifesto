@@ -23,15 +23,15 @@
 
 ## 🎯 1. FinOps Philosophy
 
-**Every engineer is a cost stakeholder.** Cloud spending is not an ops problem — it is a product decision. We treat infrastructure cost the same way we treat latency or uptime: as a metric that every team owns.
+**Every engineer is a cost stakeholder.** Cloud spending is not an ops problem - it is a product decision. We treat infrastructure cost the same way we treat latency or uptime: as a metric that every team owns.
 
 **Core principles:**
 
-- **Visibility first** — you cannot optimize what you cannot see. Every resource must be tagged, every dollar attributed.
-- **Engineer empowerment** — teams receive their own cost dashboards and are accountable for their spend.
-- **Unit economics matter** — the ultimate metric is cost-per-transaction. Absolute spend is meaningless without business context.
-- **Right-size continuously** — capacity that sits idle is money that could fund the next feature.
-- **Automate guardrails** — budget alerts, anomaly detection, and policy-as-code prevent surprises before they hit the invoice.
+- **Visibility first** - you cannot optimize what you cannot see. Every resource must be tagged, every dollar attributed.
+- **Engineer empowerment** - teams receive their own cost dashboards and are accountable for their spend.
+- **Unit economics matter** - the ultimate metric is cost-per-transaction. Absolute spend is meaningless without business context.
+- **Right-size continuously** - capacity that sits idle is money that could fund the next feature.
+- **Automate guardrails** - budget alerts, anomaly detection, and policy-as-code prevent surprises before they hit the invoice.
 
 ---
 
@@ -64,9 +64,9 @@ flowchart TD
 
 ### Enforcement
 
-- **Pre-commit hook** — `tflint` checks tag presence locally.
-- **CI gate** — `terraform plan` output is parsed; resources missing any required tag fail the build.
-- **Weekly drift scan** — a Lambda function queries AWS Config for untagged resources and files Jira tickets automatically.
+- **Pre-commit hook** - `tflint` checks tag presence locally.
+- **CI gate** - `terraform plan` output is parsed; resources missing any required tag fail the build.
+- **Weekly drift scan** - a Lambda function queries AWS Config for untagged resources and files Jira tickets automatically.
 
 ---
 
@@ -76,8 +76,8 @@ Each team has dedicated AWS Budgets with two threshold alerts:
 
 | Threshold | Action | Notification Channel |
 |-----------|--------|----------------------|
-| **80%** of monthly budget | Warning — review spend trends | `#finops-alerts` Slack channel + team lead email |
-| **100%** of monthly budget | Critical — mandatory review within 24 h | `#finops-alerts` + VP Engineering email + PagerDuty info alert |
+| **80%** of monthly budget | Warning - review spend trends | `#finops-alerts` Slack channel + team lead email |
+| **100%** of monthly budget | Critical - mandatory review within 24 h | `#finops-alerts` + VP Engineering email + PagerDuty info alert |
 
 Budget definitions live in Terraform and are version-controlled:
 
@@ -125,7 +125,7 @@ flowchart LR
     end
 
     subgraph Platform Analytics
-        S3[(S3 — CUR Parquet)]
+        S3[(S3 - CUR Parquet)]
         ATH[Athena]
         GF[Grafana FinOps Dashboard]
     end
@@ -164,10 +164,10 @@ flowchart TD
     B -->|Yes| C[Propose new resource requests/limits]
     B -->|No| D[Keep current allocation]
     C --> E[Open PR with updated Helm values]
-    E --> F[Deploy to staging — soak 48 h]
+    E --> F[Deploy to staging - soak 48 h]
     F --> G{Latency & error rate unchanged?}
     G -->|Yes| H[Promote to production]
-    G -->|No| I[Revert — investigate]
+    G -->|No| I[Revert - investigate]
 
     style A fill:#6C3FC5,stroke:#fff,color:#fff
     style H fill:#06AC38,stroke:#fff,color:#fff
@@ -176,9 +176,9 @@ flowchart TD
 
 ### Data Sources
 
-- **VPA recommendations** — Kubernetes Vertical Pod Autoscaler runs in recommend-only mode across all namespaces.
-- **Kubecost** — provides per-pod cost attribution.
-- **CloudWatch Container Insights** — historical CPU/memory utilization.
+- **VPA recommendations** - Kubernetes Vertical Pod Autoscaler runs in recommend-only mode across all namespaces.
+- **Kubecost** - provides per-pod cost attribution.
+- **CloudWatch Container Insights** - historical CPU/memory utilization.
 
 ### Rules of Engagement
 
@@ -198,7 +198,7 @@ We use **Compute Savings Plans**, not instance-family Savings Plans.
 | Decision | Rationale |
 |----------|-----------|
 | **Compute** over EC2 Instance | Karpenter may shift instance types; compute plans cover any instance family, region, or OS |
-| **1-year, no upfront** | Balances discount (~20%) with flexibility — the platform is still scaling and instance mix changes quarterly |
+| **1-year, no upfront** | Balances discount (~20%) with flexibility - the platform is still scaling and instance mix changes quarterly |
 | **Cover 60–70% of steady-state** | Remaining 30–40% is burst capacity handled by Spot and on-demand |
 | **Re-evaluate quarterly** | Align plan purchases with the rightsizing review |
 
@@ -438,7 +438,7 @@ The cost-per-transaction metric is calculated weekly by a scheduled Athena query
 
 ## 📡 13. Real-Time Cost Visibility
 
-Cost data should be accessible where engineers already work — not buried in a separate AWS console login. The platform embeds cost visibility into the tools teams use daily.
+Cost data should be accessible where engineers already work - not buried in a separate AWS console login. The platform embeds cost visibility into the tools teams use daily.
 
 ### AWS Cost Explorer in Backstage
 

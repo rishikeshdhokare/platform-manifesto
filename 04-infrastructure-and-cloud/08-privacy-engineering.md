@@ -8,9 +8,9 @@
 
 **Privacy by design and by default.**
 
-Every feature that collects or processes personal data must be evaluated for privacy impact *before* development begins — not after launch, not retroactively, not "when we get to it."
+Every feature that collects or processes personal data must be evaluated for privacy impact *before* development begins - not after launch, not retroactively, not "when we get to it."
 
-The platform handles **real-time location data for millions of people** — customers, providers, and operations staff across multiple countries. This is a profound responsibility. A location trace can reveal where someone lives, works, worships, and whom they visit. We treat this data with the gravity it demands.
+The platform handles **real-time location data for millions of people** - customers, providers, and operations staff across multiple countries. This is a profound responsibility. A location trace can reveal where someone lives, works, worships, and whom they visit. We treat this data with the gravity it demands.
 
 ### Core Principles
 
@@ -149,7 +149,7 @@ flowchart TD
     DELETE["Delete/archive<br/>records"]
     LOG["Log deletion to<br/>audit trail"]
     METRIC["Emit CloudWatch<br/>metric:<br/>records_deleted"]
-    DONE["Done — sleep<br/>until next run"]
+    DONE["Done - sleep<br/>until next run"]
     ALERT["Alert if deletion<br/>fails after 3 retries"]
 
     SCHED --> SCAN
@@ -457,7 +457,7 @@ Every quarter, the Security team conducts an access review:
 | A1.1 | Availability commitments | ✅ Implemented |
 | PI1.1 | Processing integrity | 🟡 In progress |
 | C1.1 | Confidentiality commitments | ✅ Implemented |
-| P1.1–P8.1 | Privacy criteria | 🟡 In progress — target Q3 2025 |
+| P1.1–P8.1 | Privacy criteria | 🟡 In progress - target Q3 2025 |
 
 ---
 
@@ -467,7 +467,7 @@ Every quarter, the Security team conducts an access review:
 
 | Framework | Status | Notes |
 |-----------|--------|-------|
-| **GDPR** | ✅ Implemented | Full compliance — see Sections 3–9 of this document |
+| **GDPR** | ✅ Implemented | Full compliance - see Sections 3–9 of this document |
 | **PCI-DSS** | ✅ Implemented | Payment data tokenized via PSP; platform never stores raw card data |
 | **SOC 2 Type II** | ✅ Implemented | Annual audit cycle; trust services criteria mapped in Section 11 |
 | **ISO 27001** | 🟡 Target | Certification targeted within **12 months**; gap analysis complete, remediation in progress |
@@ -476,10 +476,10 @@ Every quarter, the Security team conducts an access review:
 
 All compliance controls are codified and version-controlled:
 
-- **AWS Config rules** — continuous compliance checks for resource configurations (encryption enabled, public access blocked, logging active)
-- **Security Hub standards** — CIS AWS Foundations Benchmark and PCI-DSS standard enabled across all accounts
-- **CloudTrail** — enabled in all regions, all accounts, with log file validation and S3 lifecycle policies for retention
-- All of the above are **defined in Terraform** — no manual Security Hub or Config rule configuration
+- **AWS Config rules** - continuous compliance checks for resource configurations (encryption enabled, public access blocked, logging active)
+- **Security Hub standards** - CIS AWS Foundations Benchmark and PCI-DSS standard enabled across all accounts
+- **CloudTrail** - enabled in all regions, all accounts, with log file validation and S3 lifecycle policies for retention
+- All of the above are **defined in Terraform** - no manual Security Hub or Config rule configuration
 
 ### 12.3 Continuous Control Monitoring
 

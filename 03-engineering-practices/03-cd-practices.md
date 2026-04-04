@@ -8,7 +8,7 @@
 
 **Continuous Delivery** means every commit to `main` that passes CI is *capable* of being deployed to production. **Continuous Deployment** means it *is* deployed to production, automatically.
 
-Our target state is **continuous deployment** to production for all services, with production releases gated only by automated tests — not manual approvals. We get there incrementally, using feature flags and progressive delivery to decouple deployment from release.
+Our target state is **continuous deployment** to production for all services, with production releases gated only by automated tests - not manual approvals. We get there incrementally, using feature flags and progressive delivery to decouple deployment from release.
 
 **Core principle:** Promote **artifacts**, not code. The same container image that was built and tested in CI is the image that runs in production. We never rebuild between environments.
 
@@ -57,7 +57,7 @@ flowchart LR
 
 ### 2.2 Environment Parity
 
-All environments are **structurally identical** — same Kubernetes manifests, same Helm values shape, different configuration values. If it behaves differently in staging than in production, that is a parity bug.
+All environments are **structurally identical** - same Kubernetes manifests, same Helm values shape, different configuration values. If it behaves differently in staging than in production, that is a parity bug.
 
 - Same container image promoted through all environments
 - Same infrastructure topology (smaller in dev/staging, not different)
@@ -70,10 +70,10 @@ All environments are **structurally identical** — same Kubernetes manifests, s
 | Tool | Role |
 |------|------|
 | **GitHub Actions** | CI pipeline, artifact build, triggers CD |
-| **ArgoCD** | GitOps controller — reconciles desired state from Git to EKS |
+| **ArgoCD** | GitOps controller - reconciles desired state from Git to EKS |
 | **Helm** | Kubernetes manifest templating |
 | **Amazon ECR** | Container registry |
-| **LaunchDarkly** | Feature flags — decouples deploy from release |
+| **LaunchDarkly** | Feature flags - decouples deploy from release |
 
 ### 3.1 GitOps Model
 
@@ -81,7 +81,7 @@ We follow a strict **GitOps** model:
 
 - Application config (Kubernetes manifests, Helm values) lives in a dedicated `platform-config` Git repository, separate from application code
 - ArgoCD watches this repository and reconciles the cluster state to match it
-- **No direct `kubectl apply` in production** — all changes via Git PR to `platform-config`
+- **No direct `kubectl apply` in production** - all changes via Git PR to `platform-config`
 - Drift detection: ArgoCD alerts on any difference between Git state and cluster state
 
 ```
@@ -238,7 +238,7 @@ Feature flags are how we **decouple deployment from release**. Code ships to pro
 
 ### 6.1 Platform
 
-**LaunchDarkly** — the only approved feature flag platform. No custom flag systems.
+**LaunchDarkly** - the only approved feature flag platform. No custom flag systems.
 
 ### 6.2 Flag Types
 
@@ -255,7 +255,7 @@ Feature flags are how we **decouple deployment from release**. Code ships to pro
 - Release flags must be **removed within 2 sprints** of being fully rolled out
 - Permanent ops flags (kill switches) are exempt from removal but must be reviewed quarterly
 - Flag names follow: `{domain}-{feature}-{type}` e.g. `fulfillment-new-algorithm-release`
-- No business logic should permanently depend on a flag — flags are temporary
+- No business logic should permanently depend on a flag - flags are temporary
 
 **Visual overview:**
 
@@ -280,7 +280,7 @@ if (flagClient.boolVariation("fulfillment-ml-model-release", context, false)) {
     return legacyFulfillmentService.findBestProvider(request);
 }
 
-// Bad: flag wraps a massive block — refactor first, then flag
+// Bad: flag wraps a massive block - refactor first, then flag
 ```
 
 ---
@@ -295,17 +295,17 @@ The **first line of defence** is automated rollback via Argo Rollouts canary ana
 
 If a problem is detected post-full-rollout:
 
-**Option A — Feature flag (preferred, < 1 minute):**
+**Option A - Feature flag (preferred, < 1 minute):**
 ```
 Turn off the LaunchDarkly flag for the affected feature
 ```
 
-**Option B — ArgoCD rollback (< 2 minutes):**
+**Option B - ArgoCD rollback (< 2 minutes):**
 ```bash
 argocd app rollback {service-name} --revision {previous-revision}
 ```
 
-**Option C — Git revert + redeploy (5-10 minutes):**
+**Option C - Git revert + redeploy (5-10 minutes):**
 ```bash
 git revert {bad-commit-sha}
 git push origin main
@@ -344,9 +344,9 @@ flowchart TB
 
 We follow **expand-contract** pattern for database schema changes:
 
-1. **Expand:** Add new column (nullable, backward compatible) — deploy
-2. **Migrate:** Backfill data — deploy
-3. **Contract:** Remove old column — deploy (after all consumers are updated)
+1. **Expand:** Add new column (nullable, backward compatible) - deploy
+2. **Migrate:** Backfill data - deploy
+3. **Contract:** Remove old column - deploy (after all consumers are updated)
 
 **Never** make a breaking schema change in a single deployment.
 
@@ -421,9 +421,9 @@ Deployment frequency targets are aligned with the [Engineering Maturity Model](.
 
 | Maturity Level | Deploy Frequency Target | Lead Time Target | Description |
 |----------------|------------------------|------------------|-------------|
-| **L2 — Managed** | Weekly | < 1 week | Team deploys reliably at least once per week; manual gates may still exist |
-| **L3 — Defined** | Daily | < 1 day | Team deploys daily with automated canary; feature flags decouple deploy from release |
-| **L4 — Optimized** | On-demand, multiple per day | < 1 hour | Fully automated pipeline; engineers deploy whenever code is merged; zero manual gates |
+| **L2 - Managed** | Weekly | < 1 week | Team deploys reliably at least once per week; manual gates may still exist |
+| **L3 - Defined** | Daily | < 1 day | Team deploys daily with automated canary; feature flags decouple deploy from release |
+| **L4 - Optimized** | On-demand, multiple per day | < 1 hour | Fully automated pipeline; engineers deploy whenever code is merged; zero manual gates |
 
 These targets are measured via ArgoCD deployment timestamps and reviewed in the monthly engineering metrics review. Teams that consistently miss their maturity-level target should investigate pipeline bottlenecks, test reliability, or approval process friction.
 

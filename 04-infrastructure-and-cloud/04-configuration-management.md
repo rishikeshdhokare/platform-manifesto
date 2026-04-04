@@ -8,8 +8,8 @@
 
 Configuration management fails in two common ways:
 
-1. **Config in code** — database URLs, API keys, feature toggles buried in source code; changing config requires a deployment
-2. **Config chaos** — different values in dev/staging/prod managed by hand; environment drift; "works in staging, broken in prod"
+1. **Config in code** - database URLs, API keys, feature toggles buried in source code; changing config requires a deployment
+2. **Config chaos** - different values in dev/staging/prod managed by hand; environment drift; "works in staging, broken in prod"
 
 Our approach follows the **12-Factor App** principles: strict separation of config from code. Config is anything that varies between deployments (dev vs staging vs production). Code never does.
 
@@ -34,8 +34,8 @@ Our approach follows the **12-Factor App** principles: strict separation of conf
 Spring Boot loads configuration in this order (later entries win):
 
 ```
-1. application.yml (committed to Git — safe defaults, no secrets, no env-specific values)
-2. application-{profile}.yml (committed to Git — profile-specific safe overrides)
+1. application.yml (committed to Git - safe defaults, no secrets, no env-specific values)
+2. application-{profile}.yml (committed to Git - profile-specific safe overrides)
 3. Environment variables (set by Kubernetes via ConfigMap or Helm values)
 4. AWS SSM Parameter Store (loaded at startup via Spring Cloud AWS)
 5. AWS Secrets Manager (loaded at startup via External Secrets Operator)
@@ -53,17 +53,17 @@ flowchart TB
 
 ---
 
-## ⚙️ 4. application.yml — What Belongs Here
+## ⚙️ 4. application.yml - What Belongs Here
 
 Only values that are **safe to commit** and **the same in all environments**:
 
 ```yaml
-# application.yml — committed to Git
+# application.yml - committed to Git
 spring:
   application:
     name: orders-service
   jpa:
-    open-in-view: false              # Always false — not environment-specific
+    open-in-view: false              # Always false - not environment-specific
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect  # Always postgres
@@ -82,7 +82,7 @@ resilience4j:
   circuitbreaker:
     instances:
       pricingService:
-        failureRateThreshold: 50     # Business decision — same everywhere
+        failureRateThreshold: 50     # Business decision - same everywhere
         waitDurationInOpenState: 30s
 ```
 
@@ -102,17 +102,17 @@ external:
 
 ---
 
-## ⚙️ 5. application-{profile}.yml — Profile Overrides
+## ⚙️ 5. application-{profile}.yml - Profile Overrides
 
 Use Spring profiles for local development defaults only:
 
 ```yaml
-# application-local.yml — committed to Git (safe, local-only values)
+# application-local.yml - committed to Git (safe, local-only values)
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/orders
     username: orders_user
-    password: local_password   # Local only — not a real secret
+    password: local_password   # Local only - not a real secret
 
   kafka:
     bootstrap-servers: localhost:9092
@@ -130,11 +130,11 @@ launchdarkly:
     new-fulfillment-algorithm: false
 ```
 
-**Don't create** `application-staging.yml` or `application-production.yml` — these environments get their config from Parameter Store and Secrets Manager, not committed files.
+**Don't create** `application-staging.yml` or `application-production.yml` - these environments get their config from Parameter Store and Secrets Manager, not committed files.
 
 ---
 
-## 🔒 6. Secrets — AWS Secrets Manager
+## 🔒 6. Secrets - AWS Secrets Manager
 
 ### 6.1 How It Works
 
@@ -231,7 +231,7 @@ spring:
 
 ---
 
-## ⚙️ 7. Environment Config — AWS SSM Parameter Store
+## ⚙️ 7. Environment Config - AWS SSM Parameter Store
 
 Non-sensitive config that varies by environment (service URLs, Kafka brokers, etc.) lives in SSM:
 
@@ -257,7 +257,7 @@ aws ssm put-parameter \
 aws ssm put-parameter \
   --name /production/orders-service/db-url \
   --value "jdbc:postgresql://orders-aurora-cluster.cluster-xxx.eu-west-1.rds.amazonaws.com:5432/orders" \
-  --type String  # Not SecureString — URL is not a secret
+  --type String  # Not SecureString - URL is not a secret
 ```
 
 ### 7.3 Reading in Spring Boot
@@ -273,7 +273,7 @@ spring:
   config:
     import: optional:aws-parameterstore:/${spring.profiles.active}/orders-service/
 
-# Values loaded from SSM automatically — reference like normal Spring properties
+# Values loaded from SSM automatically - reference like normal Spring properties
 external:
   pricing-service:
     url: ${pricing-service-url}   # Loaded from /{environment}/orders-service/pricing-service-url
@@ -281,7 +281,7 @@ external:
 
 ---
 
-## ⚙️ 8. Feature Flags — LaunchDarkly
+## ⚙️ 8. Feature Flags - LaunchDarkly
 
 Feature flags are the only type of config that changes **without a restart or deployment**.
 
@@ -295,7 +295,7 @@ public class LaunchDarklyConfig {
     public LDClient launchDarklyClient(@Value("${launchdarkly.sdk-key}") String sdkKey,
                                         @Value("${launchdarkly.offline:false}") boolean offline) {
         LDConfig config = new LDConfig.Builder()
-            .offline(offline)           // true in local dev — uses default values
+            .offline(offline)           // true in local dev - uses default values
             .startWaitMillis(5000)
             .build();
 
@@ -319,11 +319,11 @@ public class OrderService {
             .set("vehicleType", request.getVehicleType().name())
             .build();
 
-        // Evaluate the flag — third argument is the default (used if SDK can't connect)
+        // Evaluate the flag - third argument is the default (used if SDK can't connect)
         boolean useNewAlgorithm = flagClient.boolVariation(
             "pricing-new-algorithm-release",
             context,
-            false   // Default OFF — safe fallback
+            false   // Default OFF - safe fallback
         );
 
         if (useNewAlgorithm) {
@@ -341,16 +341,16 @@ public class OrderService {
 // ✅ Always provide a safe default (false for feature flags)
 flagClient.boolVariation("new-feature", context, false);
 
-// ✅ Evaluate flags at the call site — don't cache the result in a field
+// ✅ Evaluate flags at the call site - don't cache the result in a field
 // (the flag value can change without a restart)
 public void processOrder(Order order) {
     if (flagClient.boolVariation("enhanced-fulfillment", context, false)) { ... }
 }
 
-// ❌ Don't cache flags in a field — you'll miss changes
+// ❌ Don't cache flags in a field - you'll miss changes
 private final boolean useNewMatching = flagClient.boolVariation("...", false);  // Bad!
 
-// ✅ In tests — use offline mode with overrides
+// ✅ In tests - use offline mode with overrides
 @TestConfiguration
 public class TestLaunchDarklyConfig {
     @Bean
@@ -378,7 +378,7 @@ Before deploying a service, verify:
 [ ] Helm values reference secrets via volumeMount, not env vars
 [ ] Local dev works with application-local.yml and docker-compose
 [ ] Feature flags have sensible defaults (OFF for new features)
-[ ] Secrets are rotated — No secret older than 90 days (API keys, third-party tokens) or 30 days (database passwords) in production — aligned with the secrets rotation policy in 03-security.md
+[ ] Secrets are rotated - No secret older than 90 days (API keys, third-party tokens) or 30 days (database passwords) in production - aligned with the secrets rotation policy in 03-security.md
 ```
 
 ---
@@ -403,9 +403,9 @@ Every flag **must have an owner** (team) recorded in LaunchDarkly's custom `owne
 
 Flags follow a strict promotion path:
 
-1. **Dev** — flag created and tested
-2. **Staging** — flag promoted and validated in integration
-3. **Production** — flag promoted after staging validation
+1. **Dev** - flag created and tested
+2. **Staging** - flag promoted and validated in integration
+3. **Production** - flag promoted after staging validation
 
 Production flags that are **not present in staging for >7 days** are flagged as anomalies and reported to the team lead. This prevents "production-only" flags that bypass the standard validation flow.
 

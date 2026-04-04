@@ -6,7 +6,7 @@
 
 ## 🎯 1. Overview
 
-These are the platform-level infrastructure components that every service benefits from. Teams do not build these themselves — they consume them. Platform Engineering owns their operation, availability, and upgrade lifecycle.
+These are the platform-level infrastructure components that every service benefits from. Teams do not build these themselves - they consume them. Platform Engineering owns their operation, availability, and upgrade lifecycle.
 
 **Visual overview:**
 
@@ -30,15 +30,15 @@ flowchart TB
 
 ---
 
-## ☁️ 2. Service Mesh — Istio
+## ☁️ 2. Service Mesh - Istio
 
 ### 2.1 What It Does
 
 Istio handles cross-cutting network concerns without application code changes:
-- **mTLS between all pods** — zero-trust service-to-service encryption
-- **Traffic management** — canary routing, retries, timeouts, circuit breaking at the mesh level
-- **Observability** — distributed tracing and traffic metrics without instrumentation
-- **Authorisation policies** — service-to-service access control by identity
+- **mTLS between all pods** - zero-trust service-to-service encryption
+- **Traffic management** - canary routing, retries, timeouts, circuit breaking at the mesh level
+- **Observability** - distributed tracing and traffic metrics without instrumentation
+- **Authorisation policies** - service-to-service access control by identity
 
 ### 2.2 What Teams Need to Do
 
@@ -49,12 +49,12 @@ Pods are automatically enrolled in the mesh via the `istio-injection: enabled` l
 
 ### 2.3 Teams Must NOT
 
-- Implement their own mTLS — Istio handles this
-- Set `PeerAuthentication` to `PERMISSIVE` mode in production — all production namespaces require `STRICT`
+- Implement their own mTLS - Istio handles this
+- Set `PeerAuthentication` to `PERMISSIVE` mode in production - all production namespaces require `STRICT`
 
 ---
 
-## 🔒 3. Secrets Management — AWS Secrets Manager
+## 🔒 3. Secrets Management - AWS Secrets Manager
 
 ### 3.1 How Secrets Are Consumed
 
@@ -63,7 +63,7 @@ Secrets are **never** passed as environment variables or stored in Git. The appr
 **Pattern A: External Secrets Operator (preferred)**
 - The `ExternalSecret` CRD syncs secrets from AWS Secrets Manager into Kubernetes Secrets
 - Pods mount the Kubernetes Secret as a volume (not env vars)
-- Rotation happens automatically — pods restart on secret rotation via Reloader
+- Rotation happens automatically - pods restart on secret rotation via Reloader
 
 ```yaml
 apiVersion: external-secrets.io/v1beta1
@@ -106,7 +106,7 @@ Examples:
 
 ---
 
-## ⚙️ 4. Configuration Management — AWS Systems Manager Parameter Store
+## ⚙️ 4. Configuration Management - AWS Systems Manager Parameter Store
 
 For **non-sensitive** configuration values (feature toggles backup, service URLs, tunable parameters):
 
@@ -119,14 +119,14 @@ Examples:
 ```
 
 - Parameters are loaded at startup via Spring Cloud AWS
-- Configuration changes do not require a redeployment — services poll for changes every 5 minutes
-- **Secrets must never go in Parameter Store** — use Secrets Manager
+- Configuration changes do not require a redeployment - services poll for changes every 5 minutes
+- **Secrets must never go in Parameter Store** - use Secrets Manager
 
 ---
 
-## 👁️ 5. Service Mesh Observability — Kiali
+## 👁️ 5. Service Mesh Observability - Kiali
 
-Kiali provides a topology view of the service mesh — which services are talking to which, with health and traffic metrics. It is deployed in the platform namespace and accessible to all engineers via SSO.
+Kiali provides a topology view of the service mesh - which services are talking to which, with health and traffic metrics. It is deployed in the platform namespace and accessible to all engineers via SSO.
 
 Use Kiali to:
 - Visualise traffic flows and latency between services
@@ -135,17 +135,17 @@ Use Kiali to:
 
 ---
 
-## ☁️ 6. Internal Developer Portal — Backstage
+## ☁️ 6. Internal Developer Portal - Backstage
 
 Backstage is the central catalog of all services, APIs, documentation, and tooling.
 
 ### 6.1 What Lives in Backstage
 
-- **Service catalog** — every microservice registered with owner, tech stack, runbook links
-- **API catalog** — all OpenAPI specs published from CI
-- **Documentation** — TechDocs (Markdown in repo, rendered in Backstage)
-- **Templates** — Golden path scaffolding (new service wizard)
-- **Tech radar** — approved vs trial vs deprecated technologies
+- **Service catalog** - every microservice registered with owner, tech stack, runbook links
+- **API catalog** - all OpenAPI specs published from CI
+- **Documentation** - TechDocs (Markdown in repo, rendered in Backstage)
+- **Templates** - Golden path scaffolding (new service wizard)
+- **Tech radar** - approved vs trial vs deprecated technologies
 
 ### 6.2 Service Registration (Mandatory)
 
@@ -184,7 +184,7 @@ spec:
 
 ---
 
-## ☁️ 7. GitOps — ArgoCD
+## ☁️ 7. GitOps - ArgoCD
 
 ### 7.1 Access Model
 
@@ -211,7 +211,7 @@ platform-config/
     └── app-of-apps.yaml     # ArgoCD App of Apps pattern
 ```
 
-### 7.3 Helm Chart — java-service
+### 7.3 Helm Chart - java-service
 
 The platform ships a shared Helm chart `java-service` that handles all standard Kubernetes resources (Deployment, Service, HPA, PodDisruptionBudget, ServiceMonitor). Teams override values, not the chart:
 
@@ -244,11 +244,11 @@ env:
 
 ---
 
-## ☁️ 8. Container Registry — Amazon ECR
+## ☁️ 8. Container Registry - Amazon ECR
 
 - One ECR repository per service: `{service-name}`
 - Images are tagged: `{git-sha}` (immutable), `{semver}`, `latest` (mutable, points to last main build)
-- **Image scanning:** ECR enhanced scanning (on push) — critical and high vulnerabilities block deployment
+- **Image scanning:** ECR enhanced scanning (on push) - critical and high vulnerabilities block deployment
 - **Lifecycle policy:** Keep last 50 images; expire images older than 90 days
 - Cross-account access: Staging and production accounts pull from the shared services ECR account
 
@@ -256,16 +256,16 @@ env:
 
 ## ☁️ 9. Internal DNS & Service Discovery
 
-- **Internal DNS:** Route 53 Private Hosted Zone — `{service}.internal.{company}.com`
-- **In-cluster:** Kubernetes DNS + Istio service registry — services address each other as `http://orders-service.orders.svc.cluster.local`
+- **Internal DNS:** Route 53 Private Hosted Zone - `{service}.internal.{company}.com`
+- **In-cluster:** Kubernetes DNS + Istio service registry - services address each other as `http://orders-service.orders.svc.cluster.local`
 - **Cross-cluster (future):** Istio multi-cluster mesh with cross-cluster service discovery
 
 ---
 
 ## 🔒 10. Certificate Management
 
-- **External TLS:** AWS Certificate Manager (ACM) — certificates auto-renewed, attached to ALB/CloudFront
-- **Internal mTLS:** Istio manages certificates via its CA — teams never handle internal certs manually
+- **External TLS:** AWS Certificate Manager (ACM) - certificates auto-renewed, attached to ALB/CloudFront
+- **Internal mTLS:** Istio manages certificates via its CA - teams never handle internal certs manually
 - **No self-signed certs in any environment** (SCP enforced at org level for public endpoints)
 
 ---
@@ -311,14 +311,14 @@ Any server certificate change that affects mobile clients requires coordination 
 
 ---
 
-## ☁️ 12. Job Scheduling — Amazon EventBridge Scheduler
+## ☁️ 12. Job Scheduling - Amazon EventBridge Scheduler
 
 All scheduled tasks (previously cron jobs) are managed via EventBridge Scheduler:
 
 - Schedules are defined in Terraform (not in application code)
 - Targets are Lambda functions or EKS CronJobs
 - Failed executions trigger CloudWatch alarms
-- No scheduled tasks run in application containers — this creates unpredictable scaling behaviour
+- No scheduled tasks run in application containers - this creates unpredictable scaling behaviour
 
 ---
 
@@ -354,7 +354,7 @@ To onboard a new service to ArgoCD, follow these steps in order:
 
 ## 👁️ 15. Platform Monitoring Ownership
 
-The Platform Engineering team is on-call for all shared infrastructure components. Stream-aligned teams are **not** responsible for platform component health — they are consumers.
+The Platform Engineering team is on-call for all shared infrastructure components. Stream-aligned teams are **not** responsible for platform component health - they are consumers.
 
 | Component | On-Call Owner |
 |-----------|--------------|
