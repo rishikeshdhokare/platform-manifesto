@@ -235,7 +235,7 @@ This is the pipeline that builds and publishes the artifact for deployment.
 ```
 Stage 1: Full build + all tests (same as PR pipeline)
 Stage 2: Container build & push to ECR
-  - Tag: {git-sha}, {version}, latest
+  - Tag: {git-sha}, {version}
 Stage 3: Pact can-i-deploy check
 Stage 4: Trigger CD pipeline (dev environment)
 Stage 5: Publish Pact to broker
