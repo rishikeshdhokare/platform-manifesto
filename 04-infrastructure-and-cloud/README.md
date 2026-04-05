@@ -8,7 +8,7 @@ Our AWS platform - network topology, compute, data stores, security, and configu
 | [02-infra-components.md](./02-infra-components.md) | Istio, Backstage, ArgoCD, ECR - platform-managed components |
 | [03-security.md](./03-security.md) | Shift-left security, IAM/IRSA, PII handling, incident response |
 | [04-configuration-management.md](./04-configuration-management.md) | Secrets, SSM, feature flags - what lives where |
-| [05-finops.md](./05-finops.md) | Cost allocation, budgets, rightsizing, FinOps practices |
+| [05-finops.md](./05-finops.md) | Cost allocation, budgets, rightsizing, FinOps practices, sustainability |
 | [06-capacity-planning.md](./06-capacity-planning.md) | Demand modeling, pre-scaling, load test-driven validation |
 | [07-api-gateway-strategy.md](./07-api-gateway-strategy.md) | API Gateway configuration, routing, throttling, WAF integration |
 | [08-privacy-engineering.md](./08-privacy-engineering.md) | Data classification, PIA, anonymization, GDPR erasure, consent management |

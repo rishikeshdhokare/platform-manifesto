@@ -1,6 +1,6 @@
 # 💰 FinOps
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026-03-31](https://img.shields.io/badge/updated-2026--03--31-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026-04-05](https://img.shields.io/badge/updated-2026--04--05-green?style=flat-square)
 
 ---
 
@@ -18,6 +18,8 @@
 10. [Cost per Transaction](#10-cost-per-transaction)
 11. [FinOps Review Cadence](#11-finops-review-cadence)
 12. [Cost Allocation Model](#12-cost-allocation-model)
+13. [Real-Time Cost Visibility](#13-real-time-cost-visibility)
+14. [Sustainability Lens](#14-sustainability-lens)
 
 ---
 
@@ -475,6 +477,36 @@ The FinOps Grafana dashboard includes a per-service cost panel that visualizes c
 - Cost trend over the last 90 days
 
 This enables service owners to correlate cost changes with deployments, traffic shifts, and scaling events.
+
+---
+
+## 🌱 14. Sustainability Lens
+
+FinOps and sustainability overlap: wasted capacity burns budget and energy. This section is **guidance** for {Company}: you may adopt these practices incrementally and align them with your maturity, regulatory context, and product priorities. Nothing here replaces mandated tagging, budgets, or security and data-residency rules.
+
+### Compute efficiency
+
+- **Rightsize continuously** - treat sustainability as a side effect of the rightsizing program in [Section 5](#5-rightsizing-program). Smaller, well-matched instances do less idle work.
+- **Prefer efficient architectures** - where workloads allow, evaluate **Graviton (ARM)** or other high-performance-per-watt options after the same performance and availability gates you use for any instance change.
+- **Non-production scale-down** - extend the dev/staging patterns in [Section 8](#8-devstaging-optimization) so test and sandbox environments do not run idle compute overnight or on weekends.
+
+### Region selection
+
+When you choose or expand **AWS Regions**, weigh **latency**, **compliance**, and **data residency** first. Where those constraints allow a choice, also consider **grid carbon intensity** and public **AWS sustainability** documentation for regional energy mix and water stewardship. Document the tradeoff when you pick a higher-carbon region for non-negotiable latency or legal reasons.
+
+### Storage lifecycle
+
+- **Object storage** - use **S3 Intelligent-Tiering** or equivalent lifecycle policies so infrequently accessed data moves to colder tiers instead of sitting on hot storage.
+- **Block and snapshot hygiene** - schedule reviews to delete **unused EBS volumes**, **orphaned snapshots**, and stale AMIs; align with FinOps anomaly playbooks when storage spend spikes.
+
+### Monitoring
+
+- Track **cost and utilization** as today, and add **carbon and energy signals** where your cloud provides them. On AWS, the **Customer Carbon Footprint Tool** helps you see estimated carbon emissions associated with your usage; surface summaries alongside cost in FinOps or sustainability dashboards where it helps decision-making.
+- **Substitution point:** GCP and Azure publish their own carbon and sustainability reporting; map the same habit (one place to review cost, usage, and emissions trends) to those consoles or exports.
+
+### Maturity
+
+Sustainability targets are optional at {Company}. Start with visibility (reports and dashboards), then pilot one workload class (for example non-prod scale-down or storage lifecycle), then expand as leadership and teams set explicit goals.
 
 ---
 

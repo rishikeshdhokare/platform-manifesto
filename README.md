@@ -288,7 +288,7 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`02-infra-components.md`](04-infrastructure-and-cloud/02-infra-components.md) | Service mesh, developer portal, GitOps, container registry, and self-service boundaries |
 | [`03-security.md`](04-infrastructure-and-cloud/03-security.md) | Shift-left security, identity and access, PII handling, encryption, egress control |
 | [`04-configuration-management.md`](04-infrastructure-and-cloud/04-configuration-management.md) | Secrets vs config vs flags - what lives where |
-| [`05-finops.md`](04-infrastructure-and-cloud/05-finops.md) | Cost allocation, rightsizing, reservations, real-time cost visibility |
+| [`05-finops.md`](04-infrastructure-and-cloud/05-finops.md) | Cost allocation, rightsizing, reservations, real-time cost visibility, sustainability |
 | [`06-capacity-planning.md`](04-infrastructure-and-cloud/06-capacity-planning.md) | Demand modeling, pre-scaling, load test-driven validation |
 | [`07-api-gateway-strategy.md`](04-infrastructure-and-cloud/07-api-gateway-strategy.md) | API Gateway configuration, routing, throttling, WAF |
 | [`08-privacy-engineering.md`](04-infrastructure-and-cloud/08-privacy-engineering.md) | GDPR, PCI, SOC 2, ISO 27001, anonymization, consent |
