@@ -131,7 +131,7 @@ SHAP values are computed during model evaluation and stored in the model registr
 
 ## 🛠️ 4. AI-Assisted Development Practices
 
-{Company} embraces AI-assisted development while maintaining security and code quality standards.
+{Company} embraces AI-assisted development while maintaining security and code quality standards. This section covers the **governance and guardrails**. For the full picture of how AI integrates across the SDLC, see the [AI Engineering](../12-ai-engineering/README.md) section - specifically [Context Engineering](../12-ai-engineering/01-context-engineering.md) and [AI-Assisted SDLC](../12-ai-engineering/02-ai-assisted-sdlc.md).
 
 ### Approved Tools
 

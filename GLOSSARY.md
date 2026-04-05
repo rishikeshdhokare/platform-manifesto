@@ -15,6 +15,7 @@ Quick reference for acronyms and terms used across this manifesto.
 | **CD** | Continuous Delivery / Deployment | The practice of automatically deploying code changes to production after passing all quality gates | [03-cd-practices.md](./03-engineering-practices/03-cd-practices.md) |
 | **CI** | Continuous Integration | The practice of frequently merging code changes into a shared branch with automated build and test validation | [02-ci-practices.md](./03-engineering-practices/02-ci-practices.md) |
 | **CMDB** | Configuration Management Database | A centralised repository of information about IT assets and their relationships | [04-configuration-management.md](./04-infrastructure-and-cloud/04-configuration-management.md) |
+| **Context Engineering** | Context Engineering | The discipline of structuring code, architecture, and standards as machine-readable context so AI tools generate output aligned with team conventions | [01-context-engineering.md](./12-ai-engineering/01-context-engineering.md) |
 | **CQRS** | Command Query Responsibility Segregation | An architecture pattern that separates read and write data models for a service | [01-cloud-architecture.md](./04-infrastructure-and-cloud/01-cloud-architecture.md) |
 | **CSP** | Content Security Policy | An HTTP header that restricts which resources a web page can load to mitigate XSS attacks | [02-web-frontend-standards.md](./09-mobile-and-frontend/02-web-frontend-standards.md) |
 | **CVE** | Common Vulnerabilities and Exposures | A unique identifier for a publicly disclosed cybersecurity vulnerability | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
@@ -31,6 +32,7 @@ Quick reference for acronyms and terms used across this manifesto.
 | **KMS** | Key Management Service | A managed service for creating and controlling encryption keys used to encrypt data | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
 | **KPI** | Key Performance Indicator | A measurable value that demonstrates how effectively a team is achieving key business objectives | [01-maturity-model.md](./08-program/01-maturity-model.md) |
 | **LD** | LaunchDarkly | The feature flag management platform used at {Company} for progressive rollouts and experimentation | [03-cd-practices.md](./03-engineering-practices/03-cd-practices.md) |
+| **LLM** | Large Language Model | A neural network trained on large text corpora capable of generating code, text, and structured output (e.g., Claude, GPT) | [02-ai-governance.md](./10-ai-ml-platform/02-ai-governance.md) |
 | **MSK** | Amazon Managed Streaming for Apache Kafka | AWS-managed Kafka service used for event streaming at {Company} | [04-kafka-patterns.md](./06-developer-guides/04-kafka-patterns.md) |
 | **mTLS** | Mutual Transport Layer Security | A protocol where both client and server authenticate each other using TLS certificates | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
 | **OKR** | Objectives and Key Results | A goal-setting framework linking qualitative objectives to measurable key results | [01-maturity-model.md](./08-program/01-maturity-model.md) |
@@ -39,6 +41,7 @@ Quick reference for acronyms and terms used across this manifesto.
 | **PIR** | Post-Incident Review | A structured retrospective conducted after an incident to identify root causes and preventive actions | [01-maturity-model.md](./08-program/01-maturity-model.md) |
 | **PRR** | Production Readiness Review | A checklist-driven review ensuring a service meets operational standards before its first production deployment | [02-golden-path.md](./06-developer-guides/02-golden-path.md) |
 | **RACI** | Responsible, Accountable, Consulted, Informed | A matrix that clarifies roles and responsibilities for tasks and decisions | [01-maturity-model.md](./08-program/01-maturity-model.md) |
+| **RAG** | Retrieval-Augmented Generation | A pattern that grounds LLM responses in retrieved documents, reducing hallucination and enabling domain-specific answers | [02-ai-governance.md](./10-ai-ml-platform/02-ai-governance.md) |
 | **RBAC** | Role-Based Access Control | An access control model where permissions are assigned to roles and users are assigned to roles | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
 | **RFC** | Request for Comments | A proposal document circulated for feedback before making a significant technical decision | [05-rfc-process.md](./07-ways-of-working/05-rfc-process.md) |
 | **RLS** | Row-Level Security | A database feature that restricts which rows a user can access based on policies | [09-multi-tenancy.md](./04-infrastructure-and-cloud/09-multi-tenancy.md) |

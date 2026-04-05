@@ -25,6 +25,7 @@ Guilds are cross-team groups organized around a technical discipline. They provi
 | **Data** | Data pipelines, analytics, data quality | `#guild-data` | Monthly |
 | **SRE** | Reliability, observability, incident response | `#guild-sre` | Monthly |
 | **Security** | Application security, threat modeling, compliance | `#guild-security` | Monthly |
+| **AI Champions** | Context engineering, AI-assisted workflows, prompt patterns | `#guild-ai` | Monthly |
 
 ### 2.2 Guild Charter Template
 
