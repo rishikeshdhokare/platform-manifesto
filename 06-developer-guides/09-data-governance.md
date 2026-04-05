@@ -264,7 +264,7 @@ Each domain must maintain a data retention matrix that defines the lifecycle of 
 | **Primary DB (RDS/Aurora)** | Active orders, customer profiles | Per domain policy (e.g., 90 days active) | Archive to S3 Glacier after active window | Automated TTL job or scheduled deletion | Suspend deletion for flagged records |
 | **Read replicas** | Replica of primary data | Mirrors primary | N/A - follows primary | Follows primary | Follows primary |
 | **Kafka topics** | Domain events | 7 days (default topic retention) | Export to S3 via Kafka Connect for long-term | Kafka log segment deletion | N/A - use S3 archive for legal hold |
-| **S3 objects** | Data lake files, backups, exports | Per classification: 90 days – 7 years | S3 Intelligent-Tiering → Glacier after 90 days | S3 lifecycle policy | S3 Object Lock (compliance mode) |
+| **S3 objects** | Data lake files, backups, exports | Per classification: 90 days - 7 years | S3 Intelligent-Tiering → Glacier after 90 days | S3 lifecycle policy | S3 Object Lock (compliance mode) |
 | **OpenSearch indexes** | Application logs, search indexes | 30 days (logs), 90 days (search) | Snapshot to S3 | Index lifecycle management (ILM) policy | Snapshot preserved |
 | **Redshift tables** | Analytics datasets | Indefinite (anonymized) or per contract | N/A - Redshift is the archive | Manual deletion with data steward approval | Query audit log preserved |
 | **Application logs** | CloudWatch, structured logs | 30 days | Export to S3 after 30 days | CloudWatch retention policy | S3 archive |

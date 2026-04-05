@@ -144,7 +144,7 @@ Failover to the secondary region is a **major operational decision**. It is auth
 
 | Scenario | Decision Maker | Backup |
 |----------|---------------|--------|
-| Business hours (08:00–20:00) | **CTO** | VP Engineering |
+| Business hours (08:00-20:00) | **CTO** | VP Engineering |
 | After hours | **VP Engineering (on-call)** | CTO |
 | CTO and VP unreachable for 10+ min | **Senior Platform Engineer on-call** | Engineering Director |
 
@@ -195,16 +195,16 @@ flowchart TD
 |------|--------|-------|-----------|-------------|
 | 1 | **Verify primary is genuinely down.** Confirm from multiple vantage points (CloudWatch, external uptime monitors, manual curl from different networks). Rule out DNS or monitoring false alarms. | Platform Engineer | 2 min | 2+ independent sources confirm failure |
 | 2 | **Notify stakeholders.** Post to `#incident-dr` channel. Tag @cto, @vp-eng, @platform-team, @engineering-leads. Use the communication template (Section 8). | Comms Lead | 1 min | Acknowledgement from CTO/VP |
-| 3 | **Promote Aurora secondary to writer.** Execute Aurora Global Database planned failover. The secondary cluster in eu-central-1 becomes the new writer. | Platform Engineer | 3–5 min | `aws rds failover-global-cluster --global-cluster-identifier {company}-global-db --target-db-cluster-identifier {company}-eu-central-1` returns success. Writer endpoint resolves to eu-central-1. |
+| 3 | **Promote Aurora secondary to writer.** Execute Aurora Global Database planned failover. The secondary cluster in eu-central-1 becomes the new writer. | Platform Engineer | 3-5 min | `aws rds failover-global-cluster --global-cluster-identifier {company}-global-db --target-db-cluster-identifier {company}-eu-central-1` returns success. Writer endpoint resolves to eu-central-1. |
 | 4 | **Update Route 53 DNS.** Switch all DNS records to point to secondary region ALBs. Set TTL to 60s for fast propagation. | Platform Engineer | 2 min | `dig api.{company}.{tld}` resolves to eu-central-1 ALB. Health checks show secondary as healthy. |
 | 5 | **Verify MSK MirrorMaker data is current.** Check that Kafka topic offsets in eu-central-1 are within acceptable lag of eu-west-1's last known offset. | Platform Engineer | 2 min | Consumer group offsets are within 30 seconds of primary's last checkpoint. |
-| 6 | **Trigger ArgoCD sync in secondary EKS cluster.** Scale all deployments to production replica counts. Enable auto-sync for continuous deployment. | Platform Engineer | 5–8 min | All deployments show `Running` with expected replica counts. `argocd app list` shows all apps as `Synced` and `Healthy`. |
+| 6 | **Trigger ArgoCD sync in secondary EKS cluster.** Scale all deployments to production replica counts. Enable auto-sync for continuous deployment. | Platform Engineer | 5-8 min | All deployments show `Running` with expected replica counts. `argocd app list` shows all apps as `Synced` and `Healthy`. |
 | 7 | **Validate health checks for all Tier 1 services.** Run the Tier 1 smoke test suite. Verify orders can be created, completed, and payments captured. | QA Engineer | 5 min | Smoke test suite passes. Health endpoints return OK for all Tier 1 services (e.g. Spring Actuator `/actuator/health` if applicable). |
 | 8 | **Validate Tier 2 services.** Run Tier 2 smoke tests. Verify pricing, auth, and notifications are functional. | QA Engineer | 5 min | Tier 2 smoke test suite passes. |
 | 9 | **Update external status page.** Post current status to status.{company}.{tld}. Notify partners via API status webhook. | Comms Lead | 1 min | Status page shows "Operating with reduced redundancy - DR active". |
 | 10 | **Monitor for 30 minutes.** Watch all dashboards for anomalies. Verify error rates, latency, and throughput are within acceptable ranges. | All | 30 min | Metrics are stable. No new alerts fire. |
 
-### Total Expected Failover Time: ~25–35 minutes (within Tier 1 RTO of 30 minutes for critical path, Steps 1–7)
+### Total Expected Failover Time: ~25-35 minutes (within Tier 1 RTO of 30 minutes for critical path, Steps 1-7)
 
 ### Critical Commands Reference
 
@@ -260,7 +260,7 @@ argocd app sync --all --context {company}-eu-central-1
 □  EKS cluster in eu-west-1 is healthy with all pods running
 □  Data reconciliation is complete (see Section 7)
 □  Failback has been authorised by CTO/VP Engineering
-□  Failback window is during low-traffic period (02:00–06:00)
+□  Failback window is during low-traffic period (02:00-06:00)
 ```
 
 ### 6.2 Failback Steps
@@ -466,7 +466,7 @@ Pre-Exercise (1 week before):
 
 During Exercise:
 □  Start recording (screen + comms) for post-exercise review
-□  Execute failover procedure exactly as documented (Sections 4–5)
+□  Execute failover procedure exactly as documented (Sections 4-5)
 □  Time each step
 □  Document any deviations or issues encountered
 □  Run full smoke test suite

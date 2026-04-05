@@ -19,7 +19,7 @@ The radar answers two questions:
 | Quadrant | Definition | What It Means for Teams |
 |----------|-----------|------------------------|
 | **Adopt** | Proven at {Company}. Default choice for new projects. | Use freely. No justification needed. Aligns with approved tech stack in [01-tech-stack.md](../01-platform-standards/01-tech-stack.md). |
-| **Trial** | Promising. Being evaluated in production by 1–2 teams. | Use with Tech Lead approval. Share results with the radar review group. |
+| **Trial** | Promising. Being evaluated in production by 1-2 teams. | Use with Tech Lead approval. Share results with the radar review group. |
 | **Assess** | Interesting. Worth investigating but not yet trialed. | Explore in spikes or PoCs. Do not use in production without a Trial promotion. |
 | **Hold** | Not recommended for new work. Existing usage may continue. | Do not start new projects with Hold technologies. Plan migration for critical paths. |
 
@@ -54,7 +54,7 @@ The radar is reviewed and updated every quarter.
 
 | Activity | Timing | Participants |
 |----------|--------|-------------|
-| **Nomination window** | Weeks 1–2 of the quarter | Any engineer can nominate a technology |
+| **Nomination window** | Weeks 1-2 of the quarter | Any engineer can nominate a technology |
 | **Review meeting** | Week 3 | Staff Engineers, Principal Engineers, VP Engineering |
 | **Publication** | Week 4 | Updated radar published to Backstage |
 | **Announcement** | Week 4 | Summary of changes shared in `#engineering` Slack channel |

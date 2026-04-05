@@ -467,7 +467,7 @@ Every quarter, the Security team conducts an access review:
 | A1.1 | Availability commitments | ✅ Implemented |
 | PI1.1 | Processing integrity | ✅ Implemented |
 | C1.1 | Confidentiality commitments | ✅ Implemented |
-| P1.1–P8.1 | Privacy criteria | ✅ Implemented |
+| P1.1-P8.1 | Privacy criteria | ✅ Implemented |
 
 ---
 
@@ -477,7 +477,7 @@ Every quarter, the Security team conducts an access review:
 
 | Framework | Status | Notes |
 |-----------|--------|-------|
-| **GDPR** | ✅ Implemented | Full compliance - see Sections 3–9 of this document |
+| **GDPR** | ✅ Implemented | Full compliance - see Sections 3-9 of this document |
 | **PCI-DSS** | ✅ Implemented | Payment data tokenized via PSP; platform never stores raw card data |
 | **SOC 2 Type II** | ✅ Implemented | Annual audit cycle; trust services criteria mapped in Section 11 |
 | **ISO 27001** | 🟡 Target | Certification targeted within **12 months**; gap analysis complete, remediation in progress |

@@ -364,7 +364,7 @@ Every new joiner is assigned an **onboarding buddy** from their team. The buddy 
 | Period | Cadence | Activities |
 |--------|---------|------------|
 | Week 1 | Daily check-in | Orient to codebase, team rituals, tooling; answer questions; pair programming on first PR |
-| Week 2 | 2–3 check-ins | First feature PR merged; attend sprint ceremonies (planning, standup, retro); complete security orientation (see [security-operations.md](../04-infrastructure-and-cloud/10-security-operations.md)) |
+| Week 2 | 2-3 check-ins | First feature PR merged; attend sprint ceremonies (planning, standup, retro); complete security orientation (see [security-operations.md](../04-infrastructure-and-cloud/10-security-operations.md)) |
 | Week 3 | Weekly check-in | On-call shadow - pair with primary on-call for one shift; domain deep-dive session with tech lead; attend architecture clinic |
 | Week 4 | Weekly check-in | Solo on-call eligible (added to PagerDuty rotation); buddy graduation (feedback form submitted); 30-day check-in with engineering manager |
 

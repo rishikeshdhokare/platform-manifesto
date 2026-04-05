@@ -61,7 +61,7 @@ graph LR
 
 ## 😊 3. Developer Satisfaction Survey
 
-Run **quarterly** via a short, anonymous survey. NPS-style scoring (1–10) with free-text follow-ups.
+Run **quarterly** via a short, anonymous survey. NPS-style scoring (1-10) with free-text follow-ups.
 
 ### 3.1 The 10 Questions
 
@@ -82,9 +82,9 @@ Run **quarterly** via a short, anonymous survey. NPS-style scoring (1–10) with
 
 | Score Range | Label | Action |
 |-------------|-------|--------|
-| 9–10 | Promoter | Celebrate and learn from these areas |
-| 7–8 | Passive | Monitor - no immediate action |
-| 1–6 | Detractor | Requires investigation and action plan |
+| 9-10 | Promoter | Celebrate and learn from these areas |
+| 7-8 | Passive | Monitor - no immediate action |
+| 1-6 | Detractor | Requires investigation and action plan |
 
 **Target:** Engineering NPS ≥ 40 (measured as % Promoters − % Detractors).
 
@@ -149,7 +149,7 @@ graph TD
     CI --> Score
 
     Score -->|"≥ 90%"| Green["🟢 Healthy"]
-    Score -->|"70–89%"| Amber["🟡 Needs Attention"]
+    Score -->|"70-89%"| Amber["🟡 Needs Attention"]
     Score -->|"< 70%"| Red["🔴 Action Required"]
 ```
 
@@ -165,7 +165,7 @@ Non-adoption is not punished - it is investigated. If teams are working around t
 |--------|--------|--------|
 | **SonarCloud debt ratio** | SonarCloud quality gate | < 5% per service |
 | **Age of oldest open debt ticket** | Jira `tech-debt` label | < 90 days |
-| **Sprint capacity on debt** | Jira sprint reports | 15–20% of sprint capacity |
+| **Sprint capacity on debt** | Jira sprint reports | 15-20% of sprint capacity |
 | **Dependency currency** | Dependabot / Renovate | No dependency > 2 major versions behind |
 | **Deprecated API usage** | Custom lint rules | Zero deprecated internal API calls |
 
@@ -184,7 +184,7 @@ flowchart TD
 
 ### 6.3 Debt Budgets
 
-Each team is expected to spend **15–20% of sprint capacity** on technical debt reduction. This is tracked as a first-class metric - not a nice-to-have.
+Each team is expected to spend **15-20% of sprint capacity** on technical debt reduction. This is tracked as a first-class metric - not a nice-to-have.
 
 If a team consistently spends < 10% on debt, leadership will review whether feature pressure is unsustainable.
 

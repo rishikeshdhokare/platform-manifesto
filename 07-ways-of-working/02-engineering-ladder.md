@@ -94,7 +94,7 @@ The [Engineering Maturity Model](../08-program/01-maturity-model.md) describes *
 
 ### 8.1 Dimension → level expectations
 
-| Maturity dimension | Engineer I–II | Senior | Staff | Principal |
+| Maturity dimension | Engineer I-II | Senior | Staff | Principal |
 |--------------------|---------------|--------|-------|-----------|
 | Source control & branching | Follows trunk-based rules; small PRs | Enforces conventions; improves team habits | Cross-repo patterns; CODEOWNERS / governance input | Org-wide branching and release strategy |
 | Testing | Unit + starts on integration (II) | Owns test strategy for services; flaky-test discipline | Contract / cross-service test strategy | Portfolio-wide quality and risk posture |
@@ -109,7 +109,7 @@ The [Engineering Maturity Model](../08-program/01-maturity-model.md) describes *
 ```mermaid
 flowchart TB
     subgraph team [Team level - Maturity Model]
-        D1[Dimensions L0–L4]
+        D1[Dimensions L0-L4]
         D2[Quarterly self-assessment]
         D3[Improvement goals per quarter]
     end

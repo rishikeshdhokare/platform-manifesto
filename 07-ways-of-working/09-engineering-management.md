@@ -174,7 +174,7 @@ If a dimension is Red for two consecutive quarters:
 (What slips, degrades, or is at risk?)
 
 ### Cost
-- Salary range: $X–$Y
+- Salary range: $X-$Y
 - Equipment + onboarding: $X
 ```
 
@@ -209,7 +209,7 @@ EMs track team OKRs using the following cadence:
 
 | Metric | Formula | Target |
 |--------|---------|--------|
-| **Forecast accuracy** | (Completed story points / Committed story points) × 100 | 80–100% |
+| **Forecast accuracy** | (Completed story points / Committed story points) × 100 | 80-100% |
 | **Carry-over rate** | (Unfinished stories / Total committed stories) × 100 | < 20% |
 
 ### 5.3 Dependency Board
@@ -261,7 +261,7 @@ flowchart TD
 
 | Principle | Implementation |
 |-----------|---------------|
-| **4-hour core overlap** | All team members are available during the 4-hour core window (typically 10 AM – 2 PM in the team's primary timezone) |
+| **4-hour core overlap** | All team members are available during the 4-hour core window (typically 10 AM - 2 PM in the team's primary timezone) |
 | **Async-first** | Decisions are documented in writing (Slack threads, Confluence, PRs). Meetings are for discussion, not decisions. |
 | **Camera-optional** | Video is encouraged but never required. No policies mandating cameras on. |
 | **Documented decisions** | Every decision made in a meeting is captured in the meeting notes and shared in the team channel |
@@ -296,7 +296,7 @@ Career conversations happen quarterly, separate from performance reviews. They a
 ```markdown
 ## IDP - [Name] - [Year]
 
-### Career Aspiration (1–3 years)
+### Career Aspiration (1-3 years)
 (Where do you want to be? IC track? Management? Specialization?)
 
 ### Current Strengths
@@ -335,14 +335,14 @@ Engineers are encouraged to explore roles across teams after 18 months in their 
 | **#kudos** (Slack) | Anytime | Peer-to-peer, public | Social recognition |
 | **Team shout-outs** | Weekly standup | Team-level | Social recognition |
 | **Quarterly awards** | End of quarter | Org-wide | Certificate + $250 gift card |
-| **Spot bonuses** | As deserved (EM discretion) | Individual | $500–$2,000 (VP approval) |
+| **Spot bonuses** | As deserved (EM discretion) | Individual | $500-$2,000 (VP approval) |
 | **Annual engineering awards** | Year-end all-hands | Company-wide | Trophy + $5,000 bonus |
 
 ### 9.2 Nomination Process (Quarterly Awards)
 
 1. Any team member can nominate a peer via the #kudos-nominations form.
 2. EMs review nominations and select finalists.
-3. VP Engineering selects winners (2–3 per quarter).
+3. VP Engineering selects winners (2-3 per quarter).
 4. Winners are announced at the quarterly all-hands.
 
 ---
@@ -353,9 +353,9 @@ Engineers are encouraged to explore roles across teams after 18 months in their 
 
 | Milestone | Activities |
 |-----------|-----------|
-| **Day 1–30** | Meet every team member 1:1. Attend all team ceremonies. Read team's OKRs, last 3 retros, and health check. Shadow on-call for 1 rotation. |
-| **Day 31–60** | Run your first retro. Deliver first performance feedback. Identify one process improvement. Build relationships with peer EMs and PM. |
-| **Day 61–90** | Own sprint planning and delivery tracking. Have first career conversation with each report. Present team update to VP Engineering. |
+| **Day 1-30** | Meet every team member 1:1. Attend all team ceremonies. Read team's OKRs, last 3 retros, and health check. Shadow on-call for 1 rotation. |
+| **Day 31-60** | Run your first retro. Deliver first performance feedback. Identify one process improvement. Build relationships with peer EMs and PM. |
+| **Day 61-90** | Own sprint planning and delivery tracking. Have first career conversation with each report. Present team update to VP Engineering. |
 
 ### 10.2 EM Peer Buddy
 
@@ -363,7 +363,7 @@ Every new EM is paired with an experienced EM buddy for 90 days:
 
 | Activity | Cadence |
 |----------|---------|
-| Weekly 30-min 1:1 | Weeks 1–12 |
+| Weekly 30-min 1:1 | Weeks 1-12 |
 | Buddy reviews first performance assessment | Before delivery |
 | Buddy attends new EM's first retro (observer role) | Once |
 | Async Slack support | Anytime |
@@ -394,7 +394,7 @@ New EMs have a skip-level 1:1 with the VP Engineering in Week 2 to:
 | Cost | Process |
 |------|---------|
 | < $500 / year | EM approves, expense report |
-| $500 – $5,000 / year | EM + VP approval |
+| $500 - $5,000 / year | EM + VP approval |
 | > $5,000 / year | RFC required (evaluated by Platform Engineering + Finance) |
 
 ### 11.3 RFC for Tooling
@@ -467,7 +467,7 @@ Stay interviews are conducted at the 12-month mark and annually thereafter:
 
 | Metric | Target | Rationale |
 |--------|--------|-----------|
-| **Team size** | 5–8 engineers | Small enough for trust, large enough for resilience |
+| **Team size** | 5-8 engineers | Small enough for trust, large enough for resilience |
 | **Minimum seniors** | 2 per team | Mentorship, code review depth, technical leadership |
 | **Generalist bias** | Prefer generalists over specialists | Reduces bus factor, enables flexible sprint planning |
 | **Tenure mix** | At least 1 engineer with > 1 year on the team | Institutional knowledge preservation |

@@ -41,7 +41,7 @@ gantt
 
 | Phase | Timing | Activities |
 |-------|--------|-----------|
-| **Execution** | Months 1–2 of current quarter | Teams execute against committed OKRs |
+| **Execution** | Months 1-2 of current quarter | Teams execute against committed OKRs |
 | **OKR Drafting** | Month 3 of current quarter | PMs draft next quarter's OKRs based on roadmap, customer feedback, and strategic priorities |
 | **Alignment** | Month 1 of next quarter | PM + EM align on scope, engineering reviews feasibility, leadership reviews and commits |
 
@@ -87,10 +87,10 @@ flowchart LR
 
 | Score | Interpretation | Action |
 |-------|---------------|--------|
-| **0.0 – 0.3** | Failed to make meaningful progress | Post-mortem: why did we miss? |
-| **0.4 – 0.6** | Meaningful progress but short of target | Acceptable if stretch goal; investigate if committed |
+| **0.0 - 0.3** | Failed to make meaningful progress | Post-mortem: why did we miss? |
+| **0.4 - 0.6** | Meaningful progress but short of target | Acceptable if stretch goal; investigate if committed |
 | **0.7** | Target achieved | This is the sweet spot - "0.7 = good" |
-| **0.8 – 1.0** | Exceeded expectations | Was the target too conservative? Celebrate, then calibrate. |
+| **0.8 - 1.0** | Exceeded expectations | Was the target too conservative? Celebrate, then calibrate. |
 
 ### 2.3 OKR Template
 
@@ -119,7 +119,7 @@ Quarter: Q2 2026
 |---------|---------|-----|
 | Output, not outcome | "Launch feature X" | "Reduce time-to-checkout by 30%" |
 | Not measurable | "Improve user experience" | "Increase NPS from 32 to 45" |
-| Too many KRs | 7 key results per objective | Maximum 3–5 KRs per objective |
+| Too many KRs | 7 key results per objective | Maximum 3-5 KRs per objective |
 | Sandbagging | Target that's already achieved | Baseline must be current state |
 | Binary KRs | "Ship the thing" (0 or 1) | Reframe as a continuous metric |
 
@@ -168,7 +168,7 @@ Subject: [Team Name] Weekly Update - Week of [Date]
 |---------|---------|
 | **OKR progress** | Score each KR with a trend arrow |
 | **Shipped features** | Bullet list with customer impact |
-| **Key metrics** | 3–5 product metrics with month-over-month trend |
+| **Key metrics** | 3-5 product metrics with month-over-month trend |
 | **Risks** | Top 3 risks with mitigation status |
 | **Team health** | Summary of latest health check |
 | **Upcoming milestones** | Next month's planned deliverables |
@@ -248,7 +248,7 @@ Seven days after launch, the team conducts a post-launch review:
 | **In-app surveys** | NPS + contextual micro-surveys | Continuous (sampled) | PM + Design |
 | **Support tickets** | Zendesk tags + categorization | Continuous | Support Lead |
 | **NPS** | Quarterly NPS survey (email) | Quarterly | PM |
-| **User interviews** | Scheduled via research panel | Monthly (2–4 interviews) | Design + PM |
+| **User interviews** | Scheduled via research panel | Monthly (2-4 interviews) | Design + PM |
 | **App store reviews** | Automated scraping + alerts | Daily | PM |
 
 ### 6.2 PM Triage
@@ -397,7 +397,7 @@ flowchart TD
 | Risk Level | Definition | Action |
 |-----------|-----------|--------|
 | **Green** | Dependency on track, no concerns | Track in board, no action |
-| **Yellow** | Dependency at risk - timeline may slip by 1–2 weeks | PM-to-PM discussion, contingency plan |
+| **Yellow** | Dependency at risk - timeline may slip by 1-2 weeks | PM-to-PM discussion, contingency plan |
 | **Red** | Dependency blocked or slipping > 2 weeks | EM escalation, scope discussion, potential de-scoping |
 
 ---

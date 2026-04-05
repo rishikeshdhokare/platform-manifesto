@@ -129,7 +129,7 @@ flowchart LR
 
 | Practice | How We Implement It |
 |----------|-------------------|
-| **Structured scoring** | Every dimension scored 1–4 independently before debrief discussion |
+| **Structured scoring** | Every dimension scored 1-4 independently before debrief discussion |
 | **Diverse panels** | Minimum 2 different backgrounds across the interview panel (gender, ethnicity, tenure, team) |
 | **No "culture fit"** | Replaced with **"culture add"** - what unique perspective does this candidate bring? |
 | **Blind resume screen** | Recruiter removes name, photo, school name before presenting to hiring manager |
@@ -173,7 +173,7 @@ The committee compares candidates against:
 
 | Candidate Level | Approvers |
 |----------------|-----------|
-| **Engineer I – II** | Hiring Manager + Recruiter |
+| **Engineer I - II** | Hiring Manager + Recruiter |
 | **Senior Engineer (IC3)** | Hiring Manager + Engineering Director |
 | **Staff Engineer (IC4)** | Engineering Director + VP Engineering |
 | **Principal Engineer (IC5+)** | VP Engineering + CTO |

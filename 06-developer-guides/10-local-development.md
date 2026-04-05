@@ -208,7 +208,7 @@ Each service defines a **minimal viable dataset** - the smallest set of rows nee
 |---------------|----------|-----------|
 | **Lookup / Reference** | Order statuses, payment methods, regions | Yes - always seeded |
 | **Test Users** | `testuser@{company}.dev` with known ID | Yes - enables auth flows |
-| **Sample Entities** | 3–5 orders, 2 payments, 1 notification | Yes - enables UI exploration |
+| **Sample Entities** | 3-5 orders, 2 payments, 1 notification | Yes - enables UI exploration |
 | **Edge Cases** | Cancelled order, failed payment | Optional - useful for debugging |
 
 ### 4.3 Seed Script Best Practices
@@ -433,7 +433,7 @@ Every new engineer is assigned a **buddy** from their team. The buddy:
 |---------|---------|--------------|
 | **#platform-support** (Slack) | Infrastructure, Docker, CI/CD questions | 4 business hours |
 | **Team Slack channel** | Domain / codebase questions | Same day |
-| **Office hours** (Tues/Thurs 2–3 PM) | Live troubleshooting, screen-sharing | Real-time |
+| **Office hours** (Tues/Thurs 2-3 PM) | Live troubleshooting, screen-sharing | Real-time |
 | **Buddy** | First-week questions, PR reviews | Same day |
 | **Backstage docs** | Self-service reference | N/A |
 

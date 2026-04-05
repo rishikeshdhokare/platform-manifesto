@@ -319,9 +319,9 @@ When the decision is made to split, follow this process to minimize disruption.
 
 | Service Size | Expected Duration |
 |-------------|-------------------|
-| Small (< 5k LOC extracted) | 2–4 weeks |
-| Medium (5k–15k LOC) | 4–8 weeks |
-| Large (> 15k LOC) | 8–12 weeks (consider phased extraction) |
+| Small (< 5k LOC extracted) | 2-4 weeks |
+| Medium (5k-15k LOC) | 4-8 weeks |
+| Large (> 15k LOC) | 8-12 weeks (consider phased extraction) |
 
 ### 8.3 Rollback Plan
 

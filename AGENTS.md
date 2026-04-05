@@ -6,7 +6,7 @@ These rules apply to any AI agent (Cursor, Copilot, or similar) making changes t
 
 ## Writing Style
 
-- NEVER use em-dashes (`—`, Unicode U+2014). Use a hyphen-minus with spaces (` - `) or rewrite the sentence.
+- NEVER use em-dashes (`—`, Unicode U+2014) or en-dashes (`–`, Unicode U+2013). Use a hyphen-minus with spaces (` - `) or a plain hyphen. Rewrite the sentence if needed.
 - Use straight quotes, not curly/smart quotes.
 - Use placeholders for the company name. Never use a real company name.
   - `{Company}` (title case) for display names and prose (e.g., "Welcome to {Company}").
@@ -103,7 +103,7 @@ When adding, removing, or renaming ANY document:
 
 ## Pre-Commit Checklist
 
-- [ ] No em-dashes (`—`) in changed files
+- [ ] No em-dashes (`—`) or en-dashes (`–`) in changed files
 - [ ] No ride-hailing or company-specific terminology
 - [ ] All internal markdown links resolve
 - [ ] Section README lists all files in the directory

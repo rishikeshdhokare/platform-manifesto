@@ -38,7 +38,7 @@ flowchart LR
     Resolve --> PIR[Post-Incident Review]
 ```
 
-### Phase 1: Detection (0–5 minutes)
+### Phase 1: Detection (0-5 minutes)
 
 Incidents are detected via:
 - **PagerDuty alert** - automatic from Grafana alerts
@@ -55,7 +55,7 @@ Incidents are detected via:
 4. Declare severity (P1/P2/P3)
 ```
 
-### Phase 2: Triage (5–15 minutes)
+### Phase 2: Triage (5-15 minutes)
 
 Determine: **what is broken, who is affected, and how bad is it?**
 

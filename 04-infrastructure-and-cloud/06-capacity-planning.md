@@ -31,9 +31,9 @@ Platform demand is **not random** - it is highly predictable. Rush hours, weeken
 
 | Pattern | Example | Impact on Infrastructure |
 |---------|---------|--------------------------|
-| Daily rush hours | 7–9 AM, 5–8 PM | 3–4× baseline fulfillment load |
+| Daily rush hours | 7-9 AM, 5-8 PM | 3-4× baseline fulfillment load |
 | Seasonal peaks | Holiday seasons, end-of-quarter | Sustained elevated demand |
-| Weekend patterns | Friday–Saturday evenings | 2× baseline in high-activity zones |
+| Weekend patterns | Friday-Saturday evenings | 2× baseline in high-activity zones |
 | Promotional events | Flash sales, marketing campaigns | Shifted demand curve; 5× spikes during campaign windows |
 | Holidays & events | NYE, major sporting events | Localized 10× spikes with <1 h ramp |
 
@@ -46,16 +46,16 @@ Platform demand is **not random** - it is highly predictable. Rush hours, weeken
 ```mermaid
 flowchart LR
     subgraph Hourly
-        H1[🌅 Morning Rush\n7–9 AM] --> H2[📉 Mid-Morning\nLull]
-        H2 --> H3[🕐 Lunch\n12–2 PM]
+        H1[🌅 Morning Rush\n7-9 AM] --> H2[📉 Mid-Morning\nLull]
+        H2 --> H3[🕐 Lunch\n12-2 PM]
         H3 --> H4[📉 Afternoon\nLull]
-        H4 --> H5[🌆 Evening Rush\n5–8 PM]
+        H4 --> H5[🌆 Evening Rush\n5-8 PM]
         H5 --> H6[🌙 Late Night\nDecline]
     end
 
     subgraph Weekly
-        W1[Mon–Fri\nWorkday Pattern] --> W2[Fri Night\nWeekend Surge]
-        W2 --> W3[Sat–Sun\nWeekend Pattern]
+        W1[Mon-Fri\nWorkday Pattern] --> W2[Fri Night\nWeekend Surge]
+        W2 --> W3[Sat-Sun\nWeekend Pattern]
         W3 --> W1
     end
 
@@ -161,7 +161,7 @@ sequenceDiagram
 | Friday night | 2.5× | 60 min before | Fulfillment, Order, Pricing |
 | Seasonal peak | 5× | 45 min before | All |
 | NYE | 10× | 2 h before midnight | All |
-| Promotional event | 3–8× (manual) | 60 min before launch | Fulfillment, Order, Notification |
+| Promotional event | 3-8× (manual) | 60 min before launch | Fulfillment, Order, Notification |
 
 ### Implementation
 
@@ -183,7 +183,7 @@ kind: CronJob
 metadata:
   name: prescale-evening-rush
 spec:
-  schedule: "30 16 * * 1-5"  # 4:30 PM, Mon–Fri
+  schedule: "30 16 * * 1-5"  # 4:30 PM, Mon-Fri
   jobTemplate:
     spec:
       template:
@@ -238,7 +238,7 @@ Partitions = max(
 | Instance class | `db.r6g.2xlarge` | `db.r6g.large` |
 | Read replicas | 2 | 0 |
 | Max connections | 2,000 | 200 |
-| Storage autoscaling | 100 GB – 2 TB | 20 GB – 100 GB |
+| Storage autoscaling | 100 GB - 2 TB | 20 GB - 100 GB |
 | Connection pooling | PgBouncer sidecar (transaction mode) | Direct |
 | Backup retention | 35 days | 7 days |
 
@@ -363,8 +363,8 @@ flowchart TD
 | Size | Projected Orders/Day | Example Regions | EKS Nodes | Aurora Instance | Redis Shards |
 |------|---------------------|----------------|-----------|-----------------|--------------|
 | **S** | <5,000 | Small metro areas | 4 | db.r6g.large | 1 |
-| **M** | 5,000–20,000 | Mid-size markets | 8 | db.r6g.xlarge | 2 |
-| **L** | 20,000–100,000 | Major metro areas | 16 | db.r6g.2xlarge | 3 |
+| **M** | 5,000-20,000 | Mid-size markets | 8 | db.r6g.xlarge | 2 |
+| **L** | 20,000-100,000 | Major metro areas | 16 | db.r6g.2xlarge | 3 |
 | **XL** | >100,000 | Multi-region aggregate | 32+ | db.r6g.4xlarge | 6 |
 
 ### Launch Checklist Infrastructure Items

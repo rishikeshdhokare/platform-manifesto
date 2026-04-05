@@ -21,17 +21,17 @@ This document helps us **understand dependency on AWS and other vendors** across
 | **EKS** | Managed Kubernetes for workloads | Kubernetes-standard (APIs, workloads) | Low - any conformant K8s |
 | **Aurora** | Primary relational data (PostgreSQL-compatible) | Hybrid - Postgres wire protocol; some Aurora-only features | Medium - standard Postgres elsewhere |
 | **MSK** | Managed Kafka for events | Hybrid - Apache Kafka API | Medium - self-managed Kafka or vendor Kafka |
-| **ElastiCache** | Redis for cache, sessions, locks | Redis protocol | Low–medium - Redis elsewhere or on K8s |
+| **ElastiCache** | Redis for cache, sessions, locks | Redis protocol | Low-medium - Redis elsewhere or on K8s |
 | **IRSA** | Pod identity → IAM without long-lived keys | AWS-specific | High - identity model must be redesigned per environment |
-| **Glue Schema Registry** | Schema governance for streaming / data | AWS-specific API and integration | Medium–high - Confluent / other registry + migration |
+| **Glue Schema Registry** | Schema governance for streaming / data | AWS-specific API and integration | Medium-high - Confluent / other registry + migration |
 | **X-Ray** | Distributed tracing (legacy / parallel paths) | AWS-specific (prefer OpenTelemetry per manifesto) | Medium - replace with OTel backends |
 | **Secrets Manager** | Central secret storage; ESO integration | Hybrid - swappable with Vault / other stores | Medium |
-| **S3** | Object storage (artifacts, exports, static assets) | S3 API de facto standard; many alternatives | Low–medium |
+| **S3** | Object storage (artifacts, exports, static assets) | S3 API de facto standard; many alternatives | Low-medium |
 | **CloudFront** | CDN for edge delivery | AWS-specific distribution model | Medium - other CDNs |
 | **Route 53** | DNS and health checks | AWS-specific control plane | Medium - DNS is portable; migration is operational |
-| **API Gateway** | Edge API management + WAF integration | AWS-specific | Medium–high |
+| **API Gateway** | Edge API management + WAF integration | AWS-specific | Medium-high |
 | **WAF** | Web application firewall at edge | AWS-specific rules / integration | Medium |
-| **EventBridge** | Event routing and SaaS integrations | AWS-specific | Medium–high |
+| **EventBridge** | Event routing and SaaS integrations | AWS-specific | Medium-high |
 | **CloudWatch** | Logs, metrics, alarms (often alongside Prometheus/Grafana) | AWS-specific | Medium |
 
 ---
@@ -89,14 +89,14 @@ flowchart LR
 |-----------|-------------|------------------|------|
 | EKS | Any conformant Kubernetes (GKE, AKS, on-prem) | Medium - cluster rebuild, networking, addons | Medium - ops skill and blast radius |
 | Aurora | RDS Postgres / Cloud SQL / self-managed Postgres | Medium - failover, cutover, feature audit | Medium - data migration and performance tuning |
-| MSK | Confluent Cloud / self-managed Kafka | Medium - cluster ops, topic migration, clients | Medium–high - ordering and consumer coordination |
-| ElastiCache | Redis on K8s / Memorystore / other Redis | Low–medium - connection strings, HA | Low–medium |
+| MSK | Confluent Cloud / self-managed Kafka | Medium - cluster ops, topic migration, clients | Medium-high - ordering and consumer coordination |
+| ElastiCache | Redis on K8s / Memorystore / other Redis | Low-medium - connection strings, HA | Low-medium |
 | IRSA | Workload identity per cloud / SPIFFE / vault-based | High - redesign per environment | High if rushed |
 | Glue Schema Registry | Confluent Schema Registry / Apicurio | Medium - registration and compatibility policies | Medium |
 | X-Ray | OpenTelemetry → Grafana Tempo / Jaeger / vendor APM | Medium - instrumentation alignment | Low if OTel already primary |
 | Secrets Manager | HashiCorp Vault / cloud-native secret stores | Medium - operators and rotation | Medium |
-| CloudFront | Fastly / Cloudflare / Akamai | Medium - DNS, certs, behaviors | Low–medium |
-| Route 53 | Any DNS provider | Low–medium - cutover planning | Medium during transition |
+| CloudFront | Fastly / Cloudflare / Akamai | Medium - DNS, certs, behaviors | Low-medium |
+| Route 53 | Any DNS provider | Low-medium - cutover planning | Medium during transition |
 | API Gateway + WAF | Kong / Envoy Gateway + WAF vendor | High - paths, auth, rate limits | High |
 
 ---
@@ -130,12 +130,12 @@ flowchart LR
 |-------------------|---------------|--------------------|----------------------|
 | **LaunchDarkly** | Feature flags, experiments | Medium - flag definitions and SDK usage | Split, Unleash, open-source flags (trade-offs on UX and scale) |
 | **PagerDuty** (or similar) | Incident paging and workflows | Medium - schedules, integrations | Opsgenie, in-house runbook + SMS (usually worse UX) |
-| **SonarCloud** | Static analysis, quality gates | Low–medium - rules and history | GitHub Advanced Security, self-hosted SonarQube |
-| **Snyk** | Dependency / container scanning | Low–medium - policies in vendor UI | Mend, GitHub Dependabot, other SCA |
+| **SonarCloud** | Static analysis, quality gates | Low-medium - rules and history | GitHub Advanced Security, self-hosted SonarQube |
+| **Snyk** | Dependency / container scanning | Low-medium - policies in vendor UI | Mend, GitHub Dependabot, other SCA |
 | **Stripe / Adyen** | Payments | High - contracts, PCI scope, reconciliation | Other PSPs; migration is business and compliance heavy |
 | **Google Maps / HERE** | Maps, routing, geocoding | High - API shapes, pricing, coverage | Other map providers; product impact |
 | **Twilio** | SMS / voice | Medium - numbers, sender IDs, compliance | MessageBird, Vonage, regional SMS gateways |
-| **SendGrid** (or similar) | Transactional email | Low–medium - templates and domains | SES, Postmark, Mailgun |
+| **SendGrid** (or similar) | Transactional email | Low-medium - templates and domains | SES, Postmark, Mailgun |
 | **Auth0 / Cognito** | Identity for apps / APIs | High - user migration, OIDC/OAuth config | Cross-vendor IdP migration is always costly |
 
 ---

@@ -37,7 +37,7 @@ Every guild maintains a charter document in Backstage:
 | **Scope** | What topics the guild covers (and explicitly does not) |
 | **Lead** | Rotating lead (Staff+ engineer), 6-month term |
 | **Members** | Open to all engineers; no approval required to join |
-| **Quarterly goals** | 2–3 concrete goals per quarter (e.g., "Publish caching best practices guide") |
+| **Quarterly goals** | 2-3 concrete goals per quarter (e.g., "Publish caching best practices guide") |
 | **Meeting cadence** | Monthly, 60 min, recorded |
 | **Slack channel** | Primary async communication channel |
 | **Decision authority** | Guilds advise; they do not mandate. Mandates come through RFCs. |
@@ -147,7 +147,7 @@ New engineers receive a curated "start here" reading list that goes beyond the m
 
 | Category | Items | Purpose |
 |----------|-------|---------|
-| **Manifesto essentials** | This manifesto (sections 01–07) | Understand {Company}'s engineering standards |
+| **Manifesto essentials** | This manifesto (sections 01-07) | Understand {Company}'s engineering standards |
 | **Top 10 ADRs** | Curated list of the most impactful architecture decisions | Understand why the system is shaped the way it is |
 | **Key RFCs** | 5 most recent accepted RFCs | Understand current direction and decision-making style |
 | **Recent PIRs** | 3 most recent post-incident reviews | Understand failure modes and how the team responds |
@@ -170,7 +170,7 @@ Informal, team-initiated lunch sessions. No formal approval or scheduling proces
 
 | Aspect | Detail |
 |--------|--------|
-| **Format** | Casual, conversational, 30–45 min over lunch |
+| **Format** | Casual, conversational, 30-45 min over lunch |
 | **Initiation** | Any team can organize; post in `#engineering` or team channel |
 | **Topics** | Anything the team finds interesting - new tool, conference takeaway, side project, book review |
 | **Recording** | Optional; most are not recorded to encourage open discussion |

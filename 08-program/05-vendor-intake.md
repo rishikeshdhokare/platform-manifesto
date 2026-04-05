@@ -94,7 +94,7 @@ sequenceDiagram
 | Estimated Annual Cost | Required Approvers |
 |----------------------|-------------------|
 | **< $10K/yr** | Team Lead + Security review |
-| **$10K – $50K/yr** | Engineering Manager + Finance partner + Security review |
+| **$10K - $50K/yr** | Engineering Manager + Finance partner + Security review |
 | **> $50K/yr** | VP Engineering + Legal + Finance + Security review |
 
 All approvals are recorded in the vendor registry. Contracts > $50K/yr require Legal review of terms and conditions.

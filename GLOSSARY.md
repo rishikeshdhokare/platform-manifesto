@@ -22,7 +22,7 @@ Quick reference for acronyms and terms used across this manifesto.
 | **CQRS** | Command Query Responsibility Segregation | An architecture pattern that separates read and write data models for a service | [01-cloud-architecture.md](./04-infrastructure-and-cloud/01-cloud-architecture.md) |
 | **CSP** | Content Security Policy | An HTTP header that restricts which resources a web page can load to mitigate XSS attacks | [02-web-frontend-standards.md](./09-mobile-and-frontend/02-web-frontend-standards.md) |
 | **CVE** | Common Vulnerabilities and Exposures | A unique identifier for a publicly disclosed cybersecurity vulnerability | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
-| **CVSS** | Common Vulnerability Scoring System | A numerical scoring system (0–10) for rating the severity of security vulnerabilities | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
+| **CVSS** | Common Vulnerability Scoring System | A numerical scoring system (0-10) for rating the severity of security vulnerabilities | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
 | **DAST** | Dynamic Application Security Testing | Security testing that analyses a running application for vulnerabilities by simulating attacks | [11-qa-standards.md](./03-engineering-practices/11-qa-standards.md) |
 | **DLQ** | Dead Letter Queue | A message queue that stores messages that could not be processed successfully for later inspection | [04-kafka-patterns.md](./06-developer-guides/04-kafka-patterns.md) |
 | **DORA** | DevOps Research and Assessment | A set of four key metrics (deployment frequency, lead time, change failure rate, MTTR) measuring software delivery performance | [04-engineering-metrics.md](./08-program/04-engineering-metrics.md) |

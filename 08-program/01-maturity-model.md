@@ -54,7 +54,7 @@ Each capability has four levels:
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
 | CI pipeline exists | No pipeline | Pipeline runs tests only | Full pipeline: lint, test, coverage, security scan | Pipeline is shared template; maintained by platform |
-| Pipeline speed | > 20 min | 15–20 min | < 10 min | < 7 min; measured and trending |
+| Pipeline speed | > 20 min | 15-20 min | < 10 min | < 7 min; measured and trending |
 | Quality gates | No gates | Some gates, not enforced | All gates enforced; PRs blocked on failure | Gate history tracked; failures trend to zero |
 | Secret detection | No scanning | Manual review | Gitleaks in pre-commit and CI | Zero tolerance; alert on any detection event |
 | Dependency scanning | Quarterly manual | Monthly Snyk | Daily Snyk scan; CI blocks on critical/high | Auto-PRs for patch versions; < 5 open vulnerabilities at any time |
@@ -110,7 +110,7 @@ Each capability has four levels:
 | Local dev setup | No docs; complex setup | README exists; setup takes > 1 day | One-command local stack + app run (**reference:** `docker compose up` + `./gradlew bootRun` for Java) | Setup script installs everything; < 30 min from zero |
 | Onboarding | No structured onboarding | Basic README | New engineer ships to production in first week | NPS survey; onboarding continuously improved |
 | Service scaffolding | Copy-paste from another service | Template exists but outdated | Backstage template generates fully working service | Template generates CI pipeline, ArgoCD app, Backstage entry automatically |
-| Inner loop speed | Build > 2 minutes | Build 1–2 minutes | Build < 60s; test < 30s; startup < 15s | Incremental build < 10s; hot reload < 3s |
+| Inner loop speed | Build > 2 minutes | Build 1-2 minutes | Build < 60s; test < 30s; startup < 15s | Incremental build < 10s; hot reload < 3s |
 | Documentation | No docs or outdated | README exists | README + runbook + ADRs up to date | TechDocs in Backstage; searchable; review reminders |
 | Platform BOM | No central dependency management | BOM exists but teams ignore it | All services on platform BOM; versions aligned | BOM updated quarterly; breaking changes communicated 4 weeks ahead |
 
