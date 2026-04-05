@@ -27,10 +27,29 @@ Every service repository must contain the following files. Missing files are fla
 
 ### Makefile Standard Targets
 
-Every `Makefile` must implement these targets so that any engineer can operate any service with the same commands:
+Every `Makefile` must expose a **consistent interface** so any engineer can operate any service with the same commands.
+
+**Required developer workflows** are the outcomes each target must achieve. **Stack-specific commands** are how a repository implements those outcomes (Gradle, npm, pip, Go modules, and so on). The manifesto mandates the interface, not the implementation.
+
+#### Required Makefile Targets
+
+| Target | Required Outcome |
+|--------|------------------|
+| `make setup` | Install all dependencies and configure local environment |
+| `make run` | Start the service locally |
+| `make test` | Run unit tests |
+| `make lint` | Run linting and static analysis |
+| `make build` | Produce a deployable artifact |
+
+Other stacks (Node.js, Python, Go) must expose the same targets. The commands inside each target will differ but the interface remains consistent.
+
+#### Reference implementation (Java/Gradle):
 
 ```makefile
-.PHONY: build test lint run seed clean
+.PHONY: setup build test lint run seed clean
+
+setup:           ## Install dependencies and configure local environment
+	./gradlew dependencies --no-daemon
 
 build:           ## Compile the service
 	./gradlew build -x test
