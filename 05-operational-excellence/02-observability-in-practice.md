@@ -425,7 +425,7 @@ sequenceDiagram
 FROM amazoncorretto:21-alpine
 
 # Download the OTel Java language agent
-ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar /app/otel-agent.jar
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/v{version}/download/opentelemetry-javaagent.jar /app/otel-agent.jar
 
 COPY build/libs/orders-service.jar /app/service.jar
 
