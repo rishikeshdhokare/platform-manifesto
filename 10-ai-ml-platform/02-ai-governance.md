@@ -1,8 +1,6 @@
 # 🧠 AI Governance
 
-![Status: Mandated](https://img.shields.io/badge/Status-Mandated-blue?style=flat-square)
-![Owner](https://img.shields.io/badge/Owner-CTO_%2B_Data_Science_%2B_Legal-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: CTO + Data Science + Legal](https://img.shields.io/badge/owner-CTO_%2B_Data_Science_%2B_Legal-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 

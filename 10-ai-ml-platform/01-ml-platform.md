@@ -1,8 +1,6 @@
 # 🤖 ML Platform
 
-![Status: Mandated](https://img.shields.io/badge/Status-Mandated-blue?style=flat-square)
-![Owner](https://img.shields.io/badge/Owner-Platform_Engineering_%2B_Data_Science-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Data Science](https://img.shields.io/badge/owner-Platform_Engineering_%2B_Data_Science-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -28,45 +26,26 @@ Machine learning is integral to {Company}'s core product - every order involves 
 
 The end-to-end ML lifecycle at {Company} spans data ingestion, feature engineering, training, serving, and continuous monitoring. The diagram uses **reference implementation (AWS)** labels (S3, Redshift, SageMaker); substitute object storage, warehouse, and training/serving products from your cloud or on-prem stack.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
-    subgraph ingest [Data Sources]
-        CDC[CDC Streams<br/>Debezium]
-        Events[Domain Events<br/>Kafka]
-        Logs[Application Logs<br/>Fluent Bit]
+    subgraph ingest ["Data Sources"]
+        CDC["CDC Streams<br/>Debezium"]
+        Events["Domain Events<br/>Kafka"]
+        Logs["Logs<br/>Fluent Bit"]
     end
 
-    subgraph features [Feature Engineering]
-        FE[Feature Pipelines<br/>Spark / Flink]
+    FE["Feature Pipelines<br/>Spark/Flink"]
+
+    subgraph store ["Feature Store"]
+        Online[("Online Store<br/>Redis")]
+        Offline[("Offline Store<br/>S3/Redshift")]
     end
 
-    subgraph store [Feature Store]
-        Online[(Online Store<br/>Redis)]
-        Offline[(Offline Store<br/>S3 + Redshift)]
-    end
-
-    subgraph training [Training]
-        Pipeline[Training Pipeline<br/>SageMaker Pipelines]
-        Registry[Model Registry<br/>MLflow]
-    end
-
-    subgraph serving [Model Serving]
-        RT[Real-time Endpoint<br/>SageMaker]
-        Batch[Batch Transform<br/>SageMaker]
-        TFS[TensorFlow Serving<br/>EKS]
-    end
-
-    subgraph apps [Application Services]
-        Fulfillment[Fulfillment Engine]
-        Pricing[Pricing Service]
-        Fraud[Fraud Engine]
-        ETA[ETA Service]
-    end
-
-    subgraph monitor [Monitoring]
-        Drift[Drift Detection]
-        Quality[Prediction Quality]
-        Alerts[Alerting<br/>PagerDuty]
+    subgraph training ["Training"]
+        Pipeline["Training Pipeline<br/>SageMaker"]
+        Registry["Model Registry<br/>MLflow"]
     end
 
     CDC --> FE
@@ -74,10 +53,40 @@ flowchart LR
     Logs --> FE
     FE --> Online
     FE --> Offline
-    Online --> RT
-    Online --> TFS
     Offline --> Pipeline
     Pipeline --> Registry
+```
+
+The model registry feeds the serving layer, which provides predictions to application services. Monitoring detects drift and quality issues; alerts trigger retraining when thresholds are breached (see Section 6).
+
+**Visual overview:**
+
+```mermaid
+flowchart LR
+    Registry["Model Registry<br/>MLflow"]
+    Online[("Online Store<br/>Redis")]
+
+    subgraph serving ["Model Serving"]
+        RT["Realtime Endpoint<br/>SageMaker"]
+        Batch["Batch Transform<br/>SageMaker"]
+        TFS["TF Serving<br/>EKS"]
+    end
+
+    subgraph apps ["Application Services"]
+        Fulfillment["Fulfillment Engine"]
+        Pricing["Pricing Service"]
+        Fraud["Fraud Engine"]
+        ETA["ETA Service"]
+    end
+
+    subgraph monitor ["Monitoring"]
+        Drift["Drift Detection"]
+        Quality["Prediction Quality"]
+        Alerts["Alerting<br/>PagerDuty"]
+    end
+
+    Online --> RT
+    Online --> TFS
     Registry --> RT
     Registry --> Batch
     Registry --> TFS
@@ -92,7 +101,6 @@ flowchart LR
     ETA --> Quality
     Drift --> Alerts
     Quality --> Alerts
-    Alerts -.->|Retrain trigger| Pipeline
 ```
 
 ---
@@ -152,40 +160,25 @@ endpoint:
 
 Features are the lifeblood of ML models. {Company} operates a dual-store architecture - an **online store** for real-time inference and an **offline store** for training.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
-    subgraph sources [Data Sources]
-        Orders[Order Events]
-        Providers[Provider Events]
-        Customers[Customer Events]
-        Zones[Zone Metrics]
+    subgraph sources ["Data Sources"]
+        Orders["Order Events"]
+        Providers["Provider Events"]
+        Customers["Customer Events"]
+        Zones["Zone Metrics"]
     end
 
-    subgraph pipeline [Feature Pipelines]
-        Stream[Stream Processing<br/>Flink]
-        Batch[Batch Processing<br/>Spark]
+    subgraph pipeline ["Feature Pipelines"]
+        Stream["Stream Processing<br/>Flink"]
+        Batch["Batch Processing<br/>Spark"]
     end
 
-    subgraph online [Online Feature Store]
-        Redis[(Redis / memory store<br/>< 5 ms reads<br/>ref: ElastiCache)]
-        direction TB
-        F1[provider_acceptance_rate]
-        F2[customer_order_count]
-        F3[zone_demand_score]
-        F4[provider_avg_rating_30d]
-        F5[zone_supply_count]
-    end
-
-    subgraph offline [Offline Feature Store]
-        S3[(S3 Parquet)]
-        RS[(Redshift)]
-    end
-
-    subgraph consumers [Consumers]
-        Serving[Model Serving<br/>Real-time inference]
-        Training[Training Pipelines<br/>Historical features]
-        Analytics[Analytics<br/>Feature exploration]
-    end
+    Redis[("Redis")]
+    S3[("S3 Parquet")]
+    RS[("Redshift")]
 
     Orders --> Stream
     Providers --> Stream
@@ -195,6 +188,32 @@ flowchart TB
     Stream --> S3
     Batch --> S3
     Batch --> RS
+```
+
+The online and offline stores serve different consumer groups: real-time serving, training pipelines, and analytics.
+
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    subgraph online ["Online Feature Store"]
+        Redis[("Redis")]
+        F1["provider_acceptance_rate"]
+        F2["customer_order_count"]
+        F3["zone_demand_score"]
+        F4["provider_avg_rating_30d"]
+        F5["zone_supply_count"]
+    end
+
+    subgraph offline ["Offline Feature Store"]
+        S3[("S3 Parquet")]
+        RS[("Redshift")]
+    end
+
+    Serving["Model Serving"]
+    Training["Training Pipelines"]
+    Analytics["Analytics"]
+
     Redis --> Serving
     S3 --> Training
     RS --> Analytics
@@ -202,7 +221,6 @@ flowchart TB
     Redis ~~~ F1
     Redis ~~~ F2
     Redis ~~~ F3
-
 ```
 
 ### Key Online Features
@@ -295,32 +313,40 @@ Before promoting a challenger to champion:
 
 All model training runs through an **approved orchestrated pipeline** - no ad-hoc notebook training in production. **Reference implementation (AWS):** SageMaker Pipelines plus EventBridge for schedules; **alternatives:** Vertex AI Pipelines, Azure ML Pipelines, Kubeflow, or Airflow driving training jobs.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
-    Trigger([Training Trigger]) --> Type{Trigger Type}
+    Trigger(["Training Trigger"]) --> Type{"Trigger Type"}
 
-    Type -->|Scheduled| Weekly[Weekly Cron<br/>EventBridge]
-    Type -->|Drift detected| DriftAlert[Drift Alert<br/>from monitoring]
-    Type -->|Manual| Manual[Data Scientist<br/>initiates run]
+    Type -->|Scheduled| Weekly["Weekly Cron"]
+    Type -->|"Drift detected"| DriftAlert["Drift Alert"]
+    Type -->|Manual| Manual["Manual Run"]
 
     Weekly --> Extract
     DriftAlert --> Extract
     Manual --> Extract
 
-    Extract[1. Data Extraction<br/>Warehouse / lake ref: Redshift+S3] --> Validate[2. Data Validation<br/>Great Expectations checks]
-    Validate --> QualityGate{Data quality<br/>passed?}
+    Extract["Data Extraction"] --> Validate["Data Validation"]
+    Validate --> QualityGate{"Data quality<br/>passed?"}
 
-    QualityGate -->|No| Fail[Pipeline fails<br/>Alert data team]
-    QualityGate -->|Yes| FeatEng[3. Feature Engineering<br/>Compute training features]
+    QualityGate -->|No| Fail["Pipeline Fails"]
+    QualityGate -->|Yes| FeatEng["Feature Engineering"]
+```
 
-    FeatEng --> Train[4. Model Training<br/>managed job ref: SageMaker]
-    Train --> Evaluate[5. Evaluation<br/>Hold-out test set]
-    Evaluate --> MetricGate{Metrics above<br/>threshold?}
+Once data validation passes, feature engineering feeds into model training, evaluation, and registration.
 
-    MetricGate -->|No| Reject[Model rejected<br/>Notify data scientist]
-    MetricGate -->|Yes| Register[6. Register Model<br/>MLflow / vendor registry]
-    Register --> Notify[Notify team<br/>ready for deployment]
+**Visual overview:**
 
+```mermaid
+flowchart TD
+    FeatEng["Feature Engineering"] --> Train["Model Training"]
+    Train --> Evaluate["Model Evaluation"]
+    Evaluate --> MetricGate{"Metrics above<br/>threshold?"}
+
+    MetricGate -->|No| Reject["Model Rejected"]
+    MetricGate -->|Yes| Register["Register Model"]
+    Register --> Notify["Notify Team"]
 ```
 
 ### Trigger Cadence
