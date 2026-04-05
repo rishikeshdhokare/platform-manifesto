@@ -172,14 +172,16 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## 🤖 Dimension 11: AI/ML Maturity
+## 🤖 Dimension 11: ML Platform Maturity
+
+This dimension scores **operational ML**: model serving, training and feature pipelines, ML observability, and governance of **models in production**. It does **not** score how teams use AI coding assistants or repository context. For that, use **AI Engineering Maturity** (L0-L4) in [AI Adoption Metrics](../12-ai-engineering/03-ai-adoption-metrics.md). The two tracks are complementary: you can be strong in one and weak in the other.
 
 | Practice | L1 | L2 | L3 Target | L4 |
 |----------|----|----|-----------|-----|
 | Model serving | No ML; rule-based only | ML models exist but deployed ad-hoc | Managed inference endpoints; canary for model updates; fallback to rules (**reference:** SageMaker; alternatives: Vertex AI, Azure Machine Learning) | Feature store; A/B testing; automated retraining |
 | ML observability | No monitoring | Basic accuracy tracking | Drift detection; prediction quality alerts; data quality checks | Automated retraining triggers; model performance SLOs |
-| AI governance | No governance | Informal bias awareness | Quarterly bias audits; explainability for customer-facing decisions | AI Ethics Review Board; automated fairness metrics in CI |
-| AI-assisted development | Ad-hoc tool usage | Approved tools list | Guardrails enforced; code review standards for AI PRs | AI productivity metrics tracked; contribution to platform tooling |
+| Training & feature pipelines | No ML training in the platform | Notebook or ad-hoc jobs only | Scheduled training pipelines; experiment tracking; reproducible builds | Feature store integrated with training and serving; automated retraining wired to drift and quality signals |
+| ML governance & responsible AI | No governance | Informal bias awareness | Quarterly bias audits; explainability for customer-facing decisions | AI Ethics Review Board; automated fairness metrics in CI |
 
 ---
 
