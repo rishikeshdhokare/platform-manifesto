@@ -2,6 +2,8 @@
 
 ![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering + Legal](https://img.shields.io/badge/owner-Platform_Engineering_+_Legal-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
+> **Disclaimer:** This document describes technical implementation patterns for privacy and compliance. It is not legal advice. Consult your organization's legal counsel.
+
 ---
 
 ## 🎯 1. Philosophy
