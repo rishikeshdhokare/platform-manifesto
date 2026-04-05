@@ -67,7 +67,7 @@ When adding, removing, or renaming ANY document:
 
 ## Forbidden Content
 
-- No real company names, employee names, or internal URLs
+- No real company names, employee names, or internal URLs. Templated URLs using the `{company}` placeholder (e.g., `https://backstage.internal.{company}.com`) are allowed and encouraged.
 - No ride-hailing terminology: Jeeny, rider, ride-hail, fare, pickup, dropoff, Trips Service, Matching Engine, Surge Pricing
 - No API keys, passwords, or tokens (even examples must be obviously fake)
 - No region-specific references tied to a particular company
