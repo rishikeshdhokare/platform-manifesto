@@ -297,7 +297,12 @@ catalog-info.yaml @{company}/platform-engineering
 
 ---
 
+## 🗂️ 8. Documentation-Only Repositories
+
+For documentation-only repositories like this manifesto, not every row in the **Required Files** table in section 1 applies. See [META.md](../META.md) for which standards apply to this repository and which are intentionally out of scope.
+
 ---
+
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
