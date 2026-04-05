@@ -370,7 +370,7 @@ All production deployments post automatically to `#deployments` Slack channel:
 ```
 🚀 [orders-service] v2.14.3 deployed to PRODUCTION
    Commit: feat(orders): add multi-stop order support (#1234)
-   Author: @john.doe
+   Author: @{engineer}
    Duration: 12m 34s
    Canary: ✅ passed (error rate: 0.02%, p99: 145ms)
 ```

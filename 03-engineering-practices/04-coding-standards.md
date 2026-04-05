@@ -470,7 +470,7 @@ Every `// TODO` comment must reference a Jira ticket:
 
 ```java
 // ✅ Good
-// TODO(RIDE-1234): Replace polling with WebSocket push when infra is ready
+// TODO(PROJ-1234): Replace polling with WebSocket push when infra is ready
 
 // ❌ Bad - no tracking; will never be fixed
 // TODO: fix this later

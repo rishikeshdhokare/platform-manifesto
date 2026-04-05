@@ -111,7 +111,7 @@ While the incident is ongoing, communicate continuously.
 **Internal (Slack #incident channel):**
 ```
 [14:32] 🔴 P1 INCIDENT: Orders service returning 500 errors for ~40% of requests.
-         Investigating. On-call: @john.doe
+         Investigating. On-call: @{engineer}
 
 [14:38] Update: Issue started ~14:25. Correlated with orders-service v2.14.5 deployment.
          Rolling back to v2.14.4. ETA 3 minutes.
@@ -254,10 +254,10 @@ when completing orders created before the service_type field was added.
 
 | Action | Owner | Due Date | Tracking |
 |--------|-------|---------|---------|
-| Add test coverage for orders with null service_type | @jane.doe | 2026-12-01 | ORD-9876 |
+| Add test coverage for orders with null service_type | @{lead-engineer} | 2026-12-01 | ORD-9876 |
 | Enforce canary deployment for ALL releases - no bypass | @platform-team | 2026-11-20 | PLAT-4321 |
-| Add data seeding to staging with legacy order shapes | @john.doe | 2026-12-15 | ORD-9877 |
-| Update on-call runbook to include status page update step | @john.doe | 2026-11-18 | ORD-9878 |
+| Add data seeding to staging with legacy order shapes | @{engineer} | 2026-12-15 | ORD-9877 |
+| Update on-call runbook to include status page update step | @{engineer} | 2026-11-18 | ORD-9878 |
 
 ---
 
