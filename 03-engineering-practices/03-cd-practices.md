@@ -132,7 +132,7 @@ flowchart LR
      ▼
 [Build & Push Image]
   - docker build
-  - push to ECR: {sha}, {version}
+  - push to ECR: {git-sha}, {version}
   - Snyk container scan (blocks on critical)
      │
      ▼
