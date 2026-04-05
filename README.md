@@ -294,6 +294,7 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`08-privacy-engineering.md`](04-infrastructure-and-cloud/08-privacy-engineering.md) | GDPR, PCI, SOC 2, ISO 27001, anonymization, consent |
 | [`09-multi-tenancy.md`](04-infrastructure-and-cloud/09-multi-tenancy.md) | Data isolation patterns, noisy-neighbor controls, tenant-aware observability |
 | [`10-security-operations.md`](04-infrastructure-and-cloud/10-security-operations.md) | Threat modeling, SIEM, pen testing, SBOM, bug bounty, PAM |
+| [`11-deployment-architecture.md`](04-infrastructure-and-cloud/11-deployment-architecture.md) | Environment landscape, artifact promotion, production gates, multi-region deployment |
 
 </details>
 
