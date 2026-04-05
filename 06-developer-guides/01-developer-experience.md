@@ -397,6 +397,11 @@ Any PR that changes **observable behavior** (API response format, configuration 
 - [ ] If this PR changes observable behavior, I have updated the relevant documentation
 ```
 
+### Related Documents
+
+- [Golden Path](./02-golden-path.md) - end-to-end workflow from clone to production for new services
+
+
 ---
 <div align="center">
 

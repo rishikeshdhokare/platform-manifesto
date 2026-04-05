@@ -584,7 +584,10 @@ class HexagonalArchitectureTest {
 
 If you violate the architecture, the build fails. This is intentional.
 
----
+### Related Documents
+
+- [API Standards](./02-api-standards.md) - URL design, versioning, error shapes
+- [gRPC Standards](./05-grpc-standards.md) - internal service communication
 
 ---
 <div align="center">

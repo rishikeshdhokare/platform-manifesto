@@ -378,8 +378,12 @@ flowchart TD
 - [ ] Monitoring dashboards provisioned in Grafana.
 - [ ] PagerDuty escalation policy includes region ops lead.
 
----
+### Related Documents
 
+- [FinOps](./05-finops.md) - cost visibility, unit economics, and cloud spend guardrails
+- [Deployment Architecture](./11-deployment-architecture.md) - GitOps, environments, and release mechanics
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

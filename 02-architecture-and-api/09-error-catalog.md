@@ -569,7 +569,9 @@ metadata.put(
 throw status.asRuntimeException(metadata);
 ```
 
----
+### Related Documents
+
+- [gRPC Standards](./05-grpc-standards.md) - status codes, metadata, and internal RPC error conventions
 
 ---
 <div align="center">
