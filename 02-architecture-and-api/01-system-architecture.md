@@ -482,6 +482,12 @@ Business logic lives in the services (**smart endpoints**), not in the messaging
 - **Smart endpoints are independently deployable and testable.** All business behavior is inside the service, covered by the service's own test suite, and deployed on the service's own release cadence.
 - **Debugging is straightforward.** When business logic lives in one place (the service), tracing a bug does not require inspecting middleware configurations, gateway transformations, and stream processing topologies.
 
+### Related Documents
+
+- [API Standards](./02-api-standards.md) - URL design, versioning, error shapes
+- [gRPC Standards](./05-grpc-standards.md) - internal service communication
+- [Saga Patterns](./06-saga-patterns.md) - distributed transactions and long-running workflows
+
 ---
 <div align="center">
 
