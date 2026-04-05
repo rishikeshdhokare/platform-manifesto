@@ -923,7 +923,7 @@ Translation file (`en.json`):
 
 ### 20.1 Standard
 
-All WebSocket connections use the `@{company}/ws-client` wrapper library, which standardises authentication, reconnection, and error handling.
+All WebSocket connections use the `@{company}/ws-client` wrapper library, which standardises authentication, reconnection, and error handling. Web and mobile apps use the same package and the same `useWebSocket` hook; path-first calls (as below) and options-object shapes are supported for their respective platforms.
 
 | Parameter | Value |
 |-----------|-------|

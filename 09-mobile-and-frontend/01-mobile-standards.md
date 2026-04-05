@@ -863,6 +863,8 @@ const retryConfig = {
 
 Real-time features (live order tracking, provider location updates, chat) use WebSocket connections managed by the `@{company}/ws-client` wrapper library.
 
+Web and mobile clients share the same `@{company}/ws-client` package and the same `useWebSocket` hook API (options may include mobile-specific fields such as topics and polling fallback URLs).
+
 ### `@{company}/ws-client`
 
 The wrapper provides a unified API for WebSocket connections across iOS and Android, handling the complexities of mobile lifecycle and network conditions.
@@ -892,9 +894,9 @@ The fallback is transparent to the consuming code - components subscribe to the 
 ### Usage
 
 ```typescript
-import { useWsClient } from '@{company}/ws-client';
+import { useWebSocket } from '@{company}/ws-client';
 
-const ws = useWsClient({
+const ws = useWebSocket({
   url: 'wss://ws.{company}.com/v1/orders/stream',
   topics: ['order.status', 'provider.location'],
   onMessage: (event) => handleRealtimeEvent(event),
