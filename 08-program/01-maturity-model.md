@@ -4,7 +4,7 @@
 
 ---
 
-## 📋 Overview
+## 📋 1. Overview
 
 This maturity model allows teams to **self-assess their engineering practices** against the platform standard. It is not a performance review tool - it is a diagnostic tool to identify where to invest next.
 
@@ -24,7 +24,7 @@ Each capability has four levels:
 
 ---
 
-## 🔀 Dimension 1: Source Control & Branching
+## 🔀 2. Source Control & Branching
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -35,7 +35,7 @@ Each capability has four levels:
 
 ---
 
-## 🧪 Dimension 2: Testing
+## 🧪 3. Testing
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -49,7 +49,7 @@ Each capability has four levels:
 
 ---
 
-## 🔨 Dimension 3: CI / Build
+## 🔨 4. CI / Build
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -62,7 +62,7 @@ Each capability has four levels:
 
 ---
 
-## 🚀 Dimension 4: Continuous Delivery
+## 🚀 5. Continuous Delivery
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -76,7 +76,7 @@ Each capability has four levels:
 
 ---
 
-## 👁️ Dimension 5: Observability
+## 👁️ 6. Observability
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -90,7 +90,7 @@ Each capability has four levels:
 
 ---
 
-## 🔐 Dimension 6: Security
+## 🔐 7. Security
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -103,7 +103,7 @@ Each capability has four levels:
 
 ---
 
-## 🧑‍💻 Dimension 7: Developer Experience
+## 🧑‍💻 8. Developer Experience
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-------------|-----|
@@ -116,7 +116,7 @@ Each capability has four levels:
 
 ---
 
-## 📝 How to Self-Assess
+## 📝 9. How to Self-Assess
 
 ### Quarterly Process
 
@@ -139,7 +139,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## 📱 Dimension 8: Real-Time & Mobile
+## 📱 10. Real-Time & Mobile
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-----------|-----|
@@ -150,7 +150,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## 🛡️ Dimension 9: Resilience Validation
+## 🛡️ 11. Resilience Validation
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-----------|-----|
@@ -161,7 +161,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## 💰 Dimension 10: Cost Management
+## 💰 12. Cost Management
 
 | Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-----------|-----|
@@ -172,7 +172,7 @@ The goal is an accurate picture, not a high score.
 
 ---
 
-## 🤖 Dimension 11: ML Platform Maturity
+## 🤖 13. ML Platform Maturity
 
 This dimension scores **operational ML**: model serving, training and feature pipelines, ML observability, and governance of **models in production**. It does **not** score how teams use AI coding assistants or repository context. For that, use **AI Engineering Maturity** (L0-L4) in [AI Adoption Metrics](../12-ai-engineering/03-ai-adoption-metrics.md). The two tracks are complementary: you can be strong in one and weak in the other.
 
@@ -185,7 +185,7 @@ This dimension scores **operational ML**: model serving, training and feature pi
 
 ---
 
-## 🎯 Platform Target State
+## 🎯 14. Platform Target State
 
 The platform is designed to make **Level 3 the default** - if you follow the golden path, you hit Level 3 automatically. Level 4 requires deliberate investment by teams.
 
