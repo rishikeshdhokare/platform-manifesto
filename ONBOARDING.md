@@ -1,5 +1,7 @@
 # 🚀 New Joiner Onboarding Guide
 
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+
 Welcome to {Company} engineering! This is your single starting page. Everything you need to get productive - from laptop setup to your first PR to going on-call - is linked from here. If something is missing or confusing, open a PR against this file. Making onboarding better is one of the most impactful things you can do.
 
 ---

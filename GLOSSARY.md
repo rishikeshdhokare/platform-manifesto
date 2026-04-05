@@ -1,5 +1,7 @@
 # 📖 Glossary
 
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+
 Quick reference for acronyms and terms used across this manifesto.
 
 ---
