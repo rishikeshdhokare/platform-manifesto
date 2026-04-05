@@ -321,6 +321,11 @@ public class StampedeProtectedCacheService {
                     lock.unlock();
                 }
             }
+            // Lock was held by another thread which likely filled the cache
+            cached = redisTemplate.opsForValue().get(cacheKey);
+            if (cached != null) {
+                return (PricingRule) cached;
+            }
             return pricingRuleRepository
                 .findByRegionIdAndServiceType(regionId, serviceType)
                 .orElseThrow();
