@@ -18,6 +18,7 @@
 10. [Cost per Transaction](#10-cost-per-transaction)
 11. [FinOps Review Cadence](#11-finops-review-cadence)
 12. [Cost Allocation Model](#12-cost-allocation-model)
+13. [Real-Time Cost Visibility](#13-real-time-cost-visibility)
 
 ---
 
