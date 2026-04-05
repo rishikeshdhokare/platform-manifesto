@@ -422,8 +422,8 @@ import io.grpc.stub.MetadataUtils;
 
 Metadata trailers = new Metadata();
 Metadata.Key<String> CODE_KEY =
-        Metadata.Key.of("x-{company}-error-code", Metadata.ASCII_STRING_MARSHALLER);
-trailers.put(CODE_KEY, "ORDER_NOT_FOUND");
+        Metadata.Key.of("x-error-code", Metadata.ASCII_STRING_MARSHALLER);
+trailers.put(CODE_KEY, "ORDERS.ORDER.NOT_FOUND");
 responseObserver.onError(Status.NOT_FOUND
         .withDescription("Order not found")
         .asRuntimeException(trailers));
@@ -431,7 +431,7 @@ responseObserver.onError(Status.NOT_FOUND
 // Client: read from StatusRuntimeException.getTrailers()
 ```
 
-Convention: prefix custom headers with **`x-{company}-`** (e.g. `x-{company}-error-code`, `x-{company}-correlation-id`). Propagate **W3C `traceparent`** via OpenTelemetry (Section 9), not only custom headers.
+Use **`x-error-code`** for registered machine-readable error codes (same dotted format as REST; see [Error Catalog](./09-error-catalog.md)). For other custom metadata keys, prefix with **`x-{company}-`** where a company-scoped name avoids collisions (e.g. `x-{company}-correlation-id`). Propagate **W3C `traceparent`** via OpenTelemetry (Section 9), not only custom headers.
 
 ---
 
