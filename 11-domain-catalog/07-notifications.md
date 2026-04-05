@@ -2,7 +2,7 @@
 
 ![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
 ![Owner](https://img.shields.io/badge/Owner-Platform-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 **Service identifier:** `{company}.notifications`
 
@@ -259,6 +259,18 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 | **RDS PostgreSQL** - `notification_preferences` | User opt-in/out preferences | Until account deletion (GDPR erasure cascade) | Deleted on `customers.customer.deleted` event |
 | **Kafka** - consumed event topics | Incoming domain events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
+
+---
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Domain event bus | Kafka (consume `orders.*`, `payments.*`, `providers.*`, etc.) | mTLS + consumer ACL per topic prefix |
+| Provider Profile (`{company}.providers`) | Kafka (consume) | mTLS + consumer ACL |
+| Customer Profile (`{company}.customers`) | Kafka (consume) | mTLS + consumer ACL |
+| Push / SMS / email gateways (`{company}.notifications-dispatch`) | REST / vendor webhooks | mTLS + API key per channel |
+| Admin console (`{company}.notifications-admin`) | REST | mTLS + RBAC |
 
 ---
 <div align="center">

@@ -290,10 +290,54 @@ Instrumentation: OpenTelemetry traces from `{company}.orders`, Prometheus metric
 |------|--------|
 | Team | **Team Orders** - Slack `@{company}/team-orders`, GitHub `{company}/order-service` |
 | On-call | Primary / secondary rotation in PagerDuty |
-| Service catalog | [Backstage - Order Service](https://backstage.{company}.internal/catalog/default/component/order-service) *(internal URL - replace with live link)* |
+| Service catalog | [Backstage - Order Service](https://backstage.{company}.internal/catalog/default/component/order-service) |
 | PagerDuty | Service **order-service** - escalation to Team Orders manager after 15 minutes unacknowledged |
 
 For cross-domain changes, use the platform RFC process and notify **Payments** and **Fulfillment** for contract changes on consumed/produced topics.
+
+---
+
+## 📊 11. SLOs and Error Budgets
+
+| Metric | Target | Error Budget Policy |
+|--------|--------|-------------------|
+| Availability | 99.9% | Freeze non-critical deploys when budget < 20% remaining |
+| Latency (p99) | < 500ms | Alert at 80% of budget consumption |
+| Error rate | < 0.1% | Page on-call when rate exceeds target for > 5 minutes |
+
+## ⚠️ 12. Failure Modes
+
+| Failure | User Impact | Fallback | Blast Radius |
+|---------|------------|----------|-------------|
+| Aurora PostgreSQL unavailable | Cannot create or update orders; reads may fail | Fail closed on writes; serve stale read model from `{replicaLagTolerated}` replica if enabled; BFF returns 503 with retry guidance | All customer and provider order flows for `{regionOrCluster}` |
+| Kafka / outbox relay stalled | Downstream domains miss lifecycle events | Orders API remains consistent; replay from `order_events` after recovery; Payments and Notifications catch up via lag alerts | Delayed captures, notifications, and analytics only (no duplicate order state if idempotency holds) |
+| Pricing Service gRPC timeout | Estimate or confirm path fails | Return 503 / retry; optional cached estimate only if product policy allows `{staleEstimatePolicy}` | New order requests in affected markets |
+| Fulfillment Engine gRPC unavailable | Cannot progress assignment-dependent transitions | Hold order in `REQUESTED` with operator-visible reason; retry assignment when peer recovers | Assignment latency; no duplicate charges if Payments gates on completed state |
+
+## 📏 13. Capacity Sizing
+
+| Parameter | Value |
+|-----------|-------|
+| Min replicas | 6 |
+| Max replicas | 60 |
+| Target CPU | 70% |
+
+## 🗄️ 14. Data Retention Matrix
+
+| Store | Data | Retention | Mechanism |
+|-------|------|-----------|-----------|
+| PostgreSQL | `orders`, `order_events`, `outbox_events` | Hot rows `{hotRetentionPeriod}`; archive completed orders `{archiveAfterPeriod}` per compliance | Partitioning + scheduled archival job to `{coldStorage}`; PII minimization per retention policy |
+| Kafka | `orders.order.*` topics | 14 days (platform default) | Topic retention policy |
+| CloudWatch Logs | Application and access logs | 30 days | Log group retention policy |
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Customer BFF (`{company}.bff.customer`) | REST | mTLS + OAuth2 subject forwarded as service identity |
+| Provider BFF (`{company}.bff.provider`) | REST | mTLS + OAuth2 subject forwarded as service identity |
+| Fulfillment Engine (`{company}.fulfillment`) | gRPC | mTLS service identity + RBAC role `orders.fulfillment-peer` |
+| Platform support tools (`{company}.support-console`) | REST | mTLS + break-glass RBAC with audit |
 
 ---
 <div align="center">

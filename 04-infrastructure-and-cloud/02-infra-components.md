@@ -164,21 +164,33 @@ Every service must have a `catalog-info.yaml` per the service catalog standards 
 
 ### 7.2 Application Structure in platform-config
 
+For the canonical GitOps repository structure, see [deployment-architecture.md](./11-deployment-architecture.md).
+
+The `platform-config` repository uses **Kustomize-style** `base/` and `environments/` overlays (not a separate `apps/` tree per environment). Roles of `base/` vs `environments/`, ArgoCD sync boundaries, and promotion scripts are specified in [deployment-architecture.md](./11-deployment-architecture.md#42-gitops-repository-structure).
+
 ```
 platform-config/
-├── apps/
+├── base/
+│   ├── orders-service/
+│   │   ├── deployment.yaml
+│   │   ├── service.yaml
+│   │   ├── hpa.yaml
+│   │   └── rollout.yaml
+│   └── fulfillment-service/
+├── environments/
 │   ├── dev/
-│   │   ├── orders-service.yaml
-│   │   ├── fulfillment-service.yaml
-│   │   └── ...
+│   │   ├── orders-service/
+│   │   │   ├── values.yaml
+│   │   │   └── kustomization.yaml
+│   │   └── fulfillment-service/
 │   ├── staging/
 │   └── production/
-├── helm-charts/
-│   ├── backend-service/     # Shared Helm chart for containerized HTTP/gRPC services (all runtimes)
-│   └── ...
-└── argocd/
-    └── app-of-apps.yaml     # ArgoCD App of Apps pattern
+└── scripts/
+    ├── promote.sh
+    └── rollback.sh
 ```
+
+The shared **backend-service** Helm chart (section 7.3) is versioned in this repository as Platform packages it; teams consume it via values and generated or referenced manifests under `base/` and `environments/` so the layout above stays canonical.
 
 ### 7.3 Helm chart - backend-service
 

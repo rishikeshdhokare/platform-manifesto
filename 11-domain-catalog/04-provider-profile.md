@@ -2,7 +2,7 @@
 
 ![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
 ![Owner](https://img.shields.io/badge/Owner-Team_Providers-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 ---
 
@@ -294,6 +294,19 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 | **RDS PostgreSQL** - `provider_ratings` | Rating aggregates and history | Indefinite (anonymized after deactivation) | Anonymize `providerId` on deactivation |
 | **Kafka** - `providers.provider.*` topics | Provider domain events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
+
+---
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | gRPC | mTLS + RBAC role `providers.orders-read` |
+| Fulfillment Engine (`{company}.fulfillment`) | gRPC | mTLS + RBAC role `providers.fulfillment-read` |
+| Notifications (`{company}.notifications`) | Kafka (consume `providers.provider.*`) | mTLS + consumer ACL |
+| Dynamic Pricing (`{company}.dynamicpricing`) | Kafka (consume `providers.provider.*`) | mTLS + consumer ACL |
+| Fraud Engine (`{company}.fraud`) | Kafka (consume `providers.provider.*`) | mTLS + consumer ACL |
+| Provider mobile BFF (`{company}.bff.provider`) | REST | mTLS + OAuth2 subject |
 
 ---
 <div align="center">

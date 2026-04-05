@@ -49,7 +49,7 @@ gitGraph
 
 ```bash
 # Branch from main - never from another feature branch
-git checkout -b feat/RIDE-1234-add-price-calculation
+git checkout -b feat/PROJ-1234-add-price-calculation
 ```
 
 Branch naming: `{type}/{ticket}-{short-description}`
@@ -98,7 +98,7 @@ git rebase --continue
 
 ```bash
 # Push your branch
-git push origin feat/RIDE-1234-add-price-calculation
+git push origin feat/PROJ-1234-add-price-calculation
 
 # Raise a PR using the GitHub CLI
 gh pr create --title "feat(pricing): add price calculation" --fill
@@ -164,8 +164,8 @@ Both work on `main`-branched short-lived branches. If they depend on each other'
 
 ```bash
 # Engineer B branches from Engineer A's branch (temporarily)
-git checkout feat/RIDE-1234-add-order-model    # A's branch
-git checkout -b feat/RIDE-1235-add-order-service   # B's branch from A's
+git checkout feat/PROJ-1234-add-order-model    # A's branch
+git checkout -b feat/PROJ-1235-add-order-service   # B's branch from A's
 
 # When A's PR merges, B rebases onto main
 git fetch origin
@@ -183,7 +183,7 @@ git push origin main
 # This creates a new commit that undoes the bad one - safe and auditable
 
 # Option 2: Fix forward (if the fix is small and fast)
-git checkout -b fix/RIDE-9999-fix-broken-price-calculation
+git checkout -b fix/PROJ-9999-fix-broken-price-calculation
 # ... fix the bug ...
 git commit -m "fix(pricing): correct null pointer in price calculation"
 # ... raise PR and merge immediately
@@ -195,9 +195,9 @@ Never `git reset --hard` on main. Never `git push --force` on main (it's blocked
 
 ```bash
 # Move your commit to a branch instead
-git branch feat/RIDE-1234-my-feature      # create branch pointing to your commit
+git branch feat/PROJ-1234-my-feature      # create branch pointing to your commit
 git reset --hard origin/main               # reset main to the remote state
-git checkout feat/RIDE-1234-my-feature    # switch to your branch
+git checkout feat/PROJ-1234-my-feature    # switch to your branch
 # Your commit is now on the feature branch, not local main
 ```
 
@@ -250,7 +250,7 @@ git commit -m "feat(orders): add multi-stop order support"
 # Bug fix with ticket reference
 git commit -m "fix(fulfillment): prevent double-assignment of provider to order
 
-Closes RIDE-1892.
+Closes PROJ-1892.
 When two assignment requests arrived simultaneously for the same order,
 both could succeed due to missing optimistic lock. Added @Version
 field to Order entity to enforce optimistic locking."
@@ -274,7 +274,7 @@ git commit -m "fix stuff"
 git commit -m "WIP"
 git commit -m "changes"
 git commit -m "Update OrderService.java"
-git commit -m "RIDE-1234"   # just a ticket number - no description
+git commit -m "PROJ-1234"   # just a ticket number - no description
 ```
 
 ---
@@ -318,10 +318,10 @@ git stash pop           # bring it back
 git branch --merged main
 
 # Delete a local branch
-git branch -d feat/RIDE-1234-add-price-calculation
+git branch -d feat/PROJ-1234-add-price-calculation
 
 # Delete the remote branch (GitHub also does this automatically on PR merge)
-git push origin --delete feat/RIDE-1234-add-price-calculation
+git push origin --delete feat/PROJ-1234-add-price-calculation
 ```
 
 ---
@@ -381,7 +381,7 @@ Entries are grouped by release version (semver) with dates:
 ## [Unreleased]
 
 ### Added
-- Multi-stop order support (RIDE-2345)
+- Multi-stop order support (PROJ-2345)
 
 ## [1.4.0] - 2026-03-15
 
@@ -389,7 +389,7 @@ Entries are grouped by release version (semver) with dates:
 - Dynamic pricing multiplier endpoint
 
 ### Fixed
-- Null pointer when provider location is missing (RIDE-2301)
+- Null pointer when provider location is missing (PROJ-2301)
 
 ## [1.3.2] - 2026-03-01
 

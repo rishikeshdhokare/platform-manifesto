@@ -114,7 +114,7 @@ flowchart TB
     subgraph customer_db [Customer DB - RDS]
         customers[customers]
         payment_methods[payment_methods]
-        order_history[order_history]
+        order_history[order_history - projection]
     end
 
     subgraph payments_db [Payments DB - Aurora]
@@ -135,7 +135,7 @@ flowchart TB
     PaymentService -.->|"never"| orders_db
 ```
 
-*Dashed lines with "never" = forbidden direct database access. Services communicate via APIs and events only.*
+*Dashed lines with "never" = forbidden direct database access. Services communicate via APIs and events only. The `order_history` table in the Customer DB is a **read-model projection** maintained via Kafka events from the Order Service - the Order Service remains the source of truth for all order lifecycle data. Cross-domain writes to this projection are forbidden; it is updated exclusively through event consumption.*
 
 ## 📝 Domain Documentation Standards
 

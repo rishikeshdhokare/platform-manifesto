@@ -2,7 +2,7 @@
 
 ![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
 ![Owner](https://img.shields.io/badge/Owner-Team_Trust_%26_Safety-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 ---
 
@@ -283,6 +283,19 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 | **Kafka** - `fraud.*` topics | Published fraud signals and case events | 14 days (platform default) | Kafka topic retention policy |
 | **Kafka** - consumed event topics | Order, payment, registration events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 90 days (extended for fraud investigation) | CloudWatch log group retention policy |
+
+---
+
+## 🔐 16. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | gRPC | mTLS + RBAC role `fraud.orders-peer` |
+| Payment Service (`{company}.payments`) | Kafka (consume) | mTLS + consumer ACL |
+| Customer Profile (`{company}.customers`) | Kafka (consume) | mTLS + consumer ACL |
+| Provider Profile (`{company}.providers`) | Kafka (consume) | mTLS + consumer ACL |
+| Notifications (`{company}.notifications`) | Kafka (consume) | mTLS + consumer ACL |
+| Trust & Safety console (`{company}.fraud-console`) | REST / gRPC | mTLS + RBAC + case-management roles |
 
 ---
 <div align="center">

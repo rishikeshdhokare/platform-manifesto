@@ -346,7 +346,9 @@ flowchart LR
     argo --> deploy
 ```
 
----
+### Related Documents
+
+- [CD Practices](../03-engineering-practices/03-cd-practices.md) - pipelines, promotions, and deployment guardrails for artifacts
 
 ---
 <div align="center">

@@ -116,35 +116,52 @@ sequenceDiagram
 > *This is a living document. The canonical version is published in Backstage.*  
 > *Last updated: Q1 2026*
 
-### 6.1 Languages
+> This snapshot reflects the reference implementation. Organizations adopting this manifesto should populate their own radar based on their technology landscape.
 
-| Technology | Quadrant | Notes |
-|-----------|----------|-------|
-| | | |
+### 6.1 Languages & Runtimes
 
-### 6.2 Frameworks
+| Technology | Ring | Moved | Notes |
+|------------|------|-------|-------|
+| Kotlin (JVM) | Adopt | - | Primary backend language |
+| TypeScript | Adopt | - | Frontend and BFF |
+| Python | Trial | - | ML pipelines and data |
+| Go | Assess | - | CLI tooling exploration |
 
-| Technology | Quadrant | Notes |
-|-----------|----------|-------|
-| | | |
+### 6.2 Frameworks & Libraries
 
-### 6.3 Infrastructure
+| Technology | Ring | Moved | Notes |
+|------------|------|-------|-------|
+| Spring Boot 3.x | Adopt | - | Backend services |
+| React / Next.js | Adopt | - | Web frontend |
+| React Native | Adopt | - | Mobile |
+| Resilience4j | Adopt | - | Circuit breaker / retry |
 
-| Technology | Quadrant | Notes |
-|-----------|----------|-------|
-| | | |
+### 6.3 Infrastructure & Platforms
+
+| Technology | Ring | Moved | Notes |
+|------------|------|-------|-------|
+| Amazon EKS | Adopt | - | Container orchestration |
+| Amazon Aurora PostgreSQL | Adopt | - | Primary relational store |
+| Amazon MSK (Kafka) | Adopt | - | Event streaming |
+| ArgoCD | Adopt | - | GitOps deployment |
 
 ### 6.4 Tools
 
-| Technology | Quadrant | Notes |
-|-----------|----------|-------|
-| | | |
+| Technology | Ring | Moved | Notes |
+|------------|------|-------|-------|
+| GitHub Actions | Adopt | - | CI/CD |
+| Backstage | Adopt | - | Developer portal |
+| OpenTelemetry | Adopt | - | Observability |
+| Terraform | Adopt | - | IaC |
 
 ### 6.5 Techniques
 
-| Technology | Quadrant | Notes |
-|-----------|----------|-------|
-| | | |
+| Technology | Ring | Moved | Notes |
+|------------|------|-------|-------|
+| Trunk-based development | Adopt | - | Git workflow |
+| Feature flags | Adopt | - | Progressive rollout |
+| Chaos engineering | Trial | - | Resilience validation |
+| AI-assisted development | Trial | - | SDLC acceleration |
 
 ---
 
@@ -154,7 +171,7 @@ Each quarterly update is versioned as `YYYY-QN` (e.g., `2026-Q1`). Previous vers
 
 | Version | Date | Key Changes |
 |---------|------|------------|
-| | | |
+| 2026-Q1 | Q1 2026 | Initial snapshot aligned with tech stack |
 
 The full change history is available in the Backstage TechDocs version archive.
 
