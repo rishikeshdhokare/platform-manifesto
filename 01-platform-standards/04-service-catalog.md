@@ -210,9 +210,9 @@ Backstage Soundcheck (or equivalent) continuously evaluates every service agains
 
 | Score | Rating | Consequence |
 |-------|--------|-------------|
-| 90–100% | Gold | Eligible for reduced review requirements |
-| 70–89% | Silver | Standard operating mode |
-| 50–69% | Bronze | Improvement plan required within 30 days |
+| 90-100% | Gold | Eligible for reduced review requirements |
+| 70-89% | Silver | Standard operating mode |
+| 50-69% | Bronze | Improvement plan required within 30 days |
 | < 50% | Red | Escalation to VP Engineering, blocked from new feature work |
 
 ### Example Scorecard

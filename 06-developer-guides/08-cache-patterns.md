@@ -126,9 +126,9 @@ TTL (time-to-live) defines the maximum staleness window. Choose TTL based on cha
 
 ```mermaid
 flowchart TD
-    A[How often does this data change?] -->|Every few seconds| B[TTL: 5–30 seconds\nor don't cache]
-    A -->|Every few minutes| C[TTL: 1–10 minutes]
-    A -->|Hourly or less| D[TTL: 1–24 hours]
+    A[How often does this data change?] -->|Every few seconds| B[TTL: 5-30 seconds\nor don't cache]
+    A -->|Every few minutes| C[TTL: 1-10 minutes]
+    A -->|Hourly or less| D[TTL: 1-24 hours]
     A -->|Rarely / on deploy| E[TTL: 24 hours+\nwith event invalidation]
 
     B --> F{Is a stale read dangerous?}
@@ -498,12 +498,12 @@ flowchart TD
     A -->|No| C{How often does\nthis data change?}
 
     C -->|Every few seconds| D{Is stale data\nacceptable for 5s?}
-    D -->|Yes| E[Short TTL: 5–30s\nNo event invalidation]
+    D -->|Yes| E[Short TTL: 5-30s\nNo event invalidation]
     D -->|No| F[❌ Don't cache\nRead from source]
 
-    C -->|Every few minutes| G[TTL: 1–10 min\nConsider event invalidation]
+    C -->|Every few minutes| G[TTL: 1-10 min\nConsider event invalidation]
 
-    C -->|Hourly or less| H[TTL: 1–24 hours\n+ Event-driven invalidation]
+    C -->|Hourly or less| H[TTL: 1-24 hours\n+ Event-driven invalidation]
 
     C -->|On deploy only| I[TTL: 24h+\n+ Event-driven invalidation\n+ Cache warming]
 

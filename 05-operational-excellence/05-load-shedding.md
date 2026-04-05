@@ -277,7 +277,7 @@ Load shedding tiers can be activated automatically (by platform automation monit
 
 | Flag Key | Type | Values | Purpose |
 |----------|------|--------|---------|
-| `ops.load-shedding-tier` | Integer | `0`–`4` | Sets the current shedding tier globally |
+| `ops.load-shedding-tier` | Integer | `0`-`4` | Sets the current shedding tier globally |
 | `ops.shed-p4-traffic` | Boolean | `true`/`false` | Quick kill switch for all P4 traffic |
 | `ops.shed-promotions` | Boolean | `true`/`false` | Disable promotions endpoint specifically |
 | `ops.queue-new-orders` | Boolean | `true`/`false` | Queue new order requests with wait time |
@@ -610,7 +610,7 @@ Every service dashboard should include a **Load Shedding** row with the followin
 
 | Panel | Metric | Visualisation |
 |-------|--------|---------------|
-| **Current Shedding Tier** | `{company}_load_shedding_current_tier` | Stat panel (0–4 with colour thresholds) |
+| **Current Shedding Tier** | `{company}_load_shedding_current_tier` | Stat panel (0-4 with colour thresholds) |
 | **Rejected Requests/sec** | `rate({company}_load_shedding_requests_shed_total[1m])` | Time series, grouped by priority |
 | **Queued Requests** | `{company}_load_shedding_queue_depth` | Gauge with warning threshold |
 | **Shed Rate by Priority** | `sum by (priority)(rate({company}_load_shedding_requests_shed_total[5m]))` | Stacked area chart |

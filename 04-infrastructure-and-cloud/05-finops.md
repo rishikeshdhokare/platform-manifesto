@@ -202,16 +202,16 @@ We use **Compute Savings Plans**, not instance-family Savings Plans.
 |----------|-----------|
 | **Compute** over EC2 Instance | Karpenter may shift instance types; compute plans cover any instance family, region, or OS |
 | **1-year, no upfront** | Balances discount (~20%) with flexibility - the platform is still scaling and instance mix changes quarterly |
-| **Cover 60–70% of steady-state** | Remaining 30–40% is burst capacity handled by Spot and on-demand |
+| **Cover 60-70% of steady-state** | Remaining 30-40% is burst capacity handled by Spot and on-demand |
 | **Re-evaluate quarterly** | Align plan purchases with the rightsizing review |
 
 ### Coverage Model
 
 ```
 Steady-state compute (predictable)
-├── 60–70% → Compute Savings Plans (20% discount)
-└── 30–40% → Flexible capacity
-    ├── Spot instances via Karpenter (60–70% discount)
+├── 60-70% → Compute Savings Plans (20% discount)
+└── 30-40% → Flexible capacity
+    ├── Spot instances via Karpenter (60-70% discount)
     └── On-demand fallback (full price, <5% of total)
 ```
 
@@ -273,8 +273,8 @@ Non-production environments do not need to run 24/7. We implement **scale-to-zer
 
 | Environment | Active Hours (GST) | Off-Hours Behavior |
 |-------------|--------------------|--------------------|
-| `dev` | 08:00 – 20:00 Mon–Fri | All deployments scaled to 0 replicas |
-| `staging` | 07:00 – 23:00 Mon–Fri | Scaled to minimum (1 replica per service) |
+| `dev` | 08:00 - 20:00 Mon-Fri | All deployments scaled to 0 replicas |
+| `staging` | 07:00 - 23:00 Mon-Fri | Scaled to minimum (1 replica per service) |
 | `production` | 24/7 | Full autoscaling |
 
 ### Implementation
@@ -287,7 +287,7 @@ kind: CronJob
 metadata:
   name: scale-down-dev
 spec:
-  schedule: "0 20 * * 1-5"  # 8 PM, Mon–Fri
+  schedule: "0 20 * * 1-5"  # 8 PM, Mon-Fri
   jobTemplate:
     spec:
       template:

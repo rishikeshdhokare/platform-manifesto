@@ -540,7 +540,7 @@ Payment payment = PaymentFixture.aPayment()
 
 ### 11.2 Performance Testing in Staging
 
-Staging performance tests run during **off-peak hours** (weekdays 02:00–06:00 UTC) to avoid interfering with QA and integration testing.
+Staging performance tests run during **off-peak hours** (weekdays 02:00-06:00 UTC) to avoid interfering with QA and integration testing.
 
 Each service must document its **test data shape** in `docs/performance.md`:
 

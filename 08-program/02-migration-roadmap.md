@@ -47,13 +47,13 @@ gantt
 
 ---
 
-## 🏗️ Phase 0: Foundation (Weeks 1–6)
+## 🏗️ Phase 0: Foundation (Weeks 1-6)
 
 **Goal:** The new platform exists and can run one service end-to-end.
 
 **Platform Engineering delivers:**
 
-### Infrastructure (Weeks 1–3)
+### Infrastructure (Weeks 1-3)
 
 **Reference implementation (AWS):**
 
@@ -68,7 +68,7 @@ gantt
 - [ ] AWS Secrets Manager + External Secrets Operator installed on EKS
 - [ ] AWS GuardDuty, CloudTrail, Config enabled on all accounts
 
-### CI/CD Platform (Weeks 2–4)
+### CI/CD Platform (Weeks 2-4)
 - [ ] GitHub organisation configuration (branch protection templates, CODEOWNERS tooling)
 - [ ] Shared GitHub Actions workflow templates (e.g. `java-pr.yml`, `java-main.yml` for **reference stack Java**; add templates per primary language)
 - [ ] ArgoCD installed and configured on all EKS clusters
@@ -77,7 +77,7 @@ gantt
 - [ ] Snyk organisation configured
 - [ ] Gitleaks pre-commit hook template
 
-### Observability Stack (Weeks 3–5)
+### Observability Stack (Weeks 3-5)
 - [ ] Prometheus Operator + kube-prometheus-stack installed
 - [ ] Grafana deployed with SSO
 - [ ] Fluent Bit DaemonSet + OpenSearch deployed
@@ -85,7 +85,7 @@ gantt
 - [ ] PagerDuty integration configured
 - [ ] Platform standard alert rules defined
 
-### Developer Tooling (Weeks 4–6)
+### Developer Tooling (Weeks 4-6)
 - [ ] Backstage deployed with SSO
 - [ ] Primary-language microservice template in Backstage (**reference:** Java)
 - [ ] Platform BOM or dependency baseline (first version) published to your artifact registry (**reference:** GitHub Packages for Java BOM)
@@ -100,7 +100,7 @@ gantt
 
 ---
 
-## ✨ Phase 1: Golden Path (Weeks 5–10)
+## ✨ Phase 1: Golden Path (Weeks 5-10)
 
 > **Note:** The service name (`notifications-service`) and source VCS (`Bitbucket`) below are fictional exemplars. Replace them with your actual migration candidates.
 
@@ -137,7 +137,7 @@ gantt
 
 ---
 
-## ⚡ Phase 2: Critical Path Services (Weeks 8–20)
+## ⚡ Phase 2: Critical Path Services (Weeks 8-20)
 
 **Goal:** Migrate the core services that form the critical path for a completed order.
 
@@ -201,7 +201,7 @@ Shadow mode testing (write to both, read from old) where safe.
 
 ---
 
-## 📦 Phase 3: Remaining Services (Weeks 18–36)
+## 📦 Phase 3: Remaining Services (Weeks 18-36)
 
 **Goal:** Migrate all remaining services to the new platform.
 

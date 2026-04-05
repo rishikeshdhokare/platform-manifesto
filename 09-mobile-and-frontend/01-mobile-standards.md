@@ -142,7 +142,7 @@ The BFF only fetches and returns the requested fields, reducing payload size and
 
 ### Response Compression
 
-All BFF responses use **gzip** compression (`Content-Encoding: gzip`). Typical payload reduction: 60–80%.
+All BFF responses use **gzip** compression (`Content-Encoding: gzip`). Typical payload reduction: 60-80%.
 
 ### Minimal Payloads
 
@@ -489,7 +489,7 @@ flowchart LR
 
 - **Runner:** macOS (GitHub Actions self-hosted) for iOS builds; Linux for Android.
 - **Simulators/Emulators:** Detox E2E tests run on iPhone 15 simulator (iOS 17) and Pixel 7 emulator (API 34).
-- **Build caching:** Gradle and CocoaPods caches are shared across runs (30–40% build time reduction).
+- **Build caching:** Gradle and CocoaPods caches are shared across runs (30-40% build time reduction).
 - **Secrets:** Signing keys and API tokens stored in GitHub Actions secrets, injected at build time.
 
 ---
@@ -787,7 +787,7 @@ Binary size is tracked in CI on every PR:
 
 | Platform | Technique | Impact |
 |----------|-----------|--------|
-| Android | **ProGuard / R8** code shrinking and obfuscation | Reduces DEX size by 20–40% |
+| Android | **ProGuard / R8** code shrinking and obfuscation | Reduces DEX size by 20-40% |
 | Android | **Resource shrinking** (`shrinkResources true`) | Removes unused drawables, layouts |
 | React Native | **Hermes bytecode compilation** | Reduces JS bundle size, improves startup |
 | Both | **Asset optimization** - compress PNGs, use WebP, vector drawables where possible | Reduces asset payload |
@@ -887,8 +887,8 @@ When WebSocket connections are unreliable (poor network, frequent disconnects), 
 | Battery Level | Network Quality | Polling Interval |
 |---------------|----------------|-----------------|
 | > 50% | Any | 5 seconds |
-| 20–50% | Good | 10 seconds |
-| 20–50% | Poor | 30 seconds |
+| 20-50% | Good | 10 seconds |
+| 20-50% | Poor | 30 seconds |
 | < 20% | Any | 60 seconds |
 
 The fallback is transparent to the consuming code - components subscribe to the same event stream regardless of the underlying transport.

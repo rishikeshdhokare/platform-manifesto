@@ -101,10 +101,10 @@ flowchart TD
 
 | CVSS Score | Severity | Remediation SLA | Escalation |
 |------------|----------|----------------|------------|
-| 9.0 – 10.0 | **Critical** | 48 hours | VP Engineering + CISO notified immediately |
-| 7.0 – 8.9 | **High** | 7 days | Security team lead notified |
-| 4.0 – 6.9 | **Medium** | 30 days | Tracked in team sprint |
-| 0.1 – 3.9 | **Low** | 90 days | Backlog grooming |
+| 9.0 - 10.0 | **Critical** | 48 hours | VP Engineering + CISO notified immediately |
+| 7.0 - 8.9 | **High** | 7 days | Security team lead notified |
+| 4.0 - 6.9 | **Medium** | 30 days | Tracked in team sprint |
+| 0.1 - 3.9 | **Low** | 90 days | Backlog grooming |
 
 ### 2.3 Snyk as System of Record
 
@@ -135,7 +135,7 @@ Snyk is the source of truth for all vulnerability data. Every repository has Sny
 
 | Coverage | Staffing | Response |
 |----------|----------|----------|
-| **Business hours** (9 AM – 6 PM) | Platform Security team (2 engineers) | Investigate and triage within 30 minutes |
+| **Business hours** (9 AM - 6 PM) | Platform Security team (2 engineers) | Investigate and triage within 30 minutes |
 | **After hours** | PagerDuty on-call rotation | Acknowledge within 15 minutes, escalate if Sev1 |
 | **Weekends / Holidays** | PagerDuty on-call | Same as after hours |
 
@@ -198,10 +198,10 @@ Every Critical and High finding must be retested by the original tester (or an e
 
 | Severity | CVSS Range | Payout (USD) | Examples |
 |----------|-----------|-------------|----------|
-| **Critical** | 9.0 – 10.0 | $5,000 – $15,000 | RCE, auth bypass, mass data exfiltration |
-| **High** | 7.0 – 8.9 | $2,000 – $5,000 | Privilege escalation, IDOR with PII exposure |
-| **Medium** | 4.0 – 6.9 | $500 – $2,000 | Stored XSS, CSRF on sensitive action |
-| **Low** | 0.1 – 3.9 | $100 – $500 | Reflected XSS, information disclosure (non-PII) |
+| **Critical** | 9.0 - 10.0 | $5,000 - $15,000 | RCE, auth bypass, mass data exfiltration |
+| **High** | 7.0 - 8.9 | $2,000 - $5,000 | Privilege escalation, IDOR with PII exposure |
+| **Medium** | 4.0 - 6.9 | $500 - $2,000 | Stored XSS, CSRF on sensitive action |
+| **Low** | 0.1 - 3.9 | $100 - $500 | Reflected XSS, information disclosure (non-PII) |
 
 ---
 
@@ -348,8 +348,8 @@ flowchart TD
 
 | Condition | CAPTCHA Type |
 |-----------|-------------|
-| 1st–3rd attempt | No CAPTCHA |
-| 4th–5th attempt | Invisible reCAPTCHA (risk-based) |
+| 1st-3rd attempt | No CAPTCHA |
+| 4th-5th attempt | Invisible reCAPTCHA (risk-based) |
 | 6th+ attempt | Visible CAPTCHA challenge |
 
 ### 9.3 Risk-Based Authentication

@@ -124,7 +124,7 @@ The CI pipeline validates every PR to `error-catalog.yaml`:
 | **Uniqueness** | No duplicate `code` values across all domains |
 | **Format** | Code matches regex `^[A-Z_]+\.[A-Z_]+\.[A-Z_]+$` |
 | **Required fields** | `code`, `http_status`, `grpc_status`, `user_message` present |
-| **Valid HTTP status** | `http_status` is a valid HTTP status code (400–599) |
+| **Valid HTTP status** | `http_status` is a valid HTTP status code (400-599) |
 | **Valid gRPC status** | `grpc_status` is a recognized gRPC status name |
 | **Owner exists** | `owner` maps to a team in the Backstage catalog |
 

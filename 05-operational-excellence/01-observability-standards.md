@@ -573,7 +573,7 @@ SLIs are computed from Prometheus counters - not from logs or synthetic checks. 
 | Budget Remaining | Status | Permitted Changes | Approval Required |
 |-----------------|--------|-------------------|-------------------|
 | > 50% | **Normal** | All changes permitted | Standard PR review |
-| 20–50% | **Caution** | No risky changes (schema migrations, major refactors, new integrations); feature work continues | Service owner must approve any deployment |
+| 20-50% | **Caution** | No risky changes (schema migrations, major refactors, new integrations); feature work continues | Service owner must approve any deployment |
 | < 20% | **Reliability mode** | Only reliability improvements, bug fixes, and observability enhancements | Service owner approves all changes |
 | 0% (exhausted) | **Freeze** | Only incident fixes and reliability work; all feature work paused | VP Engineering approves any deployment |
 
@@ -733,7 +733,7 @@ Results are presented at the Reliability Review Board and feed into the quarterl
 | Tier | Storage | Retention Period | Query Performance |
 |------|---------|-----------------|-------------------|
 | **Hot** | Amazon OpenSearch Service | 30 days | Full-text search, sub-second queries |
-| **Cold** | Amazon S3 (Glacier Flexible Retrieval) | 1 year | Retrieval within 3–5 hours on request |
+| **Cold** | Amazon S3 (Glacier Flexible Retrieval) | 1 year | Retrieval within 3-5 hours on request |
 
 After cold retention expires, logs are permanently deleted unless a legal hold is in effect.
 
@@ -819,7 +819,7 @@ Toil is distinct from engineering overhead (meetings, planning) and operational 
 | % of Tier 2 services with SLOs defined | Backstage catalog query | 100% by Q4 |
 | % of Tier 3 services with SLOs defined | Backstage catalog query | 80% by Q4 |
 | SLOs tracked in Grafana dashboards | Dashboard audit | 100% of defined SLOs |
-| Error budget policy documented | Confluence page linked from Backstage | 100% of Tier 1–2 services |
+| Error budget policy documented | Confluence page linked from Backstage | 100% of Tier 1-2 services |
 
 ### 14.2 Cadence
 

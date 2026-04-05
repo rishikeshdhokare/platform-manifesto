@@ -358,7 +358,7 @@ make reset
 | **#platform-support** | Platform infra, CI/CD, Docker, Kubernetes | "My build is broken", "Can't deploy to staging" | 4 business hours (SLA) |
 | **#observability-help** | Logging, tracing, metrics, dashboards | "How do I query X in Grafana?", "My traces are missing" | 4 business hours |
 | **Team Slack channel** | Domain-specific questions | "Why does order-service do X?", "Where is the code for Y?" | Same business day |
-| **Office hours** (Tues/Thurs 2–3 PM) | Live troubleshooting | Complex issues that benefit from screen-sharing | Real-time |
+| **Office hours** (Tues/Thurs 2-3 PM) | Live troubleshooting | Complex issues that benefit from screen-sharing | Real-time |
 | **Buddy (new joiners)** | First-week questions | "How do I set up my laptop?", "Where do I find X?" | Same day |
 
 ### 6.2 Buddy Program

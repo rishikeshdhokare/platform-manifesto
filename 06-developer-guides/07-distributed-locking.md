@@ -231,8 +231,8 @@ Distributed locks **must always have a lease (TTL)**. A lock without a timeout i
 
 | Parameter | Meaning | Recommended Value | Why |
 |-----------|---------|-------------------|-----|
-| `waitTime` | How long a caller waits to acquire the lock | 3–5 seconds | Fail fast - if you can't get the lock quickly, the operation is already contended |
-| `leaseTime` | How long the lock is held before automatic release | 10–30 seconds | Safety net - if the holder crashes, the lock auto-expires |
+| `waitTime` | How long a caller waits to acquire the lock | 3-5 seconds | Fail fast - if you can't get the lock quickly, the operation is already contended |
+| `leaseTime` | How long the lock is held before automatic release | 10-30 seconds | Safety net - if the holder crashes, the lock auto-expires |
 
 ### Lease Expiry Safety Net
 

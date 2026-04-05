@@ -11,7 +11,7 @@ Welcome to {Company} engineering! This is your single starting page. Everything 
 1. [Day 1 Checklist](#1-day-1-checklist)
 2. [Access Requests](#2-access-requests)
 3. [Minimum Viable Manifesto](#3-minimum-viable-manifesto)
-4. [Week 1–4 Milestones](#4-week-14-milestones)
+4. [Week 1-4 Milestones](#4-week-14-milestones)
 5. [How to Disagree](#5-how-to-disagree)
 6. [Help Channels](#6-help-channels)
 7. [Key References](#7-key-references)
@@ -110,7 +110,7 @@ Everything else in the manifesto is **reference material**. Consult it when you'
 
 ---
 
-## 🏁 4. Week 1–4 Milestones
+## 🏁 4. Week 1-4 Milestones
 
 Use this table to track your progress. Share it with your buddy and manager in your weekly 1:1.
 

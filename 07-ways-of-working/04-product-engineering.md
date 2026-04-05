@@ -128,9 +128,9 @@ Engineering capacity is allocated as follows:
 
 | Category | Target Allocation | Description |
 |----------|------------------|-------------|
-| **Product work** | 60–70% | New features and enhancements driven by product roadmap |
-| **Tech debt / platform** | 15–20% | Refactoring, upgrades, tooling improvements |
-| **Bugs / maintenance** | 10–15% | Bug fixes, operational improvements, support escalations |
+| **Product work** | 60-70% | New features and enhancements driven by product roadmap |
+| **Tech debt / platform** | 15-20% | Refactoring, upgrades, tooling improvements |
+| **Bugs / maintenance** | 10-15% | Bug fixes, operational improvements, support escalations |
 | **Innovation / spikes** | 5% | Exploration, learning, prototyping |
 
 These are guidelines, not mandates. The PM and engineering lead negotiate allocation quarterly based on the team's context.

@@ -23,7 +23,7 @@ Goals:
 
 | Pattern | Direction | Connection | Best for | Avoid when |
 |--------|-----------|------------|----------|------------|
-| **WebSocket** (reference: STOMP over SockJS on Spring) | Bidirectional | Persistent | Live maps, order status, provider–customer coordination, typing/co-presence | One-off server pushes with no client stream; very simple read-only streams |
+| **WebSocket** (reference: STOMP over SockJS on Spring) | Bidirectional | Persistent | Live maps, order status, provider-customer coordination, typing/co-presence | One-off server pushes with no client stream; very simple read-only streams |
 | **SSE** (Server-Sent Events) | Server → client | Long-lived HTTP | Live price estimates, single-direction dashboards, progressive logs | You need client→server on the same channel; legacy proxies break chunked responses |
 | **Push notifications** (FCM / APNs) | Server → device | Stateless (token-based) | Offline users, high-priority alerts, re-engagement | In-app-only flows where the app is foreground; high-frequency telemetry |
 | **Long polling** | Simulated server push | Repeated HTTP | Fallback when WebSocket/SSE blocked; constrained corporate networks | Default choice; battery and latency cost |

@@ -190,7 +190,7 @@ Partition keys with very high cardinality (e.g., `orderId` in a system processin
 | Cardinality | Risk | Mitigation |
 |-------------|------|------------|
 | Very high (> 1M distinct keys/day) | None - good distribution | Default behavior |
-| Moderate (1K–1M) | Acceptable | Monitor partition lag skew |
+| Moderate (1K-1M) | Acceptable | Monitor partition lag skew |
 | Low (< 1K) | Hot partitions, consumer lag skew | Add a sub-key (e.g., `country:shard-N`) or use a different key |
 
 ---

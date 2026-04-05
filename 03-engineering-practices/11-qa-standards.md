@@ -40,7 +40,7 @@ QA Engineers at {Company} focus on **test infrastructure**, not manual test exec
 
 ### 1.3 Team Structure
 
-- **Platform QA team (2–3 engineers):** Owns test infrastructure, CI test pipelines, BrowserStack integration, test data generators, and flaky test tooling.
+- **Platform QA team (2-3 engineers):** Owns test infrastructure, CI test pipelines, BrowserStack integration, test data generators, and flaky test tooling.
 - **Product teams:** Each team owns their own test suites (unit, integration, E2E). The QA engineer on the platform team provides consulting and tooling, not execution.
 
 ---
@@ -309,7 +309,7 @@ export default function () {
 
 ### 8.4 Execution Schedule
 
-- Performance tests run on **staging** during **off-peak hours** (02:00–06:00 UTC) to avoid impacting QA work.
+- Performance tests run on **staging** during **off-peak hours** (02:00-06:00 UTC) to avoid impacting QA work.
 - Each service must run a load test **before every major release** that changes data access patterns or adds new API endpoints.
 - Results are stored in Grafana and compared against the previous baseline.
 

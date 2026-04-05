@@ -165,7 +165,7 @@ Every AWS resource must carry these tags:
 | `_total` | Counter | Monotonically increasing count |
 | `_seconds` | Histogram | Duration / latency measurement |
 | `_bytes` | Histogram | Size measurement |
-| `_ratio` | Gauge | Percentage / proportion (0.0–1.0) |
+| `_ratio` | Gauge | Percentage / proportion (0.0-1.0) |
 | `_info` | Gauge (always 1) | Metadata labels |
 
 ### Structured Log Example
