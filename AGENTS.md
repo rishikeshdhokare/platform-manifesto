@@ -22,7 +22,7 @@ These rules apply to any AI agent (Cursor, Copilot, or similar) making changes t
 Every numbered `.md` file in a section folder MUST have:
 
 1. **Title with emoji**: `# 🏷️ Document Title`
-2. **Shields.io badges** (one line): status (Mandated=blue, Guidance=orange), owner (purple), updated year (green)
+2. **Shields.io badges** (one line): status badge, owner (purple), updated year (green). Valid statuses: Mandated (blue), Guidance (orange), Reference (blue), Active (green), Active Program (blue)
 3. **Numbered sections with emoji headers**: `## 1. 🎯 Overview`
 4. **Centered navigation footer**:
 ```markdown
