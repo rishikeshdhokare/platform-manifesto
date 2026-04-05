@@ -21,7 +21,7 @@
 
 Multi-tenancy is not a default. It is a deliberate architectural choice made when {Company} serves multiple distinct entities through shared infrastructure. The cost, complexity, and risk of multi-tenancy are only justified when the alternative (dedicated infrastructure per entity) is prohibitively expensive or operationally infeasible.
 
-> **Principles (cloud-agnostic):** Isolation patterns (RLS, schema-per-tenant, DB-per-tenant, cluster-per-tenant), quotas, rate limits, and per-tenant observability are architecture-level concerns. **Spring Boot** connection snippets, **Aurora**, **EKS**, **KMS**, **MSK**, and **Kong** named later are **reference implementation** choices - keep the isolation properties when swapping runtime or cloud services.
+> **Principles (cloud-agnostic):** Isolation patterns (RLS, schema-per-tenant, DB-per-tenant, cluster-per-tenant), quotas, rate limits, and per-tenant observability are architecture-level concerns. **Spring Boot** connection snippets, **Aurora**, **EKS**, **KMS**, **MSK**, and **Amazon API Gateway** named later are **reference implementation** choices - keep the isolation properties when swapping runtime or cloud services.
 
 ### 1.1 Applicable Scenarios
 
@@ -199,7 +199,7 @@ In shared-resource patterns (RLS, schema per tenant), one tenant's traffic spike
 
 ### 4.1 Rate Limiting at API Gateway
 
-Per-tenant rate limits are enforced at the API Gateway (Kong) layer:
+Per-tenant rate limits are enforced at **Amazon API Gateway** (see [API Gateway Strategy](./07-api-gateway-strategy.md)):
 
 | Tier | Rate Limit | Burst | Applies To |
 |------|-----------|-------|-----------|
@@ -394,7 +394,7 @@ statechart-v2
 | 1 | Tenant record created in tenant management service | API call |
 | 2 | Database / schema / RLS policy provisioned | Terraform + Flyway |
 | 3 | KMS key created (if per-tenant encryption) | Terraform |
-| 4 | API Gateway rate limits configured | Kong declarative config |
+| 4 | API Gateway rate limits configured | Amazon API Gateway / Terraform (per [API Gateway Strategy](./07-api-gateway-strategy.md)) |
 | 5 | Kubernetes namespace + resource quotas created (if applicable) | ArgoCD |
 | 6 | Monitoring dashboards provisioned | Grafana provisioning API |
 | 7 | Tenant marked as `ACTIVE` | Tenant management service |
