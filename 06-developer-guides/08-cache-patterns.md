@@ -16,6 +16,7 @@
 8. [Metrics](#8-metrics)
 9. [Redis Configuration](#9-redis-configuration)
 10. [Decision Guide](#10-decision-guide)
+11. [In-process Caching / Caffeine](#11-in-process-caching-caffeine-reference)
 
 ---
 

@@ -24,6 +24,8 @@
 16. [Android-Specific Monitoring](#16-android-specific-monitoring)
 17. [Native Binary Size](#17-native-binary-size)
 18. [Feature Parity](#18-feature-parity)
+19. [Network Retry Classification](#19-network-retry-classification)
+20. [WebSocket on Mobile](#20-websocket-on-mobile)
 
 ---
 
