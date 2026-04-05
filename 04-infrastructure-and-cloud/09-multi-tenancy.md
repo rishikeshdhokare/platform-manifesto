@@ -134,8 +134,9 @@ public class TenantConnectionPreparer implements ConnectionPreparedStatementCall
     @Override
     public void prepareConnection(Connection connection) throws SQLException {
         String tenantId = TenantContext.getCurrentTenant();
-        try (var stmt = connection.createStatement()) {
-            stmt.execute("SET app.current_tenant = '" + tenantId + "'");
+        try (var stmt = connection.prepareStatement("SET app.current_tenant = ?")) {
+            stmt.setString(1, tenantId);
+            stmt.execute();
         }
     }
 }
