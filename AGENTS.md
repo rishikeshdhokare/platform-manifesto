@@ -59,6 +59,8 @@ When adding, removing, or renaming ANY document:
 - Shapes: `[rectangle]` for steps, `[(cylinder)]` for DBs, `{diamond}` for decisions.
 - Add `**Visual overview:**` label before each diagram.
 
+**Exception:** The root `README.md` landing page may use larger overview diagrams for navigation and orientation purposes. These diagrams are exempt from the node count and subgraph limits above, but must still avoid `style`, `classDef`, or `:::` directives.
+
 ---
 
 ## File Naming
