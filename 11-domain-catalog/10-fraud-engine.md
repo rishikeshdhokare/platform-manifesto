@@ -285,6 +285,19 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 | **CloudWatch Logs** | Application logs | 90 days (extended for fraud investigation) | CloudWatch log group retention policy |
 
 ---
+
+## 🔐 16. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | gRPC | mTLS + RBAC role `fraud.orders-peer` |
+| Payment Service (`{company}.payments`) | Kafka (consume) | mTLS + consumer ACL |
+| Customer Profile (`{company}.customers`) | Kafka (consume) | mTLS + consumer ACL |
+| Provider Profile (`{company}.providers`) | Kafka (consume) | mTLS + consumer ACL |
+| Notifications (`{company}.notifications`) | Kafka (consume) | mTLS + consumer ACL |
+| Trust & Safety console (`{company}.fraud-console`) | REST / gRPC | mTLS + RBAC + case-management roles |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
