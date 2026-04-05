@@ -108,7 +108,7 @@ Every service ships a `docker-compose.yml` at the repo root that starts all its 
 version: '3.8'
 services:
   postgres:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     ports: ["5432:5432"]
     environment:
       POSTGRES_DB: orders
@@ -122,7 +122,7 @@ services:
     ports: ["6379:6379"]
 
   kafka:
-    image: confluentinc/cp-kafka:7.5.0
+    image: confluentinc/cp-kafka:7.6.0
     ports: ["9092:9092"]
     environment:
       KAFKA_PROCESS_ROLES: broker,controller
@@ -258,7 +258,7 @@ From template creation to running locally: **< 15 minutes**.
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation(platform("com.{company}:platform-bom:2024.11"))
+    implementation(platform("com.{company}:platform-bom:2026.01"))
 
     // No versions needed - managed by the BOM
     implementation("org.springframework.boot:spring-boot-starter-web")
