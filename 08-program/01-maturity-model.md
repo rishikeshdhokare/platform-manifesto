@@ -141,7 +141,7 @@ The goal is an accurate picture, not a high score.
 
 ## 📱 Dimension 8: Real-Time & Mobile
 
-| Practice | L1 | L2 | L3 Target | L4 |
+| Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-----------|-----|
 | WebSocket / live updates | No real-time; polling only | WebSocket exists but unreliable | WebSocket with Redis pub/sub fan-out; graceful polling fallback | Sub-second location updates; connection monitoring; auto-reconnect |
 | Push notifications | No push | Basic push; no channel management | FCM/APNs with notification channels; silent push for sync | Delivery tracking; A/B tested notification copy; per-user preferences |
@@ -152,7 +152,7 @@ The goal is an accurate picture, not a high score.
 
 ## 🛡️ Dimension 9: Resilience Validation
 
-| Practice | L1 | L2 | L3 Target | L4 |
+| Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-----------|-----|
 | Chaos engineering | None | Ad-hoc manual fault injection | Quarterly game days; experiment catalog; staging chaos | Monthly production chaos; automated steady-state validation |
 | DR exercises | None | DR plan exists on paper | Quarterly DR exercises in staging; documented results | DR exercises in production; measured RTO/RPO matches targets |
@@ -163,7 +163,7 @@ The goal is an accurate picture, not a high score.
 
 ## 💰 Dimension 10: Cost Management
 
-| Practice | L1 | L2 | L3 Target | L4 |
+| Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-----------|-----|
 | Cost visibility | No tagging | Some resources tagged | All resources tagged; per-team cost dashboards | Cost-per-transaction tracked; anomaly detection active |
 | Budget management | No budgets | Cloud budget exists but not monitored | Budget alerts at 80%/100%; monthly team review | Quarterly rightsizing; commitment discounts optimized |
@@ -174,7 +174,7 @@ The goal is an accurate picture, not a high score.
 
 ## 🤖 Dimension 11: AI/ML Maturity
 
-| Practice | L1 | L2 | L3 Target | L4 |
+| Practice | L1 | L2 | L3 ✅ Target | L4 |
 |----------|----|----|-----------|-----|
 | Model serving | No ML; rule-based only | ML models exist but deployed ad-hoc | Managed inference endpoints; canary for model updates; fallback to rules (**reference:** SageMaker; alternatives: Vertex AI, Azure Machine Learning) | Feature store; A/B testing; automated retraining |
 | ML observability | No monitoring | Basic accuracy tracking | Drift detection; prediction quality alerts; data quality checks | Automated retraining triggers; model performance SLOs |
