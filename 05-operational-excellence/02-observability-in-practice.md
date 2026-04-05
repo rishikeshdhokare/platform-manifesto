@@ -240,7 +240,7 @@ public class OrderService {
 Output (as JSON, with correlation ID automatically included from MDC):
 ```json
 {
-  "timestamp": "2024-11-15T14:30:01.123Z",
+  "timestamp": "2026-11-15T14:30:01.123Z",
   "level": "INFO",
   "service": "orders-service",
   "environment": "production",

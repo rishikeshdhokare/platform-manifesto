@@ -254,10 +254,10 @@ when completing orders created before the service_type field was added.
 
 | Action | Owner | Due Date | Tracking |
 |--------|-------|---------|---------|
-| Add test coverage for orders with null service_type | @jane.doe | 2024-12-01 | ORD-9876 |
-| Enforce canary deployment for ALL releases - no bypass | @platform-team | 2024-11-20 | PLAT-4321 |
-| Add data seeding to staging with legacy order shapes | @john.doe | 2024-12-15 | ORD-9877 |
-| Update on-call runbook to include status page update step | @john.doe | 2024-11-18 | ORD-9878 |
+| Add test coverage for orders with null service_type | @jane.doe | 2026-12-01 | ORD-9876 |
+| Enforce canary deployment for ALL releases - no bypass | @platform-team | 2026-11-20 | PLAT-4321 |
+| Add data seeding to staging with legacy order shapes | @john.doe | 2026-12-15 | ORD-9877 |
+| Update on-call runbook to include status page update step | @john.doe | 2026-11-18 | ORD-9878 |
 
 ---
 

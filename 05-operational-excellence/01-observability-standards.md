@@ -46,7 +46,7 @@ Every log line must contain:
 
 ```json
 {
-  "timestamp": "2024-11-15T14:30:00.123Z",
+  "timestamp": "2026-11-15T14:30:00.123Z",
   "level": "INFO",
   "service": "orders-service",
   "version": "2.14.3",
