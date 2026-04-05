@@ -378,7 +378,7 @@ flowchart LR
 ### 8.1 Lifecycle Stages
 
 ```mermaid
-statechart-v2
+stateDiagram-v2
     [*] --> Provisioning : Tenant onboarded
     Provisioning --> Active : Infrastructure ready
     Active --> Suspended : Non-payment / policy violation
