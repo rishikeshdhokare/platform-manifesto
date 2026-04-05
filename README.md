@@ -526,6 +526,12 @@ This isn't set in stone - it's set in Git. Here's how to shape it.
 
 ---
 
+## ⚖️ Disclaimer
+
+This manifesto provides engineering best practices and technical guidance. It is **not legal advice**. Sections discussing compliance frameworks (GDPR, PCI-DSS, SOC 2, ISO 27001) describe technical implementation patterns, not legal interpretations. Organizations must consult their own legal counsel to validate compliance posture. All compliance claims are illustrative and require organization-specific assessment.
+
+---
+
 <div align="center">
 
 *Built with conviction by {Company} Platform Engineering.*
