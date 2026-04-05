@@ -519,9 +519,9 @@ interface ApiError {
   userMessage: string;
 }
 
-function parseApiError(error: unknown): ApiError | null {
+async function parseApiError(error: unknown): Promise<ApiError | null> {
   if (error instanceof Response) {
-    const body = error.json();
+    const body = await error.json();
     return {
       code: body.error?.code ?? "UNKNOWN",
       message: body.error?.message ?? "Unknown error",
