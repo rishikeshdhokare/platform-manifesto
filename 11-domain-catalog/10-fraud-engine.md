@@ -1,8 +1,6 @@
 # 🕵️ Fraud Engine
 
-![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
-![Owner](https://img.shields.io/badge/Owner-Team_Trust_%26_Safety-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
+![Status: Active](https://img.shields.io/badge/status-Active-green?style=flat-square) ![Owner: Team Trust & Safety](https://img.shields.io/badge/owner-Team_Trust_%26_Safety-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -279,7 +277,7 @@ The Fraud Engine uses a **fail-open vs fail-closed** model depending on the sign
 | **Aurora PostgreSQL** - `fraud_cases` | Investigation cases and resolution records | 7 years (regulatory/legal) | Archived to S3 after 2 years; deleted after 7 years |
 | **Aurora PostgreSQL** - `fraud_rules` | Rule definitions and versions | Indefinite (versioned, never hard-deleted) | Soft-delete deprecated rules |
 | **Aurora PostgreSQL** - `risk_scores` | Historical risk scores per entity | 1 year | Scheduled cleanup job; aggregate metrics retained indefinitely |
-| **Redis** - feature cache | Device fingerprints, velocity counters | Variable TTL (1 hour – 24 hours depending on feature) | Automatic TTL expiry |
+| **Redis** - feature cache | Device fingerprints, velocity counters | Variable TTL (1 hour - 24 hours depending on feature) | Automatic TTL expiry |
 | **Kafka** - `fraud.*` topics | Published fraud signals and case events | 14 days (platform default) | Kafka topic retention policy |
 | **Kafka** - consumed event topics | Order, payment, registration events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 90 days (extended for fraud investigation) | CloudWatch log group retention policy |

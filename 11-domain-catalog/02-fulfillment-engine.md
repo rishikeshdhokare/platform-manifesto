@@ -1,8 +1,6 @@
 # 🚚 Fulfillment Engine
 
-![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
-![Owner](https://img.shields.io/badge/Owner-Team_Orders-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--31-grey?style=flat-square)
+![Status: Active](https://img.shields.io/badge/status-Active-green?style=flat-square) ![Owner: Team Orders](https://img.shields.io/badge/owner-Team_Orders-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -189,7 +187,7 @@ All topics live under the Kafka namespace `{company}.fulfillment` (logical); pay
 | --- | --- | --- | --- |
 | `fulfillment.assignment.found` | `order_id`, `provider_id`, `score`, `assigned_at` | Order orchestration (`{company}.orders`), notifications, analytics | 7 days (ops) / compacted changelog optional |
 | `fulfillment.assignment.failed` | `order_id`, `reason` (`NO_PROVIDERS`, `TIMEOUT`, …) | Orders (retry / UX), support tooling | 7 days |
-| `fulfillment.assignment.expired` | `order_id`, `expired_at` | Orders (cleanup), dead-letter review | 3–7 days |
+| `fulfillment.assignment.expired` | `order_id`, `expired_at` | Orders (cleanup), dead-letter review | 3-7 days |
 
 ---
 

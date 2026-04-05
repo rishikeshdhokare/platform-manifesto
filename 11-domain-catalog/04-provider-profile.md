@@ -1,8 +1,6 @@
 # 👤 Provider Profile
 
-![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
-![Owner](https://img.shields.io/badge/Owner-Team_Providers-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
+![Status: Active](https://img.shields.io/badge/status-Active-green?style=flat-square) ![Owner: Team Providers](https://img.shields.io/badge/owner-Team_Providers-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 

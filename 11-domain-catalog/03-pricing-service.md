@@ -1,8 +1,6 @@
 # 💲 Pricing Service
 
-![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
-![Owner](https://img.shields.io/badge/Owner-Platform_Engineering_--_Pricing-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2026--03--31-grey?style=flat-square)
+![Status: Active](https://img.shields.io/badge/status-Active-green?style=flat-square) ![Owner: Platform Engineering - Pricing](https://img.shields.io/badge/owner-Platform_Engineering_--_Pricing-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
