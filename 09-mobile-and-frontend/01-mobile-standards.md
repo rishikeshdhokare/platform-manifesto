@@ -81,7 +81,7 @@ flowchart LR
         MS["Fulfillment Service"]
         PS["Pricing Service"]
         TS["Order Service"]
-        US["User Service"]
+        CP["Customer Profile"]
         NS["Notification Service"]
     end
 
@@ -90,10 +90,10 @@ flowchart LR
     RBFF --> MS
     RBFF --> PS
     RBFF --> TS
-    RBFF --> US
+    RBFF --> CP
     DBFF --> MS
     DBFF --> TS
-    DBFF --> US
+    DBFF --> CP
     DBFF --> NS
 ```
 
