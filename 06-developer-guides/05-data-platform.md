@@ -53,6 +53,8 @@ Examples:
 
 **Reference implementation (AWS):** S3, Glue, Redshift, QuickSight, MSK, and Aurora in the diagrams and prose below map to lake + ETL + warehouse + BI in any cloud.
 
+> **Note:** CDC in this document refers to **Change Data Capture** (Debezium/outbox pattern), not Consumer-Driven Contracts (testing). See [GLOSSARY.md](../GLOSSARY.md).
+
 **Visual overview:**
 
 ```mermaid
