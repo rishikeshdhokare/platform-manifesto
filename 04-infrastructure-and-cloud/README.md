@@ -14,6 +14,7 @@ Our AWS platform - network topology, compute, data stores, security, and configu
 | [08-privacy-engineering.md](./08-privacy-engineering.md) | Data classification, PIA, anonymization, GDPR erasure, consent management |
 | [09-multi-tenancy.md](./09-multi-tenancy.md) | Multi-tenancy patterns - data isolation, noisy-neighbor controls, tenant-aware observability |
 | [10-security-operations.md](./10-security-operations.md) | Security operations - threat modeling, vulnerability management, SIEM, pen testing, supply chain |
+| [11-deployment-architecture.md](./11-deployment-architecture.md) | Environment landscape, artifact promotion flow, production promotion gates, multi-region deployment |
 
 ---
 
