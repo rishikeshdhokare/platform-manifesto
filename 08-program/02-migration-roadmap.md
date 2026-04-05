@@ -102,6 +102,8 @@ gantt
 
 ## ✨ Phase 1: Golden Path (Weeks 5–10)
 
+> **Note:** The service name (`notifications-service`) and source VCS (`Bitbucket`) below are fictional exemplars. Replace them with your actual migration candidates.
+
 **Goal:** Migrate **one real, non-critical service** end-to-end through the new platform. This is the proof point.
 
 **Candidate service:** `notifications-service` (lower risk, no payment or fulfillment criticality)

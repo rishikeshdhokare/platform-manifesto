@@ -1,6 +1,6 @@
 # 🏘️ Team Topology & Ways of Working
 
-![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: CTO / Engineering Leadership](https://img.shields.io/badge/owner-CTO_%2F_Engineering_Leadership-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: CTO / Engineering Leadership](https://img.shields.io/badge/owner-CTO_%2F_Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 

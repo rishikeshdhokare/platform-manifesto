@@ -519,9 +519,9 @@ interface ApiError {
   userMessage: string;
 }
 
-function parseApiError(error: unknown): ApiError | null {
+async function parseApiError(error: unknown): Promise<ApiError | null> {
   if (error instanceof Response) {
-    const body = error.json();
+    const body = await error.json();
     return {
       code: body.error?.code ?? "UNKNOWN",
       message: body.error?.message ?? "Unknown error",
@@ -545,7 +545,7 @@ The error response structure defined here aligns with the [API Standards](./02-a
 | **Code field** | Required, string | Drawn from `error-catalog.yaml` |
 | **HTTP status** | Follows REST conventions | Mapped per error code |
 | **Correlation** | `X-Request-Id` header echoed in response | `requestId` field in error body |
-| **Tracing** | `X-Amzn-Trace-Id` header | `traceId` field in error body |
+| **Tracing** | W3C `traceparent` header (see [Observability Standards](../05-operational-excellence/01-observability-standards.md)) | `traceId` field in error body |
 | **Localization** | `Accept-Language` header determines `message` language | `user_message` in catalog is the default (English); localized messages via i18n service |
 
 ### 8.1 gRPC Error Mapping

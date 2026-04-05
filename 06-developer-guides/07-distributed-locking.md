@@ -84,8 +84,12 @@ public class Order {
     private UUID customerId;
     private UUID providerId;
 
-    @Column(name = "price_amount")
-    private BigDecimal priceAmount;
+    /**
+     * Monetary amount in the smallest currency unit (e.g. USD cents, GBP pence, JPY whole yen).
+     * Store as integer to avoid floating-point errors; always pair with a currency code in the real model.
+     */
+    @Column(name = "price_amount_cents")
+    private long priceAmountCents;
 }
 ```
 

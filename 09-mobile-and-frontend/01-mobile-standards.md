@@ -1,6 +1,6 @@
 # 📱 Mobile Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -81,7 +81,7 @@ flowchart LR
         MS["Fulfillment Service"]
         PS["Pricing Service"]
         TS["Order Service"]
-        US["User Service"]
+        CP["Customer Profile"]
         NS["Notification Service"]
     end
 
@@ -90,10 +90,10 @@ flowchart LR
     RBFF --> MS
     RBFF --> PS
     RBFF --> TS
-    RBFF --> US
+    RBFF --> CP
     DBFF --> MS
     DBFF --> TS
-    DBFF --> US
+    DBFF --> CP
     DBFF --> NS
 ```
 
@@ -104,7 +104,7 @@ flowchart LR
 | **Response shaping** | Combine order + provider + vehicle into a single `OrderDetailView` payload |
 | **Aggregation** | Fetch price estimate + dynamic pricing + ETA in a single request |
 | **Caching** | Cache service-type lists (TTL 5 min) so the app doesn't re-fetch on every launch |
-| **Authentication** | Validate JWT, attach user context to downstream calls |
+| **JWT validation (BFF)** | Cryptographic checks (signature, issuer, audience, expiry) run at **API Gateway** before the BFF. The BFF performs **scope and role checks** for each endpoint, **resource-level authorization**, and attaches **trusted identity context** to downstream mTLS calls |
 | **Platform adaptation** | Return different image resolutions for iOS vs Android |
 
 ### BFF Anti-Patterns
@@ -316,7 +316,7 @@ Silent pushes must not be sent more than **3 times per hour** to avoid OS thrott
 ### Monitoring
 
 - **React Native Performance** (`react-native-performance`) tracks TTI, component render times, and JS thread usage.
-- **Flipper** for development-time profiling (network, layout, databases).
+- **React Native DevTools** for development-time profiling (network, layout, databases).
 - Custom **Datadog RUM** integration reports real-user metrics segmented by device tier, OS version, and city.
 - **Performance regression CI gate:** startup time and bundle size are measured on every PR. Regressions beyond 10% block the merge.
 
@@ -416,7 +416,7 @@ For install-then-navigate flows (e.g., a referral link clicked by someone withou
 1. User clicks `https://link.{company}.app/invite/FRIEND25`.
 2. User does not have the app → redirected to app store.
 3. User installs and opens the app.
-4. The deferred deep link payload is retrieved (via Firebase Dynamic Links).
+4. The deferred deep link payload is retrieved (via a deferred deep linking service such as Branch or AppsFlyer).
 5. The app navigates to the referral redemption screen and auto-applies `FRIEND25`.
 
 ---
@@ -863,6 +863,8 @@ const retryConfig = {
 
 Real-time features (live order tracking, provider location updates, chat) use WebSocket connections managed by the `@{company}/ws-client` wrapper library.
 
+Web and mobile clients share the same `@{company}/ws-client` package and the same `useWebSocket` hook API (options may include mobile-specific fields such as topics and polling fallback URLs).
+
 ### `@{company}/ws-client`
 
 The wrapper provides a unified API for WebSocket connections across iOS and Android, handling the complexities of mobile lifecycle and network conditions.
@@ -892,9 +894,9 @@ The fallback is transparent to the consuming code - components subscribe to the 
 ### Usage
 
 ```typescript
-import { useWsClient } from '@{company}/ws-client';
+import { useWebSocket } from '@{company}/ws-client';
 
-const ws = useWsClient({
+const ws = useWebSocket({
   url: 'wss://ws.{company}.com/v1/orders/stream',
   topics: ['order.status', 'provider.location'],
   onMessage: (event) => handleRealtimeEvent(event),
