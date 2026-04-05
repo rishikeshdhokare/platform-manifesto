@@ -94,12 +94,12 @@ frontend/
 | `@{company}/config-typescript` | `@{company}` | Yes - internal registry |
 | `@{company}/utils` | `@{company}` | Yes - internal registry |
 
-### 2.2 Turborepo Pipeline
+### 2.2 Turborepo Tasks
 
 ```json
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "dist/**"]

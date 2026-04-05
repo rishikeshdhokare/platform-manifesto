@@ -316,7 +316,7 @@ Silent pushes must not be sent more than **3 times per hour** to avoid OS thrott
 ### Monitoring
 
 - **React Native Performance** (`react-native-performance`) tracks TTI, component render times, and JS thread usage.
-- **Flipper** for development-time profiling (network, layout, databases).
+- **React Native DevTools** for development-time profiling (network, layout, databases).
 - Custom **Datadog RUM** integration reports real-user metrics segmented by device tier, OS version, and city.
 - **Performance regression CI gate:** startup time and bundle size are measured on every PR. Regressions beyond 10% block the merge.
 
@@ -416,7 +416,7 @@ For install-then-navigate flows (e.g., a referral link clicked by someone withou
 1. User clicks `https://link.{company}.app/invite/FRIEND25`.
 2. User does not have the app → redirected to app store.
 3. User installs and opens the app.
-4. The deferred deep link payload is retrieved (via Firebase Dynamic Links).
+4. The deferred deep link payload is retrieved (via a deferred deep linking service such as Branch or AppsFlyer).
 5. The app navigates to the referral redemption screen and auto-applies `FRIEND25`.
 
 ---

@@ -95,7 +95,7 @@ This document defines the approved technology stack for all new and replatformed
 - All web apps are SPA or SSR - no server-rendered templates (JSP, Thymeleaf, etc.)
 - CSS: Tailwind CSS or CSS Modules - no CSS-in-JS runtime solutions in production
 - Bundle size budget: < 200KB initial JS (gzipped). Monitored in CI
-- Core Web Vitals (LCP < 2.5s, FID < 100ms, CLS < 0.1) monitored and alerted
+- Core Web Vitals (LCP < 2.5s, INP < 200ms, CLS < 0.1) monitored and alerted
 - Accessibility: WCAG 2.1 AA compliance - tested with axe-core in CI
 
 ---
