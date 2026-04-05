@@ -1,6 +1,6 @@
 # 📱 Mobile Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -104,7 +104,7 @@ flowchart LR
 | **Response shaping** | Combine order + provider + vehicle into a single `OrderDetailView` payload |
 | **Aggregation** | Fetch price estimate + dynamic pricing + ETA in a single request |
 | **Caching** | Cache service-type lists (TTL 5 min) so the app doesn't re-fetch on every launch |
-| **Authentication** | Validate JWT, attach user context to downstream calls |
+| **JWT validation (BFF)** | Cryptographic checks (signature, issuer, audience, expiry) run at **API Gateway** before the BFF. The BFF performs **scope and role checks** for each endpoint, **resource-level authorization**, and attaches **trusted identity context** to downstream mTLS calls |
 | **Platform adaptation** | Return different image resolutions for iOS vs Android |
 
 ### BFF Anti-Patterns
