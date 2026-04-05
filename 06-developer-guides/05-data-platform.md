@@ -228,10 +228,10 @@ This produces events on Kafka topics:
     "customer_id": "customer-xyz",
     "status": "COMPLETED",
     "price_amount": 1250,
-    "completed_at": "2024-11-15T14:30:00Z"
+    "completed_at": "2026-11-15T14:30:00Z"
   },
   "op": "c",           // "c" = create, "u" = update, "d" = delete
-  "ts_ms": 1700055000000
+  "ts_ms": 1763470200000
 }
 ```
 
