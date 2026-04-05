@@ -374,7 +374,7 @@ Every new engineer is assigned a buddy from their team for the first 90 days. Bu
 
 | Signal | Action |
 |--------|--------|
-| Production incident affecting customers | Follow the [Incident Management](../05-operational-excellence/04-incident-management.md) process |
+| Production incident affecting customers | Follow the [Incident Management](./04-incident-management.md) process |
 | Blocked for > 4 hours with no response in Slack | Tag `@platform-on-call` in #platform-support |
 | Security concern (credential leak, vulnerability) | Immediately notify #security-incidents and follow the [Security Operations](../04-infrastructure-and-cloud/10-security-operations.md) playbook |
 | Cross-team dependency blocking sprint work | Raise in the weekly dependency board review |
