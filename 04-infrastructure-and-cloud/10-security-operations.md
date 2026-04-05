@@ -324,7 +324,7 @@ flowchart TD
 | 1 | **Broken Object-Level Authorization** | Tenant isolation enforced at repository layer; `@TenantScoped` annotation on all queries; automated IDOR tests in CI |
 | 2 | **Broken Authentication** | BFF handles authentication; backend trusts mTLS + `X-{Company}-User-Id`; no direct user auth in backend services |
 | 3 | **Broken Object Property-Level Authorization** | DTOs expose only allowed fields; `@JsonView` for role-based serialization; response schema tests |
-| 4 | **Unrestricted Resource Consumption** | API Gateway rate limiting (per-user, per-IP); pagination enforced (max 100 items); request size limits (1 MB) |
+| 4 | **Unrestricted Resource Consumption** | API Gateway rate limiting (per-user, per-IP); pagination enforced (max 100 items); request body size limit **10 MB** at API Gateway (see [API Gateway Strategy](./07-api-gateway-strategy.md)); WAF may apply stricter defaults in front of the gateway |
 | 5 | **Broken Function-Level Authorization** | RBAC enforced via Spring `@PreAuthorize`; AuthorizationPolicy in Istio mesh; admin endpoints on separate path |
 | 6 | **Unrestricted Access to Sensitive Business Flows** | Progressive CAPTCHA on sensitive flows (checkout, password reset); velocity checks on high-value operations |
 | 7 | **Server-Side Request Forgery (SSRF)** | Allowlist for outbound URLs; no user-controlled URLs in server-side fetches; IMDSv2 enforced on all EC2/EKS |

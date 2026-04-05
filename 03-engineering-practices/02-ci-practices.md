@@ -33,9 +33,9 @@ We practice **trunk-based development** (TBD). All engineers commit to `main` ei
 Types: feat, fix, refactor, chore, docs, test
 
 Examples:
-  feat/RIDE-1234-add-dynamic-pricing-endpoint
-  fix/RIDE-5678-correct-price-calculation
-  chore/RIDE-9012-upgrade-spring-boot-3.2
+  feat/PROJ-1234-add-pricing-endpoint
+  fix/PROJ-5678-correct-price-calculation
+  chore/PROJ-9012-upgrade-spring-boot-3.2
 ```
 
 ### 2.3 Branch Protection Rules (GitHub)
@@ -223,7 +223,6 @@ flowchart LR
     Test --> Lint[Static Analysis]
     Lint --> Security[Security Scan]
     Security --> Docker[Container Build]
-    Docker --> Push[Push to ECR]
 ```
 
 ### 4.3 Main Branch Pipeline
@@ -235,7 +234,7 @@ This is the pipeline that builds and publishes the artifact for deployment.
 ```
 Stage 1: Full build + all tests (same as PR pipeline)
 Stage 2: Container build & push to ECR
-  - Tag: {git-sha}, {version}, latest
+  - Tag: {git-sha}, {version}
 Stage 3: Pact can-i-deploy check
 Stage 4: Trigger CD pipeline (dev environment)
 Stage 5: Publish Pact to broker

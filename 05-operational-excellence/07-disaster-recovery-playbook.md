@@ -102,7 +102,7 @@ Recovery priorities and time objectives below are **universal**. Named component
 
 | Tier | Services | RTO (Recovery Time) | RPO (Data Loss Window) | Recovery Priority |
 |------|----------|---------------------|------------------------|-------------------|
-| **Tier 1 - Critical** | Orders, Fulfillment, Payments, Provider Location | **15 minutes** | **< 5 seconds** | First - validate these before anything else |
+| **Tier 1 - Critical** | Orders, Fulfillment, Payments, Provider Location | **30 minutes** | **< 5 seconds** | First - validate these before anything else |
 | **Tier 2 - Important** | Pricing, Notifications, Auth/Identity | **30 minutes** | **< 30 seconds** | Second - enable once Tier 1 is healthy |
 | **Tier 3 - Supporting** | Ratings, Order History, Promotions, Analytics | **2 hours** | **< 5 minutes** | Third - can wait until Tier 1 & 2 are stable |
 | **Tier 4 - Internal** | Admin dashboards, Reporting, BI pipelines | **24 hours** | **< 1 hour** | Last - internal tools restored after user-facing services |
@@ -204,7 +204,7 @@ flowchart TD
 | 9 | **Update external status page.** Post current status to status.{company}.{tld}. Notify partners via API status webhook. | Comms Lead | 1 min | Status page shows "Operating with reduced redundancy - DR active". |
 | 10 | **Monitor for 30 minutes.** Watch all dashboards for anomalies. Verify error rates, latency, and throughput are within acceptable ranges. | All | 30 min | Metrics are stable. No new alerts fire. |
 
-### Total Expected Failover Time: ~25–35 minutes (within Tier 1 RTO of 15 minutes for critical path)
+### Total Expected Failover Time: ~25–35 minutes (within Tier 1 RTO of 30 minutes for critical path, Steps 1–7)
 
 ### Critical Commands Reference
 
@@ -327,7 +327,7 @@ After failback, run the reconciliation script to identify and resolve any discre
   --primary-dsn "aurora-eu-west-1.{company}.internal" \
   --secondary-dsn "aurora-eu-central-1.{company}.internal" \
   --tables "orders,payments,provider_locations" \
-  --window "2025-01-15T10:00:00Z/2025-01-15T12:00:00Z" \
+  --window "2026-01-15T10:00:00Z/2026-01-15T12:00:00Z" \
   --output reconciliation-report.json
 ```
 

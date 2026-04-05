@@ -94,12 +94,12 @@ frontend/
 | `@{company}/config-typescript` | `@{company}` | Yes - internal registry |
 | `@{company}/utils` | `@{company}` | Yes - internal registry |
 
-### 2.2 Turborepo Pipeline
+### 2.2 Turborepo Tasks
 
 ```json
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": [".next/**", "dist/**"]
@@ -242,7 +242,7 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - uses: chromaui/action@latest
+      - uses: chromaui/action@v{version}
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: packages/ui
@@ -351,7 +351,7 @@ FROM node:20-alpine AS base
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
-RUN corepack enable pnpm && pnpm install --frozen-lockfile --prod
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
 
 FROM base AS builder
 WORKDIR /app

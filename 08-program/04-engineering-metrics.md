@@ -1,6 +1,6 @@
 # 📈 Engineering Metrics
 
-![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Platform Engineering](https://img.shields.io/badge/owner-CTO_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Platform Engineering](https://img.shields.io/badge/owner-CTO_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -206,7 +206,7 @@ If a team consistently spends < 10% on debt, leadership will review whether feat
 
 Every new hire follows the onboarding golden path in Backstage:
 1. Clone the service template
-2. Run the local dev environment (`make dev`)
+2. Follow the local development golden path (`make setup`, `make up`, `make seed`, and `make run` per the [local development guide](../06-developer-guides/10-local-development.md))
 3. Make a small change (e.g., update a health check message)
 4. Push, watch CI, get a review, merge, deploy
 5. Observe the deployment in Grafana

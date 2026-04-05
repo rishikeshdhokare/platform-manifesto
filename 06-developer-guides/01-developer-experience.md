@@ -108,7 +108,7 @@ Every service ships a `docker-compose.yml` at the repo root that starts all its 
 version: '3.8'
 services:
   postgres:
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     ports: ["5432:5432"]
     environment:
       POSTGRES_DB: orders
@@ -122,7 +122,7 @@ services:
     ports: ["6379:6379"]
 
   kafka:
-    image: confluentinc/cp-kafka:7.5.0
+    image: confluentinc/cp-kafka:7.6.0
     ports: ["9092:9092"]
     environment:
       KAFKA_PROCESS_ROLES: broker,controller
@@ -258,7 +258,7 @@ From template creation to running locally: **< 15 minutes**.
 ```kotlin
 // build.gradle.kts
 dependencies {
-    implementation(platform("com.{company}:platform-bom:2024.11"))
+    implementation(platform("com.{company}:platform-bom:2026.01"))
 
     // No versions needed - managed by the BOM
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -383,27 +383,12 @@ At the end of the 4-week period:
 - Results are reviewed by the engineering manager
 - Aggregate feedback is used to improve the onboarding process quarterly
 
----
-
-## 📏 12. Documentation Standards
-
-### Required Metadata
-
-Every markdown document in the platform manifesto and service documentation must include:
-
-| Field | Requirement |
-|-------|-------------|
-| `Last Updated` | Date in the document header; updated with every substantive change |
-| `Owner` | Team or individual responsible for the document's accuracy |
-
-### Automated Quality Checks
+### 9.3 Document Quality
 
 | Check | Frequency | Action on Failure |
 |-------|-----------|-------------------|
-| Broken link detection | Monthly CI job | Broken links filed as Jira issues assigned to document owner |
+| Broken link detection | Monthly CI job | Broken links filed as issues assigned to document owner |
 | Staleness detection | Monthly scan | Docs not updated in > 6 months flagged for review by owner |
-
-### Behavior Change Documentation
 
 Any PR that changes **observable behavior** (API response format, configuration defaults, error handling, etc.) must update the relevant documentation. This is enforced via the PR template checklist:
 
@@ -411,12 +396,6 @@ Any PR that changes **observable behavior** (API response format, configuration 
 ## PR Checklist
 - [ ] If this PR changes observable behavior, I have updated the relevant documentation
 ```
-
-### API Documentation
-
-- **OpenAPI spec** is the source of truth for all API documentation
-- Backstage TechDocs pages are **auto-generated** from the OpenAPI spec
-- Manual API documentation is not maintained separately - it drifts and becomes a liability
 
 ---
 <div align="center">

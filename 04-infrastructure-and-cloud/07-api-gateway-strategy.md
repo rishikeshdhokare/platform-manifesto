@@ -15,7 +15,7 @@ API Gateway owns the following responsibilities at the edge:
 | Concern | Description |
 |---|---|
 | **TLS Termination** | All external connections terminate TLS at CloudFront / API Gateway. Internal traffic uses mTLS. |
-| **Authentication** | Lambda authorizer validates JWTs before requests reach any backend service. |
+| **Authentication** | Lambda authorizer performs **cryptographic JWT validation at the edge** (signature, issuer, audience, expiry) and extracts tenant identity. Invalid tokens are rejected before the BFF. Scope, role, and resource-level authorization are enforced in the BFF (see [Security](./03-security.md)). |
 | **Rate Limiting** | Per-client throttling protects backend services from traffic spikes and abuse. |
 | **Request Routing** | Path-based routing directs traffic to the correct BFF (Backend-for-Frontend) service. |
 | **WAF Integration** | AWS WAF sits in front of API Gateway to block malicious payloads and bot traffic. |
@@ -49,7 +49,7 @@ flowchart LR
 
 - CloudFront handles TLS and edge caching - API Gateway never receives unencrypted traffic.
 - WAF inspects every request *before* it reaches API Gateway, so malicious traffic is dropped early.
-- API Gateway performs authentication and routing - the cheapest operations happen last to avoid wasting compute on blocked requests.
+- API Gateway performs **edge JWT validation** (signature, issuer, audience, expiry) and routing - the cheapest operations happen last to avoid wasting compute on blocked requests. Fine-grained authorization happens in the BFF after the request reaches the cluster.
 - BFF pods are the only services exposed to API Gateway. All internal services are only accessible within the VPC.
 
 ---
@@ -100,9 +100,9 @@ Each environment has its own API Gateway stage:
 
 | Stage | Domain | Purpose |
 |---|---|---|
-| `dev` | `api-dev.{company}.app` | Development and integration testing |
-| `staging` | `api-staging.{company}.app` | Pre-production validation |
-| `prod` | `api.{company}.app` | Production traffic |
+| `dev` | `api-dev.{company}.com` | Development and integration testing |
+| `staging` | `api-staging.{company}.com` | Pre-production validation |
+| `prod` | `api.{company}.com` | Production traffic |
 
 ### Terraform Example - Route Configuration
 
@@ -174,6 +174,8 @@ resource "aws_apigatewayv2_stage" "prod" {
 **Reference implementation (AWS):** **Lambda authorizer** + **Amazon Cognito**; equivalent patterns use **OAuth2/OIDC** with **API Gateway authorizers**, **Apigee policies**, **Azure API Management validate-jwt**, or **Kong JWT/OIDC plugins**.
 
 All authenticated routes use a **Lambda authorizer** that validates JWTs issued by the Auth Service (backed by Amazon Cognito).
+
+> **Defense in depth:** The authorizer is the **edge** trust boundary: it proves the token is genuine, unexpired, and intended for this API. The BFF then enforces **scopes, roles, and resource-level authorization** for the specific route and propagates trusted identity context to downstream services over mTLS. Downstream services do not re-validate the client JWT; they trust the context from the BFF (see [Security](./03-security.md)).
 
 **Validation steps performed by the authorizer:**
 

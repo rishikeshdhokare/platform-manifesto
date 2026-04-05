@@ -538,39 +538,57 @@ jobs:
     needs: validate
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Run Great Expectations
-        run: poetry run python scripts/validate_training_data.py
+        run: |
+          poetry install
+          poetry run python scripts/validate_training_data.py
 
   train:
     needs: data-validation
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Trigger training pipeline (ref: SageMaker)
-        run: poetry run python scripts/trigger_training.py
+        run: |
+          poetry install
+          poetry run python scripts/trigger_training.py
       - name: Wait for training completion
         run: poetry run python scripts/wait_for_pipeline.py --timeout=3600
 
   evaluate:
     needs: train
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Evaluate model
-        run: poetry run python scripts/evaluate_model.py
+        run: |
+          poetry install
+          poetry run python scripts/evaluate_model.py
       - name: Check metrics threshold
         run: poetry run python scripts/check_metrics_gate.py
 
   register:
     needs: evaluate
+    runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Register model version
-        run: poetry run python scripts/register_model.py
+        run: |
+          poetry install
+          poetry run python scripts/register_model.py
 
   deploy:
     needs: register
+    runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     environment: production
     steps:
+      - uses: actions/checkout@v4
       - name: Deploy to inference platform (ref: SageMaker canary)
-        run: poetry run python scripts/deploy_canary.py
+        run: |
+          poetry install
+          poetry run python scripts/deploy_canary.py
 ```
 
 ### Deployment Gates
