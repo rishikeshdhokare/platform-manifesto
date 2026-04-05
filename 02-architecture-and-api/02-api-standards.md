@@ -77,7 +77,7 @@ These are acceptable - they represent state transitions, not arbitrary RPC.
 
 **Payload mismatch:** If the same `Idempotency-Key` is submitted with a **different request payload** than the original, the server returns `422 Unprocessable Entity` with error code `IDEMPOTENCY_KEY_PAYLOAD_MISMATCH`. The server does not execute the new payload - the original result stands.
 
-**PATCH operations:** `PATCH` is inherently idempotent - applying the same patch twice produces the same result. No `Idempotency-Key` is required for PATCH requests (though clients may include one; the server will honour it if present).
+**PATCH operations:** `PATCH` **can be** idempotent when using absolute field assignments (e.g., "set status to X") but is **not inherently so** - relative operations like "increment counter" or "append to list" are non-idempotent (see RFC 5789). For absolute-assignment PATCH endpoints, no `Idempotency-Key` is required (though clients may include one; the server will honour it if present). For PATCH endpoints that perform relative updates, require an `Idempotency-Key` header using the same semantics as `POST`.
 
 **gRPC:** For mutation RPCs in internal gRPC services, include an `idempotency_key` field in the request message:
 
