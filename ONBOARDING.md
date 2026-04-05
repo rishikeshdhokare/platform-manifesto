@@ -102,7 +102,8 @@ Everything else in the manifesto is **reference material**. Consult it when you'
 - **Infrastructure?** → [04-infrastructure-and-cloud/](./04-infrastructure-and-cloud/)
 - **Data or Kafka?** → [06-developer-guides/](./06-developer-guides/)
 - **Incident response?** → [05-operational-excellence/](./05-operational-excellence/)
-- **AI/ML?** → [10-ai-ml-platform/](./10-ai-ml-platform/)
+- **AI/ML products?** → [10-ai-ml-platform/](./10-ai-ml-platform/)
+- **Working with AI tools?** → [12-ai-engineering/](./12-ai-engineering/)
 - **Acronym you don't recognise?** → [GLOSSARY.md](./GLOSSARY.md)
 
 ---

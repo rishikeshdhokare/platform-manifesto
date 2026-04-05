@@ -8,7 +8,7 @@
 
 <br/>
 
-[![Sections](https://img.shields.io/badge/11_sections-6C3FC5?style=for-the-badge&logo=bookstack&logoColor=white)](.)
+[![Sections](https://img.shields.io/badge/12_sections-6C3FC5?style=for-the-badge&logo=bookstack&logoColor=white)](.)
 [![Updated](https://img.shields.io/badge/2026-00A86B?style=for-the-badge&logo=calendar&logoColor=white)](.)
 [![PRs Welcome](https://img.shields.io/badge/PRs_welcome-FF1493?style=for-the-badge&logo=github&logoColor=white)](.)
 
@@ -68,6 +68,7 @@ One source of truth. One set of standards. Every team, every service, every envi
 | 🎨 **Designer** | [Design System](09-mobile-and-frontend/06-design-system.md) | Web Frontend, Mobile Standards |
 | 📊 **Product manager** | [Product Operations](07-ways-of-working/10-product-operations.md) | A/B Testing, Engineering Metrics |
 | 🔒 **Security engineer** | [Security Operations](04-infrastructure-and-cloud/10-security-operations.md) | Security Standards, Privacy Engineering |
+| 🧬 **AI-first engineer** | [Context Engineering](12-ai-engineering/01-context-engineering.md) | AI-Assisted SDLC, Adoption Metrics |
 
 > 💡 Lost on a term? The [**Glossary**](./GLOSSARY.md) has you covered.
 
@@ -427,6 +428,21 @@ Detailed documentation for every domain service - APIs, events, data models, SLO
 | [`08-geolocation-service.md`](11-domain-catalog/08-geolocation-service.md) | ETA calculation, route planning, geocoding |
 | [`09-dynamic-pricing.md`](11-domain-catalog/09-dynamic-pricing.md) | Supply/demand signals, zone management, multipliers |
 | [`10-fraud-engine.md`](11-domain-catalog/10-fraud-engine.md) | Real-time risk scoring, blocking rules, ML fallbacks |
+
+</details>
+
+<details>
+<summary><b>🧬 12 - AI Engineering</b> &nbsp;·&nbsp; <i>Context engineering, AI-assisted workflows, and adoption metrics</i></summary>
+
+<br/>
+
+How we work with AI across the entire software development lifecycle. Distinct from Section 10 (building AI products) - this section is about using AI to build all products.
+
+| File | What You'll Learn |
+|------|-------------------|
+| [`01-context-engineering.md`](12-ai-engineering/01-context-engineering.md) | Context stack, AGENTS.md, cursor rules, architecture-as-context, knowledge retrieval, maintenance |
+| [`02-ai-assisted-sdlc.md`](12-ai-engineering/02-ai-assisted-sdlc.md) | AI integration across discovery, design, development, testing, review, deployment, operations, documentation |
+| [`03-ai-adoption-metrics.md`](12-ai-engineering/03-ai-adoption-metrics.md) | Adoption metrics, effectiveness metrics, quality guardrails, team maturity model, AI Champions Guild |
 
 </details>
 
