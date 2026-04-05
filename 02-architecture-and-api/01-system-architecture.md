@@ -359,7 +359,7 @@ After a write operation, the writing service returns a **consistency token** - t
 {
   "data": { "profileId": "usr_abc123", "name": "Jane Doe" },
   "meta": {
-    "consistencyToken": "2024-11-15T14:30:00.123456Z"
+    "consistencyToken": "2026-11-15T14:30:00.123456Z"
   }
 }
 ```
@@ -368,7 +368,7 @@ The client includes this token in subsequent read requests:
 
 ```
 GET /v1/customers/usr_abc123/profile
-X-Consistency-Token: 2024-11-15T14:30:00.123456Z
+X-Consistency-Token: 2026-11-15T14:30:00.123456Z
 ```
 
 ### 12.3 Routing Logic
