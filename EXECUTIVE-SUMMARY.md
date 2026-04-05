@@ -34,7 +34,7 @@ The manifesto rests on **eight non-negotiables**. In business terms:
 7. **Design for failure** - Dependencies will fail; systems must degrade gracefully with retries, limits, and clear recovery paths.
 8. **Security is not a phase** - Security checks run in every pipeline and environment from the first commit, not only before release.
 
-For the full technical framing, see [The Non-Negotiables](./README.md#the-non-negotiables) in the root README.
+For the full technical framing, see [The Non-Negotiables](./README.md#-the-non-negotiables) in the root README.
 
 ---
 
