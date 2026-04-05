@@ -319,6 +319,17 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+
+## 🔐 16. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | gRPC | mTLS + RBAC role `customers.orders-read` |
+| Payment Service (`{company}.payments`) | Kafka (consume `customers.customer.*`) | mTLS + consumer ACL |
+| Fraud Engine (`{company}.fraud`) | Kafka (consume `customers.customer.*`) | mTLS + consumer ACL |
+| Customer BFF (`{company}.bff.customer`) | REST | mTLS + OAuth2 subject |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
