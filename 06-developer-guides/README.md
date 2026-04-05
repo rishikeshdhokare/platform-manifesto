@@ -1,6 +1,6 @@
 # 🛠️ 06 - Developer Guides
 
-Hands-on guides for building things the right way. Reference these while writing code.
+> Hands-on guides for building things the right way. Reference these while writing code.
 
 | Document | Description |
 |----------|-------------|

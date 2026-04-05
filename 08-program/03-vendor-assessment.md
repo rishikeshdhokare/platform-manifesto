@@ -1,8 +1,8 @@
 # 🔍 Vendor Assessment
 
-> *{Company} Platform Engineering Manifesto - knowing our dependencies so we can leverage AWS effectively without blind spots.*
-
 ![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Platform Engineering](https://img.shields.io/badge/owner-CTO_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+
+> *{Company} Platform Engineering Manifesto - knowing our dependencies so we can leverage AWS effectively without blind spots.*
 
 ---
 

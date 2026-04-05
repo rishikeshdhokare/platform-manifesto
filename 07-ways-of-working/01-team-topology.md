@@ -155,7 +155,7 @@ This is what a real, well-written ADR looks like:
 ```markdown
 # ADR-007: Use Outbox Pattern for Kafka Event Publishing in Orders Service
 
-**Date:** 2024-11-10
+**Date:** 2026-11-10
 **Status:** Accepted
 **Deciders:** Jane Doe (Tech Lead, Orders), John Smith (Platform Engineering)
 

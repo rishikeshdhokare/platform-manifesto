@@ -1,6 +1,6 @@
 # 🗂️ 11 - Domain Catalog
 
-Detailed documentation for each bounded context in the platform - responsibilities, APIs, events, data models, dependencies, and team ownership.
+> Detailed documentation for each bounded context in the platform - responsibilities, APIs, events, data models, dependencies, and team ownership.
 
 > **Reference implementation:** The domains below represent a **reference domain model** for an order-and-fulfillment platform. Organizations adopting this manifesto should replace these domains with their own bounded contexts. The value is in the **patterns** (event flows, SLO tables, failure modes, data ownership) rather than the specific service boundaries.
 

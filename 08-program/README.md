@@ -1,6 +1,6 @@
 # 📈 08 - Program
 
-Where we are, where we're going, and how we measure progress.
+> Where we are, where we're going, and how we measure progress.
 
 | Document | Description |
 |----------|-------------|
@@ -14,6 +14,6 @@ Where we are, where we're going, and how we measure progress.
 
 <div align="center">
 
-⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+🏠 [Back to root](../README.md)
 
 </div>

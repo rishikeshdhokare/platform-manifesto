@@ -433,8 +433,6 @@ Non-tagged resources trigger a Config compliance alert.
 
 ---
 
----
-
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

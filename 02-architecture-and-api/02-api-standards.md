@@ -109,7 +109,7 @@ We use **URL path versioning**: `/v1/`, `/v2/`. Header-based and query-param ver
 
 ```
 Deprecation: true
-Sunset: Sat, 31 Dec 2025 23:59:59 GMT
+Sunset: Thu, 31 Dec 2026 23:59:59 GMT
 ```
 
 ### 4.3 Breaking vs Non-Breaking Changes
@@ -153,7 +153,7 @@ Sunset: Sat, 31 Dec 2025 23:59:59 GMT
 ### 5.3 Field Naming
 
 - **JSON fields:** `camelCase`
-- **Date/time fields:** ISO 8601 with timezone - `2024-11-15T14:30:00Z`
+- **Date/time fields:** ISO 8601 with timezone - `2026-11-15T14:30:00Z`
 - **IDs:** String UUIDs - never expose sequential integers as public IDs
 - **Enums:** `SCREAMING_SNAKE_CASE` - `ORDER_IN_PROGRESS`, `PAYMENT_FAILED`
 - **Currency:** Integer cents/pence - never floating point. Include currency code separately.
@@ -395,7 +395,7 @@ Every endpoint in the spec must have:
 ## 📋 11. Filtering, Sorting & Searching
 
 ```
-GET /v1/orders?status=COMPLETED&fromDate=2024-01-01&toDate=2024-12-31
+GET /v1/orders?status=COMPLETED&fromDate=2026-01-01&toDate=2026-12-31
 GET /v1/providers?sort=rating&order=desc
 GET /v1/orders?q=premium                     # full-text search (where supported)
 ```
@@ -403,7 +403,7 @@ GET /v1/orders?q=premium                     # full-text search (where supported
 | Parameter | Format | Example |
 |-----------|--------|---------|
 | Filter | `field=value` | `?status=COMPLETED` |
-| Date range | `fromDate`, `toDate` | `?fromDate=2024-01-01` (ISO 8601 date) |
+| Date range | `fromDate`, `toDate` | `?fromDate=2026-01-01` (ISO 8601 date) |
 | Sort | `sort=field&order=asc\|desc` | `?sort=createdAt&order=desc` |
 | Search | `q=term` | `?q=premium` |
 
@@ -532,7 +532,6 @@ For service-to-service calls within the mesh, Istio's **SPIFFE-based mTLS** prov
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

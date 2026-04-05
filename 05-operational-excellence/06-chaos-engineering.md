@@ -386,8 +386,6 @@ Change freeze calendar: see [04-incident-management.md](./04-incident-management
 
 ---
 
----
-
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

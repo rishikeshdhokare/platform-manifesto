@@ -1,6 +1,6 @@
 # 🤝 07 - Ways of Working
 
-Team structure, decision-making processes, and how we collaborate.
+> Team structure, decision-making processes, and how we collaborate.
 
 | Document | Description |
 |----------|-------------|

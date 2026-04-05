@@ -1,6 +1,6 @@
 # 📱 09 - Mobile & Frontend
 
-Standards for the client applications that customers and providers interact with every day.
+> Standards for the client applications that customers and providers interact with every day.
 
 | Document | Description |
 |----------|-------------|
@@ -15,6 +15,6 @@ Standards for the client applications that customers and providers interact with
 
 <div align="center">
 
-⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+🏠 [Back to root](../README.md)
 
 </div>

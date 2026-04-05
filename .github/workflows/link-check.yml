@@ -21,7 +21,6 @@ jobs:
           args: >-
             --no-progress
             --offline
-            --include-fragments
             --glob-ignore-case
             '**/*.md'
           fail: true

@@ -427,8 +427,6 @@ The **30% headroom target** ensures the platform can absorb traffic spikes and s
 
 ---
 
----
-
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

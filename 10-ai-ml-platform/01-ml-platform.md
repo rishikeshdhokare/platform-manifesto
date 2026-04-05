@@ -359,7 +359,7 @@ Every registered model version records:
 |-------|---------|
 | Model name | `fulfillment-ranker` |
 | Version | `v3.2.1` |
-| Training data version | `s3://{company}-ml-data/fulfillment/2025-01-15/` |
+| Training data version | `s3://{company}-ml-data/fulfillment/2026-01-15/` |
 | Feature set | `fulfillment-features-v4` (reference to feature registry) |
 | Hyperparameters | `{ "max_depth": 6, "learning_rate": 0.1, "n_estimators": 500 }` |
 | Evaluation metrics | `{ "ndcg@5": 0.82, "acceptance_rate_lift": "+2.3%" }` |
@@ -695,7 +695,6 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

@@ -190,7 +190,7 @@ spec:
         spec:
           containers:
             - name: prescaler
-              image: {company}/hpa-override:latest
+              image: {company}/hpa-override:{version}
               command: ["prescale", "--config", "prescale-evening-rush"]
           restartPolicy: OnFailure
 ```

@@ -1,5 +1,7 @@
 # 📋 Repository Meta
 
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+
 This file explains how [Repository Standards](./01-platform-standards/03-repository-standards.md) apply to **this** repository.
 
 ---

@@ -524,8 +524,6 @@ Automated evidence collection runs continuously for SOC 2 controls:
 
 ---
 
----
-
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

@@ -91,7 +91,7 @@ All {Company} services share a common `docker-compose.infra.yml` pulled from the
 | **Kafka (KRaft)** | `confluentinc/cp-kafka:7.6.0` | 9092 | Event streaming |
 | **Schema Registry** | `confluentinc/cp-schema-registry:7.6.0` | 8081 | Local Avro schema registry |
 | **LocalStack** | `localstack/localstack:3.4` | 4566 | S3, SQS, SNS, Secrets Manager |
-| **Mailpit** | `axllent/mailpit:latest` | 8025 (UI), 1025 (SMTP) | Email capture |
+| **Mailpit** | `axllent/mailpit:{version}` | 8025 (UI), 1025 (SMTP) | Email capture |
 
 ### 3.2 Docker Compose Snippet
 
