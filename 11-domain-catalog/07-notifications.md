@@ -261,6 +261,18 @@ Notifications subscribes to cross-domain events (names illustrative; align with 
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Domain event bus | Kafka (consume `orders.*`, `payments.*`, `providers.*`, etc.) | mTLS + consumer ACL per topic prefix |
+| Provider Profile (`{company}.providers`) | Kafka (consume) | mTLS + consumer ACL |
+| Customer Profile (`{company}.customers`) | Kafka (consume) | mTLS + consumer ACL |
+| Push / SMS / email gateways (`{company}.notifications-dispatch`) | REST / vendor webhooks | mTLS + API key per channel |
+| Admin console (`{company}.notifications-admin`) | REST | mTLS + RBAC |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

@@ -296,6 +296,49 @@ flowchart TB
 | Escalations | Team Commercial on-call → Platform Engineering |
 
 ---
+
+## 📊 12. SLOs and Error Budgets
+
+| Metric | Target | Error Budget Policy |
+|--------|--------|-------------------|
+| Availability | 99.9% | Freeze non-critical deploys when budget < 20% remaining |
+| Latency (p99) | < 100ms | Alert at 80% of budget consumption |
+| Error rate | < 0.1% | Page on-call when rate exceeds target for > 5 minutes |
+
+## ⚠️ 13. Failure Modes
+
+| Failure | User Impact | Fallback | Blast Radius |
+|---------|------------|----------|-------------|
+| Aurora PostgreSQL unavailable | Estimates and final price persistence fail | Return 503 from Pricing API; BFF may block confirm until recovery | Pricing and checkout in `{affectedMarkets}` |
+| Geolocation Service timeout | Cannot compute distance / duration inputs | Degrade to last-known route cache `{ifEnabled}` or fail estimate with retry | Estimates only; no silent under-pricing if policy forbids |
+| Dynamic Pricing gRPC unavailable | Multiplier unknown | Use default multiplier `1.0` with alert `{orFailClosedPerPolicy}` | Revenue / demand response until restored |
+| Kafka publish / consume lag | Delayed reconciliation jobs | Synchronous estimate path unaffected; final price reconciliation queues grow | Backlog for `orders.order.completed` consumers |
+
+## 📏 14. Capacity Sizing
+
+| Parameter | Value |
+|-----------|-------|
+| Min replicas | 4 |
+| Max replicas | 40 |
+| Target CPU | 70% |
+
+## 🗄️ 15. Data Retention Matrix
+
+| Store | Data | Retention | Mechanism |
+|-------|------|-----------|-----------|
+| PostgreSQL | `pricing_rules`, `price_estimates`, `price_calculations` | Rules `{rulesRetention}`; estimates `{estimateRetention}`; calculations bound to orders `{orderLinkedRetention}` | Scheduled purge + archival to `{coldStorage}` per finance policy |
+| Kafka | `pricing.price.*` (published) | 14 days (platform default) | Topic retention policy |
+| CloudWatch Logs | Application logs | 30 days | Log group retention policy |
+
+## 🔐 16. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | gRPC / REST | mTLS + RBAC role `pricing.orders-peer` |
+| Customer BFF (`{company}.bff.customer`) | REST (estimate-only paths) | mTLS + scoped API key or OAuth2 delegation |
+| Internal batch / analytics (`{company}.pricing-replay`) | Kafka consume | mTLS + consumer ACL |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

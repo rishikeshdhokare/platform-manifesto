@@ -296,6 +296,19 @@ For cross-domain changes, coordinate **Fulfillment** (availability vs location),
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | gRPC | mTLS + RBAC role `providers.orders-read` |
+| Fulfillment Engine (`{company}.fulfillment`) | gRPC | mTLS + RBAC role `providers.fulfillment-read` |
+| Notifications (`{company}.notifications`) | Kafka (consume `providers.provider.*`) | mTLS + consumer ACL |
+| Dynamic Pricing (`{company}.dynamicpricing`) | Kafka (consume `providers.provider.*`) | mTLS + consumer ACL |
+| Fraud Engine (`{company}.fraud`) | Kafka (consume `providers.provider.*`) | mTLS + consumer ACL |
+| Provider mobile BFF (`{company}.bff.provider`) | REST | mTLS + OAuth2 subject |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

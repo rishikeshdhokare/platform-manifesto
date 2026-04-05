@@ -241,6 +241,16 @@ All topics use the platform naming prefix `{company}.events`.
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 ---
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Pricing Service (`{company}.pricing`) | gRPC | mTLS + RBAC role `dynamicpricing.pricing-peer` |
+| Kafka consumers (`{company}.dynamicpricing-workers`) | Kafka (consume order and location topics) | mTLS + consumer ACL |
+| Commercial ops tooling (`{company}.pricing-ops`) | REST / gRPC admin | mTLS + break-glass RBAC |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
