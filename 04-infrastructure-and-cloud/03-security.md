@@ -59,7 +59,7 @@ Snyk PRs for dependency updates are automatically raised - teams must not ignore
 - All production container images must use `amazoncorretto:21-alpine` or an approved hardened base
 - Images are rebuilt weekly to pick up OS-level security patches (automated pipeline)
 - `latest` tag is **never** used for base images in Dockerfiles - always pin to a digest or version
-- Images run as non-root (enforced by Kubernetes PodSecurityPolicy)
+- Images run as non-root (enforced by Kubernetes Pod Security Admission)
 
 ---
 
