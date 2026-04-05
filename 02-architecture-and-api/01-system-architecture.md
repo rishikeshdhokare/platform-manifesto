@@ -74,7 +74,7 @@ flowchart TB
         OpsPortal[Ops Portal]
     end
     subgraph gateway [Edge]
-        APIGW[API Gateway + WAF]
+        APIGW[API Gateway]
     end
     subgraph bffs [BFF Layer]
         CustBFF[Customer BFF]
@@ -82,6 +82,19 @@ flowchart TB
         OpsBFF[Ops BFF]
         PartBFF[Partner BFF]
     end
+    coreDomains[Core Domains]
+    supportDomains[Supporting Domains]
+
+    clients --> gateway
+    gateway --> bffs
+    bffs --> coreDomains
+    bffs --> supportDomains
+```
+
+Core and supporting domains publish events to the shared Kafka backbone:
+
+```mermaid
+flowchart TB
     subgraph core [Core Domains]
         Orders[Orders Service]
         Fulfill[Fulfillment Engine]
@@ -97,10 +110,6 @@ flowchart TB
     subgraph backbone [Event Backbone]
         Kafka[Kafka cluster]
     end
-    clients --> gateway
-    gateway --> bffs
-    bffs --> core
-    bffs --> support
     core --> Kafka
     support --> Kafka
 ```

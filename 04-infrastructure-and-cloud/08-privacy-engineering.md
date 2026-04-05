@@ -43,17 +43,19 @@ All data on the platform is classified into one of four levels. The classificati
 
 ### Classification Decision Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
-    START["New Data Field<br/>Identified"]
-    Q1{"Does it identify<br/>a specific person?"}
-    Q2{"Is it financial<br/>or government-issued<br/>identity data?"}
-    Q3{"Is it derived from<br/>or linked to PII?"}
-    Q4{"Is it aggregated<br/>and anonymized?"}
-    HS["🔴 Highly Sensitive<br/>Tokenize, HSM encryption,<br/>MPA required"]
-    P["🟠 Personal<br/>Encrypt, log access,<br/>need-to-know"]
-    OP["🟡 Operational<br/>Standard controls"]
-    PUB["🟢 Public<br/>No special controls"]
+    START["New Data Field"]
+    Q1{"Identifies a person?"}
+    Q2{"Govt/financial data?"}
+    Q3{"Linked to PII?"}
+    Q4{"Aggregated/anonymized?"}
+    HS["🔴 Highly Sensitive"]
+    P["🟠 Personal"]
+    OP["🟡 Operational"]
+    PUB["🟢 Public"]
 
     START --> Q1
     Q1 -->|"Yes"| Q2

@@ -39,16 +39,16 @@ Goals:
 
 ```mermaid
 flowchart TD
-    A[Need real-time update?] --> B{User likely offline or app backgrounded?}
-    B -->|Yes| C[Push notification FCM/APNs]
-    B -->|No| D{Client must send frequent messages to server?}
-    D -->|Yes| E[WebSocket subprotocol]
-    D -->|No| F{Strictly one-way server to client?}
-    F -->|Yes| G{Simple stream / few event types?}
+    A[Real-time needed?] --> B{Offline user?}
+    B -->|Yes| C[Push FCM/APNs]
+    B -->|No| D{Frequent upstream?}
+    D -->|Yes| E[WebSocket]
+    D -->|No| F{One-way only?}
+    F -->|Yes| G{Simple stream?}
     G -->|Yes| H[SSE stream]
-    G -->|No| I[WebSocket or domain-specific stream]
+    G -->|No| I[WebSocket stream]
     F -->|No| E
-    E --> J{WebSocket blocked or fails?}
+    E --> J{WebSocket blocked?}
     J -->|Yes| K[Long polling 3s]
     J -->|No| L[Stay on WebSocket]
 ```
@@ -150,7 +150,7 @@ flowchart LR
         D[Provider App]
     end
     subgraph Edge["api.{company}.com"]
-        BFF[Provider BFF / Location API]
+        BFF[Location API]
     end
     subgraph Stream["Streaming"]
         K[(Kafka providers.provider.location-updated)]
@@ -165,7 +165,7 @@ flowchart LR
         R[Live map UI]
     end
 
-    D -->|HTTP POST 5 per sec| BFF
+    D -->|HTTP POST| BFF
     BFF -->|produce| K
     K --> ME
     ME --> RGEO
@@ -257,7 +257,7 @@ Prefer **data + notification** split deliberately: time-sensitive UX often needs
 ```mermaid
 flowchart TD
     subgraph Domain["Domain services"]
-        T[Orders / Fulfillment / Payments]
+        T[Domain Services]
     end
     subgraph Bus["Kafka"]
         E[notifications.push-requested v1]
@@ -299,7 +299,7 @@ WebSocket connections are **stateful**. Each Customer/Provider **BFF pod** holds
 ```mermaid
 flowchart TB
     subgraph Ingress["Istio / ALB"]
-        LB[Sticky session for upgrade]
+        LB[Sticky sessions]
     end
     subgraph Pods["Customer BFF replicas"]
         P1[Pod A sessions]
@@ -310,7 +310,7 @@ flowchart TB
         CH[ws:topic:orders:123:status]
     end
     subgraph Origin["Event source"]
-        K[Kafka consumer / service]
+        K[Kafka consumer]
     end
 
     LB --> P1
@@ -345,12 +345,12 @@ flowchart TB
 flowchart TD
     WS{WebSocket OK?}
     WS -->|Yes| RT[Real-time messages]
-    WS -->|No| POLL[HTTP poll every 3s]
+    WS -->|No| POLL[HTTP poll 3s]
     PUSH{Push sent?}
-    PUSH -->|Fail| RETRY[Backoff retry max 3]
+    PUSH -->|Fail| RETRY[Retry backoff]
     REDIS{Redis OK?}
-    REDIS -->|No| LOCAL[Same-pod only until restored]
-    REDIS -->|Yes| FAN[Full cross-pod fan-out]
+    REDIS -->|No| LOCAL[Same-pod only]
+    REDIS -->|Yes| FAN[Cross-pod fan-out]
 ```
 
 ---

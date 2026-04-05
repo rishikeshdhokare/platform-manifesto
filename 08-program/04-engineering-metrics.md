@@ -238,32 +238,24 @@ If onboarding takes longer than end of Week 1 to first deploy, the platform team
 
 All metrics feed into a single Grafana dashboard accessible to every engineer and visible on engineering area TVs.
 
+**Visual overview:**
+
 ```mermaid
 graph TB
-    subgraph Sources["📡 Data Sources"]
+    subgraph sources ["📡 Data Sources"]
         GHA["GitHub Actions"]
         Argo["ArgoCD"]
         PD["PagerDuty"]
         Sonar["SonarCloud"]
         Jira["Jira"]
-        Survey["Quarterly<br/>Survey"]
+        Survey["Quarterly Survey"]
         BS["Backstage"]
         FOSSA["FOSSA"]
     end
 
-    subgraph Pipeline["⚙️ Aggregation"]
-        Prom["Prometheus<br/>Metrics"]
-        Custom["Custom<br/>Metrics Exporter"]
-    end
-
-    subgraph Dashboard["📊 Grafana - Engineering Health Dashboard"]
-        DORA["DORA<br/>Metrics"]
-        DevSat["Developer<br/>Satisfaction"]
-        Toil["Toil<br/>Index"]
-        Adopt["Platform<br/>Adoption"]
-        Debt["Tech Debt<br/>Score"]
-        Onboard["Onboarding<br/>Velocity"]
-        CICD["CI/CD<br/>Health"]
+    subgraph pipeline ["⚙️ Aggregation"]
+        Prom["Prometheus Metrics"]
+        Custom["Custom Exporter"]
     end
 
     GHA --> Prom
@@ -274,6 +266,26 @@ graph TB
     Survey --> Custom
     BS --> Custom
     FOSSA --> Custom
+```
+
+The aggregation layer feeds seven dashboard panels, which in turn drive alerts and reporting.
+
+**Visual overview:**
+
+```mermaid
+graph TB
+    Prom["Prometheus Metrics"]
+    Custom["Custom Exporter"]
+
+    subgraph dashboard ["📊 Grafana Dashboard"]
+        DORA["DORA Metrics"]
+        DevSat["Dev Satisfaction"]
+        Toil["Toil Index"]
+        Adopt["Platform Adoption"]
+        Debt["Tech Debt Score"]
+        Onboard["Onboarding Velocity"]
+        CICD["CI/CD Health"]
+    end
 
     Prom --> DORA
     Prom --> CICD
@@ -283,9 +295,9 @@ graph TB
     Custom --> Debt
     Custom --> Onboard
 
-    Dashboard --> Alerts["Slack Alerts<br/>on Threshold Breach"]
-    Dashboard --> Monthly["Monthly<br/>Leadership Review"]
-    Dashboard --> Quarterly["Quarterly<br/>All-Hands Report"]
+    dashboard --> Alerts["Slack Alerts"]
+    dashboard --> Monthly["Leadership Review"]
+    dashboard --> Quarterly["All-Hands Report"]
 ```
 
 ### 9.1 Dashboard Sections
