@@ -164,8 +164,9 @@ public class ProviderLocationRepository {
             new Point(lng, lat),     // Note: Redis uses lng, lat order
             providerId.value()
         );
-        // Set expiry: if a provider hasn't updated in 5 minutes, remove them
-        redisTemplate.expire(GEO_KEY + ":" + providerId.value(), Duration.ofMinutes(5));
+        // Track last-seen time; a scheduled job removes stale members via ZREMRANGEBYSCORE
+        redisTemplate.opsForValue().set(
+            "provider:lastseen:" + providerId.value(), "1", Duration.ofMinutes(5));
     }
 
     // Find providers within radius (for fulfillment)

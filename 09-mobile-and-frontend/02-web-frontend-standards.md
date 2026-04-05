@@ -276,7 +276,7 @@ PRs that regress Lighthouse performance score below **0.9** or violate any Core 
 | **Component development** | `@storybook/addon-a11y` (axe-core) | Violations visible during development |
 | **CI - static** | `eslint-plugin-jsx-a11y` | Lint errors block PR merge |
 | **CI - runtime** | axe-core via `@axe-core/playwright` | Automated axe scan in E2E test suite; violations fail the build |
-| **E2E tests** | Playwright a11y assertions | `expect(page).toPassAxe()` assertion in critical user flows |
+| **E2E tests** | Playwright a11y assertions | `AxeBuilder({ page }).analyze()` + `expect(results.violations).toEqual([])` in critical user flows (see Section 5.4) |
 | **Manual audit** | Third-party audit | Annual audit by certified accessibility consultants |
 
 ### 5.3 Requirements
