@@ -240,7 +240,7 @@ Dashboards are stored as JSON in the service repository at `docs/dashboards/` an
 
 ```dockerfile
 # Dockerfile
-COPY --from=ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:latest \
+COPY --from=ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:{version} \
      /javaagent.jar /app/javaagent.jar
 
 ENTRYPOINT ["java", \
