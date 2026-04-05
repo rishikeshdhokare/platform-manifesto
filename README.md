@@ -509,6 +509,8 @@ This manifesto is **opinionated about principles, flexible about tooling**. The 
 
 > **Adopting this manifesto?** Search for specific tool names (e.g., "Spring Boot", "Aurora", "EKS") and replace them with your equivalents. The principles, patterns, and operational standards carry over unchanged.
 
+The repo uses two company placeholders: **`{Company}`** (title case) in headings and prose, and **`{company}`** (lowercase) in URLs, package names, GitHub org paths, and other technical identifiers. Replace both with your organization when you fork or adapt this manifesto.
+
 ---
 
 ## 📏 How This Evolves

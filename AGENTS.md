@@ -8,7 +8,9 @@ These rules apply to any AI agent (Cursor, Copilot, or similar) making changes t
 
 - NEVER use em-dashes (" - "). Use regular dashes with spaces (" - ") or rewrite the sentence.
 - Use straight quotes, not curly/smart quotes.
-- Use `{Company}` as the company name placeholder everywhere. Never use a real company name.
+- Use placeholders for the company name. Never use a real company name.
+  - `{Company}` (title case) for display names and prose (e.g., "Welcome to {Company}").
+  - `{company}` (lowercase) for URLs, packages, Git orgs, and technical identifiers (e.g., `com.{company}.orders`, `api.{company}.com`).
 - Write in second person ("you") or first person plural ("we").
 - Be direct and opinionated. State rules as rules: "All services must..." not "Services should ideally..."
 - No trailing whitespace. Files end with a single newline.
