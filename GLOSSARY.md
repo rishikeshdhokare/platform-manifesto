@@ -31,9 +31,9 @@ Quick reference for acronyms and terms used across this manifesto.
 | **JIT** | Just-In-Time | An access provisioning model where permissions are granted temporarily and only when needed | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
 | **KMS** | Key Management Service | A managed service for creating and controlling encryption keys used to encrypt data | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
 | **KPI** | Key Performance Indicator | A measurable value that demonstrates how effectively a team is achieving key business objectives | [04-engineering-metrics.md](./08-program/04-engineering-metrics.md) |
-| **LD** | LaunchDarkly | The feature flag management platform used at {Company} for progressive rollouts and experimentation | [03-cd-practices.md](./03-engineering-practices/03-cd-practices.md) |
+| **LD** | LaunchDarkly | A feature flag management platform for progressive rollouts and experimentation. Reference implementation at {Company}: LaunchDarkly | [03-cd-practices.md](./03-engineering-practices/03-cd-practices.md) |
 | **LLM** | Large Language Model | A neural network trained on large text corpora capable of generating code, text, and structured output (e.g., Claude, GPT) | [02-ai-governance.md](./10-ai-ml-platform/02-ai-governance.md) |
-| **MSK** | Amazon Managed Streaming for Apache Kafka | AWS-managed Kafka service used for event streaming at {Company} | [04-kafka-patterns.md](./06-developer-guides/04-kafka-patterns.md) |
+| **MSK** | Amazon Managed Streaming for Apache Kafka | AWS-managed Apache Kafka service for event streaming. Reference implementation at {Company}: Amazon MSK | [04-kafka-patterns.md](./06-developer-guides/04-kafka-patterns.md) |
 | **mTLS** | Mutual Transport Layer Security | A protocol where both client and server authenticate each other using TLS certificates | [03-security.md](./04-infrastructure-and-cloud/03-security.md) |
 | **OKR** | Objectives and Key Results | A goal-setting framework linking qualitative objectives to measurable key results | [10-product-operations.md](./07-ways-of-working/10-product-operations.md) |
 | **OTel** | OpenTelemetry | A vendor-neutral observability framework for collecting traces, metrics, and logs | [01-cloud-architecture.md](./04-infrastructure-and-cloud/01-cloud-architecture.md) |
