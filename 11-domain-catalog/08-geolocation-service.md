@@ -2,7 +2,7 @@
 
 ![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
 ![Owner](https://img.shields.io/badge/Owner-Team_Orders-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 **Service identifier:** `{company}.geolocation`
 
@@ -258,6 +258,16 @@ flowchart TD
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
 
 Geolocation Service has **no relational database** and no long-term data retention. All cached data is ephemeral and reconstructible by re-calling external providers.
+
+---
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Pricing Service (`{company}.pricing`) | gRPC | mTLS + RBAC role `geolocation.pricing-peer` |
+| Fulfillment Engine (`{company}.fulfillment`) | gRPC | mTLS + RBAC role `geolocation.fulfillment-peer` |
+| Platform maps proxy (`{company}.bff.*`) | gRPC (optional) | mTLS + RBAC `geolocation.bff-read` |
 
 ---
 <div align="center">

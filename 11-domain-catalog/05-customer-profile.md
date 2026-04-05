@@ -2,7 +2,7 @@
 
 ![Status: Active](https://img.shields.io/badge/Status-Active-green?style=flat-square)
 ![Owner](https://img.shields.io/badge/Owner-Team_Customers-grey?style=flat-square)
-![Last Updated](https://img.shields.io/badge/Last_Updated-2025-grey?style=flat-square)
+![Last Updated](https://img.shields.io/badge/Last_Updated-2026-grey?style=flat-square)
 
 ---
 
@@ -25,6 +25,8 @@ The **Customer Profile** bounded context (`{company}.customers`) manages **custo
 |---------|----------------|
 | **Order aggregate and lifecycle** | Order Service (`{company}.orders`) |
 | **Payment processing, capture, refunds** | Payment Service (`{company}.payments.*`) |
+
+> **Note on `order_history`:** The `order_history` table stored in the Customer DB is a **read-model projection** - a denormalized view built by consuming `orders.order.*` events from Kafka. The **Order Service** remains the sole source of truth for order lifecycle data. This projection exists for fast customer-facing queries (recent orders, reorder) and must never be written to directly. If the projection drifts, it is rebuilt from the Order Service event stream.
 
 ---
 
@@ -317,6 +319,17 @@ Coordinate **Orders** and **Payments** for event schema changes affecting histor
 | **RDS PostgreSQL** - `order_history` | Denormalized order projection | 7 years (tax/regulatory) - anonymized on erasure | Anonymize `customerId` on erasure; archive after 7 years |
 | **Kafka** - `customers.customer.*` topics | Customer domain events | 14 days (platform default) | Kafka topic retention policy |
 | **CloudWatch Logs** | Application logs | 30 days | CloudWatch log group retention policy |
+
+---
+
+## 🔐 16. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | gRPC | mTLS + RBAC role `customers.orders-read` |
+| Payment Service (`{company}.payments`) | Kafka (consume `customers.customer.*`) | mTLS + consumer ACL |
+| Fraud Engine (`{company}.fraud`) | Kafka (consume `customers.customer.*`) | mTLS + consumer ACL |
+| Customer BFF (`{company}.bff.customer`) | REST | mTLS + OAuth2 subject |
 
 ---
 <div align="center">

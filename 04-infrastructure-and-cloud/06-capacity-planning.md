@@ -112,7 +112,7 @@ The capacity model translates **business demand** (orders/minute) into **infrast
 
 ```
 Peak orders/min × Requests per order = Required RPS
-Required RPS / Max RPS per pod = Minimum pods (round up + 20% headroom)
+ceil(ceil(Required RPS / Max RPS per pod) × headroom factor) = Minimum pods
 Minimum pods × Pod CPU / Node allocatable CPU = Minimum nodes
 ```
 
@@ -121,7 +121,7 @@ Minimum pods × Pod CPU / Node allocatable CPU = Minimum nodes
 ```
 Peak: 800 orders/min
 Fulfillment Engine: 800 × 2 = 1,600 RPS
-Pods needed: ceil(1,600 / 500) × 1.2 = ceil(3.2) × 1.2 = 4 × 1.2 = 5 pods
+Pods needed: ceil(ceil(1,600 / 500) × 1.2) = ceil(ceil(3.2) × 1.2) = ceil(4 × 1.2) = ceil(4.8) = 5 pods
 Node capacity: 5 × 1000m / 3500m allocatable = 2 nodes (m6i.xlarge)
 ```
 

@@ -143,6 +143,7 @@ class BuildConfigModule(reactContext: ReactApplicationContext) : NativeBuildConf
     override fun getApiBaseUrl(): String = BuildConfig.API_BASE_URL
     override fun getCodePushKey(): String = BuildConfig.CODEPUSH_KEY
     override fun getVersionName(): String = BuildConfig.VERSION_NAME
+    // JS number is always IEEE 754 double; the codegen spec requires Double here
     override fun getVersionCode(): Double = BuildConfig.VERSION_CODE.toDouble()
 }
 ```

@@ -223,9 +223,8 @@ flowchart LR
 | Metric | Target | What It Measures |
 |--------|--------|-----------------|
 | **Largest Contentful Paint (LCP)** | < 2.5 seconds | Loading performance - when the main content becomes visible |
-| **First Input Delay (FID)** | < 100 ms | Interactivity - delay between user input and browser response |
+| **Interaction to Next Paint (INP)** | < 200 ms | Responsiveness - latency of all user interactions throughout the page lifecycle |
 | **Cumulative Layout Shift (CLS)** | < 0.1 | Visual stability - unexpected layout shifts during loading |
-| **Interaction to Next Paint (INP)** | < 200 ms | Responsiveness - latency of all user interactions |
 
 ### 4.2 Monitoring
 
@@ -276,7 +275,7 @@ PRs that regress Lighthouse performance score below **0.9** or violate any Core 
 | **Component development** | `@storybook/addon-a11y` (axe-core) | Violations visible during development |
 | **CI - static** | `eslint-plugin-jsx-a11y` | Lint errors block PR merge |
 | **CI - runtime** | axe-core via `@axe-core/playwright` | Automated axe scan in E2E test suite; violations fail the build |
-| **E2E tests** | Playwright a11y assertions | `expect(page).toPassAxe()` assertion in critical user flows |
+| **E2E tests** | Playwright a11y assertions | `AxeBuilder({ page }).analyze()` + `expect(results.violations).toEqual([])` in critical user flows (see Section 5.4) |
 | **Manual audit** | Third-party audit | Annual audit by certified accessibility consultants |
 
 ### 5.3 Requirements
@@ -924,7 +923,7 @@ Translation file (`en.json`):
 
 ### 20.1 Standard
 
-All WebSocket connections use the `@{company}/ws-client` wrapper library, which standardises authentication, reconnection, and error handling.
+All WebSocket connections use the `@{company}/ws-client` wrapper library, which standardises authentication, reconnection, and error handling. Web and mobile apps use the same package and the same `useWebSocket` hook; path-first calls (as below) and options-object shapes are supported for their respective platforms.
 
 | Parameter | Value |
 |-----------|-------|

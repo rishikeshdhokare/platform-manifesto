@@ -193,6 +193,13 @@ public class Order {
         return new Order(OrderId.generate(), OrderStatus.REQUESTED, customerId, dispatch, delivery);
     }
 
+    public void match(ProviderId providerId) {
+        if (status != OrderStatus.REQUESTED) {
+            throw new InvalidOrderStateException("Cannot match order in state: " + status);
+        }
+        this.status = OrderStatus.MATCHED;
+    }
+
     public void start(ProviderId providerId) {
         if (status != OrderStatus.MATCHED) {
             throw new InvalidOrderStateException("Cannot start order in state: " + status);

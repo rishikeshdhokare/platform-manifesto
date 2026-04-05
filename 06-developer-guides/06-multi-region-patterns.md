@@ -16,6 +16,8 @@
 8. [Feature Rollout by Geography](#8-feature-rollout-by-geography)
 9. [New Region Launch Checklist](#9-new-region-launch-checklist)
 10. [Data Residency](#10-data-residency)
+11. [Web i18n](#11-web-i18n)
+12. [UX Writing Principles](#12-ux-writing-principles)
 
 ---
 
