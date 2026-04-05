@@ -175,8 +175,11 @@ java {
 
 val grpcVersion = "1.60.1"
 val protobufVersion = "3.25.1"
+val apiProtosVersion = "1.0.0"
 
 dependencies {
+    protobuf("com.{company}:api-protos-java:$apiProtosVersion")
+    implementation("com.{company}:api-protos-java:$apiProtosVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("io.grpc:grpc-stub:$grpcVersion")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
@@ -204,9 +207,6 @@ protobuf {
 
 sourceSets {
     main {
-        proto {
-            srcDir("proto")
-        }
         java {
             srcDir("build/generated/source/proto/main/java")
             srcDir("build/generated/source/proto/main/grpc")
@@ -223,7 +223,7 @@ tasks.named<JavaCompile>("compileJava") {
 
 **Rules:**
 
-- Proto definitions live exclusively in the **{company}/api-protos** monorepo - per-service `proto/` directories are not permitted.
+- Proto definitions live exclusively in the **{company}/api-protos** monorepo - per-service `proto/` directories are not permitted. Pull packaged `.proto` files into Gradle via the **`protobuf`** configuration on **`com.{company}:api-protos-java`** (same coordinates as Section 14.3), not `srcDir("proto")`.
 - Output under **`build/generated/source/proto`** only.
 - Add **`build/`** to `.gitignore`; never commit `**/generated/**` gRPC/Java outputs.
 
@@ -269,7 +269,7 @@ Register global interceptors as Spring beans implementing `ServerInterceptor` / 
 
 **Reference implementation (Java / Spring Boot)** for server and blocking client stubs.
 
-#### Proto (`proto/pricing_service.proto`)
+#### Proto excerpt (`{company}/api-protos` - `pricing/v1/pricing_service.proto`)
 
 ```protobuf
 syntax = "proto3";
