@@ -246,6 +246,8 @@ If service A must process event X before service B processes event Y, and X and 
 
 When a schema change is fundamentally incompatible - a field type change, a field removal, or a semantic change that alters the meaning of existing fields - follow this playbook. There are no shortcuts.
 
+> **Topic naming:** In normal operation, Kafka topic names **do not** include a schema version suffix; version lives in the Avro schema registry. During a **breaking-change migration** only, you may introduce a suffixed topic (e.g., `orders.order.created.v2`) for dual-publish alongside the legacy topic, per the steps below. That suffix is a **temporary coexistence** pattern, not the default naming convention.
+
 ### 7.1 Steps
 
 | Step | Action | Detail |
