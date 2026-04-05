@@ -1,6 +1,6 @@
 # 📈 Engineering Metrics
 
-![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Platform Engineering](https://img.shields.io/badge/owner-CTO_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Platform Engineering](https://img.shields.io/badge/owner-CTO_%2B_Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
