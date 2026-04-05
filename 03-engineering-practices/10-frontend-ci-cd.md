@@ -265,11 +265,13 @@ jobs:
 
 ### 3.3 Bundle Size Budgets
 
+The main entry chunk must stay under **200 KB gzipped**, matching the [tech stack](../01-platform-standards/01-tech-stack.md).
+
 ```json
 [
   {
     "path": "apps/customer-web/dist/assets/index-*.js",
-    "limit": "250 kB",
+    "limit": "200 KB",
     "gzip": true
   },
   {
