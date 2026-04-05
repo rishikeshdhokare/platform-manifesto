@@ -22,26 +22,23 @@ Splitting a service is expensive - it introduces network boundaries, distributed
 
 ### 1.2 Split Decision Matrix
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
-    Start["🔍 Should I split<br/>this service?"] --> A{"Team ownership<br/>conflict?"}
-    A -->|"Yes - two teams<br/>fight over PRs"| Split["✂️ Strong signal<br/>to SPLIT"]
-    A -->|"No"| B{"Independent<br/>scaling needs?"}
-
-    B -->|"Yes - > 3x load<br/>difference"| Split
-    B -->|"No"| C{"Different deployment<br/>cadences?"}
-
-    C -->|"Yes - > 5x frequency<br/>difference"| Split
-    C -->|"No"| D{"Size > 20k<br/>LOC?"}
-
-    D -->|"Yes"| E{"Can you identify<br/>a clean bounded<br/>context boundary?"}
-    D -->|"No"| Keep["🔗 Keep together"]
-
-    E -->|"Yes"| Split
-    E -->|"No"| F["⚠️ Refactor internally<br/>first - modular monolith"]
-
-    Split --> G["Proceed to<br/>§8 Split Process"]
-    Keep --> H["Revisit in<br/>3 months"]
+    start["Split this service?"] --> ownerQ{"Ownership conflict?"}
+    ownerQ -->|"Yes"| split["Strong split signal"]
+    ownerQ -->|"No"| scaleQ{"Scaling mismatch?"}
+    scaleQ -->|"Yes"| split
+    scaleQ -->|"No"| deployQ{"Deploy cadence gap?"}
+    deployQ -->|"Yes"| split
+    deployQ -->|"No"| sizeQ{"> 20k LOC?"}
+    sizeQ -->|"Yes"| boundaryQ{"Clean boundary?"}
+    sizeQ -->|"No"| keep["Keep together"]
+    boundaryQ -->|"Yes"| split
+    boundaryQ -->|"No"| refactor["Refactor internally"]
+    split --> proceed["Proceed to §8"]
+    keep --> revisit["Revisit in 3mo"]
 ```
 
 ---
@@ -79,50 +76,65 @@ We **embrace Conway's Law intentionally** - service boundaries should mirror tea
 
 ### 3.1 Team → Service Mapping
 
+**Visual overview:**
+
 ```mermaid
 graph TB
-    subgraph Teams["👥 Engineering Teams"]
-        Orders["Orders Team"]
-        Providers["Providers Team"]
-        Customers["Customers Team"]
-        Payments["Payments Team"]
-        Commercial["Commercial Team"]
-        TrustSafety["Trust & Safety Team"]
-        Platform["Platform Team"]
+    subgraph teams["Domain Teams"]
+        orders["Orders"]
+        providers["Providers"]
+        customers["Customers"]
+        payments["Payments"]
     end
 
-    subgraph Services["🔧 Service Ownership"]
-        TS["Orders Service"]
-        ME["Fulfillment Engine"]
-        DP["Provider Profile"]
-        DA["Provider App BFF"]
-        RP["Customer Profile"]
-        RA["Customer App BFF"]
-        PS["Payment Service"]
-        PO["Payout Service"]
-        PR["Pricing Service"]
-        SP["Dynamic Pricing"]
-        Promo["Promotions"]
-        FE["Fraud Engine"]
-        SS["Trust & Safety Service"]
-        Infra["EKS / ArgoCD /<br/>Observability Stack"]
+    subgraph services["Owned Services"]
+        orderSvc["Orders Service"]
+        fulfillment["Fulfillment Engine"]
+        providerProfile["Provider Profile"]
+        providerBff["Provider BFF"]
+        customerProfile["Customer Profile"]
+        customerBff["Customer BFF"]
+        paymentSvc["Payment Service"]
+        payoutSvc["Payout Service"]
     end
 
-    Orders --> TS
-    Orders --> ME
-    Providers --> DP
-    Providers --> DA
-    Customers --> RP
-    Customers --> RA
-    Payments --> PS
-    Payments --> PO
-    Commercial --> PR
-    Commercial --> SP
-    Commercial --> Promo
-    TrustSafety --> FE
-    TrustSafety --> SS
-    Platform --> Infra
+    orders --> orderSvc
+    orders --> fulfillment
+    providers --> providerProfile
+    providers --> providerBff
+    customers --> customerProfile
+    customers --> customerBff
+    payments --> paymentSvc
+    payments --> payoutSvc
+```
 
+Platform and commercial team ownership:
+
+**Visual overview:**
+
+```mermaid
+graph TB
+    subgraph teams["Platform Teams"]
+        commercial["Commercial"]
+        trustSafety["Trust & Safety"]
+        platform["Platform"]
+    end
+
+    subgraph services["Owned Services"]
+        pricingSvc["Pricing Service"]
+        dynamicPricing["Dynamic Pricing"]
+        promoSvc["Promotions"]
+        fraudEngine["Fraud Engine"]
+        safetySvc["Safety Service"]
+        infraStack["Infra Stack"]
+    end
+
+    commercial --> pricingSvc
+    commercial --> dynamicPricing
+    commercial --> promoSvc
+    trustSafety --> fraudEngine
+    trustSafety --> safetySvc
+    platform --> infraStack
 ```
 
 ### 3.2 Anti-Pattern: Cross-Team Service Ownership
@@ -142,45 +154,52 @@ Each service should own a **cohesive set of entities** that belong to the same b
 
 ### 4.1 Entity Ownership Map
 
+**Visual overview:**
+
 ```mermaid
 graph TD
-    subgraph OrdersDomain["📦 Orders Service"]
-        Order["Order"]
-        OrderStatus["Order Status"]
-        OrderRoute["Order Route"]
-        OrderRating["Order Rating"]
+    subgraph ordersDomain["Orders Service"]
+        order["Order"]
+        orderStatus["Order Status"]
+        orderRoute["Order Route"]
+        orderRating["Order Rating"]
     end
 
-    subgraph Fulfillment["🎯 Fulfillment Engine"]
-        FulfillmentReq["Fulfillment Request"]
-        FulfillmentResult["Fulfillment Result"]
-        ProviderPool["Available<br/>Provider Pool"]
+    subgraph fulfillment["Fulfillment Engine"]
+        fulfillReq["Fulfillment Req"]
+        fulfillResult["Fulfillment Result"]
+        providerPool["Provider Pool"]
     end
 
-    subgraph Pricing["💰 Pricing Service"]
-        Price["Price"]
-        PricingRule["Pricing Rule"]
-        PriceEstimate["Price Estimate"]
+    order -->|"triggers"| fulfillReq
+```
+
+Cross-domain relationships: Order requests a price from Pricing Service and settles via Payment Service (shown below).
+
+**Visual overview:**
+
+```mermaid
+graph TD
+    subgraph pricing["Pricing Service"]
+        price["Price"]
+        pricingRule["Pricing Rule"]
+        priceEstimate["Price Estimate"]
     end
 
-    subgraph DynamicPricing["📈 Dynamic Pricing"]
-        PricingZone["Pricing Zone"]
-        PricingMultiplier["Pricing<br/>Multiplier"]
-        DemandSignal["Demand<br/>Signal"]
-        SupplySignal["Supply<br/>Signal"]
+    subgraph dynamicPricing["Dynamic Pricing"]
+        pricingZone["Pricing Zone"]
+        pricingMult["Pricing Multiplier"]
+        demandSignal["Demand Signal"]
+        supplySignal["Supply Signal"]
     end
 
-    subgraph Payment["💳 Payment Service"]
-        PaymentTxn["Payment<br/>Transaction"]
-        PaymentMethod["Payment<br/>Method"]
-        Refund["Refund"]
+    subgraph payment["Payment Service"]
+        paymentTxn["Payment Txn"]
+        paymentMethod["Payment Method"]
+        refund["Refund"]
     end
 
-    Order -->|"requests price"| Price
-    Order -->|"triggers"| FulfillmentReq
-    Price -->|"applies"| PricingMultiplier
-    Order -->|"settles via"| PaymentTxn
-
+    price -->|"applies"| pricingMult
 ```
 
 ### 4.2 Validation Questions
@@ -225,36 +244,36 @@ A properly decomposed service can:
 
 Use this flowchart when debating whether to split, merge, or leave a service boundary as-is.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
-    Start["🏗️ Service Boundary<br/>Decision"] --> Q1{"Do two teams<br/>need to own parts<br/>of this service?"}
-
-    Q1 -->|"Yes"| SPLIT["✂️ SPLIT along<br/>team boundaries"]
-    Q1 -->|"No"| Q2{"Are two services<br/>always deployed<br/>together?"}
-
-    Q2 -->|"Yes"| MERGE["🔗 MERGE into<br/>one service"]
-    Q2 -->|"No"| Q3{"Does one service<br/>need > 3x the<br/>scaling of another<br/>component?"}
-
-    Q3 -->|"Yes"| SPLIT
-    Q3 -->|"No"| Q4{"Is the service<br/>> 20k LOC?"}
-
-    Q4 -->|"Yes"| Q5{"Can you identify<br/>a clean bounded<br/>context boundary?"}
-    Q4 -->|"No"| Q6{"Is the service<br/>< 2k LOC?"}
-
-    Q5 -->|"Yes"| SPLIT
-    Q5 -->|"No"| REFACTOR["🔧 Refactor<br/>internally first"]
-
-    Q6 -->|"Yes"| Q7{"Is there another<br/>small service with<br/>shared lifecycle?"}
-    Q6 -->|"No"| KEEP["✅ Keep as-is"]
-
-    Q7 -->|"Yes"| MERGE
-    Q7 -->|"No"| KEEP
-
-    SPLIT --> PROCESS["Follow §8<br/>Split Process"]
-    MERGE --> VALIDATE["Validate combined<br/>service < 20k LOC"]
-    REFACTOR --> REVIEW["Review in<br/>3 months"]
-    KEEP --> REVIEW
+    start["Boundary Decision"] --> ownerQ{"Ownership conflict?"}
+    ownerQ -->|"Yes"| split["Split"]
+    ownerQ -->|"No"| deployQ{"Always co-deployed?"}
+    deployQ -->|"Yes"| merge["Merge"]
+    deployQ -->|"No"| scaleQ{"Scaling > 3x?"}
+    scaleQ -->|"Yes"| split
+    scaleQ -->|"No"| sizeQ{"> 20k LOC?"}
+    sizeQ -->|"Yes"| boundaryQ{"Clean boundary?"}
+    boundaryQ -->|"Yes"| split
+    boundaryQ -->|"No"| refactor["Refactor first"]
+    sizeQ -->|"No"| sizeCheck["Check size below"]
 ```
+
+If the service is under 20k LOC, continue with the size analysis:
+
+**Visual overview:**
+
+```mermaid
+flowchart TD
+    tinyQ{"< 2k LOC?"} -->|"Yes"| lifecycleQ{"Shared lifecycle?"}
+    lifecycleQ -->|"Yes"| merge["Merge"]
+    lifecycleQ -->|"No"| keep["Keep as-is"]
+    tinyQ -->|"No"| keep
+```
+
+After deciding: split -> follow §8 Split Process; merge -> validate combined service stays under 20k LOC; refactor or keep -> review in 3 months.
 
 ---
 

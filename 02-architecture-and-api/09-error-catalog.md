@@ -72,15 +72,17 @@ Platform-level error codes:
 
 ### 2.1 Workflow
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
-    A["Developer adds error code"] --> B["PR to error-catalog.yaml"]
-    B --> C["CI validates uniqueness & format"]
-    C --> D{"Passes?"}
-    D -- Yes --> E["Code review & merge"]
-    D -- No --> F["Fix conflicts / format"]
-    F --> B
-    E --> G["Published to Backstage catalog"]
+    addCode["Add error code"] --> prToCatalog["PR to catalog"]
+    prToCatalog --> ciValidates["CI validates"]
+    ciValidates --> passes{"Passes?"}
+    passes -- Yes --> reviewMerge["Review & merge"]
+    passes -- No --> fixResubmit["Fix & resubmit"]
+    fixResubmit --> prToCatalog
+    reviewMerge --> publish["Publish to Backstage"]
 ```
 
 ### 2.2 error-catalog.yaml
@@ -425,11 +427,13 @@ public record ErrorResponse(
 
 {Company} frontend applications use a layered error boundary architecture:
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
-    A["Root Error Boundary<br/>(Sentry + fallback UI)"] --> B["Feature Error Boundary<br/>(per route / feature area)"]
-    B --> C["Component Error Boundary<br/>(optional, for isolated widgets)"]
-    C --> D["Try/Catch in async handlers<br/>(API calls, form submissions)"]
+    rootBoundary["Root Boundary"] --> featureBoundary["Feature Boundary"]
+    featureBoundary --> componentBoundary["Component Boundary"]
+    componentBoundary --> asyncHandlers["Async Handlers"]
 ```
 
 | Boundary Layer | Catches | User Experience | Reports To |

@@ -6,36 +6,35 @@
 
 ## 🗺️ Domain Landscape
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
-    subgraph customer_journey [Customer Journey]
+    subgraph customerJourney ["Customer Journey"]
         direction LR
-        R1[Open App] --> R2[Place Order]
-        R2 --> R3[Get Price Estimate]
-        R3 --> R4[Confirm Order]
-        R4 --> R5[Get Assigned]
-        R5 --> R6[Track Provider]
-        R6 --> R7[Start Fulfillment]
-        R7 --> R8[Complete Order]
-        R8 --> R9[Pay & Rate]
+        R1["Place Order"] --> R2["Get Estimate"]
+        R2 --> R3["Confirm Order"]
+        R3 --> R4["Get Assigned"]
+        R4 --> R5["Track Provider"]
+        R5 --> R6["Complete Order"]
+        R6 --> R7["Pay & Rate"]
     end
 
-    subgraph services_involved [Services Involved at Each Step]
-        R2 -.- Orders
-        R3 -.- Pricing
-        R4 -.- Orders
-        R5 -.- Fulfillment
-        R6 -.- Geolocation
-        R7 -.- Orders
-        R8 -.- Orders
-        R9 -.- Payments
+    subgraph servicesInvolved ["Services Involved"]
+        R1 -.- Orders
+        R2 -.- Pricing
+        R3 -.- Orders
+        R4 -.- Fulfillment
+        R5 -.- Geolocation
+        R6 -.- Orders
+        R7 -.- Payments
     end
 
-    Orders[Order Service]
-    Pricing[Pricing Service]
-    Fulfillment[Fulfillment Engine]
-    Geolocation[Geolocation Service]
-    Payments[Payment Service]
+    Orders["Order Service"]
+    Pricing["Pricing Service"]
+    Fulfillment["Fulfillment Engine"]
+    Geolocation["Geolocation Service"]
+    Payments["Payment Service"]
 ```
 
 ## 👥 Domain Ownership Matrix
@@ -88,53 +87,70 @@ flowchart LR
 
 ## 🔐 Data Ownership Boundaries
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
-    subgraph orders_db [Orders DB - Aurora]
-        orders_table[orders]
-        order_events[order_events]
-        outbox[outbox_events]
+    subgraph ordersDB ["Orders DB - Aurora"]
+        ordersTable["orders"]
+        orderEvents["order_events"]
+        outbox["outbox_events"]
     end
 
-    subgraph fulfillment_store [Fulfillment - Redis]
-        provider_locations[provider:locations GEO]
-        active_assignments[active_assignments]
+    subgraph fulfillmentStore ["Fulfillment - Redis"]
+        providerLocations["provider:locations GEO"]
+        activeAssignments["active_assignments"]
     end
 
-    subgraph pricing_db [Pricing DB - Aurora]
-        pricing_rules[pricing_rules]
-        price_estimates[price_estimates]
-        pricing_history[pricing_history]
+    subgraph pricingDB ["Pricing DB - Aurora"]
+        pricingRules["pricing_rules"]
+        priceEstimates["price_estimates"]
+        pricingHistory["pricing_history"]
     end
 
-    subgraph provider_db [Provider DB - RDS]
-        providers[providers]
-        documents[documents]
-        ratings[provider_ratings]
+    orderService["Order Service"] --> ordersDB
+    fulfillmentEngine["Fulfillment Engine"] --> fulfillmentStore
+    pricingService["Pricing Service"] --> pricingDB
+```
+
+Profile and payment services each own an isolated data store with no shared tables.
+
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    subgraph providerDB ["Provider DB - RDS"]
+        providers["providers"]
+        documents["documents"]
+        ratings["provider_ratings"]
     end
 
-    subgraph customer_db [Customer DB - RDS]
-        customers[customers]
-        payment_methods[payment_methods]
-        order_history[order_history - projection]
+    subgraph customerDB ["Customer DB - RDS"]
+        customers["customers"]
+        paymentMethods["payment_methods"]
+        orderHistory["order_history - projection"]
     end
 
-    subgraph payments_db [Payments DB - Aurora]
-        payments[payments]
-        payouts[payouts]
-        wallets[wallets]
+    subgraph paymentsDB ["Payments DB - Aurora"]
+        payments["payments"]
+        payouts["payouts"]
+        wallets["wallets"]
     end
 
-    OrderService[Order Service] --> orders_db
-    FulfillmentEngine[Fulfillment Engine] --> fulfillment_store
-    PricingService[Pricing Service] --> pricing_db
-    ProviderProfile[Provider Profile] --> provider_db
-    CustomerProfile[Customer Profile] --> customer_db
-    PaymentService[Payment Service] --> payments_db
+    providerProfile["Provider Profile"] --> providerDB
+    customerProfile["Customer Profile"] --> customerDB
+    paymentService["Payment Service"] --> paymentsDB
+```
 
-    OrderService -.->|"never"| provider_db
-    OrderService -.->|"never"| payments_db
-    PaymentService -.->|"never"| orders_db
+The following diagram shows forbidden direct database access between services.
+
+**Visual overview:**
+
+```mermaid
+flowchart TB
+    orderService["Order Service"] -.->|"never"| providerDB[("Provider DB")]
+    orderService -.->|"never"| paymentsDB[("Payments DB")]
+    paymentService["Payment Service"] -.->|"never"| ordersDB[("Orders DB")]
 ```
 
 *Dashed lines with "never" = forbidden direct database access. Services communicate via APIs and events only. The `order_history` table in the Customer DB is a **read-model projection** maintained via Kafka events from the Order Service - the Order Service remains the source of truth for all order lifecycle data. Cross-domain writes to this projection are forbidden; it is updated exclusively through event consumption.*

@@ -43,25 +43,27 @@ Platform demand is **not random** - it is highly predictable. Rush hours, weeken
 
 ### Demand Pattern Lifecycle
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     subgraph Hourly
-        H1[🌅 Morning Rush\n7-9 AM] --> H2[📉 Mid-Morning\nLull]
-        H2 --> H3[🕐 Lunch\n12-2 PM]
-        H3 --> H4[📉 Afternoon\nLull]
-        H4 --> H5[🌆 Evening Rush\n5-8 PM]
-        H5 --> H6[🌙 Late Night\nDecline]
+        H1[🌅 Morning Rush] --> H2[📉 Mid-Morning Lull]
+        H2 --> H3[🕐 Lunch Peak]
+        H3 --> H4[📉 Afternoon Lull]
+        H4 --> H5[🌆 Evening Rush]
+        H5 --> H6[🌙 Late-Night Decline]
     end
 
     subgraph Weekly
-        W1[Mon-Fri\nWorkday Pattern] --> W2[Fri Night\nWeekend Surge]
-        W2 --> W3[Sat-Sun\nWeekend Pattern]
+        W1[Mon-Fri Workday] --> W2[Weekend Surge]
+        W2 --> W3[Sat-Sun Pattern]
         W3 --> W1
     end
 
     subgraph Seasonal
-        S1[Normal Ops] --> S2[Peak Season\nElevated Demand]
-        S2 --> S3[Holiday\nSpike]
+        S1[Normal Ops] --> S2[Peak Season]
+        S2 --> S3[Holiday Spike]
         S3 --> S1
     end
 
@@ -69,15 +71,17 @@ flowchart LR
 
 ### Demand Forecast Pipeline
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
-    A[Historical Order Data\n12 months] --> B[Feature Extraction]
-    B --> C[Time-of-day\nDay-of-week\nHoliday flag\nEvent flag]
-    C --> D[Prophet / ARIMA Model]
-    D --> E[Predicted Requests/min\nper City per Hour]
+    A[Order History] --> B[Feature Extraction]
+    B --> C[Temporal Features]
+    C --> D[Forecast Model]
+    D --> E[Predicted RPS]
     E --> F[Capacity Calculator]
-    F --> G[Pod Count\nNode Count\nDB Connections]
-    G --> H[HPA Scheduled Overrides]
+    F --> G[Resource Targets]
+    G --> H[HPA Overrides]
 
 ```
 

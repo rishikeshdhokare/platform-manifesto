@@ -32,15 +32,17 @@ API Gateway owns the following responsibilities at the edge:
 
 The following diagram shows the full request path from the internet to internal platform services, and where each cross-cutting concern is handled.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
-    Internet["🌐 Internet<br/>(Customer App, Provider App,<br/>Partner Systems)"]
-    CF["Amazon CloudFront<br/>─────────────<br/>• TLS termination<br/>• Edge caching<br/>• Geo-routing"]
-    WAF["AWS WAF<br/>─────────────<br/>• SQL injection rules<br/>• IP reputation<br/>• Rate-based rules<br/>• Geo-blocking"]
-    APIGW["Amazon API Gateway<br/>─────────────<br/>• Lambda authorizer<br/>• Throttling<br/>• Path-based routing<br/>• Request validation"]
-    ALB["Internal ALB<br/>─────────────<br/>• Health checks<br/>• Target group routing"]
-    BFF["BFF Pods (EKS)<br/>─────────────<br/>• Customer BFF<br/>• Provider BFF<br/>• Ops BFF<br/>• Partner BFF"]
-    SVC["Internal Services<br/>─────────────<br/>• Order Service<br/>• Pricing Service<br/>• Fulfillment Service<br/>• Payment Service"]
+    Internet["Internet"]
+    CF["CloudFront"]
+    WAF["AWS WAF"]
+    APIGW["API Gateway"]
+    ALB["Internal ALB"]
+    BFF["BFF Pods"]
+    SVC["Internal Services"]
 
     Internet --> CF --> WAF --> APIGW --> ALB --> BFF --> SVC
 ```
@@ -227,28 +229,30 @@ The authorizer returns an IAM policy document:
 
 ### Throttling Model
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     REQ["Incoming Request"]
-    WAFRL{"WAF Rate-Based<br/>Rule Check"}
-    APIGW_ACCT{"Account-Level<br/>Throttle<br/>(10,000 req/s)"}
-    APIGW_ROUTE{"Route-Level<br/>Throttle"}
-    PARTNER{"Partner API Key<br/>Usage Plan Check"}
-    USER{"Per-User Throttle<br/>(by JWT sub)"}
-    ALLOW["✅ Request Allowed"]
-    BLOCK["🚫 429 Too Many Requests"]
+    WAFRL{"WAF Rate Check"}
+    APIGW_ACCT{"Account Throttle"}
+    APIGW_ROUTE{"Route Throttle"}
+    PARTNER{"Partner Plan Check"}
+    USER{"Per-User Throttle"}
+    ALLOW["✅ Allowed"]
+    BLOCK["🚫 429 Rejected"]
 
     REQ --> WAFRL
-    WAFRL -->|"< 2000 req/5min<br/>per IP"| APIGW_ACCT
-    WAFRL -->|"> 2000 req/5min<br/>per IP"| BLOCK
+    WAFRL -->|"Under limit"| APIGW_ACCT
+    WAFRL -->|"Over limit"| BLOCK
     APIGW_ACCT -->|"Under limit"| APIGW_ROUTE
     APIGW_ACCT -->|"Over limit"| BLOCK
     APIGW_ROUTE -->|"Under limit"| PARTNER
     APIGW_ROUTE -->|"Over limit"| BLOCK
     PARTNER -->|"Partner route"| USER
-    PARTNER -->|"Not partner route"| ALLOW
-    USER -->|"Under plan limit"| ALLOW
-    USER -->|"Over plan limit"| BLOCK
+    PARTNER -->|"Non-partner"| ALLOW
+    USER -->|"Under limit"| ALLOW
+    USER -->|"Over limit"| BLOCK
 ```
 
 ### Throttle Configuration
@@ -362,6 +366,8 @@ API Gateway strips the following headers from responses before returning to clie
 
 ### Monitoring Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     APIGW["API Gateway"]
@@ -369,10 +375,10 @@ flowchart TD
     ALARM["CloudWatch Alarms"]
     SNS["SNS Topic"]
     PD["PagerDuty"]
-    SLACK["Slack #platform-alerts"]
-    DASH["CloudWatch Dashboard<br/>'Platform API Gateway'"]
-    CWL["CloudWatch Logs<br/>(Access Logs)"]
-    OPENSEARCH["OpenSearch<br/>(Log Analytics)"]
+    SLACK["Slack Alerts"]
+    DASH["CW Dashboard"]
+    CWL["CW Access Logs"]
+    OPENSEARCH["OpenSearch"]
 
     APIGW -->|"Metrics"| CW
     APIGW -->|"Access logs"| CWL

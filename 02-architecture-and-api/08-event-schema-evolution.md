@@ -201,22 +201,26 @@ Partition keys with very high cardinality (e.g., `orderId` in a system processin
 
 Kafka provides **per-partition ordering only**. Messages with the same key go to the same partition and are consumed in the order they were produced. There is **no cross-partition ordering guarantee**.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
-    subgraph "Topic: orders.order.updated"
-        P0["Partition 0\norder-A event 1\norder-A event 2\norder-A event 3"]
-        P1["Partition 1\norder-B event 1\norder-B event 2"]
-        P2["Partition 2\norder-C event 1\norder-C event 2"]
+    subgraph topic["orders.order.updated"]
+        p0["Partition 0"]
+        p1["Partition 1"]
+        p2["Partition 2"]
     end
 
-    Producer["Producer\n(Order Service)"] -->|"key=order-A"| P0
-    Producer -->|"key=order-B"| P1
-    Producer -->|"key=order-C"| P2
+    producer["Order Service"] -->|"key=order-A"| p0
+    producer -->|"key=order-B"| p1
+    producer -->|"key=order-C"| p2
 
-    P0 --> C1["Consumer 1\nProcesses order-A\nevents in order ✅"]
-    P1 --> C2["Consumer 2\nProcesses order-B\nevents in order ✅"]
-    P2 --> C3["Consumer 3\nProcesses order-C\nevents in order ✅"]
+    p0 --> c1["Consumer 1"]
+    p1 --> c2["Consumer 2"]
+    p2 --> c3["Consumer 3"]
 ```
+
+Each consumer processes events for its assigned partition keys in order. For example, Consumer 1 processes all order-A events sequentially.
 
 ### 6.2 Head-of-Line Blocking
 

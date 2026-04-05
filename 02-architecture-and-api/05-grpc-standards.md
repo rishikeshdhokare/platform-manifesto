@@ -39,11 +39,11 @@ Use this flowchart for new interfaces. When in doubt, default to **REST** for an
 
 ```mermaid
 flowchart TD
-    A[New RPC or API surface] --> B{Is the caller external<br/>public, partner, or mobile/web?}
-    B -->|Yes| R[Use REST<br/>OpenAPI-first, via BFF where applicable]
-    B -->|No| C{Is low latency critical<br/>e.g. fulfillment, pricing, geolocation?}
-    C -->|Yes| G[Use gRPC<br/>Follow platform proto & mesh standards]
-    C -->|No| R2[Prefer REST<br/>Unless team already standardized on gRPC]
+    A[New API?] --> B{External caller?}
+    B -->|Yes| R[REST / OpenAPI]
+    B -->|No| C{Low latency critical?}
+    C -->|Yes| G[gRPC / proto]
+    C -->|No| R2[Prefer REST]
 ```
 
 ---
@@ -141,7 +141,7 @@ flowchart LR
         B[CalculatePrice]
         C[CalculatePriceWithDynamicPricing]
     end
-    v1 -->|GA + 12 months overlap| v2
+    v1 -->|"12-month overlap"| v2
     v2 --> D[Deprecate v1 servers]
 ```
 

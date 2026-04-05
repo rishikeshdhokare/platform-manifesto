@@ -45,27 +45,24 @@ Multi-tenancy is not a default. It is a deliberate architectural choice made whe
 
 The choice of isolation pattern depends on four factors: compliance requirements, data isolation needs, performance isolation needs, and cost tolerance. This decision tree guides the selection.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
-    Start["New multi-tenant\nservice"] --> Q1{"Regulatory requirement\nfor physical data\nseparation?"}
+    Start["New Tenant Service"] --> Q1{"Physical separation\nrequired?"}
 
-    Q1 -->|"Yes - e.g., financial\nregulation, healthcare"| Q1a{"Must compute\nalso be isolated?"}
-    Q1 -->|"No"| Q2{"What level of\ndata isolation?"}
+    Q1 -->|"Yes"| Q1a{"Compute isolation\nneeded?"}
+    Q1 -->|"No"| Q2{"Data isolation\nlevel?"}
 
-    Q1a -->|"Yes"| CLUSTER["Cluster per tenant\n(dedicated EKS cluster\nor namespace)"]
-    Q1a -->|"No"| DB["Database per tenant"]
+    Q1a -->|"Yes"| CLUSTER["Cluster per Tenant"]
+    Q1a -->|"No"| DB["Database per Tenant"]
 
-    Q2 -->|"Strong - tenants\nmust not share\nany tables"| Q3{"Can you accept\nhigher ops cost?"}
-    Q2 -->|"Moderate - schema-level\nseparation is sufficient"| SCHEMA["Schema per tenant"]
-    Q2 -->|"Lightweight - row-level\nseparation is acceptable"| RLS["Shared everything\n(Row-Level Security)"]
+    Q2 -->|"Strong"| Q3{"Accept ops cost?"}
+    Q2 -->|"Moderate"| SCHEMA["Schema per Tenant"]
+    Q2 -->|"Lightweight"| RLS["Shared + RLS"]
 
     Q3 -->|"Yes"| DB
     Q3 -->|"No"| SCHEMA
-
-    CLUSTER --> COST["Highest cost\nMaximum isolation"]
-    DB --> COST2["High cost\nStrong isolation"]
-    SCHEMA --> COST3["Moderate cost\nModerate isolation"]
-    RLS --> COST4["Lowest cost\nHighest density"]
 ```
 
 ---

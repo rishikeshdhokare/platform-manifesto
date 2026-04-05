@@ -27,18 +27,18 @@ flowchart TB
         R[Customer Profile: history]
 
         T -->|local commit| P
-        P -->|if P fails here| X[Inconsistent state:<br/>order complete, no payment]
+        P -->|failure| X[Inconsistent state]
     end
 
     subgraph services["Platform services"]
-        TS[com.{company}.orders<br/>Orders Service]
-        PS[com.{company}.payments<br/>Payment Service]
-        NS[com.{company}.notifications]
-        RP[com.{company}.customerprofile]
+        TS[Orders Service]
+        PS[Payment Service]
+        NS[Notifications]
+        RP[Customer Profile]
     end
 
-    TS -.->|no shared 2PC| PS
-    PS -.->|no shared 2PC| NS
+    TS -.->|no 2PC| PS
+    PS -.->|no 2PC| NS
 ```
 
 The diagram above contrasts a fictional atomic cross-service transaction with what actually happens: **independent commits** and the risk of partial failure. Sagas make that failure **explicit and recoverable** through compensating actions and idempotent consumers.
@@ -176,10 +176,10 @@ flowchart TD
     A[orders.order.completed emitted] --> B{Payment capture}
     B -->|success| C[payments.payment.captured]
     B -->|failure| D[payments.payment.failed]
-    D --> E[Orders: compensate<br/>status PAYMENT_FAILED]
-    E --> F[Notifications:<br/>payment failed messages]
-    F --> G[Provider informed<br/>per policy]
-    C --> H[Saga leg complete<br/>no compensation]
+    D --> E[Compensate order]
+    E --> F[Notify failure]
+    F --> G[Inform provider]
+    C --> H[Saga complete]
 
     B -->|timeout| T[saga.payment.capture.timeout]
     T --> E
@@ -250,18 +250,18 @@ Observability for sagas is **not** optional.
 ```mermaid
 flowchart LR
     subgraph detect["Stuck saga detection"]
-        Q1[Query: orders COMPLETED<br/>in last 24h]
-        Q2[Join or lookup:<br/>payment terminal event?]
-        Q3{Within 5 min SLA?}
+        Q1[Completed orders query]
+        Q2[Match payment event?]
+        Q3{Within SLA?}
         Q1 --> Q2 --> Q3
-        Q3 -->|no| AL[Alert + ticket<br/>stuck saga]
+        Q3 -->|no| AL[Alert stuck saga]
         Q3 -->|yes| OK[OK]
     end
 
     subgraph signals["Signals"]
         L[Logs: correlationId]
         M[Metrics: saga_step_latency]
-        K[Kafka lag per consumer]
+        K[Kafka consumer lag]
     end
 
     signals --> Q2
