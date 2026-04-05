@@ -533,7 +533,7 @@ spec:
     spec:
       containers:
         - name: pricing
-          image: {company}/pricing-service:latest
+          image: {company}/pricing-service:{version}
           ports:
             - name: grpc
               containerPort: 9090

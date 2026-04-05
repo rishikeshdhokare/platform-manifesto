@@ -294,7 +294,7 @@ spec:
         spec:
           containers:
             - name: scaler
-              image: bitnami/kubectl:latest
+              image: bitnami/kubectl:{version}
               command:
                 - /bin/sh
                 - -c
