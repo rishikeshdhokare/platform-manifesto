@@ -15,6 +15,6 @@ Standards for the client applications that customers and providers interact with
 
 <div align="center">
 
-⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
+🏠 [Back to root](../README.md)
 
 </div>

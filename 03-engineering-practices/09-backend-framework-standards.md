@@ -530,6 +530,6 @@ flowchart LR
 ---
 <div align="center">
 
-[Back to section](./README.md) · [Back to root](../README.md)
+⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
 
 </div>
