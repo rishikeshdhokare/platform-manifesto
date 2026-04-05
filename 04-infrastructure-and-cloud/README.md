@@ -1,6 +1,6 @@
 # ☁️ 04 - Infrastructure & Cloud
 
-Our AWS platform - network topology, compute, data stores, security, and configuration management.
+> Our AWS platform - network topology, compute, data stores, security, and configuration management.
 
 | Document | Description |
 |----------|-------------|

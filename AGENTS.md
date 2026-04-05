@@ -83,7 +83,7 @@ When adding, removing, or renaming ANY document:
 ## Section README Format
 
 ```markdown
-# 📐 NN -- Section Title
+# 📐 NN - Section Title
 
 > One-line description.
 

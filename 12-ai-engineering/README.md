@@ -1,4 +1,4 @@
-# 🧬 12 -- AI Engineering
+# 🧬 12 - AI Engineering
 
 > How we work with AI across the software development lifecycle - context engineering, AI-assisted workflows, and adoption metrics.
 

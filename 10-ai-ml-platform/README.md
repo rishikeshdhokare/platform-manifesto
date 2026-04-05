@@ -1,6 +1,6 @@
 # 🤖 10 - AI/ML Platform
 
-Machine learning infrastructure, AI governance, and responsible AI practices.
+> Machine learning infrastructure, AI governance, and responsible AI practices.
 
 ### Which section do I need?
 

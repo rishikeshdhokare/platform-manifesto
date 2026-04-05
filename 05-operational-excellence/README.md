@@ -1,6 +1,6 @@
 # 🚨 05 - Operational Excellence
 
-How we keep services healthy in production - observability, resilience, and incident response.
+> How we keep services healthy in production - observability, resilience, and incident response.
 
 | Document | Description |
 |----------|-------------|
