@@ -32,6 +32,8 @@ Every numbered `.md` file in a section folder MUST have:
 </div>
 ```
 
+**Accessibility note:** Emoji in headings improves visual scanning but can affect screen readers. For organizations requiring strict accessibility compliance, consider a plain-title variant. The emoji convention is a style choice, not a structural requirement.
+
 ---
 
 ## Index Updates (CRITICAL)
