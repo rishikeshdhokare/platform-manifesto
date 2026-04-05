@@ -914,7 +914,6 @@ This ensures changes are validated from both the producer and consumer perspecti
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

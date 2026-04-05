@@ -370,7 +370,6 @@ void shouldHandleMissingOptionalFieldsGracefully() {
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

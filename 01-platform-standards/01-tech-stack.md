@@ -397,7 +397,6 @@ The BFF acts as a confidential client - it holds the client secret and exchanges
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

@@ -532,7 +532,6 @@ For service-to-service calls within the mesh, Istio's **SPIFFE-based mTLS** prov
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

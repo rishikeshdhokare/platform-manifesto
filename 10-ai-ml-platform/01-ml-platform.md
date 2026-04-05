@@ -695,7 +695,6 @@ Raw Data → Labeling Task Creation → Annotator Assignment → Annotation → 
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

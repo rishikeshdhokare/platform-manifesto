@@ -466,7 +466,6 @@ Every red-teaming exercise must test for:
 
 ---
 
----
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
