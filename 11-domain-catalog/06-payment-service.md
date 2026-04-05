@@ -357,6 +357,52 @@ flowchart TB
 | **Related domains** | Orders (`{company}.orders`), Pricing, Fraud Engine, Customer/Provider profiles |
 
 ---
+
+## 📊 13. SLOs and Error Budgets
+
+| Metric | Target | Error Budget Policy |
+|--------|--------|-------------------|
+| Availability | 99.99% | Freeze non-critical deploys when budget < 20% remaining |
+| Latency (p99) | < 1000ms | Alert at 80% of budget consumption |
+| Error rate | < 0.1% | Page on-call when rate exceeds target for > 5 minutes |
+
+## ⚠️ 14. Failure Modes
+
+| Failure | User Impact | Fallback | Blast Radius |
+|---------|------------|----------|-------------|
+| Aurora PostgreSQL unavailable | Cannot authorize, capture, or refund | Fail closed; queue idempotent retries at BFF; P1 incident | All payment and wallet operations |
+| Payment provider API outage | Authorize/capture fail | Surface retryable errors; idempotency keys prevent double charge on retry | Provider rail `{providerName}` only |
+| Redis lock / idempotency store unavailable | Risk of duplicate side effects if clients retry blindly | Fail closed on mutating paths until locks recover; alert on-call | Mutations only |
+| Kafka lag on consumed order topics | Delayed post-order capture pipeline | Orders complete in domain; Payments catches up; monitor lag SLO | Settlement delay, not double capture if guards hold |
+
+## 📏 15. Capacity Sizing
+
+| Parameter | Value |
+|-----------|-------|
+| Min replicas | 6 |
+| Max replicas | 50 |
+| Target CPU | 70% |
+
+## 🗄️ 16. Data Retention Matrix
+
+| Store | Data | Retention | Mechanism |
+|-------|------|-----------|-----------|
+| PostgreSQL | `payments`, `payouts`, `wallets`, `wallet_transactions`, `refunds` | `{ledgerRetention}` per PCI and finance policy | Immutable ledger rows; anonymize after `{accountClosurePeriod}` |
+| Kafka | `payments.payment.*`, `payments.payout.*` | 14 days (platform default) | Topic retention policy |
+| CloudWatch Logs | Application logs (redacted) | 90 days | Log group retention policy |
+| S3 | Provider settlement file drops | `{settlementFileRetention}` | Lifecycle policy |
+
+## 🔐 17. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | Kafka (consume `orders.order.completed` / `cancelled`) | mTLS + consumer ACL |
+| Customer BFF (`{company}.bff.customer`) | REST | mTLS + OAuth2 + scoped payment methods |
+| Provider BFF (`{company}.bff.provider`) | REST (payout status reads) | mTLS + OAuth2 |
+| Fraud Engine (`{company}.fraud`) | Kafka (consume `payments.payment.*`) | mTLS + consumer ACL |
+| Finance reconciliation jobs (`{company}.payments-recon`) | REST internal | mTLS + service API key |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

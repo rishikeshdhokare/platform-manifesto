@@ -240,7 +240,7 @@ public class OrderService {
 Output (as JSON, with correlation ID automatically included from MDC):
 ```json
 {
-  "timestamp": "2024-11-15T14:30:01.123Z",
+  "timestamp": "2026-11-15T14:30:01.123Z",
   "level": "INFO",
   "service": "orders-service",
   "environment": "production",
@@ -425,7 +425,7 @@ sequenceDiagram
 FROM amazoncorretto:21-alpine
 
 # Download the OTel Java language agent
-ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar /app/otel-agent.jar
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/v{version}/download/opentelemetry-javaagent.jar /app/otel-agent.jar
 
 COPY build/libs/orders-service.jar /app/service.jar
 

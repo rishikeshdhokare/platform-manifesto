@@ -114,7 +114,7 @@ Use this table to track your progress. Share it with your buddy and manager in y
 
 | Week | Milestones | How You Know You're Done |
 |------|-----------|------------------------|
-| **Week 1** | Laptop fully set up via `setup.sh` · First PR opened (even a typo fix counts) · One service running locally · Met buddy and team | You can run `make dev` on your team's service and see it respond on localhost |
+| **Week 1** | Laptop fully set up via `setup.sh` · First PR opened (even a typo fix counts) · One service running locally · Met buddy and team | You can run `make setup`, `make up`, `make seed`, and `make run` on your team's service and see it respond on localhost |
 | **Week 2** | First feature PR merged · Attended sprint ceremonies (standup, planning, retro) · Completed security orientation (30-min self-paced module) | Your code is in `main` and you've participated in a sprint cycle |
 | **Week 3** | Shadowed an on-call shift (observe, don't respond) · Completed a domain deep-dive session with your tech lead · Read your team's service documentation in Backstage | You can explain your team's service architecture and its dependencies to your buddy |
 | **Week 4** | Eligible for solo on-call (added to PagerDuty rotation) · Buddy graduation (final sync, feedback exchange) · Completed onboarding feedback survey | You're comfortable responding to a P3/P4 alert independently and your buddy confirms readiness |

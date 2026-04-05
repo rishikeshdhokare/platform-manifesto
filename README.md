@@ -23,7 +23,7 @@ Every *"how should I do this?"* answered. Every *"which tool should I use?"* dec
 
 ---
 
-[🆕 Onboarding](./ONBOARDING.md) &nbsp;·&nbsp; [📖 Glossary](./GLOSSARY.md) &nbsp;·&nbsp; [🏛️ Architecture](02-architecture-and-api/01-system-architecture.md) &nbsp;·&nbsp; [⚙️ Backend Standards](03-engineering-practices/09-backend-framework-standards.md) &nbsp;·&nbsp; [🛤️ Golden Path](06-developer-guides/02-golden-path.md) &nbsp;·&nbsp; [🚨 Incidents](05-operational-excellence/04-incident-management.md)
+[🆕 Onboarding](./ONBOARDING.md) &nbsp;·&nbsp; [📖 Glossary](./GLOSSARY.md) &nbsp;·&nbsp; [📊 Executive summary](./EXECUTIVE-SUMMARY.md) &nbsp;·&nbsp; [📋 Meta](./META.md) &nbsp;·&nbsp; [🏛️ Architecture](02-architecture-and-api/01-system-architecture.md) &nbsp;·&nbsp; [⚙️ Backend Standards](03-engineering-practices/09-backend-framework-standards.md) &nbsp;·&nbsp; [🛤️ Golden Path](06-developer-guides/02-golden-path.md) &nbsp;·&nbsp; [🚨 Incidents](05-operational-excellence/04-incident-management.md)
 
 </div>
 
@@ -58,6 +58,7 @@ One source of truth. One set of standards. Every team, every service, every envi
 
 | You are... | Start here | Then explore |
 |:-----------|:-----------|:-------------|
+| 📊 **CTO, COO, or procurement** | [`EXECUTIVE-SUMMARY.md`](./EXECUTIVE-SUMMARY.md) | Why this exists → adoption phases → migration roadmap |
 | 🆕 **Day 1 new joiner** | [`ONBOARDING.md`](./ONBOARDING.md) | Tech stack → Golden Path → Git workflow |
 | ⚙️ **Backend engineer** | [Backend Framework Standards](03-engineering-practices/09-backend-framework-standards.md) | Architecture, Kafka, Caching, Testing |
 | 🌐 **Frontend engineer** | [Web Frontend Standards](09-mobile-and-frontend/02-web-frontend-standards.md) | Frontend CI/CD, Design System |
@@ -69,6 +70,11 @@ One source of truth. One set of standards. Every team, every service, every envi
 | 📊 **Product manager** | [Product Operations](07-ways-of-working/10-product-operations.md) | A/B Testing, Engineering Metrics |
 | 🔒 **Security engineer** | [Security Operations](04-infrastructure-and-cloud/10-security-operations.md) | Security Standards, Privacy Engineering |
 | 🧬 **AI-first engineer** | [Context Engineering](12-ai-engineering/01-context-engineering.md) | AI-Assisted SDLC, Adoption Metrics |
+| 📝 **Technical Writer / Documentation** | [Developer Experience](06-developer-guides/01-developer-experience.md) (Section 9) · [Knowledge Sharing](07-ways-of-working/08-knowledge-sharing.md) | Content standards, documentation governance |
+| 🧪 **QA / Test Engineer** | [Testing Pyramid](03-engineering-practices/01-testing-pyramid.md) · [QA Standards](03-engineering-practices/11-qa-standards.md) | Test strategy, environments, automation |
+| ⚖️ **Procurement / Legal** | [Vendor Intake](08-program/05-vendor-intake.md) · [Vendor Assessment](08-program/03-vendor-assessment.md) | Vendor intake, assessment, compliance |
+| 🎧 **Support / Customer Success** | [Incident Management](05-operational-excellence/04-incident-management.md) · [Debugging Guide](05-operational-excellence/09-debugging-guide.md) | Incident response, debugging, SLOs |
+| 🔢 **Data Analyst / BI** | [Data Platform](06-developer-guides/05-data-platform.md) · [Data Governance](06-developer-guides/09-data-governance.md) | Data platform, governance, analytics |
 
 > 💡 Lost on a term? The [**Glossary**](./GLOSSARY.md) has you covered.
 
@@ -372,7 +378,7 @@ Maturity assessment, migration roadmap, metrics, and vendor management.
 
 | File | What You'll Learn |
 |------|-------------------|
-| [`01-maturity-model.md`](08-program/01-maturity-model.md) | Self-assessment rubric - L0 to L4 across 11 dimensions |
+| [`01-maturity-model.md`](08-program/01-maturity-model.md) | Self-assessment rubric - L0 to L4 across 11 dimensions (Dimension 11: ML Platform Maturity) |
 | [`02-migration-roadmap.md`](08-program/02-migration-roadmap.md) | Phased migration program, DORA targets, risk register |
 | [`03-vendor-assessment.md`](08-program/03-vendor-assessment.md) | AWS lock-in analysis, portability, exit costs |
 | [`04-engineering-metrics.md`](08-program/04-engineering-metrics.md) | What we measure, what we don't, and why |
@@ -443,7 +449,7 @@ How we work with AI across the entire software development lifecycle. Distinct f
 |------|-------------------|
 | [`01-context-engineering.md`](12-ai-engineering/01-context-engineering.md) | Context stack, AGENTS.md, cursor rules, architecture-as-context, knowledge retrieval, maintenance |
 | [`02-ai-assisted-sdlc.md`](12-ai-engineering/02-ai-assisted-sdlc.md) | AI integration across discovery, design, development, testing, review, deployment, operations, documentation |
-| [`03-ai-adoption-metrics.md`](12-ai-engineering/03-ai-adoption-metrics.md) | Adoption metrics, effectiveness metrics, quality guardrails, team maturity model, AI Champions Guild |
+| [`03-ai-adoption-metrics.md`](12-ai-engineering/03-ai-adoption-metrics.md) | Adoption metrics, effectiveness metrics, quality guardrails, AI Engineering Maturity (L0-L4), AI Champions Guild |
 
 </details>
 
@@ -509,6 +515,8 @@ This manifesto is **opinionated about principles, flexible about tooling**. The 
 | Automated CI/CD with quality gates | GitHub Actions, GitLab CI, CircleCI, Jenkins |
 
 > **Adopting this manifesto?** Search for specific tool names (e.g., "Spring Boot", "Aurora", "EKS") and replace them with your equivalents. The principles, patterns, and operational standards carry over unchanged.
+
+The repo uses two company placeholders: **`{Company}`** (title case) in headings and prose, and **`{company}`** (lowercase) in URLs, package names, GitHub org paths, and other technical identifiers. Replace both with your organization when you fork or adapt this manifesto.
 
 ---
 

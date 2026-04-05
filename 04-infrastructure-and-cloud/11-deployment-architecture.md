@@ -335,8 +335,11 @@ These targets are reviewed monthly in the engineering metrics review. Teams that
 
 For canary analysis thresholds, rollback strategies, feature flag lifecycle, and the change risk rubric, see [CD Practices](../03-engineering-practices/03-cd-practices.md).
 
----
+### Related Documents
 
+- [Infrastructure Components](./02-infra-components.md) - shared platform services, networking, and operational dependencies
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

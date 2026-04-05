@@ -20,7 +20,7 @@ The platform uses **gRPC** for high-performance, typed, internal communication b
 **REST remains mandatory for:**
 
 - **External and public APIs** (`api.{company}.com`, partner webhooks, public documentation)
-- **BFF → client** - mobile and web clients never call gRPC directly; they use REST, GraphQL, or real-time channels as defined in platform standards
+- **BFF → client** - mobile and web clients never call gRPC directly; they use REST or real-time channels as defined in platform standards. **GraphQL is not approved for new services** unless granted via RFC; see [API Standards](./02-api-standards.md) (GraphQL Policy).
 
 ### 1.1 gRPC vs REST - scenario comparison
 
@@ -175,8 +175,11 @@ java {
 
 val grpcVersion = "1.60.1"
 val protobufVersion = "3.25.1"
+val apiProtosVersion = "1.0.0"
 
 dependencies {
+    protobuf("com.{company}:api-protos-java:$apiProtosVersion")
+    implementation("com.{company}:api-protos-java:$apiProtosVersion")
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("io.grpc:grpc-stub:$grpcVersion")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
@@ -204,9 +207,6 @@ protobuf {
 
 sourceSets {
     main {
-        proto {
-            srcDir("proto")
-        }
         java {
             srcDir("build/generated/source/proto/main/java")
             srcDir("build/generated/source/proto/main/grpc")
@@ -223,7 +223,7 @@ tasks.named<JavaCompile>("compileJava") {
 
 **Rules:**
 
-- Proto definitions live exclusively in the **{company}/api-protos** monorepo - per-service `proto/` directories are not permitted.
+- Proto definitions live exclusively in the **{company}/api-protos** monorepo - per-service `proto/` directories are not permitted. Pull packaged `.proto` files into Gradle via the **`protobuf`** configuration on **`com.{company}:api-protos-java`** (same coordinates as Section 14.3), not `srcDir("proto")`.
 - Output under **`build/generated/source/proto`** only.
 - Add **`build/`** to `.gitignore`; never commit `**/generated/**` gRPC/Java outputs.
 
@@ -269,7 +269,7 @@ Register global interceptors as Spring beans implementing `ServerInterceptor` / 
 
 **Reference implementation (Java / Spring Boot)** for server and blocking client stubs.
 
-#### Proto (`proto/pricing_service.proto`)
+#### Proto excerpt (`{company}/api-protos` - `pricing/v1/pricing_service.proto`)
 
 ```protobuf
 syntax = "proto3";
@@ -422,8 +422,8 @@ import io.grpc.stub.MetadataUtils;
 
 Metadata trailers = new Metadata();
 Metadata.Key<String> CODE_KEY =
-        Metadata.Key.of("x-{company}-error-code", Metadata.ASCII_STRING_MARSHALLER);
-trailers.put(CODE_KEY, "ORDER_NOT_FOUND");
+        Metadata.Key.of("x-error-code", Metadata.ASCII_STRING_MARSHALLER);
+trailers.put(CODE_KEY, "ORDERS.ORDER.NOT_FOUND");
 responseObserver.onError(Status.NOT_FOUND
         .withDescription("Order not found")
         .asRuntimeException(trailers));
@@ -431,7 +431,7 @@ responseObserver.onError(Status.NOT_FOUND
 // Client: read from StatusRuntimeException.getTrailers()
 ```
 
-Convention: prefix custom headers with **`x-{company}-`** (e.g. `x-{company}-error-code`, `x-{company}-correlation-id`). Propagate **W3C `traceparent`** via OpenTelemetry (Section 9), not only custom headers.
+Use **`x-error-code`** for registered machine-readable error codes (same dotted format as REST; see [Error Catalog](./09-error-catalog.md)). For other custom metadata keys, prefix with **`x-{company}-`** where a company-scoped name avoids collisions (e.g. `x-{company}-correlation-id`). Propagate **W3C `traceparent`** via OpenTelemetry (Section 9), not only custom headers.
 
 ---
 

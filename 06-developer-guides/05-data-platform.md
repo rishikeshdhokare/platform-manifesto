@@ -53,6 +53,8 @@ Examples:
 
 **Reference implementation (AWS):** S3, Glue, Redshift, QuickSight, MSK, and Aurora in the diagrams and prose below map to lake + ETL + warehouse + BI in any cloud.
 
+> **Note:** CDC in this document refers to **Change Data Capture** (Debezium/outbox pattern), not Consumer-Driven Contracts (testing). See [GLOSSARY.md](../GLOSSARY.md).
+
 **Visual overview:**
 
 ```mermaid
@@ -164,8 +166,9 @@ public class ProviderLocationRepository {
             new Point(lng, lat),     // Note: Redis uses lng, lat order
             providerId.value()
         );
-        // Set expiry: if a provider hasn't updated in 5 minutes, remove them
-        redisTemplate.expire(GEO_KEY + ":" + providerId.value(), Duration.ofMinutes(5));
+        // Track last-seen time; a scheduled job removes stale members via ZREMRANGEBYSCORE
+        redisTemplate.opsForValue().set(
+            "provider:lastseen:" + providerId.value(), "1", Duration.ofMinutes(5));
     }
 
     // Find providers within radius (for fulfillment)
@@ -228,10 +231,10 @@ This produces events on Kafka topics:
     "customer_id": "customer-xyz",
     "status": "COMPLETED",
     "price_amount": 1250,
-    "completed_at": "2024-11-15T14:30:00Z"
+    "completed_at": "2026-11-15T14:30:00Z"
   },
   "op": "c",           // "c" = create, "u" = update, "d" = delete
-  "ts_ms": 1700055000000
+  "ts_ms": 1763470200000
 }
 ```
 

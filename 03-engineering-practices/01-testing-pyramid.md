@@ -16,42 +16,35 @@ Testing is not a phase that follows development - it is a design activity that h
 
 ```
                     ┌─────────────┐
-                    │     E2E     │  ~5%
+                    │     E2E     │  ~10%
                     │  (few, slow)│
                    /└─────────────┘\
-                  /  ┌───────────┐  \
-                 /   │  Contract │   \  ~10%
-                /    │   (Pact)  │    \
-               / ────└───────────┘──── \
-              /   ┌─────────────────┐   \
-             /    │   Integration   │    \  ~25%
-            /     │  (Testcontain.) │     \
-           /──────└─────────────────┘──────\
-          /       ┌─────────────────────┐   \
-         /        │        Unit         │    \  ~60%
-        /         │   (fast, isolated)  │     \
-       └──────────└─────────────────────┘──────┘
+                  /   ┌───────────────────────────┐   \
+                 /    │ Integration & contract    │    \  ~20%
+                /     │ (Testcontainers, Pact)    │     \
+               /──────└───────────────────────────┘──────\
+              /         ┌─────────────────────┐           \
+             /          │        Unit         │            \  ~70%
+            /           │   (fast, isolated)  │             \
+           /────────────└─────────────────────┘──────────────\
 ```
 
 **Visual overview:**
 
 ```mermaid
 flowchart TB
-    E2E["E2E Tests<br/>~5%"]
-    Integration["Integration Tests<br/>~15%"]
-    Contract["Contract Tests<br/>~10%"]
+    E2E["E2E Tests<br/>~10%"]
+    Integration["Integration & contract<br/>~20%"]
     Unit["Unit Tests<br/>~70%"]
     E2E --- Integration
-    Integration --- Contract
-    Contract --- Unit
+    Integration --- Unit
 ```
 
 | Layer | Volume | Speed | Scope | Runs In |
 |-------|--------|-------|-------|---------|
-| Unit | ~60% | < 1ms/test | Single class or function | Local + CI every PR |
-| Integration | ~25% | < 1s/test | Service boundary + real infra | CI every PR |
-| Contract | ~10% | < 500ms/test | API contract between two services | CI every PR |
-| E2E | ~5% | Seconds/minutes | Full user journey | CI nightly + pre-release |
+| Unit | ~70% | < 1ms/test | Single class or function | Local + CI every PR |
+| Integration | ~20% | < 1s/test | Service boundary, contracts (Pact), real infra | CI every PR |
+| E2E | ~10% | Seconds/minutes | Full user journey | CI nightly + pre-release |
 
 ---
 

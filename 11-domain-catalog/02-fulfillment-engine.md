@@ -285,6 +285,49 @@ flowchart LR
 | **On-call** | Orders PagerDuty rotation (primary), platform Redis/Kafka escalations as secondary |
 
 ---
+
+## 📊 12. SLOs and Error Budgets
+
+| Metric | Target | Error Budget Policy |
+|--------|--------|-------------------|
+| Availability | 99.9% | Freeze non-critical deploys when budget < 20% remaining |
+| Latency (p99) | < 3000ms end-to-end assignment pipeline | Alert at 80% of budget consumption |
+| Error rate | < 0.1% | Page on-call when rate exceeds target for > 5 minutes |
+
+## ⚠️ 13. Failure Modes
+
+| Failure | User Impact | Fallback | Blast Radius |
+|---------|------------|----------|-------------|
+| Redis cluster unavailable | No new assignments; orders remain unassigned longer | Emit `fulfillment.assignment.failed` with reason; Order Service surfaces retry / manual escalation path | Assignment in affected `{redisShardOrRegion}` only |
+| Geolocation Service gRPC degraded | Worse ETA scoring; slower candidate evaluation | Fall back to haversine distance only for ranking `{ifPolicyAllows}`; extend assignment deadline within SLO | Longer assignment times; possible suboptimal matches |
+| Provider Profile gRPC unavailable | Cannot validate provider attributes | Skip soft checks with feature flag; hard-fail if mandatory checks cannot run | Reduced gating on provider quality until recovery |
+| Kafka consumer stalled | Lag on `orders.order.*` consumption | Scale consumers; replay from committed offsets; no duplicate assignments if idempotent keys honored | Delayed assignments platform-wide for that consumer group |
+
+## 📏 14. Capacity Sizing
+
+| Parameter | Value |
+|-----------|-------|
+| Min replicas | 8 |
+| Max replicas | 80 |
+| Target CPU | 70% |
+
+## 🗄️ 15. Data Retention Matrix
+
+| Store | Data | Retention | Mechanism |
+|-------|------|-----------|-----------|
+| Redis | `provider:locations`, `active_assignments` | TTL aligned with order request TTL (`{assignmentTtl}`) + purge on terminal events | Key TTL + explicit delete on completion/cancel |
+| Kafka | `fulfillment.assignment.*` | 14 days (platform default) | Topic retention policy |
+| CloudWatch Logs | Application logs | 30 days | Log group retention policy |
+
+## 🔐 16. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Order Service (`{company}.orders`) | Kafka (consume `orders.order.requested` / `cancelled`) | mTLS for brokers + ACL consumer group `fulfillment-engine.*` |
+| Order Service (`{company}.orders`) | gRPC (assignment callbacks / health) | mTLS + RBAC role `fulfillment.orders-peer` |
+| Platform operators | gRPC / admin REST | mTLS + break-glass RBAC |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

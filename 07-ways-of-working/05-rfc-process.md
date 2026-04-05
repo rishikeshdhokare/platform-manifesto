@@ -236,7 +236,7 @@ Every TDD must include the following sections:
 TDDs live in `docs/design/` in the service repository, named with the Jira ticket number:
 
 ```
-docs/design/RIDE-1234-payment-retry-logic.md
+docs/design/PROJ-1234-payment-retry-logic.md
 ```
 
 The Jira ticket links to the TDD. The TDD links back to the Jira ticket.

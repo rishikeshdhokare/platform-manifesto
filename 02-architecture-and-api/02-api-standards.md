@@ -1,6 +1,6 @@
 # 🔌 REST API Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -77,7 +77,7 @@ These are acceptable - they represent state transitions, not arbitrary RPC.
 
 **Payload mismatch:** If the same `Idempotency-Key` is submitted with a **different request payload** than the original, the server returns `422 Unprocessable Entity` with error code `IDEMPOTENCY_KEY_PAYLOAD_MISMATCH`. The server does not execute the new payload - the original result stands.
 
-**PATCH operations:** `PATCH` is inherently idempotent - applying the same patch twice produces the same result. No `Idempotency-Key` is required for PATCH requests (though clients may include one; the server will honour it if present).
+**PATCH operations:** `PATCH` **can be** idempotent when using absolute field assignments (e.g., "set status to X") but is **not inherently so** - relative operations like "increment counter" or "append to list" are non-idempotent (see RFC 5789). For absolute-assignment PATCH endpoints, no `Idempotency-Key` is required (though clients may include one; the server will honour it if present). For PATCH endpoints that perform relative updates, require an `Idempotency-Key` header using the same semantics as `POST`.
 
 **gRPC:** For mutation RPCs in internal gRPC services, include an `idempotency_key` field in the request message:
 
@@ -220,32 +220,35 @@ This limit exists to protect database performance - deep cursor-based pagination
 
 ### 7.1 Standard Error Shape
 
-All errors - validation, auth, not found, server errors - use this shape:
+For the complete error response specification, see [09-error-catalog.md](./09-error-catalog.md).
+
+All errors - validation, auth, not found, server errors - use this shape (fields and code format match the Error Catalog):
 
 ```json
 {
   "error": {
-    "code": "ORDER_NOT_FOUND",
+    "code": "ORDERS.ORDER.NOT_FOUND",
     "message": "The requested order does not exist or you do not have access to it.",
-    "requestId": "req_01HXYZ...",
-    "timestamp": "2024-11-15T14:30:00Z",
-    "details": [
-      {
-        "field": "orderId",
-        "issue": "No order found with id 'abc-123'"
-      }
-    ]
+    "path": "/api/v1/orders/ord-12345",
+    "requestId": "req-abc-123",
+    "traceId": "1-abc123-def456",
+    "metadata": {
+      "orderId": "ord-12345"
+    },
+    "timestamp": "2026-03-15T10:30:00Z"
   }
 }
 ```
 
 | Field | Description |
 |-------|-------------|
-| `code` | Machine-readable, `SCREAMING_SNAKE_CASE`, stable across versions |
+| `code` | Machine-readable dotted code from the catalog (e.g. `DOMAIN.RESOURCE.REASON`), stable across versions |
 | `message` | Human-readable, may change - do not parse in code |
-| `requestId` | For support - correlates to logs |
-| `timestamp` | When the error occurred |
-| `details` | Optional array of field-level issues (validation errors) |
+| `path` | Request path that produced the error |
+| `requestId` | Correlation ID (echo `X-Request-Id` where applicable) |
+| `traceId` | Distributed tracing ID |
+| `metadata` | Optional object with extra context (entity IDs, validation hints) |
+| `timestamp` | When the error occurred (ISO-8601) |
 
 ### 7.2 HTTP Status Code Usage
 

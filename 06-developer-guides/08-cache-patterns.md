@@ -16,6 +16,7 @@
 8. [Metrics](#8-metrics)
 9. [Redis Configuration](#9-redis-configuration)
 10. [Decision Guide](#10-decision-guide)
+11. [In-process Caching / Caffeine](#11-in-process-caching-caffeine-reference)
 
 ---
 
@@ -320,6 +321,11 @@ public class StampedeProtectedCacheService {
                 } finally {
                     lock.unlock();
                 }
+            }
+            // Lock was held by another thread which likely filled the cache
+            cached = redisTemplate.opsForValue().get(cacheKey);
+            if (cached != null) {
+                return (PricingRule) cached;
             }
             return pricingRuleRepository
                 .findByRegionIdAndServiceType(regionId, serviceType)

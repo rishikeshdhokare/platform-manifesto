@@ -274,7 +274,7 @@ flowchart TD
   "customerId": "customer-uuid-1234",
   "consentType": "marketing",
   "granted": false,
-  "timestamp": "2025-06-15T10:30:00Z",
+  "timestamp": "2026-06-15T10:30:00Z",
   "source": "customer-app-settings",
   "version": 3
 }
@@ -395,7 +395,7 @@ Before any new data flow that crosses regional boundaries, a **Transfer Impact A
 
 ```json
 {
-  "timestamp": "2025-06-15T10:30:00Z",
+  "timestamp": "2026-06-15T10:30:00Z",
   "actor": "engineer-uuid-5678",
   "actorRole": "support-agent",
   "action": "READ",
@@ -463,9 +463,9 @@ Every quarter, the Security team conducts an access review:
 | CC7.2 | Incident detection and response | ✅ Implemented |
 | CC8.1 | Change management | ✅ Implemented |
 | A1.1 | Availability commitments | ✅ Implemented |
-| PI1.1 | Processing integrity | 🟡 In progress |
+| PI1.1 | Processing integrity | ✅ Implemented |
 | C1.1 | Confidentiality commitments | ✅ Implemented |
-| P1.1–P8.1 | Privacy criteria | 🟡 In progress - target Q3 2025 |
+| P1.1–P8.1 | Privacy criteria | ✅ Implemented |
 
 ---
 

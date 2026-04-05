@@ -80,16 +80,17 @@ flowchart TB
         CustBFF[Customer BFF]
         ProvBFF[Provider BFF]
         OpsBFF[Ops BFF]
+        PartBFF[Partner BFF]
     end
     subgraph core [Core Domains]
-        Orders[Order Service]
+        Orders[Orders Service]
         Fulfill[Fulfillment Engine]
         Pricing[Pricing Service]
     end
     subgraph support [Supporting]
         Payments[Payment Service]
         Notif[Notifications]
-        Geo[Geolocation]
+        GeoRoute[Geolocation / Routing]
         DynPrice[Dynamic Pricing]
         Fraud[Fraud Engine]
     end
@@ -359,7 +360,7 @@ After a write operation, the writing service returns a **consistency token** - t
 {
   "data": { "profileId": "usr_abc123", "name": "Jane Doe" },
   "meta": {
-    "consistencyToken": "2024-11-15T14:30:00.123456Z"
+    "consistencyToken": "2026-11-15T14:30:00.123456Z"
   }
 }
 ```
@@ -368,7 +369,7 @@ The client includes this token in subsequent read requests:
 
 ```
 GET /v1/customers/usr_abc123/profile
-X-Consistency-Token: 2024-11-15T14:30:00.123456Z
+X-Consistency-Token: 2026-11-15T14:30:00.123456Z
 ```
 
 ### 12.3 Routing Logic
@@ -481,6 +482,12 @@ Business logic lives in the services (**smart endpoints**), not in the messaging
 - **Dumb pipes are replaceable.** Swapping Kafka for another message broker, or replacing the API Gateway, does not require rewriting business logic.
 - **Smart endpoints are independently deployable and testable.** All business behavior is inside the service, covered by the service's own test suite, and deployed on the service's own release cadence.
 - **Debugging is straightforward.** When business logic lives in one place (the service), tracing a bug does not require inspecting middleware configurations, gateway transformations, and stream processing topologies.
+
+### Related Documents
+
+- [API Standards](./02-api-standards.md) - URL design, versioning, error shapes
+- [gRPC Standards](./05-grpc-standards.md) - internal service communication
+- [Saga Patterns](./06-saga-patterns.md) - distributed transactions and long-running workflows
 
 ---
 <div align="center">

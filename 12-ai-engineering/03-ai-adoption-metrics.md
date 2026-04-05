@@ -79,7 +79,9 @@ AI adoption must not degrade code quality. Monitor these guardrails alongside ad
 
 ---
 
-## 5. 🪜 Team AI Maturity Model
+## 5. 🪜 AI Engineering Maturity (L0-L4)
+
+This is the **AI Engineering Maturity** track: context engineering, AI-assisted SDLC, adoption, and effectiveness of **developer-facing AI**. It is **not** the same as **ML Platform Maturity** ([Dimension 11](../08-program/01-maturity-model.md) in the program maturity model), which scores operational ML (serving, training and feature pipelines, production model observability, responsible-AI governance for deployed models). The two use similar level labels for familiarity, but they measure different capabilities. Review both in quarterly assessments where relevant.
 
 Teams progress through maturity levels. Each level builds on the previous one. Skipping levels leads to superficial adoption.
 
@@ -93,7 +95,7 @@ Teams progress through maturity levels. Each level builds on the previous one. S
 
 ### Assessment
 
-Teams self-assess quarterly as part of the broader [maturity model](../08-program/01-maturity-model.md) review. The AI maturity dimension in that document aligns with this model.
+Teams self-assess quarterly as part of the broader [maturity model](../08-program/01-maturity-model.md) review. Where they ship or operate ML models, they also score **ML Platform Maturity** (Dimension 11). Where they use AI in engineering workflows, they score **AI Engineering Maturity** using the L0-L4 table in this section. The two scores are reported side by side when both apply; neither replaces the other.
 
 ### Progression Guide
 
@@ -129,9 +131,9 @@ Platform Engineering maintains an organization-level dashboard showing:
 
 ### Quarterly Review
 
-AI adoption metrics are reviewed quarterly alongside the [maturity model](../08-program/01-maturity-model.md) and [engineering metrics](../08-program/04-engineering-metrics.md). The review covers:
+AI adoption metrics are reviewed quarterly alongside the [maturity model](../08-program/01-maturity-model.md) (including **ML Platform Maturity** for teams with production ML) and [engineering metrics](../08-program/04-engineering-metrics.md). Treat **AI Engineering Maturity** (this document) and **ML Platform Maturity** (Dimension 11) as separate lenses in the same review when both matter. The review covers:
 
-1. Adoption trends - are teams progressing through maturity levels?
+1. Adoption trends - are teams progressing through AI Engineering Maturity levels?
 2. Quality guardrails - are any teams showing degradation?
 3. Context health - are rules files being maintained?
 4. Investment recommendations - tooling, training, context infrastructure

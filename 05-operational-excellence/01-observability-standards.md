@@ -46,7 +46,7 @@ Every log line must contain:
 
 ```json
 {
-  "timestamp": "2024-11-15T14:30:00.123Z",
+  "timestamp": "2026-11-15T14:30:00.123Z",
   "level": "INFO",
   "service": "orders-service",
   "version": "2.14.3",
@@ -240,7 +240,7 @@ Dashboards are stored as JSON in the service repository at `docs/dashboards/` an
 
 ```dockerfile
 # Dockerfile
-COPY --from=ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:latest \
+COPY --from=ghcr.io/open-telemetry/opentelemetry-operator/autoinstrumentation-java:{version} \
      /javaagent.jar /app/javaagent.jar
 
 ENTRYPOINT ["java", \
@@ -887,7 +887,7 @@ canary:
     - name: health-check
       request:
         method: GET
-        url: https://api.{company}.app/api/v1/orders/health
+        url: https://api.{company}.com/v1/orders/health
       assertions:
         - statusCode: 200
         - responseTime: < 2000ms

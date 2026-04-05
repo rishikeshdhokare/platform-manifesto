@@ -1,6 +1,6 @@
 # 🧪 Testing in Production
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -29,11 +29,11 @@ Automated canary scripts run **every 5 minutes** against production APIs, simula
 
 | Canary | Endpoint | Expected Behavior | Alert Threshold |
 |--------|----------|-------------------|-----------------|
-| **Order Request** | `POST /api/v1/orders/request` | 200 OK with order ID within 3s | 2 consecutive failures |
-| **Price Estimate** | `POST /api/v1/orders/estimate` | 200 OK with price breakdown within 2s | 2 consecutive failures |
-| **Provider Location** | `GET /api/v1/providers/{id}/location` | 200 OK with lat/lng within 1s | 2 consecutive failures |
-| **Payment Capture** | `POST /api/v1/payments/capture` (test merchant) | 200 OK with transaction ID within 5s | 2 consecutive failures |
-| **Customer Profile** | `GET /api/v1/customers/{id}` | 200 OK with profile data within 1s | 3 consecutive failures |
+| **Order Request** | `POST https://api.{company}.com/v1/orders/request` | 200 OK with order ID within 3s | 2 consecutive failures |
+| **Price Estimate** | `POST https://api.{company}.com/v1/orders/estimate` | 200 OK with price breakdown within 2s | 2 consecutive failures |
+| **Provider Location** | `GET https://api.{company}.com/v1/providers/{id}/location` | 200 OK with lat/lng within 1s | 2 consecutive failures |
+| **Payment Capture** | `POST https://api.{company}.com/v1/payments/capture` (test merchant) | 200 OK with transaction ID within 5s | 2 consecutive failures |
+| **Customer Profile** | `GET https://api.{company}.com/v1/customers/{id}` | 200 OK with profile data within 1s | 3 consecutive failures |
 | **Health Checks** | `GET /healthz` on all services | 200 OK within 500ms | 1 failure |
 
 ### 2.2 Alerting
