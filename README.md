@@ -23,7 +23,7 @@ Every *"how should I do this?"* answered. Every *"which tool should I use?"* dec
 
 ---
 
-[🆕 Onboarding](./ONBOARDING.md) &nbsp;·&nbsp; [📖 Glossary](./GLOSSARY.md) &nbsp;·&nbsp; [🏛️ Architecture](02-architecture-and-api/01-system-architecture.md) &nbsp;·&nbsp; [⚙️ Backend Standards](03-engineering-practices/09-backend-framework-standards.md) &nbsp;·&nbsp; [🛤️ Golden Path](06-developer-guides/02-golden-path.md) &nbsp;·&nbsp; [🚨 Incidents](05-operational-excellence/04-incident-management.md)
+[🆕 Onboarding](./ONBOARDING.md) &nbsp;·&nbsp; [📖 Glossary](./GLOSSARY.md) &nbsp;·&nbsp; [📊 Executive summary](./EXECUTIVE-SUMMARY.md) &nbsp;·&nbsp; [🏛️ Architecture](02-architecture-and-api/01-system-architecture.md) &nbsp;·&nbsp; [⚙️ Backend Standards](03-engineering-practices/09-backend-framework-standards.md) &nbsp;·&nbsp; [🛤️ Golden Path](06-developer-guides/02-golden-path.md) &nbsp;·&nbsp; [🚨 Incidents](05-operational-excellence/04-incident-management.md)
 
 </div>
 
@@ -58,6 +58,7 @@ One source of truth. One set of standards. Every team, every service, every envi
 
 | You are... | Start here | Then explore |
 |:-----------|:-----------|:-------------|
+| 📊 **CTO, COO, or procurement** | [`EXECUTIVE-SUMMARY.md`](./EXECUTIVE-SUMMARY.md) | Why this exists → adoption phases → migration roadmap |
 | 🆕 **Day 1 new joiner** | [`ONBOARDING.md`](./ONBOARDING.md) | Tech stack → Golden Path → Git workflow |
 | ⚙️ **Backend engineer** | [Backend Framework Standards](03-engineering-practices/09-backend-framework-standards.md) | Architecture, Kafka, Caching, Testing |
 | 🌐 **Frontend engineer** | [Web Frontend Standards](09-mobile-and-frontend/02-web-frontend-standards.md) | Frontend CI/CD, Design System |
