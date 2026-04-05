@@ -418,6 +418,10 @@ Any PR that changes **observable behavior** (API response format, configuration 
 - Backstage TechDocs pages are **auto-generated** from the OpenAPI spec
 - Manual API documentation is not maintained separately - it drifts and becomes a liability
 
+### Related Documents
+
+- [Golden Path](./02-golden-path.md) - end-to-end workflow from clone to production for new services
+
 ---
 <div align="center">
 
