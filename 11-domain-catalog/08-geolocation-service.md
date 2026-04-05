@@ -260,6 +260,16 @@ flowchart TD
 Geolocation Service has **no relational database** and no long-term data retention. All cached data is ephemeral and reconstructible by re-calling external providers.
 
 ---
+
+## 🔐 15. Allowed Callers
+
+| Caller | Protocol | Authorization |
+|--------|----------|--------------|
+| Pricing Service (`{company}.pricing`) | gRPC | mTLS + RBAC role `geolocation.pricing-peer` |
+| Fulfillment Engine (`{company}.fulfillment`) | gRPC | mTLS + RBAC role `geolocation.fulfillment-peer` |
+| Platform maps proxy (`{company}.bff.*`) | gRPC (optional) | mTLS + RBAC `geolocation.bff-read` |
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
