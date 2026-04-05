@@ -1,6 +1,6 @@
 # 🚨 Incident Management
 
-![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Engineering Leadership + Platform](https://img.shields.io/badge/owner-Engineering_Leadership_+_Platform-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Engineering Leadership + Platform](https://img.shields.io/badge/owner-Engineering_Leadership_+_Platform-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
