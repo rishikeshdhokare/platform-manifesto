@@ -1,6 +1,6 @@
 # ✂️ Service Decomposition Criteria
 
-![Status: Guidance](https://img.shields.io/badge/status-guidance-orange?style=flat-square) ![Owner: Principal Engineering](https://img.shields.io/badge/owner-Principal_Engineering-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Guidance](https://img.shields.io/badge/status-guidance-orange?style=flat-square) ![Owner: Principal Engineering](https://img.shields.io/badge/owner-Principal_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -286,7 +286,7 @@ flowchart TD
 ### 7.3 The Interface
 
 ```
-Pricing Service → GET /api/v1/dynamic-pricing/zones/{zoneId}/multiplier → Dynamic Pricing Service
+Pricing Service → GET https://api.{company}.com/v1/dynamic-pricing/zones/{zoneId}/multiplier → Dynamic Pricing Service
 ```
 
 Pricing Service caches the multiplier for 30 seconds to tolerate Dynamic Pricing downtime. If Dynamic Pricing is unavailable, the multiplier defaults to `1.0x` (no dynamic adjustment).

@@ -1,6 +1,6 @@
 # 👀 Code Review Guide
 
-![Status: Guidance](https://img.shields.io/badge/status-guidance-orange?style=flat-square) ![Owner: Engineering Leadership](https://img.shields.io/badge/owner-Engineering_Leadership-purple?style=flat-square) ![Updated: 2025](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Guidance](https://img.shields.io/badge/status-guidance-orange?style=flat-square) ![Owner: Engineering Leadership](https://img.shields.io/badge/owner-Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
@@ -53,7 +53,7 @@ used a flat rate regardless of total distance. Now, price is calculated
 per leg and summed.
 
 ## Why
-Required for RIDE-1892. Providers reported flat-rate multi-stop orders were 
+Required for PROJ-1892. Providers reported flat-rate multi-stop orders were 
 undercompensated for long routes.
 
 ## How it was tested
@@ -65,7 +65,7 @@ undercompensated for long routes.
 ## Notes for reviewer
 The PriceCalculationStrategy interface is new - if you think the strategy 
 pattern is overkill here, happy to discuss. I added it because we'll 
-likely need a different strategy for shared orders (RIDE-2001).
+likely need a different strategy for shared orders (PROJ-2001).
 ```
 
 ### 2.4 Respond to Every Comment
@@ -147,7 +147,7 @@ this will throw a NullPointerException. Suggest:
 // ✅ Good comment
 [suggestion] The PriceCalculationStrategy interface is a nice pattern, but given we 
 currently only have one implementation, it adds indirection without current benefit. 
-YAGNI applies here. Happy to revisit when RIDE-2001 is scoped - at that point the 
+YAGNI applies here. Happy to revisit when PROJ-2001 is scoped - at that point the 
 pattern will pay off. What do you think?
 ```
 

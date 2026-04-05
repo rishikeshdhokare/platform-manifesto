@@ -52,14 +52,17 @@ AWS Organization (Root)
 
 ```mermaid
 flowchart TB
-    Org[AWS Organization] --> ProdOU[Production OU]
-    Org --> NonProdOU[Non-Production OU]
-    Org --> SecurityOU[Security OU]
-    ProdOU --> ProdAcct[prod account]
-    NonProdOU --> DevAcct[dev account]
-    NonProdOU --> StagingAcct[staging account]
-    SecurityOU --> AuditAcct[audit account]
-    SecurityOU --> LogAcct[log-archive account]
+    Org[AWS Organization] --> Mgmt[Management Account]
+    Org --> SecOU[Security OU]
+    SecOU --> SecTool[Security Tooling]
+    SecOU --> LogArc[Log Archive]
+    Org --> InfraOU[Infrastructure OU]
+    InfraOU --> SharedSvc[Shared Services]
+    InfraOU --> NetHub[Network Hub]
+    Org --> WorkOU[Workloads OU]
+    WorkOU --> Dev[Development]
+    WorkOU --> Staging[Staging]
+    WorkOU --> Prod[Production]
 ```
 
 ### 2.1 Account Rules

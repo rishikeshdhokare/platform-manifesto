@@ -6,9 +6,11 @@ These rules apply to any AI agent (Cursor, Copilot, or similar) making changes t
 
 ## Writing Style
 
-- NEVER use em-dashes (" - "). Use regular dashes with spaces (" - ") or rewrite the sentence.
+- NEVER use em-dashes (`—`, Unicode U+2014). Use a hyphen-minus with spaces (` - `) or rewrite the sentence.
 - Use straight quotes, not curly/smart quotes.
-- Use `{Company}` as the company name placeholder everywhere. Never use a real company name.
+- Use placeholders for the company name. Never use a real company name.
+  - `{Company}` (title case) for display names and prose (e.g., "Welcome to {Company}").
+  - `{company}` (lowercase) for URLs, packages, Git orgs, and technical identifiers (e.g., `com.{company}.orders`, `api.{company}.com`).
 - Write in second person ("you") or first person plural ("we").
 - Be direct and opinionated. State rules as rules: "All services must..." not "Services should ideally..."
 - No trailing whitespace. Files end with a single newline.
@@ -67,7 +69,7 @@ When adding, removing, or renaming ANY document:
 
 ## Forbidden Content
 
-- No real company names, employee names, or internal URLs
+- No real company names, employee names, or internal URLs. Templated URLs using the `{company}` placeholder (e.g., `https://backstage.internal.{company}.com`) are allowed and encouraged.
 - No ride-hailing terminology: Jeeny, rider, ride-hail, fare, pickup, dropoff, Trips Service, Matching Engine, Surge Pricing
 - No API keys, passwords, or tokens (even examples must be obviously fake)
 - No region-specific references tied to a particular company
@@ -97,7 +99,7 @@ When adding, removing, or renaming ANY document:
 
 ## Pre-Commit Checklist
 
-- [ ] No em-dashes (" - ") in changed files
+- [ ] No em-dashes (`—`) in changed files
 - [ ] No ride-hailing or company-specific terminology
 - [ ] All internal markdown links resolve
 - [ ] Section README lists all files in the directory
