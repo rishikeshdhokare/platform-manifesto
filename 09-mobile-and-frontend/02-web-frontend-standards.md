@@ -223,9 +223,8 @@ flowchart LR
 | Metric | Target | What It Measures |
 |--------|--------|-----------------|
 | **Largest Contentful Paint (LCP)** | < 2.5 seconds | Loading performance - when the main content becomes visible |
-| **First Input Delay (FID)** | < 100 ms | Interactivity - delay between user input and browser response |
+| **Interaction to Next Paint (INP)** | < 200 ms | Responsiveness - latency of all user interactions throughout the page lifecycle |
 | **Cumulative Layout Shift (CLS)** | < 0.1 | Visual stability - unexpected layout shifts during loading |
-| **Interaction to Next Paint (INP)** | < 200 ms | Responsiveness - latency of all user interactions |
 
 ### 4.2 Monitoring
 
