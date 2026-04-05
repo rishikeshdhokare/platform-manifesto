@@ -69,7 +69,9 @@ Snyk PRs for dependency updates are automatically raised - teams must not ignore
 
 - All external API endpoints require **JWT Bearer token** authentication
 - JWTs are signed with RS256 (asymmetric); public key published at `/.well-known/jwks.json`
-- Token validation happens at the **BFF layer** - downstream services receive a forwarded, already-validated identity context
+- **API Gateway (Lambda authorizer)** validates the JWT **at the edge**: signature, issuer (`iss`), audience (`aud`), expiry (`exp`), and extracts tenant identity. Invalid or expired tokens are rejected before traffic reaches the BFF
+- **BFF layer** enforces **scopes and roles** for each endpoint, **resource-level authorization**, and propagates **trusted identity context** to downstream services over mTLS. This is additive to edge validation, not a substitute for it (see [API Gateway Strategy](./07-api-gateway-strategy.md))
+- **Downstream services** trust the identity context from the BFF; they **do not** re-validate the client JWT
 - Token expiry: **15 minutes** for access tokens; no exceptions for convenience
 
 ### 4.2 Internal Service Authentication
@@ -119,10 +121,10 @@ Example IRSA policy for orders-service:
 ### 4.4 Authorisation in Services
 
 - Services must authorise the **requesting principal** against the **requested resource**
-- Never trust data in the request body for identity - use the claims in the forwarded JWT
-- Implement authorisation at the **service/domain layer**, not just at the API gateway:
+- Never trust data in the request body for identity - use the **trusted identity context** the BFF forwards (claims propagated over mTLS), not a fresh parse of the client's JWT
+- Implement authorisation at the **service/domain layer**, not only at the gateway or BFF:
   ```java
-  // Bad: relies solely on gateway auth
+  // Bad: relies solely on edge or BFF auth
   public Order getOrder(String orderId) {
       return orderRepository.findById(orderId);
   }
@@ -186,8 +188,9 @@ The platform handles customer and provider personal data. All engineers must und
 
 No service trusts another based on network location alone. Every request must be authenticated:
 
-- External → BFF: JWT authentication
-- BFF → Internal service: mTLS (Istio) + forwarded JWT claims
+- External → API Gateway: cryptographic JWT validation (signature, issuer, audience, expiry) at the edge
+- API Gateway → BFF: authenticated request with extracted identity context
+- BFF → Internal service: mTLS (Istio) + trusted identity context (no downstream JWT re-validation)
 - Service → Service: mTLS (Istio) + AuthorizationPolicy
 
 **Visual overview:**
@@ -196,7 +199,8 @@ No service trusts another based on network location alone. Every request must be
 flowchart LR
     Client[Client] --> WAF[WAF]
     WAF --> GW[API Gateway]
-    GW -->|"JWT validate"| Istio[Istio mTLS]
+    GW -->|"crypto JWT"| BFF[BFF]
+    BFF -->|"mTLS context"| Istio[Istio mTLS]
     Istio --> Svc[Service AuthZ]
 ```
 
