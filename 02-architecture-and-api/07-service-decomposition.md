@@ -286,7 +286,7 @@ flowchart TD
 ### 7.3 The Interface
 
 ```
-Pricing Service → GET /api/v1/dynamic-pricing/zones/{zoneId}/multiplier → Dynamic Pricing Service
+Pricing Service → GET https://api.{company}.com/v1/dynamic-pricing/zones/{zoneId}/multiplier → Dynamic Pricing Service
 ```
 
 Pricing Service caches the multiplier for 30 seconds to tolerate Dynamic Pricing downtime. If Dynamic Pricing is unavailable, the multiplier defaults to `1.0x` (no dynamic adjustment).

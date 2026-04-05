@@ -887,7 +887,7 @@ canary:
     - name: health-check
       request:
         method: GET
-        url: https://api.{company}.app/api/v1/orders/health
+        url: https://api.{company}.com/v1/orders/health
       assertions:
         - statusCode: 200
         - responseTime: < 2000ms

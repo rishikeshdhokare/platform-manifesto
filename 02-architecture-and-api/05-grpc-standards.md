@@ -20,7 +20,7 @@ The platform uses **gRPC** for high-performance, typed, internal communication b
 **REST remains mandatory for:**
 
 - **External and public APIs** (`api.{company}.com`, partner webhooks, public documentation)
-- **BFF → client** - mobile and web clients never call gRPC directly; they use REST, GraphQL, or real-time channels as defined in platform standards
+- **BFF → client** - mobile and web clients never call gRPC directly; they use REST or real-time channels as defined in platform standards. **GraphQL is not approved for new services** unless granted via RFC; see [API Standards](./02-api-standards.md) (GraphQL Policy).
 
 ### 1.1 gRPC vs REST - scenario comparison
 

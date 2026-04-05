@@ -100,9 +100,9 @@ Each environment has its own API Gateway stage:
 
 | Stage | Domain | Purpose |
 |---|---|---|
-| `dev` | `api-dev.{company}.app` | Development and integration testing |
-| `staging` | `api-staging.{company}.app` | Pre-production validation |
-| `prod` | `api.{company}.app` | Production traffic |
+| `dev` | `api-dev.{company}.com` | Development and integration testing |
+| `staging` | `api-staging.{company}.com` | Pre-production validation |
+| `prod` | `api.{company}.com` | Production traffic |
 
 ### Terraform Example - Route Configuration
 
