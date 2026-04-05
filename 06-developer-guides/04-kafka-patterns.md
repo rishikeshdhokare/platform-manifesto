@@ -65,7 +65,7 @@ spring:
       acks: all                    # Wait for all replicas - never lose a message
       retries: 3
       retry-backoff-ms: 1000
-      enable-idempotence: true     # Exactly-once producer semantics
+      enable-idempotence: true     # Deduplicates retries at the broker (not end-to-end exactly-once)
       properties:
         schema.registry.url: ${SCHEMA_REGISTRY_URL}
         max.in.flight.requests.per.connection: 1  # Required with idempotence
