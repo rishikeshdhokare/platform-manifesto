@@ -68,19 +68,29 @@ Most teams invest only in the conversation layer (writing better prompts). The l
 
 ## 3. 📂 Repository Context Layer
 
-Every repository must include machine-readable context files that AI tools consume automatically.
+Every repository must include machine-readable context files so engineers and AI-assisted workflows can apply the same standards. Treat repository context as the source of truth, then wire each tool to read it (automatically where supported, explicitly where not).
 
 ### Required Files
 
-| File | Purpose | Consumed By |
-|------|---------|-------------|
-| `AGENTS.md` | Root-level instructions for any AI agent editing the repository | Cursor, Copilot, Windsurf, Cline, any agent |
+| File | Purpose | Primary audience |
+|------|---------|------------------|
+| `AGENTS.md` | Root-level instructions for AI-assisted editing and agents | Any tool you configure to load it (see matrix below) |
 | `.cursor/rules/*.mdc` | Cursor-specific rules with glob-based file matching | Cursor |
 | `.github/copilot-instructions.md` | GitHub Copilot workspace instructions | GitHub Copilot |
 
+> **Compatibility note:** `AGENTS.md` is a convention adopted by several AI-assisted development tools, but support varies. Cursor reads it automatically; GitHub Copilot and other tools may require explicit configuration. Verify the exact behavior in your tool's documentation before relying on automatic loading.
+
+**Tool support (typical behavior - confirm in vendor docs):**
+
+| Tool | `AGENTS.md` | Related repo files |
+|------|-------------|-------------------|
+| Cursor | Loaded automatically from repo root | `.cursor/rules/*.mdc` |
+| GitHub Copilot | Often not automatic; use workspace instructions | `.github/copilot-instructions.md` |
+| Other assistants (e.g. Windsurf, Cline) | Varies by product and version | Product-specific rules or instruction files |
+
 ### AGENTS.md Structure
 
-`AGENTS.md` is the universal entry point. Every AI tool that supports agent-mode checks for this file. It must contain:
+`AGENTS.md` is the **recommended** root-level convention for agent-oriented instructions: keep it in every repository so teams and tools have a single obvious place to look. It must contain:
 
 | Section | Content |
 |---------|---------|
