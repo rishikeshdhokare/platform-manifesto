@@ -18,6 +18,9 @@ Every service repository must contain the following files. Missing files are fla
 | `.github/workflows/` | CI pipeline (build, test, scan, deploy) | Yes |
 | `docs/adr/` | Architecture Decision Records | Yes |
 | `docs/runbook.md` | Operational runbook for on-call engineers | Yes |
+| `AGENTS.md` | AI agent instructions - coding standards, architecture rules, forbidden patterns (see [Context Engineering](../12-ai-engineering/01-context-engineering.md)) | Yes |
+| `.cursor/rules/` | Cursor-specific rules scoped by file pattern | Recommended |
+| `.github/copilot-instructions.md` | GitHub Copilot workspace instructions | Recommended |
 | `Dockerfile` | Container build instructions | Yes |
 | `Makefile` | Standard build targets | Yes |
 | `.gitignore` | Language-appropriate ignore rules | Yes |
@@ -153,6 +156,7 @@ All repositories must include `.github/pull_request_template.md` with this check
 - [ ] Observability added (metrics, logs, traces)
 - [ ] Backward compatible (API, schema, events)
 - [ ] Migration is safe (no table locks on large tables)
+- [ ] Context files updated if standards changed (AGENTS.md, .cursor/rules/)
 
 ## Related Issues
 
@@ -177,6 +181,7 @@ The Backstage template automatically:
 | 4. Backstage entry registered | `catalog-info.yaml` committed and discovered |
 | 5. PagerDuty service linked | On-call escalation policy attached |
 | 6. Grafana dashboards provisioned | Standard service dashboard from template |
+| 7. AI context files created | `AGENTS.md` and `.cursor/rules/` from runtime-specific template |
 
 ### Archival
 

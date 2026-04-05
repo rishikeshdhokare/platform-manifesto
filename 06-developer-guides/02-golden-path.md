@@ -49,6 +49,8 @@ This creates:
 - ArgoCD application manifest added to `platform-config` repo (dev namespace)
 - Backstage catalog entry registered
 - Slack channel `#service-orders-service` created
+- `AGENTS.md` with team-specific coding standards and architecture rules (see [Context Engineering](../12-ai-engineering/01-context-engineering.md))
+- `.cursor/rules/` with runtime-appropriate rules (e.g., Spring Boot patterns for Java services)
 
 **Time: < 5 minutes**
 
