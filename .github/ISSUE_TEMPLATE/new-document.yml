@@ -1,0 +1,46 @@
+name: New document proposal
+description: Propose a new document or section for the manifesto
+labels: ["new-doc"]
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Proposed title
+      description: The document title (e.g., "API Versioning Strategy")
+    validations:
+      required: true
+  - type: dropdown
+    id: section
+    attributes:
+      label: Target section
+      description: Which section should this document belong to?
+      options:
+        - 01 - Platform Standards
+        - 02 - Architecture and API
+        - 03 - Engineering Practices
+        - 04 - Infrastructure and Cloud
+        - 05 - Data Platform
+        - 06 - Developer Experience
+        - 07 - Ways of Working
+        - 08 - Reliability and Operations
+        - 09 - Mobile Engineering
+        - 10 - AI/ML Platform
+        - 11 - Security and Compliance
+        - 12 - AI Engineering
+        - New section (describe below)
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why is this needed?
+      description: What gap does this document fill? What decisions will it help teams make?
+    validations:
+      required: true
+  - type: textarea
+    id: outline
+    attributes:
+      label: Rough outline (optional)
+      description: Key topics the document should cover.
+    validations:
+      required: false

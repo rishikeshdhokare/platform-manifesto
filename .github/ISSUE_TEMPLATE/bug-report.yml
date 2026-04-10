@@ -1,0 +1,29 @@
+name: Bug report
+description: Report broken links, incorrect content, or formatting issues
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve the manifesto.
+  - type: input
+    id: document
+    attributes:
+      label: Affected document
+      description: Path to the file (e.g., 03-engineering-practices/01-testing-strategy.md)
+      placeholder: section/filename.md
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What is wrong?
+      description: Describe the issue - broken link, factual error, formatting problem, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected content
+      description: What the correct content or behavior should be.
+    validations:
+      required: false
