@@ -159,7 +159,7 @@ If a dimension is Red for two consecutive quarters:
 ## Headcount Request: [Team Name]
 
 ### Trigger
-(Which trigger from §4.1 applies?)
+(Which trigger from section 4.1 applies?)
 
 ### Current State
 - Team size: X

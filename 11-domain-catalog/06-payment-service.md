@@ -216,7 +216,7 @@ classDiagram
 
 ## 🔌 5. API surface
 
-Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header (see §9).
+Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header (see section 9).
 
 | Method | Path | Description |
 |--------|------|---------------|

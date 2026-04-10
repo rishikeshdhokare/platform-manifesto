@@ -167,7 +167,7 @@ sequenceDiagram
 
 ## 🧩 4. Compensation Patterns
 
-When a saga step **fails**, earlier **forward** effects must be **compensated** (semantic undo - not always a literal delete). Compensation is also triggered on **timeouts** (see §7).
+When a saga step **fails**, earlier **forward** effects must be **compensated** (semantic undo - not always a literal delete). Compensation is also triggered on **timeouts** (see section 7).
 
 | Step (forward) | Compensation action | Owner |
 |----------------|---------------------|--------|
@@ -285,8 +285,8 @@ flowchart LR
 
 | Step | Timeout (default) | On timeout |
 |------|-------------------|------------|
-| Payment capture | **5 minutes** | Publish **`saga.payment.capture.timeout`** (or internal compensating command); **trigger compensation** in Orders / Notifications per §4 |
-| Notification dispatch | **30 seconds** | Retry with backoff; after max retries, route to DLQ (§8); do **not** block payment completion |
+| Payment capture | **5 minutes** | Publish **`saga.payment.capture.timeout`** (or internal compensating command); **trigger compensation** in Orders / Notifications per section 4 |
+| Notification dispatch | **30 seconds** | Retry with backoff; after max retries, route to DLQ (section 8); do **not** block payment completion |
 
 **Scheduler:** a **workflow or job runner** (e.g. Quartz, Spring `@Scheduled`, Temporal, or cloud schedulers) **scans for timed-out saga legs every 1 minute** and emits timeout/compensation events. Orchestrated settlement sagas store **deadline** per step in orchestrator state.
 
@@ -321,7 +321,7 @@ flowchart LR
 | Saga completion rate | Ratio of terminal success events to started sagas (e.g. per `sagaType`) |
 | Saga duration | **P50 / P99** time from `orders.order.completed` to `payments.payment.captured` |
 | Failed sagas | Count per hour: `payments.payment.failed` + compensation outcomes |
-| Stuck sagas | Count of orders matching §6 detection query |
+| Stuck sagas | Count of orders matching section 6 detection query |
 
 **Alert rules (initial thresholds):**
 

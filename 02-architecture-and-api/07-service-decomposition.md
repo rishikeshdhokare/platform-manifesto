@@ -37,7 +37,7 @@ flowchart TD
     sizeQ -->|"No"| keep["Keep together"]
     boundaryQ -->|"Yes"| split
     boundaryQ -->|"No"| refactor["Refactor internally"]
-    split --> proceed["Proceed to §8"]
+    split --> proceed["Proceed to section 8"]
     keep --> revisit["Revisit in 3mo"]
 ```
 
@@ -273,7 +273,7 @@ flowchart TD
     tinyQ -->|"No"| keep
 ```
 
-After deciding: split -> follow §8 Split Process; merge -> validate combined service stays under 20k LOC; refactor or keep -> review in 3 months.
+After deciding: split -> follow section 8 Split Process; merge -> validate combined service stays under 20k LOC; refactor or keep -> review in 3 months.
 
 ---
 

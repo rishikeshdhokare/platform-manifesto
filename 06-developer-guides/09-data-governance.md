@@ -103,7 +103,7 @@ All datasets - databases, Kafka topics, object storage prefixes, warehouse table
 | **Dataset name** | Yes | `orders.order_events` |
 | **Owner** | Yes | `orders-team` |
 | **Data steward** | Yes | `jane.doe@{company}.com` |
-| **Classification** | Yes | `Personal` / `Operational` / `Public` (per privacy-engineering.md §2) |
+| **Classification** | Yes | `Personal` / `Operational` / `Public` (per privacy-engineering.md section 2) |
 | **Schema** | Yes | Avro schema (Kafka), DDL for relational stores, catalog table definition for lake objects (**reference:** Glue table for S3) |
 | **Retention policy** | Yes | `90 days` / `7 years` / `indefinite (anonymized)` |
 | **Quality tier** | Yes | `Tier 1` / `Tier 2` / `Tier 3` |
@@ -163,7 +163,7 @@ results = validator.validate()
 
 ### 4.4 Alerting
 
-Quality check failures trigger alerts through the SLA breach response matrix (§2.3). All alerts include:
+Quality check failures trigger alerts through the SLA breach response matrix (section 2.3). All alerts include:
 - Dataset name and owner
 - Check that failed
 - Expected vs actual values
@@ -227,7 +227,7 @@ An analytics data contract is a formal agreement between a data producer and its
 |-----------|--------|
 | **Schema** | Published in the data catalog; versioned (**reference:** AWS Glue Data Catalog) |
 | **Freshness SLA** | Maximum delay from source event to availability in the analytics store |
-| **Quality tier** | Tier 1, 2, or 3 (per §2) |
+| **Quality tier** | Tier 1, 2, or 3 (per section 2) |
 | **Breaking change policy** | Follows the event schema evolution process (`02-architecture-and-api/08-event-schema-evolution.md`) |
 | **Consumer notification** | All registered consumers are notified before any schema change |
 
@@ -278,7 +278,7 @@ Each domain must maintain a data retention matrix that defines the lifecycle of 
 - **Every data store must have a defined retention period.** No exceptions. "We'll figure it out later" is not a retention policy.
 - **Retention is enforced automatically.** Manual deletion is not a strategy - it is a liability. Use TTL, lifecycle policies, and scheduled jobs.
 - **Legal hold overrides retention.** When legal places a hold on data related to litigation or regulatory investigation, automated deletion is suspended for the held records until the hold is lifted.
-- **Anonymized data may be retained indefinitely.** Data that has been irreversibly anonymized (per `04-infrastructure-and-cloud/08-privacy-engineering.md` §4) is not subject to PII retention limits.
+- **Anonymized data may be retained indefinitely.** Data that has been irreversibly anonymized (per `04-infrastructure-and-cloud/08-privacy-engineering.md` section 4) is not subject to PII retention limits.
 
 ---
 
@@ -325,7 +325,7 @@ For full PII handling details - including data classification, privacy impact as
 | **No direct cross-service DB access** | Services access each other's data via APIs or Kafka events - never via direct database queries. A service's database is a private implementation detail. |
 | **Least privilege** | IAM policies grant the minimum permissions required. No wildcard (`*`) resource permissions for data stores. |
 | **Analytics via Redshift/QuickSight only** | Analysts and data scientists access production data through Redshift (read replicas) or QuickSight dashboards - never via direct RDS connections. |
-| **Audit trail** | All data access is logged. PII access is logged with justification (per privacy-engineering.md §10). |
+| **Audit trail** | All data access is logged. PII access is logged with justification (per privacy-engineering.md section 10). |
 
 ### 9.2 Access Model
 
@@ -371,7 +371,7 @@ flowchart TD
 | 2 | Data steward for the target dataset reviews and approves/denies within 2 business days |
 | 3 | Approved access is provisioned via IAM policy update (automated) |
 | 4 | Access is time-boxed: default 90 days, renewable with re-approval |
-| 5 | Quarterly access review revokes stale permissions (per privacy-engineering.md §10) |
+| 5 | Quarterly access review revokes stale permissions (per privacy-engineering.md section 10) |
 
 ---
 <div align="center">
