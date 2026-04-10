@@ -6,7 +6,7 @@
 
 ## 🎯 1. Philosophy
 
-Code is read far more than it is written. Every decision in this guide optimises for **readability, predictability, and maintainability** - not brevity or cleverness.
+Code is read far more than it is written. Every decision in this guide optimizes for **readability, predictability, and maintainability** - not brevity or cleverness.
 
 When in doubt, ask: *"Will a colleague who has never seen this code understand it in 30 seconds?"* If the answer is no, simplify.
 
@@ -14,9 +14,9 @@ When in doubt, ask: *"Will a colleague who has never seen this code understand i
 
 ## 🔄 2. Automated Enforcement
 
-**Principle:** Use your language's **canonical style guide and formatter**, and enforce it in **pre-commit and CI** so reviews focus on behaviour, not whitespace. Add static analysis for complexity, duplication, and (where available) architectural boundaries.
+**Principle:** Use your language's **canonical style guide and formatter**, and enforce it in **pre-commit and CI** so reviews focus on behavior, not whitespace. Add static analysis for complexity, duplication, and (where available) architectural boundaries.
 
-Most style rules are enforced automatically. You do not need to memorise them - your IDE and CI will tell you when you're wrong.
+Most style rules are enforced automatically. You do not need to memorize them - your IDE and CI will tell you when you're wrong.
 
 **Reference implementation (Java):**
 
@@ -45,7 +45,7 @@ The rules below cover things tools **cannot** enforce - judgment calls that requ
 | Constant | `SCREAMING_SNAKE_CASE` | `MAX_RETRY_ATTEMPTS`, `DEFAULT_TIMEOUT_MS` |
 | Package | lowercase, dot-separated | `com.{company}.orders.domain` |
 | Test class | `{ClassUnderTest}Test` | `OrderServiceTest` |
-| Test method | `methodName_givenCondition_expectedBehaviour` | `calculatePrice_givenDynamicPricing_returnsMultiplied` |
+| Test method | `methodName_givenCondition_expectedBehavior` | `calculatePrice_givenDynamicPricing_returnsMultiplied` |
 
 ### 3.2 Be Specific - No Generic Names
 

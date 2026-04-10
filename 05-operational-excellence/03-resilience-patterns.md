@@ -19,7 +19,7 @@ With resilience patterns, a failing dependency causes **graceful degradation** -
 
 ## 🛡️ 2. Library choice (framework-agnostic patterns)
 
-**Principle:** Circuit breakers, retries with backoff, timeouts, bulkheads, and fallbacks are **required patterns** for synchronous outbound calls. They are **not** tied to one language: implement them with whatever library matches your stack, as long as behaviour and observability match this document.
+**Principle:** Circuit breakers, retries with backoff, timeouts, bulkheads, and fallbacks are **required patterns** for synchronous outbound calls. They are **not** tied to one language: implement them with whatever library matches your stack, as long as behavior and observability match this document.
 
 **Substitution points (examples):**
 - **JVM / Spring:** **Resilience4j** (below)

@@ -82,7 +82,7 @@ Each capability has four levels:
 |----------|----|----|-------------|-----|
 | Logging | Unstructured logs or no logs | Structured logs, inconsistent fields | Structured JSON with all required fields; correlation IDs | Logs searchable in OpenSearch; traceId → log query from trace |
 | Metrics | No metrics | Basic framework metrics endpoint (**reference:** Spring Actuator) | RED metrics + business metrics + Grafana dashboard | Custom SLO dashboard; error budget tracked |
-| Distributed tracing | No tracing | Some manual instrumentation | OTel agent; full trace from BFF to DB | Trace sampling optimised; tail-based sampling for errors |
+| Distributed tracing | No tracing | Some manual instrumentation | OTel agent; full trace from BFF to DB | Trace sampling optimized; tail-based sampling for errors |
 | Alerting | No alerts | Some alerts, no runbooks | P1/P2 alerts with runbooks for all services | Alerts reviewed quarterly; false positive rate < 5% |
 | SLOs | Not defined | SLOs defined; error budget policy defined and enforced | SLOs tracked in Grafana; burn-rate alerting configured | Error budget automated; freeze on budget exhaustion with self-service override |
 | On-call runbooks | None | Exists but outdated | Runbooks up to date; linked from every alert | Runbooks tested in DR exercises; measurable MTTR |

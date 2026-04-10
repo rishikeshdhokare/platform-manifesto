@@ -140,7 +140,7 @@ flowchart LR
 
 1. Designer presents the design (5 min).
 2. Engineer asks clarifying questions (10 min).
-3. Group identifies gaps (edge cases, states, responsive behaviour) (10 min).
+3. Group identifies gaps (edge cases, states, responsive behavior) (10 min).
 4. Action items documented in Figma comments (5 min).
 
 ---

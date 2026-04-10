@@ -61,9 +61,9 @@ These metrics correlate with AI adoption but are influenced by many factors (tea
 | AI-generated vs human-written defect rates | Too many confounding variables; creates blame culture |
 | Individual developer AI usage | Creates surveillance culture; adoption is a team concern, not an individual performance metric |
 
-### Agent Fleet Metrics (for agent-native organisations)
+### Agent Fleet Metrics (for agent-native organizations)
 
-Organisations where AI agents are first-class engineering participants (see [Agent-Native by Design](../README.md#-agent-native-by-design)) should track agent effectiveness alongside human adoption. These metrics supplement (not replace) the adoption and effectiveness metrics above.
+Organizations where AI agents are first-class engineering participants (see [Agent-Native by Design](../README.md#-agent-native-by-design)) should track agent effectiveness alongside human adoption. These metrics supplement (not replace) the adoption and effectiveness metrics above.
 
 | Metric | Source | Purpose |
 |:-------|:-------|:--------|

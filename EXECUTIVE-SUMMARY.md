@@ -6,7 +6,7 @@
 
 ## 1. 📋 What This Is
 
-The {Company} Platform Engineering Manifesto is a **single, opinionated source of truth** for how software is designed, built, deployed, and operated. It is **company-agnostic in spirit**: the principles apply to any organisation; named tools are a reference implementation you can swap for your own stack. It is not a wiki of suggestions - it records **decisions already made** so teams spend less time re-debating and more time shipping. Changes flow through the same rigour as code: pull requests, review, and version history in Git.
+The {Company} Platform Engineering Manifesto is a **single, opinionated source of truth** for how software is designed, built, deployed, and operated. It is **company-agnostic in spirit**: the principles apply to any organization; named tools are a reference implementation you can swap for your own stack. It is not a wiki of suggestions - it records **decisions already made** so teams spend less time re-debating and more time shipping. Changes flow through the same rigor as code: pull requests, review, and version history in Git.
 
 ---
 
@@ -52,7 +52,7 @@ Timelines, exit criteria, and risk management are spelled out in the [Migration 
 
 ---
 
-## 5. 🏢 Required Organisational Capabilities
+## 5. 🏢 Required Organizational Capabilities
 
 Getting value from the manifesto is not only a documentation exercise. You typically need:
 
@@ -61,9 +61,9 @@ Getting value from the manifesto is not only a documentation exercise. You typic
 - **CI/CD and infrastructure foundations** - Automated build, test, security scanning, and promotion; infrastructure as code; secrets and config management fit for regulated change.
 - **Governance that rewards compliance** - Clear exceptions (for example ADRs), not silent drift; product teams should see standards as acceleration, not bureaucracy.
 
-### For agent-native organisations
+### For agent-native organizations
 
-If your organisation uses AI agents as first-class engineering participants - planning, coding, reviewing, deploying, and operating services alongside humans - you additionally need:
+If your organization uses AI agents as first-class engineering participants - planning, coding, reviewing, deploying, and operating services alongside humans - you additionally need:
 
 - **Agent identity and access** - Service accounts or OIDC identities for agents with the same RBAC and audit trail as human engineers.
 - **Human-in-the-loop gates** - Explicit policy for which actions agents may perform autonomously (e.g. opening PRs, running CI) and which require human approval (e.g. merging to main, production deploys, architecture decisions).

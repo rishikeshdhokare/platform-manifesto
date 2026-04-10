@@ -140,7 +140,7 @@ Decision rights and timing thresholds are **universal**. References to the AWS s
 
 ### 4.1 Who Decides
 
-Failover to the secondary region is a **major operational decision**. It is authorised by:
+Failover to the secondary region is a **major operational decision**. It is authorized by:
 
 | Scenario | Decision Maker | Backup |
 |----------|---------------|--------|
@@ -185,7 +185,7 @@ flowchart TD
 
 ## 🔥 5. Failover Procedure
 
-**Reference implementation (AWS):** Once authorised, execute the following steps **in order**. Each step has a responsible party and an estimated duration. Replace CLI and product names with your cloud's global database failover, DNS API, managed Kafka mirror, and multi-cluster deploy tooling while preserving verification intent.
+**Reference implementation (AWS):** Once authorized, execute the following steps **in order**. Each step has a responsible party and an estimated duration. Replace CLI and product names with your cloud's global database failover, DNS API, managed Kafka mirror, and multi-cluster deploy tooling while preserving verification intent.
 
 **Pre-requisite:** Open a dedicated Slack channel `#incident-dr-{YYYY-MM-DD}` and notify all participants.
 
@@ -259,7 +259,7 @@ argocd app sync --all --context {company}-eu-central-1
 □  MSK MirrorMaker 2 is replicating from eu-central-1 → eu-west-1
 □  EKS cluster in eu-west-1 is healthy with all pods running
 □  Data reconciliation is complete (see Section 7)
-□  Failback has been authorised by CTO/VP Engineering
+□  Failback has been authorized by CTO/VP Engineering
 □  Failback window is during low-traffic period (02:00-06:00)
 ```
 
@@ -345,7 +345,7 @@ The script compares records created/updated during the failover window and flags
 **Region:** eu-west-1 (Ireland) → eu-central-1 (Frankfurt)
 **Trigger:** [Description of regional failure]
 **Time declared:** [HH:MM UTC]
-**Authorised by:** [CTO / VP Engineering name]
+**Authorized by:** [CTO / VP Engineering name]
 **Incident Commander:** [Name]
 
 **Current status:** Executing failover procedure step [N/10]
@@ -444,7 +444,7 @@ Disaster recovery procedures that are never tested are disaster recovery procedu
 
 | Role | Responsibility During Exercise |
 |------|-------------------------------|
-| CTO / VP Engineering | Authorise exercise, observe decision-making |
+| CTO / VP Engineering | Authorize exercise, observe decision-making |
 | Platform Engineering (all) | Execute failover procedure |
 | QA Lead | Run smoke test suites |
 | On-call engineers (per domain) | Validate their services in secondary region |

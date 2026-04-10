@@ -162,8 +162,8 @@ Every domain document in this catalog must include the following subsections. Wh
 ### Required Subsections
 
 1. **SLOs and Error Budgets** - availability target, latency p99, error rate ceiling, and error budget policy (what happens when the budget is exhausted)
-2. **Failure Modes** - degraded behaviour description, user-facing impact, fallback strategy, and blast radius
-3. **Capacity Sizing** - instance count (min/max replicas), database connection pool size, peak QPS, and HPA configuration (target CPU/memory, scale-up/scale-down behaviour)
+2. **Failure Modes** - degraded behavior description, user-facing impact, fallback strategy, and blast radius
+3. **Capacity Sizing** - instance count (min/max replicas), database connection pool size, peak QPS, and HPA configuration (target CPU/memory, scale-up/scale-down behavior)
 4. **Data Retention Matrix** - per data store (DB tables, Kafka topics, S3 buckets, log groups): what is retained, for how long, and the deletion/archival mechanism
 5. **Allowed Callers** - which services may call this service, via which protocol (gRPC, REST, Kafka), and the authorization mechanism (mTLS identity, RBAC role, API key)
 

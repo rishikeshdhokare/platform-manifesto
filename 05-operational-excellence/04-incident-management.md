@@ -6,7 +6,7 @@
 
 ## 🎯 1. Philosophy
 
-**Incidents are normal.** Complex distributed systems fail. The measure of an engineering organisation is not whether incidents happen - it is how quickly they are detected, how calmly they are managed, and how thoroughly they are learned from.
+**Incidents are normal.** Complex distributed systems fail. The measure of an engineering organization is not whether incidents happen - it is how quickly they are detected, how calmly they are managed, and how thoroughly they are learned from.
 
 Two rules that govern everything:
 1. **Restore service first. Investigate second.** Never let debugging delay a fix you can already apply.
@@ -651,7 +651,7 @@ All high-risk changes must be announced at least **48 hours in advance** in the 
 
 ## 📊 16. MTTx Targets
 
-### 16.1 Organisation-Wide Targets
+### 16.1 Organization-Wide Targets
 
 | Severity | MTTD (Mean Time to Detect) | MTTR (Mean Time to Resolve) | Tracking |
 |----------|---------------------------|----------------------------|----------|

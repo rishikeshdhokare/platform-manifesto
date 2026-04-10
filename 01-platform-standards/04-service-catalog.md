@@ -116,7 +116,7 @@ Apply the domain name as a tag (e.g., `orders-domain`, `pricing-domain`, `fulfil
 
 ### Automation Tags
 
-For organisations using AI agents as engineering participants, the following tags indicate how a service is operated:
+For organizations using AI agents as engineering participants, the following tags indicate how a service is operated:
 
 | Tag | When to Apply |
 |:----|:-------------|

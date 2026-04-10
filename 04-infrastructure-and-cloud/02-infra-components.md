@@ -304,7 +304,7 @@ All scheduled tasks (previously cron jobs) are managed via EventBridge Scheduler
 - Schedules are defined in Terraform (not in application code)
 - Targets are Lambda functions or EKS CronJobs
 - Failed executions trigger CloudWatch alarms
-- No scheduled tasks run in application containers - this creates unpredictable scaling behaviour
+- No scheduled tasks run in application containers - this creates unpredictable scaling behavior
 
 ---
 

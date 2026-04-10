@@ -7,7 +7,7 @@
 | If you want to... | Go to |
 |-------------------|-------|
 | Use AI coding assistants (Copilot, Cursor) effectively | **This section (12)** |
-| Operate an agent-native engineering organisation | **This section (12)** + [Agent-Native by Design](../README.md#-agent-native-by-design) |
+| Operate an agent-native engineering organization | **This section (12)** + [Agent-Native by Design](../README.md#-agent-native-by-design) |
 | Measure AI and agent adoption across your engineering team | **This section (12)** |
 | Build ML models, training pipelines, or feature stores | [Section 10 - AI/ML Platform](../10-ai-ml-platform/README.md) |
 | Set up model serving or A/B testing for ML models | [Section 10 - AI/ML Platform](../10-ai-ml-platform/README.md) |

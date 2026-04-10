@@ -107,7 +107,7 @@ Every repository ships with a PR template at `.github/pull_request_template.md`:
 - [ ] OpenAPI spec updated (if API changes)
 - [ ] ADR raised (if architectural decision made)
 - [ ] Feature flag added (if deploying behind a flag)
-- [ ] Runbook updated (if operational behaviour changed)
+- [ ] Runbook updated (if operational behavior changed)
 - [ ] No secrets or credentials committed
 ```
 
@@ -115,7 +115,7 @@ Every repository ships with a PR template at `.github/pull_request_template.md`:
 
 Reviewers are expected to check for:
 - Correctness (does it do what it says?)
-- Test coverage (is the behaviour tested?)
+- Test coverage (is the behavior tested?)
 - Security (no credentials, no injection risks, no overly permissive access)
 - API contract adherence (does it follow API standards?)
 - Observability (does it log and emit metrics appropriately?)
@@ -138,7 +138,7 @@ The platform team provides **reusable workflow templates** in the central `platf
 
 Triggered on: **every push to a feature branch / every PR update**
 
-**Time budget: < 10 minutes total. If it's slower, optimise it.**
+**Time budget: < 10 minutes total. If it's slower, optimize it.**
 
 **Principle (tool-agnostic):** Every PR pipeline must **check out** the change, **restore build caches**, **compile** (fail fast on syntax and types), **lint and format-check**, **run fast tests** with a **coverage gate**, **run slower integration or contract checks** as budget allows, **scan dependencies and secrets**, **analyse static quality**, and **build a container image** without publishing it. Stages map to your toolchain (Maven, npm, Poetry, Go modules, .NET SDK, etc.).
 
@@ -303,7 +303,7 @@ These gates are **non-negotiable**. A PR cannot be merged if any of these fail:
 | PR pipeline | < 10 min | > 15 min triggers review |
 | Main pipeline | < 15 min | > 20 min triggers review |
 
-If a pipeline consistently exceeds its SLA, the team is expected to optimise it - slow feedback loops kill CI culture.
+If a pipeline consistently exceeds its SLA, the team is expected to optimize it - slow feedback loops kill CI culture.
 
 ---
 

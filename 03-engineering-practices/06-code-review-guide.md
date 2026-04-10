@@ -89,7 +89,7 @@ likely need a different strategy for shared orders (PROJ-2001).
 
 **Do review:**
 - Correctness - does it do what it says?
-- Test coverage - is the behaviour tested? Are edge cases covered?
+- Test coverage - is the behavior tested? Are edge cases covered?
 - Design - is the solution appropriately simple? Are responsibilities in the right place?
 - Security - no secrets, no injection risks, no overly permissive access
 - API contracts - does it follow the [API standards](../02-architecture-and-api/02-api-standards.md)?
@@ -269,7 +269,7 @@ When the PR author is an AI agent (or a human using AI to generate the majority 
 |:-----|:-------------------|
 | **Edge cases and error paths** | Agents generate plausible happy-path code but often miss domain-specific edge cases (null states, race conditions, partial failures) |
 | **Security-sensitive logic** | Agents may generate subtly insecure patterns for auth, encryption, or PII handling. Mark security-critical sections with `[blocking]` and verify manually |
-| **Test meaningfulness** | Agent-generated tests can be tautological (testing that the code does what the code does). Verify each test would fail if the behaviour it claims to test actually changed |
+| **Test meaningfulness** | Agent-generated tests can be tautological (testing that the code does what the code does). Verify each test would fail if the behavior it claims to test actually changed |
 | **Unnecessary complexity** | Agents sometimes produce working but unnecessarily abstract solutions. Prefer simpler implementations; if you cannot explain why the code is structured this way, request a rewrite |
 | **Licence and attribution** | If the agent pulled in a new dependency or code pattern, verify it does not introduce licence conflicts |
 

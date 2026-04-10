@@ -54,7 +54,7 @@ flowchart TB
 
 A unit test exercises a **single class or function in complete isolation**. All dependencies are mocked or stubbed.
 
-**Principle:** The unit layer proves **domain and small-module behaviour** without I/O; dependencies are **replaced with test doubles** so failures point to one unit.
+**Principle:** The unit layer proves **domain and small-module behavior** without I/O; dependencies are **replaced with test doubles** so failures point to one unit.
 
 ### 2.2 Framework & Libraries
 
@@ -72,7 +72,7 @@ A unit test exercises a **single class or function in complete isolation**. All 
 ### 2.3 Rules
 
 - Tests must be **independent** - no shared mutable state between tests
-- Test names follow: `methodName_givenCondition_expectedBehaviour`
+- Test names follow: `methodName_givenCondition_expectedBehavior`
   ```java
   @Test
   void calculatePrice_givenDynamicPricingActive_returnsMultipliedPrice() { ... }

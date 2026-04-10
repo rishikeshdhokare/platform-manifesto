@@ -71,7 +71,7 @@ export default TurboModuleRegistry.getEnforcing<Spec>('LocationTracker');
 
 ### 2.1 Stack & Structure
 
-{Company} uses **React Navigation v6+** with a standardised stack hierarchy:
+{Company} uses **React Navigation v6+** with a standardized stack hierarchy:
 
 ```
 RootNavigator (Stack)
@@ -205,7 +205,7 @@ Load the `.cpuprofile` in Chrome DevTools → Performance tab to identify hot fu
 
 | Flag | Value | Rationale |
 |------|-------|-----------|
-| `hermesFlags` | `"-O"` | Optimised bytecode for release builds |
+| `hermesFlags` | `"-O"` | Optimized bytecode for release builds |
 | `enableHermes` | `true` | Mandatory - enforced by CI lint |
 | `hermesFlagsDebug` | `""` | No optimisation in debug for accurate profiling |
 

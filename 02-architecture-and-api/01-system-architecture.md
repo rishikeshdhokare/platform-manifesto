@@ -261,8 +261,8 @@ Every service owns exactly one logical database. No exceptions.
 ### 7.2 CQRS Where Applicable
 
 For read-heavy domains (order history, provider listings), implement CQRS:
-- **Write model:** Normalised relational store (Aurora)
-- **Read model:** Denormalised projection (OpenSearch or a read replica)
+- **Write model:** Normalized relational store (Aurora)
+- **Read model:** Denormalized projection (OpenSearch or a read replica)
 - Projections are rebuilt from events - they are not the source of truth
 
 ### 7.3 Eventual Consistency Rules

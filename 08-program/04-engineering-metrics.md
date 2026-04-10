@@ -344,7 +344,7 @@ graph TB
 
 ## 🚫 11. Metrics We Do Not Use
 
-The following metrics are **explicitly excluded** from engineering evaluation at {Company}. They are vanity metrics that incentivize the wrong behaviours, reward activity over impact, and damage team culture when used in comparisons or reviews.
+The following metrics are **explicitly excluded** from engineering evaluation at {Company}. They are vanity metrics that incentivize the wrong behaviors, reward activity over impact, and damage team culture when used in comparisons or reviews.
 
 | Metric | Why We Reject It |
 |--------|-----------------|
