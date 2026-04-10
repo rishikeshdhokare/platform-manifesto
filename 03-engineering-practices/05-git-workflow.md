@@ -426,6 +426,48 @@ Tools like `conventional-changelog` can generate changelog entries from commit m
 | **Future engineers on your team** | Historical context for why the service changed |
 
 ---
+
+## 🤖 9. Agent Commit and Branch Standards
+
+AI coding agents that commit code must follow all git workflow rules in this document. Additionally, agent commits require clear identity attribution so the git history remains auditable.
+
+### 9.1 Commit Identity
+
+Git distinguishes between **author** (who wrote the change) and **committer** (who applied it). Agent workflows must set both fields correctly:
+
+| Field | Value | Purpose |
+|-------|-------|---------|
+| **Author** | The human engineer who initiated or approved the agent task | Accountability - the human owns the change |
+| **Committer** | `{agent-name}[bot] <{agent-name}[bot]@users.noreply.github.com>` | Traceability - the git log shows an agent applied the change |
+
+```bash
+git commit --author="Ada Lovelace <ada@{company}.com>" -m "feat(orders): add retry logic"
+```
+
+### 9.2 DCO and Signed Commits
+
+- Agent commits must include a `Signed-off-by` trailer for DCO compliance, using the **human author's identity** (the person who triggered the agent).
+- GPG signing is performed using the GitHub App's signing key, not a personal developer key.
+- CI verifies that every agent commit has a valid `Signed-off-by` trailer matching a known {Company} contributor.
+
+### 9.3 Branch Naming for Agent Work
+
+Agent-created branches follow the standard naming convention with an `agent/` prefix:
+
+```
+agent/{type}/{ticket}-{short-description}
+
+Examples:
+  agent/fix/PROJ-4567-null-check-order-service
+  agent/refactor/PROJ-7890-extract-pricing-logic
+  agent/chore/PROJ-1111-bump-spring-boot
+```
+
+The `agent/` prefix enables branch protection rules and CI workflows to apply agent-specific policies (such as mandatory human review before merge).
+
+> **Cross-reference:** See [Section 12 - AI Engineering](../12-ai-engineering/) for the full agent identity and governance framework.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

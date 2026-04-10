@@ -617,6 +617,35 @@ pitest {
 Survived mutants indicate **weak test assertions**, not necessarily missing tests. A test that calls the method but only asserts `assertNotNull(result)` will show high code coverage but low mutation score.
 
 ---
+
+## 🤖 13. Validating AI-Generated Tests
+
+AI coding agents can produce test suites quickly, but speed does not imply correctness. When the same agent writes both production code and the tests for it, the tests inherit the agent's blind spots. Human reviewers must treat AI-generated tests with the same scrutiny as AI-generated production code.
+
+### 13.1 Anti-Patterns to Watch For
+
+| Anti-Pattern | Description | Detection |
+|--------------|-------------|-----------|
+| **Tautological tests** | Test asserts the exact implementation rather than the specification; passes by definition | Code review - if the assertion mirrors the source line, it proves nothing |
+| **Over-mocking** | Every collaborator is mocked, so the test only proves the mock wiring | Review mock count per test; flag tests with >3 mocks |
+| **Correlated blind spots** | Same agent writes code and tests - both share the same misunderstanding of the requirement | Independent reviewer compares tests against the spec, not the implementation |
+| **Copy-paste inflation** | Agent generates dozens of shallow tests to hit a coverage target without varying inputs meaningfully | Mutation testing exposes these - high coverage but low mutation score |
+
+### 13.2 Verification Techniques
+
+- **Property-based testing:** Use libraries like jqwik (Java), Hypothesis (Python), or fast-check (TypeScript) to generate randomised inputs. Property tests catch edge cases that hand-picked examples miss - regardless of who wrote them.
+- **Mutation testing:** Run PIT or equivalent (see section 12) against agent-generated test suites. A low mutation score is a strong signal that the tests are asserting too weakly.
+- **Spec-based review:** Reviewers must compare AI-generated tests against the acceptance criteria or API contract, not against the production code. Tests that only reflect what the code does (rather than what it should do) are tautological.
+- **Independent test authoring:** For Tier 1 services, the engineer who accepts agent-generated production code should write (or at least review and augment) the tests independently.
+
+### 13.3 CI Guardrails
+
+- AI-generated PRs that include both source and test changes must be flagged with the `ai-authored` label (see [02-ci-practices.md](./02-ci-practices.md)) so reviewers know to apply additional scrutiny.
+- Mutation testing gates (section 12) apply equally to AI-generated and human-written tests.
+
+> **Cross-reference:** See [Section 12 - AI Engineering](../12-ai-engineering/) for the full agentic development framework, including agent identity, governance, and review requirements.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

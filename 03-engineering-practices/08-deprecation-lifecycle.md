@@ -14,6 +14,7 @@
 6. [Consumer Migration Checklist](#6-consumer-migration-checklist)
 7. [CI Enforcement](#7-ci-enforcement)
 8. [Exception Process](#8-exception-process)
+9. [Agent-Automated Migrations](#9-agent-automated-migrations)
 
 ---
 
@@ -245,6 +246,40 @@ Deadlines exist for a reason. Extensions are granted only when the migration is 
 ### 8.3 Exception Tracking
 
 All active exceptions are tracked in a shared tracker (linked from the Platform Engineering Backstage page) and reviewed monthly in the Platform Engineering review meeting.
+
+---
+
+## 🤖 9. Agent-Automated Migrations
+
+AI agents can accelerate deprecation migrations by generating migration PRs across many repositories. This capability is powerful but requires governance to prevent a flood of unreviewed changes.
+
+### 9.1 Governance for Bulk Agent PRs
+
+| Guardrail | Policy |
+|-----------|--------|
+| **Rate limiting** | Max 5 agent migration PRs per repository per day. Max 20 across all repositories per agent per day. |
+| **Ownership verification** | The agent must confirm (via Backstage service catalog) that the target repository's owning team has opted in to automated migration PRs. |
+| **PR labeling** | All agent migration PRs carry `ai-authored` and `migration` labels for filtering and review routing. |
+| **Human approval required** | Agent migration PRs must not be auto-merged. Each PR requires at least 1 approval from the owning team. |
+
+### 9.2 Verification Strategy
+
+Automated migrations at scale can introduce subtle regressions. Every agent migration PR must:
+
+- Pass the full CI pipeline of the target repository (unit, integration, contract tests)
+- Include a summary of what was changed and why, referencing the deprecation notice and migration guide
+- Be scoped to a single migration concern per PR (do not bundle unrelated changes)
+- Include before/after evidence where applicable (e.g., API response comparison, dependency tree diff)
+
+### 9.3 Rollback Plan
+
+If a batch of agent migration PRs introduces regressions after merge:
+
+1. The deprecating team halts further automated PRs immediately.
+2. Affected repositories are reverted using standard revert workflow (see [05-git-workflow.md](./05-git-workflow.md), scenario 4).
+3. A post-mortem identifies the root cause before automated migrations resume.
+
+> **Cross-reference:** See [Section 12 - AI Engineering](../12-ai-engineering/) for the full agent governance framework.
 
 ---
 <div align="center">

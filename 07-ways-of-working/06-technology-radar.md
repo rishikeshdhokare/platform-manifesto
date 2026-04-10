@@ -157,6 +157,8 @@ sequenceDiagram
 | Backstage | Adopt | - | Developer portal |
 | OpenTelemetry | Adopt | - | Observability |
 | Terraform | Adopt | - | IaC |
+| AI coding assistants (Cursor, Copilot) | Adopt | Trial -> Adopt | IDE-integrated code generation and completion |
+| MCP / tool-use protocols | Trial | New | Standardised agent-to-tool integration layer |
 
 ### 6.5 Techniques
 
@@ -166,6 +168,8 @@ sequenceDiagram
 | Feature flags | Adopt | - | Progressive rollout |
 | Chaos engineering | Trial | - | Resilience validation |
 | AI-assisted development | Trial | - | SDLC acceleration |
+| Agentic CI/CD | Trial | New | Agents open PRs, run migrations, and maintain dependencies autonomously |
+| Agent orchestration | Assess | New | Multi-agent coordination for complex engineering tasks |
 
 ---
 
