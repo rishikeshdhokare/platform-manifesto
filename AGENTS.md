@@ -2,6 +2,8 @@
 
 These rules apply to any AI agent (Cursor, Copilot, or similar) making changes to this repository.
 
+> **This manifesto is agent-native.** Beyond governing edits to this repo, the manifesto is designed to be consumed as organizational context by AI agents operating across your engineering organization. Index it into your agent orchestration layer (RAG, context window, or tool retrieval) so agents follow the same standards as human engineers. See [Agent-Native by Design](./README.md#-agent-native-by-design) for details.
+
 ---
 
 ## Writing Style

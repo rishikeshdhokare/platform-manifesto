@@ -106,7 +106,23 @@ Everything else in the manifesto is **reference material**. Consult it when you'
 - **Incident response?** → [05-operational-excellence/](./05-operational-excellence/)
 - **AI/ML products?** → [10-ai-ml-platform/](./10-ai-ml-platform/)
 - **Working with AI tools?** → [12-ai-engineering/](./12-ai-engineering/)
+- **Building an agent-native org?** → [Agent-Native by Design](./README.md#-agent-native-by-design)
 - **Acronym you don't recognise?** → [GLOSSARY.md](./GLOSSARY.md)
+
+### Onboarding AI Agents
+
+If your organisation operates AI agents as first-class engineering participants, agents need onboarding too. This checklist complements (not replaces) the human onboarding above.
+
+| Step | What | How |
+|:-----|:-----|:----|
+| **Identity** | Create a dedicated service account or GitHub App for the agent | IT self-service portal or GitHub org settings. Never share a human engineer's credentials with an agent |
+| **Repository access** | Grant the agent read/write access scoped to its team's repositories | GitHub team membership or fine-grained PAT |
+| **Context files** | Ensure every repo the agent operates in has `AGENTS.md` and `.cursor/rules/` | See [Context Engineering](./12-ai-engineering/01-context-engineering.md) |
+| **CI identity** | Configure the agent's commits and PRs to use the service account identity | Git config in the agent's environment: `user.name` and `user.email` |
+| **Human approval gates** | Define which actions the agent may perform autonomously and which require human approval | At minimum: merges to main, production deploys, infrastructure changes, and security-sensitive code require human sign-off |
+| **Manifesto as context** | Index the manifesto into the agent's context (RAG, system prompt, or tool retrieval) | The agent should follow the same standards as human engineers |
+
+> **Rule:** Agent-opened PRs are held to the same review and CI gate standards as human PRs. "An agent wrote this" does not reduce the review bar.
 
 ---
 

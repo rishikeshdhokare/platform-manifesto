@@ -10,6 +10,8 @@ AI is not a phase of the SDLC - it is a capability that runs through every phase
 
 The goal is not "use AI everywhere." The goal is **use AI where it compounds** - where it reduces toil, catches what humans miss, or accelerates feedback loops - and **stay human where it matters** - architecture decisions, ethical judgements, and customer empathy.
 
+> **Agent-native organisations:** This document defines AI integration across the SDLC from the perspective of AI assisting human engineers. For organisations where AI agents are first-class engineering participants (see [Agent-Native by Design](../README.md#-agent-native-by-design)), these same practices and guardrails apply - agents are held to the same standards as human engineers, and the human gates defined throughout this document (approval, incident command, architecture decisions) represent the minimum gates that agent-native orgs must preserve.
+
 For approved tools and security guardrails, see [AI-Assisted Development Practices](../10-ai-ml-platform/02-ai-governance.md#4-ai-assisted-development-practices) in the AI Governance document.
 
 **Visual overview:**
@@ -231,6 +233,8 @@ Documentation is where AI has the clearest ROI: humans avoid writing docs, AI do
 | **AI-generated complexity** - AI produces working but unnecessarily complex solutions | Maintenance burden increases; future developers (and future AI) struggle to understand the code | Prefer the simplest solution. AI-generated code should be simpler than what you would write, not more complex |
 | **Skipping review for AI code** - "AI wrote it, it must be right" | AI confidently generates incorrect code, especially for domain-specific logic | AI-generated code gets the same review bar as human-written code. Period |
 | **Over-automation** - using AI for decisions that require human judgement | Architecture decisions, security trade-offs, and ethical considerations get reduced to pattern matching | Use AI for analysis and options; reserve decisions for humans |
+
+> **For agent-native orgs:** These guardrails are not obstacles to agent autonomy - they are the boundaries that make agent autonomy safe. An agent that can code, test, and deploy within these guardrails is more trustworthy (and more useful) than one that operates without constraints.
 
 ---
 <div align="center">

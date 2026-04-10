@@ -259,7 +259,40 @@ For these, ask specifically:
 
 ---
 
-## 📋 8. Self-Review Checklist (Run This Before Every PR)
+## 🤖 8. Reviewing Agent-Authored PRs
+
+When the PR author is an AI agent (or a human using AI to generate the majority of the code), the same review bar applies - plus additional focus areas.
+
+### What changes
+
+| Area | Why Extra Scrutiny |
+|:-----|:-------------------|
+| **Edge cases and error paths** | Agents generate plausible happy-path code but often miss domain-specific edge cases (null states, race conditions, partial failures) |
+| **Security-sensitive logic** | Agents may generate subtly insecure patterns for auth, encryption, or PII handling. Mark security-critical sections with `[blocking]` and verify manually |
+| **Test meaningfulness** | Agent-generated tests can be tautological (testing that the code does what the code does). Verify each test would fail if the behaviour it claims to test actually changed |
+| **Unnecessary complexity** | Agents sometimes produce working but unnecessarily abstract solutions. Prefer simpler implementations; if you cannot explain why the code is structured this way, request a rewrite |
+| **Licence and attribution** | If the agent pulled in a new dependency or code pattern, verify it does not introduce licence conflicts |
+
+### What stays the same
+
+- Same CI gates, same quality standards, same merge requirements
+- Same review SLA (1 business day for first review)
+- Same feedback format (`[blocking]`, `[suggestion]`, `[nit]`, `[praise]`)
+- The reviewer must understand every line - "an agent wrote it" does not substitute for human comprehension
+
+### PR description requirements for agent-authored code
+
+Agent-authored PRs must include in the description:
+
+- The tool and model used (e.g., "Cursor with Claude 4 Opus")
+- A one-line summary of the prompt or task given to the agent
+- `ai-authored` or `ai-assisted` label applied to the PR
+
+This is for auditability and transparency, not stigma - the quality bar is identical.
+
+---
+
+## 📋 9. Self-Review Checklist (Run This Before Every PR)
 
 ```
 Code

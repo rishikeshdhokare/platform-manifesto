@@ -61,6 +61,17 @@ Getting value from the manifesto is not only a documentation exercise. You typic
 - **CI/CD and infrastructure foundations** - Automated build, test, security scanning, and promotion; infrastructure as code; secrets and config management fit for regulated change.
 - **Governance that rewards compliance** - Clear exceptions (for example ADRs), not silent drift; product teams should see standards as acceleration, not bureaucracy.
 
+### For agent-native organisations
+
+If your organisation uses AI agents as first-class engineering participants - planning, coding, reviewing, deploying, and operating services alongside humans - you additionally need:
+
+- **Agent identity and access** - Service accounts or OIDC identities for agents with the same RBAC and audit trail as human engineers.
+- **Human-in-the-loop gates** - Explicit policy for which actions agents may perform autonomously (e.g. opening PRs, running CI) and which require human approval (e.g. merging to main, production deploys, architecture decisions).
+- **Manifesto-as-context** - The manifesto indexed into your agent orchestration layer (RAG, context window, or tool retrieval) so every agent-generated artifact is checked against the same standards humans follow.
+- **Agent effectiveness metrics** - The same DORA and engineering metrics applied to agent-driven work, supplemented by [AI adoption metrics](./12-ai-engineering/03-ai-adoption-metrics.md).
+
+The manifesto's opinionated, machine-parseable structure (numbered files, explicit contracts, deterministic rules) makes it consumable by agents without adaptation. See [Agent-Native by Design](./README.md#-agent-native-by-design) in the root README.
+
 ---
 
 ## 6. ⚠️ Risks of Not Adopting

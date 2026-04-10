@@ -114,6 +114,28 @@ Tags enable filtering, grouping, and reporting across the catalog. Every compone
 
 Apply the domain name as a tag (e.g., `orders-domain`, `pricing-domain`, `fulfillment-domain`). This enables filtering the catalog by business domain.
 
+### Automation Tags
+
+For organisations using AI agents as engineering participants, the following tags indicate how a service is operated:
+
+| Tag | When to Apply |
+|:----|:-------------|
+| `agent-operated` | Majority of code changes, deployments, or operational tasks are performed by AI agents under human oversight |
+| `agent-assisted` | Agents contribute regularly (e.g., AI-generated PRs, automated testing) but humans drive most changes |
+| `human-operated` | Default; no significant agent involvement in the service lifecycle |
+
+These tags are informational - they do not change CI/CD gates, review requirements, or SLO enforcement. A `tier-1` `agent-operated` service has the same availability target and review bar as a `tier-1` `human-operated` service.
+
+When using automation tags, also include a `metadata.annotations` entry identifying the primary agent identity:
+
+```yaml
+metadata:
+  annotations:
+    {company}.com/agent-identity: "bot-team-orders"
+```
+
+This enables filtering the catalog by agent involvement and tracking agent-driven changes in engineering metrics dashboards.
+
 ---
 
 ## 🔄 4. Lifecycle States
