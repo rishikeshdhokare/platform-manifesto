@@ -1,0 +1,26 @@
+name: Document update
+description: Propose a change to an existing document
+labels: ["enhancement"]
+body:
+  - type: input
+    id: document
+    attributes:
+      label: Document to update
+      description: Path to the file (e.g., 01-platform-standards/02-naming-conventions.md)
+      placeholder: section/filename.md
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What should change?
+      description: Describe the update and why it is needed.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Links, references, or examples that support the change.
+    validations:
+      required: false

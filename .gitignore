@@ -1,2 +1,20 @@
+# macOS
 .DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux / editor backup
+*~
+*.swp
+*.swo
+
+# IDEs
 .cursor/
+.idea/
+.vscode/
+
+# Logs
+*.log
