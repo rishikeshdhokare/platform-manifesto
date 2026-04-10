@@ -222,7 +222,7 @@ public class ProviderLocationWebSocketBridge {
 }
 ```
 
-For **multi-pod** BFF deployments, prefer publishing to **Redis Pub/Sub** from a dedicated component and having each pod's listener forward to local WebSocket sessions (reference: `SimpMessagingTemplate` on Spring) - see §6.
+For **multi-pod** BFF deployments, prefer publishing to **Redis Pub/Sub** from a dedicated component and having each pod's listener forward to local WebSocket sessions (reference: `SimpMessagingTemplate` on Spring) - see section 6.
 
 ---
 
@@ -378,7 +378,7 @@ flowchart TD
 
 **Reference implementation (Java / Spring Boot):** Spring MVC `SseEmitter`.
 
-> **Other frameworks:** Express/Fastify SSE helpers, Go `http.Flush`, ASP.NET Core `IAsyncEnumerable` or manual `text/event-stream` - preserve `Last-Event-ID` reconnection semantics from §8.
+> **Other frameworks:** Express/Fastify SSE helpers, Go `http.Flush`, ASP.NET Core `IAsyncEnumerable` or manual `text/event-stream` - preserve `Last-Event-ID` reconnection semantics from section 8.
 
 ```java
 @RestController

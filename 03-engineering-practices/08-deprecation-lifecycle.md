@@ -174,7 +174,7 @@ The deprecating team is responsible for providing a migration path. Dropping an 
 |------|-------------|--------|
 | **1. Identify consumers** | Deprecating team | Use API Gateway logs, Backstage dependency graph, or Kafka consumer groups to enumerate all consumers |
 | **2. Publish migration guide** | Deprecating team | Step-by-step guide explaining how to migrate to the replacement. Published in the engineering docs and linked from the Backstage banner. |
-| **3. Notify consumers** | Deprecating team | Send initial deprecation notice via all channels (§4) |
+| **3. Notify consumers** | Deprecating team | Send initial deprecation notice via all channels (section 4) |
 | **4. Support migration** | Deprecating team | Offer office hours, answer questions in the migration Slack channel, review migration PRs |
 | **5. Track migration progress** | Deprecating team | Maintain a dashboard showing migration status per consumer |
 | **6. Verify migration** | Consuming team | Consuming team confirms their service is fully migrated and no longer depends on the deprecated artifact |
