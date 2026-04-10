@@ -54,6 +54,17 @@ This creates:
 
 **Time: < 5 minutes**
 
+#### Agent bootstrapping
+
+If an AI agent is scaffolding the service (rather than a human using Backstage), the same golden path applies. The agent must:
+
+1. **Use the Backstage API or CLI** to create the repository from the standard template - agents must not hand-assemble project structures
+2. **Authenticate with a dedicated agent identity** (service account or GitHub App), never a human engineer's credentials
+3. **Verify all generated context files** - `AGENTS.md`, `.cursor/rules/`, `catalog-info.yaml` - are present and correctly populated before opening the first PR
+4. **Open a PR for human review** of the scaffolded service before any code is merged to main. The first merge is always human-approved
+
+The scaffolded repository is identical whether a human or an agent creates it. The golden path does not fork for different actor types.
+
 ---
 
 ### Step 2: Clone & Verify Local Setup

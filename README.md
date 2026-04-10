@@ -11,6 +11,7 @@
 [![Sections](https://img.shields.io/badge/12_sections-6C3FC5?style=for-the-badge&logo=bookstack&logoColor=white)](.)
 [![Updated](https://img.shields.io/badge/2026-00A86B?style=for-the-badge&logo=calendar&logoColor=white)](.)
 [![PRs Welcome](https://img.shields.io/badge/PRs_welcome-FF1493?style=for-the-badge&logo=github&logoColor=white)](.)
+[![Agent-Ready](https://img.shields.io/badge/Agent--Native_Ready-00C853?style=for-the-badge&logo=probot&logoColor=white)](./12-ai-engineering/01-context-engineering.md)
 
 <br/>
 
@@ -19,7 +20,7 @@ Every *"how should I do this?"* answered. Every *"which tool should I use?"* dec
 
 <br/>
 
-`Opinionated by design` &nbsp; `Follow by default` &nbsp; `Challenge by PR`
+`Opinionated by design` &nbsp; `Follow by default` &nbsp; `Challenge by PR` &nbsp; `Agent-native ready`
 
 ---
 
@@ -37,6 +38,7 @@ Every *"how should I do this?"* answered. Every *"which tool should I use?"* dec
 | A living playbook, updated from production lessons | A dusty wiki page someone wrote two years ago |
 | Opinionated and prescriptive by design | A buffet of options for every preference |
 | The fastest path from idea to production | The *only* path - deviations just need an ADR |
+| A shared operating system for human and AI agent teams alike | A human-only playbook that agents cannot parse or follow |
 
 ---
 
@@ -51,6 +53,34 @@ One source of truth. One set of standards. Every team, every service, every envi
 > 📖 **Living document.** It evolves as our platform matures and as we learn from production. Changes require a PR with at least one Staff Engineer approval.
 
 > 🔧 **Adopting this for your organization?** The principles are universal; the specific tools are our reference implementation. See [Customize This Manifesto](#-customize-this-manifesto) for how to swap in your own stack.
+
+---
+
+## 🤖 Agent-Native by Design
+
+This manifesto is built for **human-led and agent-operated organizations alike**. If you are building an agentic software company - where AI agents plan, code, review, test, deploy, and operate alongside humans - this manifesto serves as the shared operating system that both humans and agents follow.
+
+### Why it works for agents
+
+| Design Choice | Agent Benefit |
+|:--------------|:-------------|
+| **Opinionated rules, not suggestions** | Agents need constraints, not options. "All services must use RFC 7807 errors" is a rule an agent can enforce. "Consider using RFC 7807" is not |
+| **Structured, consistent formatting** | Numbered files (`NN-kebab-case.md`), emoji-prefixed sections, and consistent document structure make the manifesto machine-parseable without special tooling |
+| **Explicit contracts everywhere** | API standards, event schemas, error catalogs, and naming conventions give agents the specs they need to generate compliant code autonomously |
+| **Context engineering built in** | [Section 12](./12-ai-engineering/) defines how to structure knowledge so AI tools can access and apply it - from AGENTS.md to cursor rules to RAG pipelines |
+| **Golden path templates** | Scaffold templates and standardized patterns let agents bootstrap new services that are compliant from the first commit |
+| **Machine-readable glossary** | The [Glossary](./GLOSSARY.md) provides shared terminology so agents use the same domain language as your teams |
+
+### For agentic organizations
+
+If your engineering organization uses AI agents as first-class participants - not just assistants - this manifesto provides:
+
+- **Agent-to-agent contracts** - The same API standards, event schemas, and error formats that govern human-built services govern agent-built services. No separate "agent API" layer needed.
+- **Autonomous compliance** - Agents can read the manifesto, extract rules, and enforce them in CI/CD pipelines, code generation, architecture reviews, and incident response without human intervention.
+- **Human-in-the-loop where it matters** - The manifesto is explicit about where human judgment is required (architecture decisions, security trade-offs, ethical considerations) and where agents can operate autonomously.
+- **Onboarding for agents, not just humans** - The same AGENTS.md and context files that help a new human engineer ramp up help a new AI agent operate correctly in your codebase from its first interaction.
+
+> 🤖 **Building an agent-native org?** Start with [Context Engineering](./12-ai-engineering/01-context-engineering.md) to wire the manifesto into your agent orchestration layer. Then follow the [Golden Path](./06-developer-guides/02-golden-path.md) to set up your first agent-operated service.
 
 ---
 
@@ -70,6 +100,7 @@ One source of truth. One set of standards. Every team, every service, every envi
 | 📊 **Product manager** | [Product Operations](07-ways-of-working/10-product-operations.md) | A/B Testing, Engineering Metrics |
 | 🔒 **Security engineer** | [Security Operations](04-infrastructure-and-cloud/10-security-operations.md) | Security Standards, Privacy Engineering |
 | 🧬 **AI-first engineer** | [Context Engineering](12-ai-engineering/01-context-engineering.md) | AI-Assisted SDLC, Adoption Metrics |
+| 🤖 **Agentic org builder** | [Agent-Native by Design](#-agent-native-by-design) · [Context Engineering](12-ai-engineering/01-context-engineering.md) | AI-Assisted SDLC, API Standards, Golden Path, Service Catalog |
 | 📝 **Technical Writer / Documentation** | [Developer Experience](06-developer-guides/01-developer-experience.md) · [Knowledge Sharing](07-ways-of-working/08-knowledge-sharing.md) | Content standards, documentation governance |
 | 🧪 **QA / Test Engineer** | [Testing Pyramid](03-engineering-practices/01-testing-pyramid.md) · [QA Standards](03-engineering-practices/11-qa-standards.md) | Test strategy, environments, automation |
 | ⚖️ **Procurement / Legal** | [Vendor Intake](08-program/05-vendor-intake.md) · [Vendor Assessment](08-program/03-vendor-assessment.md) | Vendor intake, assessment, compliance |
@@ -517,6 +548,18 @@ This manifesto is **opinionated about principles, flexible about tooling**. The 
 > **Adopting this manifesto?** Search for specific tool names (e.g., "Spring Boot", "Aurora", "EKS") and replace them with your equivalents. The principles, patterns, and operational standards carry over unchanged.
 
 The repo uses two company placeholders: **`{Company}`** (title case) in headings and prose, and **`{company}`** (lowercase) in URLs, package names, GitHub org paths, and other technical identifiers. Replace both with your organization when you fork or adapt this manifesto.
+
+### For agent-native organizations
+
+If you are building an organization where AI agents are first-class engineers - planning sprints, writing code, reviewing PRs, deploying services, and responding to incidents - this manifesto works as your shared operating system with minimal adaptation:
+
+| Step | What to do |
+|:-----|:-----------|
+| **1. Feed the manifesto to your agents** | Index the manifesto into your agent orchestration layer (RAG, context window, or tool retrieval). Every agent-generated artifact should be checked against manifesto rules |
+| **2. Wire AGENTS.md into every repo** | Each repository's `AGENTS.md` tells agents the local rules. Human engineers and AI agents read the same file. See [Context Engineering](./12-ai-engineering/01-context-engineering.md) |
+| **3. Use contracts as agent interfaces** | API standards, event schemas, error catalogs, and naming conventions are not just documentation - they are the interface contract between your agents. Agent A publishes an event; Agent B consumes it. The manifesto defines the schema both follow |
+| **4. Keep human-in-the-loop gates** | The manifesto marks where human judgment is required: architecture decisions, security trade-offs, production incident response escalations. Preserve these gates even in a fully agentic workflow |
+| **5. Measure agent adoption** | Use the same [engineering metrics](./08-program/04-engineering-metrics.md) and [AI adoption metrics](./12-ai-engineering/03-ai-adoption-metrics.md) to track agent effectiveness as you would human effectiveness |
 
 ---
 

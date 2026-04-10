@@ -6,13 +6,14 @@
 
 ## 🎯 1. Principles
 
-Every API we expose is a product. It will be consumed by mobile apps, partner integrations, internal services, and tools we haven't built yet. APIs are versioned contracts - once published, they must not be broken.
+Every API we expose is a product. It will be consumed by mobile apps, partner integrations, internal services, AI agents, and tools we haven't built yet. APIs are versioned contracts - once published, they must not be broken.
 
 **Non-negotiable rules:**
 - APIs are designed **API-first** - the OpenAPI spec is written before implementation begins
 - APIs are **versioned from day one**
 - APIs never return stack traces or internal error details to callers
 - APIs are **idempotent where they mutate state**
+- APIs are **machine-parseable by default** - structured error codes, consistent pagination, and deterministic response shapes enable both human-built and agent-built consumers to integrate reliably
 
 ---
 
@@ -529,6 +530,39 @@ Downstream services trust these headers because the request arrives over the Ist
 | External partner → API Gateway | API key or OAuth2 Bearer token | Yes |
 
 For service-to-service calls within the mesh, Istio's **SPIFFE-based mTLS** provides mutual authentication. No additional JWT or API key is needed - the `AuthorizationPolicy` controls which service identities may call which endpoints.
+
+---
+
+## 🤖 15. Agent and Automation Callers
+
+AI agents and automated systems consume the same APIs as human-built services. No separate "agent API" layer exists - the standards above apply equally to all callers.
+
+### 15.1 Agent Authentication
+
+| Caller Type | Auth Mechanism | Identity |
+|:------------|:---------------|:---------|
+| Agent within the mesh | Istio mTLS (SPIFFE identity) via the agent's pod service account | Dedicated Kubernetes service account per agent (e.g., `sa-bot-team-orders`) |
+| Agent calling external APIs | OAuth2 client credentials | Dedicated client ID per agent, never a human user's credentials |
+| Agent calling from CI pipelines | OIDC token exchange (e.g., GitHub Actions OIDC) | Federated identity tied to the pipeline, not a long-lived API key |
+
+### 15.2 Rate Limiting for Automated Callers
+
+Agents and automation systems generate higher call volumes than human-driven interactions. API rate limits must account for this:
+
+- Agents must respect `429 Too Many Requests` responses and implement exponential backoff with jitter
+- If an agent workload requires sustained high throughput, request a dedicated rate limit tier via the API Gateway team rather than circumventing limits
+- Agent callers are subject to the same per-tenant rate limits as any other service identity
+
+### 15.3 Idempotency for Agent Callers
+
+Agents are more likely to retry operations (due to automation loops, error recovery, or parallel execution). The `Idempotency-Key` requirement (Section 3.1) is especially critical for agent callers:
+
+- Every mutating `POST` or non-absolute `PATCH` from an agent must include an `Idempotency-Key`
+- The agent must generate a deterministic key for each logical operation (e.g., hash of task ID + attempt) to prevent duplicate side effects across retries
+
+### 15.4 Structured Errors for Machine Consumers
+
+The RFC 7807 error format (Section 7) is designed to be machine-parseable. Agents rely on the `error.code` field (not the human-readable `detail`) to decide how to handle failures. Maintain stable, documented error codes - agents cannot interpret free-text error messages reliably.
 
 ---
 

@@ -81,6 +81,20 @@ Every repository has a `.github/CODEOWNERS` file:
 terraform/          @{company}/team-platform
 ```
 
+### 2.3 AI Agent Roles in Teams
+
+Organisations using AI agents as engineering participants must follow these accountability rules:
+
+| Principle | Rule |
+|:----------|:-----|
+| **Ownership stays human** | A human team and a human Tech Lead own every service. An agent is a tool under the team's accountability - it never holds ownership of a service, domain, or on-call rotation |
+| **CODEOWNERS for bots** | Agent service accounts may be added to CODEOWNERS for automated review (e.g., linting, standards checks) but must not be the sole required reviewer. At least one human reviewer is always required |
+| **On-call is human** | Agents do not participate in PagerDuty rotations. The minimum rotation size (4 engineers) refers to human engineers. Agents may assist with triage but do not carry the pager |
+| **ADR deciders are human** | Architecture decisions require human deciders listed by name and role. An agent may draft an ADR, but the decision is made and signed off by humans |
+| **Inner source contributions** | Agents may open PRs to any repository (inner source model). The owning team reviews and merges with the same standards as human contributions |
+
+> **Minimum human staffing:** Every stream-aligned team must have at least two human engineers regardless of how many agents operate within the team's repositories. Agents augment capacity; they do not replace accountability.
+
 ---
 
 ## 🛤️ 3. Ways of Working

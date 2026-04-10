@@ -156,6 +156,19 @@ When resolved:
 
 For small teams, one person may play IC + Technical Investigator. That's fine - just be clear about who is doing what.
 
+### Agent and Automation Attribution
+
+When incidents involve agent-initiated or automated changes (agent-opened PRs, automated config changes, pipeline-triggered deploys), the same blameless principles apply. Attribute the contributing factor to the **system** (the agent, the pipeline, the config), not to the human who approved it.
+
+| Area | Guidance |
+|:-----|:---------|
+| **Agent-initiated deploys** | Record the agent identity (service account or bot name) and the correlation ID in the incident timeline. Link to the PR and CI run |
+| **Automated remediation** | If an auto-remediation action (auto-rollback, circuit breaker, scale-up) fires during the incident, record it in the timeline with the trigger condition |
+| **Agent participation in triage** | AI agents may surface runbooks, correlate alerts, and suggest root causes during triage. The IC decides whether to act on agent suggestions - agents do not make response decisions |
+| **Human escalation** | If an agent detects a P1/P2 condition, it must page a human IC. Agents must not autonomously acknowledge PagerDuty alerts for P1/P2 incidents |
+
+> **Rule:** Incident Commander is always a human. Agents assist with detection, triage, and drafting PIRs - they do not run incident response.
+
 ---
 
 ## 🔄 5. Post-Incident Review (PIR)
