@@ -14,6 +14,7 @@
 | [08-knowledge-sharing.md](./08-knowledge-sharing.md) | Guilds, tech talks, architecture clinics, onboarding reading list |
 | [09-engineering-management.md](./09-engineering-management.md) | Engineering management - performance reviews, 1:1s, team health, headcount, career dev |
 | [10-product-operations.md](./10-product-operations.md) | Product operations - roadmap, OKRs, user stories, launch management, customer feedback |
+| [11-engineering-culture.md](./11-engineering-culture.md) | Engineering culture and values - ownership, transparency, psychological safety, learning, agent-native culture |
 
 ---
 <div align="center">

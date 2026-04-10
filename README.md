@@ -398,6 +398,7 @@ Team structure, decision-making, hiring, career growth, and knowledge sharing.
 | [`08-knowledge-sharing.md`](07-ways-of-working/08-knowledge-sharing.md) | Guilds, tech talks, architecture clinics |
 | [`09-engineering-management.md`](07-ways-of-working/09-engineering-management.md) | 1:1s, reviews, team health, headcount, career development |
 | [`10-product-operations.md`](07-ways-of-working/10-product-operations.md) | Roadmap, OKRs, launch management, customer feedback loops |
+| [`11-engineering-culture.md`](07-ways-of-working/11-engineering-culture.md) | Cultural values, blameless postmortems, innovation time, knowledge sharing |
 
 </details>
 
