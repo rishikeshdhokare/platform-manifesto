@@ -1,6 +1,6 @@
 # 🪜 Engineering Ladder
 
-![Status: Reference](https://img.shields.io/badge/status-Reference-yellow?style=flat-square) ![Owner: CTO + Engineering Leadership](https://img.shields.io/badge/owner-CTO_%2B_Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Reference](https://img.shields.io/badge/status-Reference-blue?style=flat-square) ![Owner: CTO + Engineering Leadership](https://img.shields.io/badge/owner-CTO_%2B_Engineering_Leadership-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
