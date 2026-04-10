@@ -309,6 +309,7 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend
 | [`09-backend-framework-standards.md`](03-engineering-practices/09-backend-framework-standards.md) | Structured logging, config layering, health checks, feature flags, graceful shutdown, versioning |
 | [`10-frontend-ci-cd.md`](03-engineering-practices/10-frontend-ci-cd.md) | Frontend golden path, monorepo structure, preview environments |
 | [`11-qa-standards.md`](03-engineering-practices/11-qa-standards.md) | Test environments, test data, bug triage severity, device matrix |
+| [`12-engineering-principles.md`](03-engineering-practices/12-engineering-principles.md) | Core engineering principles for the AI era with agent-native context |
 
 </details>
 
