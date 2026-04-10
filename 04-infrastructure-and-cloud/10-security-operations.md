@@ -34,7 +34,7 @@ Every new service must complete a STRIDE threat model before its [Production Rea
 
 | STRIDE Category | Question to Answer | Example Threat |
 |-----------------|-------------------|----------------|
-| **Spoofing** | Can an attacker impersonate a user or service? | Forged `X-{Company}-User-Id` header from outside the mesh |
+| **Spoofing** | Can an attacker impersonate a user or service? | Forged `X-{company}-User-Id` header from outside the mesh |
 | **Tampering** | Can an attacker modify data in transit or at rest? | Man-in-the-middle on internal gRPC call |
 | **Repudiation** | Can an actor deny performing an action? | User disputes a payment they authorized |
 | **Information Disclosure** | Can sensitive data leak? | PII in logs, error messages exposing stack traces |
@@ -322,7 +322,7 @@ flowchart TD
 | # | OWASP API Risk | {Company} Control |
 |---|---------------|-------------------|
 | 1 | **Broken Object-Level Authorization** | Tenant isolation enforced at repository layer; `@TenantScoped` annotation on all queries; automated IDOR tests in CI |
-| 2 | **Broken Authentication** | BFF handles authentication; backend trusts mTLS + `X-{Company}-User-Id`; no direct user auth in backend services |
+| 2 | **Broken Authentication** | BFF handles authentication; backend trusts mTLS + `X-{company}-User-Id`; no direct user auth in backend services |
 | 3 | **Broken Object Property-Level Authorization** | DTOs expose only allowed fields; `@JsonView` for role-based serialization; response schema tests |
 | 4 | **Unrestricted Resource Consumption** | API Gateway rate limiting (per-user, per-IP); pagination enforced (max 100 items); request body size limit **10 MB** at API Gateway (see [API Gateway Strategy](./07-api-gateway-strategy.md)); WAF may apply stricter defaults in front of the gateway |
 | 5 | **Broken Function-Level Authorization** | RBAC enforced via Spring `@PreAuthorize`; AuthorizationPolicy in Istio mesh; admin endpoints on separate path |
