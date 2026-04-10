@@ -19,13 +19,13 @@ body:
         - 02 - Architecture and API
         - 03 - Engineering Practices
         - 04 - Infrastructure and Cloud
-        - 05 - Data Platform
-        - 06 - Developer Experience
+        - 05 - Operational Excellence
+        - 06 - Developer Guides
         - 07 - Ways of Working
-        - 08 - Reliability and Operations
-        - 09 - Mobile Engineering
+        - 08 - Program
+        - 09 - Mobile and Frontend
         - 10 - AI/ML Platform
-        - 11 - Security and Compliance
+        - 11 - Domain Catalog
         - 12 - AI Engineering
         - New section (describe below)
     validations:
