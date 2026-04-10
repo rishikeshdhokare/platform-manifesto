@@ -242,7 +242,7 @@ Context that is wrong is worse than no context. Stale rules files cause AI tools
 |---------------|-------|---------------|
 | Organization (manifesto, glossary) | Platform Engineering | Quarterly |
 | Repository (AGENTS.md, cursor rules) | Service-owning team | Every sprint (as part of backlog hygiene) |
-| Code (types, doc comments) | Individual developer | Per PR |
+| Code (types, doc comments) | Individual developer (or supervising engineer for agent-generated code) | Per PR |
 
 ### Staleness Detection
 

@@ -474,7 +474,7 @@ Detailed documentation for every domain service - APIs, events, data models, SLO
 
 <br/>
 
-How we work with AI across the entire software development lifecycle. Distinct from Section 10 (building AI products) - this section is about using AI to build all products.
+How we work with AI across the entire software development lifecycle, including guidance for agent-native organisations. Distinct from Section 10 (building AI products) - this section is about using AI to build all products.
 
 | File | What You'll Learn |
 |------|-------------------|

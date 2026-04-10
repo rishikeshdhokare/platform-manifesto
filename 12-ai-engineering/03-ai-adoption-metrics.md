@@ -61,6 +61,20 @@ These metrics correlate with AI adoption but are influenced by many factors (tea
 | AI-generated vs human-written defect rates | Too many confounding variables; creates blame culture |
 | Individual developer AI usage | Creates surveillance culture; adoption is a team concern, not an individual performance metric |
 
+### Agent Fleet Metrics (for agent-native organisations)
+
+Organisations where AI agents are first-class engineering participants (see [Agent-Native by Design](../README.md#-agent-native-by-design)) should track agent effectiveness alongside human adoption. These metrics supplement (not replace) the adoption and effectiveness metrics above.
+
+| Metric | Source | Purpose |
+|:-------|:-------|:--------|
+| **Agent PRs opened / merged** | GitHub API filtered by agent service accounts | Volume of agent-driven contributions |
+| **Agent PR review turnaround** | PR metadata | How quickly human reviewers respond to agent PRs (should match human PR SLAs) |
+| **Agent PR rejection rate** | PR metadata | Percentage of agent PRs rejected or requiring significant rework; high rates signal poor context quality |
+| **Agent-triggered incidents** | Incident timeline correlation with agent deploys | Whether agent-initiated changes cause more or fewer incidents than human changes |
+| **Human gate latency** | Time from agent PR open to human approval | Bottleneck detection; if human gates consistently delay agent throughput, review gate granularity |
+
+> **Rule:** Agent fleet metrics are reviewed in the same quarterly cadence as human adoption metrics. Do not create a separate reporting track for agents - the goal is a single engineering effectiveness dashboard.
+
 ---
 
 ## 4. 🛡️ Quality Guardrails
