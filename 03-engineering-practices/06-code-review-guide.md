@@ -282,6 +282,8 @@ When the PR author is an AI agent (or a human using AI to generate the majority 
 
 ### PR description requirements for agent-authored code
 
+> **Scope:** This disclosure requirement applies to **application repository** PRs. The manifesto repository itself has a [different rule](../AGENTS.md#pull-request-descriptions) because it is vendor-neutral documentation where tool names are not appropriate.
+
 Agent-authored PRs must include in the description:
 
 - The tool and model used (e.g., "Cursor with Claude 4 Opus")
