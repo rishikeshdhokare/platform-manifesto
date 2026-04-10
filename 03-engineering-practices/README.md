@@ -15,6 +15,7 @@
 | [09-backend-framework-standards.md](./09-backend-framework-standards.md) | Backend framework standards - structured logging, config layering, health checks, feature flags, graceful shutdown |
 | [10-frontend-ci-cd.md](./10-frontend-ci-cd.md) | Frontend & mobile CI/CD - golden path, monorepo, preview environments, deployment |
 | [11-qa-standards.md](./11-qa-standards.md) | Quality assurance - test environments, test data, regression, bug triage, security testing |
+| [12-engineering-principles.md](./12-engineering-principles.md) | Core engineering principles for the AI era - ownership, observability, agent-native design |
 
 ---
 <div align="center">
