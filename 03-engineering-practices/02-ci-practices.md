@@ -390,6 +390,43 @@ Each module must include tests that:
 | 4 | Merge to `main` → new module version tagged |
 
 ---
+
+## 🤖 11. Agent CI Identity and Workflows
+
+AI coding agents that open PRs or push commits must operate under a well-defined CI identity. Personal developer tokens must never be used for agent automation.
+
+### 11.1 Agent Identity
+
+| Requirement | Standard |
+|-------------|----------|
+| **Authentication** | GitHub App installation token (not a PAT). Each agent integration registers as a GitHub App with scoped permissions. |
+| **Committer identity** | `{agent-name}[bot]@users.noreply.github.com` - the standard GitHub App bot identity |
+| **Author attribution** | The human who initiated or approved the agent run is set as the commit **author**. The agent is the **committer**. |
+| **Token lifetime** | Installation tokens expire after 1 hour. Agents must re-authenticate per session. |
+
+### 11.2 Label-Driven Workflows
+
+PRs opened by agents carry the `ai-authored` label automatically (applied by the GitHub App or a CI workflow step). This label triggers additional pipeline checks:
+
+| Check | Purpose |
+|-------|---------|
+| **Extended static analysis** | Run full SonarCloud analysis (not just diff) on ai-authored PRs |
+| **Mandatory human review** | `ai-authored` PRs require at least 1 human approval - auto-merge is disabled |
+| **Test authorship audit** | Flag if both source and test files are modified in the same PR (correlated blind spot risk) |
+
+### 11.3 PR Volume and Throughput
+
+Agents can generate PRs faster than humans can review them. Unbounded agent output creates review fatigue and queue starvation.
+
+| Guardrail | Policy |
+|-----------|--------|
+| **Per-repo rate limit** | Max 10 agent-opened PRs per repository per day |
+| **Queue depth alert** | Alert in `#ci-failures-{team}` if >5 agent PRs are awaiting review for a single repo |
+| **Stale agent PR cleanup** | Agent PRs with no review activity for 5 days are auto-closed with a comment linking to the originating issue |
+
+> **Cross-reference:** See [Section 12 - AI Engineering](../12-ai-engineering/) for the full agent governance framework.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

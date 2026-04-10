@@ -604,6 +604,39 @@ public class OrderService {
 | Reference a Jira ticket in every `// TODO` | Write `// TODO: fix later` |
 
 ---
+
+## 🤖 13. Agent-Authored Code
+
+Every rule in this document applies to code regardless of whether a human or an AI agent wrote it. Agents are not exempt from naming conventions, error handling patterns, method length limits, or any other standard. The compiler and linter do not care who typed the code - neither does code review.
+
+### 13.1 Constraints, Not Preferences
+
+Reframe coding standards as **constraints all code must satisfy**, not suggestions that agents may ignore for convenience:
+
+- Agents must produce code that passes Checkstyle / ESLint / Ruff (or equivalent) with zero violations.
+- Agents must not introduce new SonarCloud code smells at blocker or critical severity.
+- Agent-generated code that does not meet method length, parameter count, or class size guidelines is rejected in review like any other PR.
+
+### 13.2 Provenance and Review
+
+| Expectation | Detail |
+|-------------|--------|
+| **Labeling** | PRs containing agent-drafted code carry the `ai-authored` label so reviewers apply appropriate scrutiny |
+| **Human accountability** | The engineer who accepts or merges agent-generated code is the accountable owner. "The agent wrote it" is not a defense for production issues. |
+| **Diff review** | Reviewers must read agent-generated diffs line by line. Batch-approving large agent PRs without reading them violates review standards (see [06-code-review-guide.md](./06-code-review-guide.md)). |
+
+### 13.3 Common Agent Code Smells
+
+Watch for patterns that agents produce more frequently than humans:
+
+- Over-commented code that narrates every line instead of explaining non-obvious intent
+- Unnecessary null checks wrapping already-validated inputs
+- Overly generic exception handling (`catch (Exception e)`) instead of typed domain exceptions
+- Verbose code that could be simplified with existing utility methods or domain abstractions
+
+> **Cross-reference:** See [Section 12 - AI Engineering](../12-ai-engineering/) for the full agentic development framework.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)

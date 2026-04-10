@@ -16,6 +16,7 @@
 8. [Performance Testing](#8-performance-testing)
 9. [Security Testing](#9-security-testing)
 10. [Mobile Device Testing](#10-mobile-device-testing)
+11. [QA in Agentic Development](#11-qa-in-agentic-development)
 
 ---
 
@@ -377,6 +378,41 @@ Every **release candidate** must pass on the following matrix:
 - Tests use the **Detox** (primary) or **Appium** (BrowserStack) test suites.
 - A failure on **any device in the matrix** blocks the release.
 - Device matrix is reviewed **quarterly** based on production analytics (devices representing >2% of active users are included).
+
+---
+
+## 🤖 11. QA in Agentic Development
+
+When AI agents write both production code and tests, the traditional assumption that "tests validate code" breaks down. If the same agent misunderstands a requirement, both the code and its tests will reflect the same misunderstanding - and all tests will pass.
+
+### 11.1 Who Validates the Validator?
+
+The QA role shifts from writing test cases to **designing quality architectures** that catch failures independent of who (or what) authored the code:
+
+| Traditional QA Focus | Agentic QA Focus |
+|----------------------|------------------|
+| Write test cases for features | Design test strategies that catch agent blind spots |
+| Execute regression suites | Build adversarial test infrastructure |
+| Manual exploratory testing | Spec-based acceptance validation |
+| Coverage metrics | Mutation score and property coverage |
+
+### 11.2 Independent Verification Techniques
+
+These techniques provide verification that is independent of the code author:
+
+- **Property-based testing:** Define invariants the system must satisfy (e.g., "order total is always non-negative", "state transitions are monotonic"). Property tests generate randomised inputs and catch violations that example-based tests miss.
+- **Mutation testing:** Run mutation testing (see [01-testing-pyramid.md](./01-testing-pyramid.md), section 12) against agent-generated test suites. A high mutation survival rate reveals weak assertions.
+- **Spec-based acceptance tests:** QA engineers write acceptance tests derived from the product specification, not from the implementation. These tests act as an independent oracle.
+- **Adversarial review:** For Tier 1 services, a second engineer (or a different agent with a different prompt) writes tests independently and the results are compared.
+
+### 11.3 QA Checklist for Agent-Generated PRs
+
+- [ ] Tests assert expected behavior from the spec, not just implementation echoes
+- [ ] At least one property-based or fuzz test covers the core logic path
+- [ ] Mutation score for changed code is >= 70% (Tier 1) or reviewed (Tier 2/3)
+- [ ] No tautological assertions (test mirrors implementation line-for-line)
+
+> **Cross-reference:** See [Section 12 - AI Engineering](../12-ai-engineering/) for the full agentic development framework and agent governance policies.
 
 ---
 <div align="center">
