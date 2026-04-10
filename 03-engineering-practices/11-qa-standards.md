@@ -192,6 +192,8 @@ Device/browser: [specific target]
 
 Release validation is **fully automated**. Manual gates slow down delivery and do not scale.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     PR[PR Merged] --> CI[CI Pipeline]

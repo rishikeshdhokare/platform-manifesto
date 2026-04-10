@@ -24,6 +24,8 @@
 
 {Company} follows a quarterly planning cadence with a rolling roadmap:
 
+**Visual overview:**
+
 ```mermaid
 gantt
     title Quarterly Planning Cycle
@@ -73,6 +75,8 @@ The roadmap lives in **Jira Advanced Roadmap** (or Productboard) and is the sing
 ## 📈 2. OKR Process
 
 ### 2.1 OKR Lifecycle
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -210,6 +214,8 @@ Subject: [Team Name] Weekly Update - Week of [Date]
 
 ### 5.2 Launch Day Process
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A["Launch day Slack channel created<br/>#launch-{feature-name}"] --> B["PM posts launch checklist"]
@@ -264,6 +270,8 @@ PMs triage feedback weekly:
 | 5 | Bring top themes to quarterly planning |
 
 ### 6.3 Feedback → Roadmap Pipeline
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -379,6 +387,8 @@ PMs across all product areas meet monthly to review dependencies:
 | Open discussion | 10 min | Ad-hoc alignment |
 
 ### 9.3 Escalation Path
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

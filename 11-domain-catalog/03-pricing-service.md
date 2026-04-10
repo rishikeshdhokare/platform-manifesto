@@ -35,6 +35,8 @@ The **Pricing Service** (`{company}.pricing`) is the system of record for **how 
 
 The following flow describes how the platform produces a **price estimate** (final price follows the same structural steps with order-completed inputs and reconciliation rules).
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[Receive PriceCalculationRequest] --> B[Get route distance and duration from Geolocation]
@@ -54,6 +56,8 @@ flowchart TD
 ---
 
 ## 🧩 3. Domain Model
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -135,6 +139,8 @@ REST is **read-optimized** for estimates; authoritative writes and final price t
 
 ### 4.3 Request lifecycle (API ↔ domain)
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant BFF as {Company} BFF
@@ -169,6 +175,8 @@ All topics use the platform naming prefix `{company}.events`.
 | --- | --- | --- |
 | `dynamicpricing.multiplier.updated` | Dynamic Pricing | Invalidate or refresh cached multipliers per market/service slice; ensures new estimates use current pricing. |
 | `orders.order.completed` | Order Service (`{company}.orders`) | Trigger **final price reconciliation**: pull actual distance/duration, re-run rule engine, emit `pricing.price.calculated`, persist `price_calculations`. |
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -217,6 +225,8 @@ Pricing parameters are **authoritative in Aurora PostgreSQL**, keyed by **market
 | `price_estimates` | Immutable records of estimates (ids, inputs hash, breakdown JSON, `valid_until`). |
 | `price_calculations` | Final price outcomes linked to `order_id` / `estimate_id`, actual metrics, and audit fields. |
 
+**Visual overview:**
+
 ```mermaid
 erDiagram
     PRICING_RULES ||--o{ PRICE_ESTIMATES : "rules_version_ref"
@@ -263,6 +273,8 @@ erDiagram
 ---
 
 ## 🔗 10. Dependencies
+
+**Visual overview:**
 
 ```mermaid
 flowchart TB

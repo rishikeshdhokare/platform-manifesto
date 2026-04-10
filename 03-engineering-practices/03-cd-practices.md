@@ -28,6 +28,8 @@ For complex changes that benefit from a live preview before merging to main, eng
 
 **How it works:**
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     PR[PR Opened] --> GHA[GitHub Actions]

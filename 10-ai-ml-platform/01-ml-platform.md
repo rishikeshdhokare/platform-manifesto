@@ -109,6 +109,8 @@ flowchart LR
 
 Choosing the right serving strategy is critical. Use the decision guide below. **Reference:** the "Java/Kotlin integration" branch names one common JVM integration path; other runtimes use the same decision tree with their own in-process or sidecar options.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     Start([New model ready<br/>for serving]) --> Q1{Latency requirement<br/>< 50 ms?}
@@ -259,6 +261,8 @@ Algorithm changes - fulfillment heuristics, pricing models, fraud rules - are te
 | **Full Rollout** | New algorithm serves all traffic | Medium | Statistical significance achieved; metrics confirmed |
 
 ### Shadow Mode Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -445,6 +449,8 @@ Every ML model has a Grafana dashboard showing:
 ## 🔄 9. Fallback Strategy
 
 Every ML-powered decision has a deterministic fallback. If the ML model is unavailable - endpoint down, latency exceeds threshold, or predictions look anomalous - the system degrades to rule-based heuristics.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

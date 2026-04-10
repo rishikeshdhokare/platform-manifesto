@@ -29,6 +29,8 @@ With load shedding:
 
 Every API endpoint in the platform is assigned a priority level. This classification determines which requests survive during overload.
 
+**Visual overview:**
+
 ```mermaid
 graph LR
     subgraph P1["🔴 Priority 1 - Critical"]
@@ -117,6 +119,8 @@ priority-classification:
 ## ⚖️ 3. Load Shedding Tiers
 
 The platform operates on a five-tier escalation model. Each tier is a strict superset of the previous - Tier 3 includes all actions from Tiers 1 and 2.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
@@ -494,6 +498,8 @@ curl -X PATCH http://kong-admin:8001/plugins/{price-estimate-rate-limit-id} \
 
 A major event ends at 23:00. 40,000 attendees open their apps simultaneously.
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant Customers as 40K Customers
@@ -564,6 +570,8 @@ sequenceDiagram
 ## 🔄 8. Recovery Procedure
 
 Exiting load shedding safely is as important as entering it. Dropping back to Tier 0 too quickly causes a "thundering herd" - all the queued and deferred traffic floods back simultaneously.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

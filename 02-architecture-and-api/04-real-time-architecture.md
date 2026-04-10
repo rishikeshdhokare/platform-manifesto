@@ -37,6 +37,8 @@ Goals:
 
 ### Decision flowchart
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[Real-time needed?] --> B{Offline user?}
@@ -102,6 +104,8 @@ Prefix with environment if needed in non-prod; production uses standard host rou
 
 ### Sequence: full lifecycle
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant App as Customer App
@@ -143,6 +147,8 @@ sequenceDiagram
 4. **Customer BFF** consumes the same topic (or a derived fan-out topic) for **live map** updates, maps payloads to STOMP messages, and **pushes via WebSocket** to subscribed customer clients.
 
 ### End-to-end pipeline
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -254,6 +260,8 @@ Prefer **data + notification** split deliberately: time-sensitive UX often needs
 
 ### Push pipeline
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     subgraph Domain["Domain services"]
@@ -295,6 +303,8 @@ WebSocket connections are **stateful**. Each Customer/Provider **BFF pod** holds
 3. **Every pod** that subscribed receives the message and forwards only to **local** STOMP sessions subscribed to that topic.
 
 ### Fan-out diagram
+
+**Visual overview:**
 
 ```mermaid
 flowchart TB
@@ -340,6 +350,8 @@ flowchart TB
 | **Push delivery fails** | Notifications service **retries** with **exponential backoff**, **max 3 attempts**; dead-letter for manual replay. |
 | **Redis Pub/Sub unavailable** | Clients on the **same pod** as the publisher may still get messages if events are local; **cross-pod** delivery is **delayed** until Redis recovers; monitor backlog. |
 | **Client reconnect** | Exponential backoff with **jitter**, **max delay 30 seconds** between attempts; preserve auth token refresh flow. |
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
@@ -432,6 +444,8 @@ public class PriceEstimateStreamController {
 
 - Emit **WebSocket message delivery spans** on the BFF, linked to the **originating Kafka consumer traceId** propagated in event headers (`traceparent` / `X-B3-*` / OpenTelemetry baggage).
 - Enables end-to-end debugging from **provider location publish** to **customer map render**.
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

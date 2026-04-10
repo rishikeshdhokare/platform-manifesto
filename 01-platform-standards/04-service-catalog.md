@@ -279,6 +279,8 @@ Every service must have a clearly defined owning team. Unowned services are a li
 
 ## 🗺️ 8. Catalog Architecture
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     service["Service Repo"]

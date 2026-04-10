@@ -245,6 +245,8 @@ These names are what you index in OpenSearch; **MDC** (JVM) is one way to popula
 
 {Company} uses AWS X-Ray for production tracing with Grafana Tempo as a secondary store for long-term retention and ad-hoc queries.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["User Request"] --> B["API Gateway"]
@@ -303,6 +305,8 @@ To jump from a trace to logs:
 | **Feature flag not working** | Verify the flag key spelling in LaunchDarkly dashboard | Check the evaluation context: `userId`, `tenantId`, targeting rules | Check service logs for `LaunchDarkly: flag not found` warnings | Confirm the flag environment (flags are per-environment) |
 
 ### 5.2 My API Returns 500 - Detailed Walkthrough
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

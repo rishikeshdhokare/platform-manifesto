@@ -301,6 +301,8 @@ public class GlobalExceptionHandler {
 
 Each domain defines concrete exception classes that extend `DomainException`:
 
+**Visual overview:**
+
 ```mermaid
 classDiagram
     class DomainException {

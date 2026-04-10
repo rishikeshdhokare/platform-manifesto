@@ -79,6 +79,8 @@ The Security team conducts a quarterly review of the platform threat landscape. 
 
 ### 2.1 CVE Triage Workflow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A["Snyk / Dependabot alert"] --> B["Security team triages"]
@@ -290,6 +292,8 @@ If the incident involves criminal activity (ransomware, insider theft, data exto
 3. Preserve chain of custody for all evidence.
 
 ### 7.4 Breach Notification Decision Tree
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
@@ -507,6 +511,8 @@ All privileged access is just-in-time (JIT) via AWS SSO temporary elevation:
 | **KMS key admin** | 1 hour max | CISO approval | CloudTrail + KMS audit |
 
 ### 14.2 Access Request Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

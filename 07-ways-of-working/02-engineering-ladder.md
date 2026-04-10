@@ -16,6 +16,8 @@ It is **not** a performance review tool or a promotion checklist. It is a **grow
 
 Progression is defined by **expanding scope of impact**: from well-scoped tasks to organization-wide technical direction.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     subgraph scope [Scope of impact]
@@ -106,6 +108,8 @@ The [Engineering Maturity Model](../08-program/01-maturity-model.md) describes *
 
 ### 8.2 Team maturity vs individual ladder
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     subgraph team [Team level - Maturity Model]
@@ -125,6 +129,8 @@ flowchart TB
 ---
 
 ## 🪜 9. Growth framework
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

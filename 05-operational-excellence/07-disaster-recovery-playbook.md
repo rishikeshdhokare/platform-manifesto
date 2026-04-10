@@ -33,6 +33,8 @@ These events are rare but catastrophic. When they happen, every minute counts - 
 
 **Reference implementation (AWS):** The platform runs an **active-passive** disaster recovery architecture with automated health checking and manual failover. Region names, service names, and CLI examples below are **AWS-specific**; keep the same sequence when you substitute equivalents.
 
+**Visual overview:**
+
 ```mermaid
 graph TB
     subgraph Primary["🟢 Primary Region - eu-west-1 (Ireland)"]
@@ -161,6 +163,8 @@ Do **NOT** fail over for:
 - AWS cannot confirm resolution within **15 minutes**
 
 ### 4.3 Decision Tree
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

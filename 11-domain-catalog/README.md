@@ -54,6 +54,8 @@ flowchart TB
 
 ## 🔀 Cross-Domain Event Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     subgraph order_lifecycle [Order Lifecycle Events]

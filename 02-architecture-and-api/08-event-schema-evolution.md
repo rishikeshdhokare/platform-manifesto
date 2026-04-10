@@ -265,6 +265,8 @@ When a schema change is fundamentally incompatible - a field type change, a fiel
 
 ### 7.2 Migration Flow
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant Producer as Order Service

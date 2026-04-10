@@ -22,6 +22,8 @@
 
 The frontend golden path takes an engineer from zero to production deployment using standardized tooling:
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["Backstage Template"] --> B["npm create"]
@@ -122,6 +124,8 @@ frontend/
 ## 🔄 3. CI Pipeline Template
 
 ### 3.1 Pipeline Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -294,6 +298,8 @@ The main entry chunk must stay under **200 KB gzipped**, matching the [tech stac
 SPAs are deployed to **S3 + CloudFront** with immutable asset caching.
 
 ### 4.1 Deployment Architecture
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -516,6 +522,8 @@ curl -I https://app.{company}.com/assets/index-a1b2c3.js.map
 ## 🔄 9. Mobile CI Template
 
 ### 9.1 Pipeline Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

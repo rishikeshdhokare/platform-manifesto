@@ -55,6 +55,8 @@ Every {Company} engineer needs the **common** toolchain below plus **one runtime
 
 Every service repository follows the same **bootstrap flow**; concrete targets may differ by runtime (Gradle vs npm vs `go run`). The diagram uses the **Java reference** health URL.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A[git clone] --> B[make setup]
@@ -368,6 +370,8 @@ clean:
 New engineers should ship code on their first day. The recommended first PR path is intentionally simpler than the golden path scaffold - it removes the cognitive overhead of creating a new service.
 
 ### 7.1 Steps
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

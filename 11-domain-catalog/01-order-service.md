@@ -30,6 +30,8 @@ The **Order Service** (`{company}.orders`) is the **central orchestrating bounde
 
 ### 1.3 Orchestration role (high level)
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     subgraph bff [BFF Layer]
@@ -70,6 +72,8 @@ flowchart TB
 ## 🧩 2. Domain Model
 
 Core types live under `{company}.orders.domain`. Identifiers are opaque UUIDs (or branded string types) at the API boundary; the diagram shows conceptual relationships.
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -145,6 +149,8 @@ classDiagram
 
 All transitions are enforced in the domain layer; invalid transitions return a domain error and are never persisted. Terminal states: **COMPLETED**, **CANCELLED**.
 
+**Visual overview:**
+
 ```mermaid
 stateDiagram-v2
     [*] --> REQUESTED : create order
@@ -208,6 +214,8 @@ Consumer group naming follows the platform standard: `{consuming-service}.{topic
 ---
 
 ## 🔗 7. Dependencies
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

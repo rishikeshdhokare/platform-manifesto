@@ -104,6 +104,8 @@ Every log line must include these fields:
 
 ### 2.1 Precedence
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     A["Config file defaults<br/>(checked into Git)"] --> B["Environment overrides<br/>(per environment)"]
@@ -254,6 +256,8 @@ management:
 
 ### 5.1 Shutdown Sequence
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant K8s as Orchestrator
@@ -347,6 +351,8 @@ public class LaunchDarklyConfig {
 **Principle:** The BFF authenticates the end user and forwards identity via signed internal headers. Backend services trust these headers because traffic is restricted to the internal mesh. Service-to-service calls use mTLS.
 
 ### 7.1 Token Propagation
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -499,6 +505,8 @@ Full tag example: `order-service:2.3.1-a1b2c3d`
 ### 10.2 Contract Testing in CI
 
 Consumer-driven contract tests run in CI to verify that a new provider version is compatible with all known consumers:
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

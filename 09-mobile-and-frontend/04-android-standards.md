@@ -156,6 +156,8 @@ class BuildConfigModule(reactContext: ReactApplicationContext) : NativeBuildConf
 
 All native Android code (Turbo Modules, native screens) follows **MVVM**:
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     V[View / Composable] -->|observes| VM[ViewModel]
@@ -343,6 +345,8 @@ app/
 
 ### 7.2 Dependency Rules
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     APP[app] --> FO[feature-orders]
@@ -372,6 +376,8 @@ flowchart TD
 ## 🔄 8. CI Pipeline
 
 ### 8.1 Pipeline Stages
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -538,6 +544,8 @@ For users who don't have the app installed:
 1. The web landing page stores the deep link path in a **first-party cookie** and redirects to the Play Store.
 2. On first app launch, the onboarding flow checks for a deferred deep link via the `InstallReferrer` API.
 3. After authentication completes, the app navigates to the stored deep link target.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

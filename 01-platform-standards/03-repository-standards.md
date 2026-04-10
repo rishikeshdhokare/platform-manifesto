@@ -222,6 +222,8 @@ When a service is deprecated:
 
 ### Lifecycle Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     backstage["Backstage Template"]

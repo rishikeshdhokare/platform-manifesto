@@ -328,6 +328,8 @@ External dependencies (e.g., Redis, PostgreSQL for local dev) must be pulled thr
 
 ## 🗺️ 8. Build-to-Deploy Pipeline
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     code["Code Commit"]

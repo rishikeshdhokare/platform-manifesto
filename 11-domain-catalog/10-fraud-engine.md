@@ -27,6 +27,8 @@ The **Fraud Engine** (`{company}.fraud`) provides **real-time fraud detection**,
 
 ## 🔄 2. Fraud Detection Flow
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant Src as Event source\n(order, payment, registration)
@@ -48,6 +50,8 @@ sequenceDiagram
 ---
 
 ## 🧩 3. Domain Model
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -106,6 +110,8 @@ classDiagram
 ---
 
 ## 📊 4. Risk Scoring Architecture
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

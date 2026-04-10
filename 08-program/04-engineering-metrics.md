@@ -33,6 +33,8 @@ These are already tracked via the CI/CD pipeline and Grafana. Included here for 
 | **Change Failure Rate** | % of deployments causing incidents | < 5% | PagerDuty + ArgoCD correlation |
 | **Mean Time to Recovery (MTTR)** | Time from incident detection to resolution | < 30 min (P1), < 2h (P2) | PagerDuty |
 
+**Visual overview:**
+
 ```mermaid
 graph LR
     subgraph DORA["📊 DORA Metrics - Already Tracked"]
@@ -132,6 +134,8 @@ These metrics tell us whether teams are actually using the platform - or working
 | **Shared Helm chart usage** | % of services using the platform Helm chart vs. custom | ≥ 90% | ArgoCD manifest analysis |
 | **CI template adoption** | % of repos using the shared GitHub Actions workflow | ≥ 95% | GitHub API scan |
 
+**Visual overview:**
+
 ```mermaid
 graph TD
     subgraph Adoption["📈 Platform Adoption Metrics"]
@@ -170,6 +174,8 @@ Non-adoption is not punished - it is investigated. If teams are working around t
 | **Deprecated API usage** | Custom lint rules | Zero deprecated internal API calls |
 
 ### 6.2 Debt Triage
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

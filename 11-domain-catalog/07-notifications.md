@@ -26,6 +26,8 @@ Other domains decide **what** to send and **when** (via events); Notifications d
 
 End-to-end path from a domain event to tracked delivery on the platform's providers.
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant Domain as Originating Domain
@@ -56,6 +58,8 @@ sequenceDiagram
 ## 🧩 3. Domain model
 
 Core entities for notification orchestration.
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -107,6 +111,8 @@ classDiagram
 ## 📡 4. Channel selection logic
 
 Policy used by Notifications after template resolution (simplified; actual rules may add quiet hours and legal constraints).
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

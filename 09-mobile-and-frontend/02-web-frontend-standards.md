@@ -46,6 +46,8 @@ Not every web surface has the same requirements. The rendering strategy should b
 
 ### 1.2 Decision Flowchart
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     Start["New web surface"] --> Q1{"Does the page need\nto be indexed by\nsearch engines?"}
@@ -85,6 +87,8 @@ Microfrontends (via Module Federation) introduce build complexity, runtime overh
 | Shared surface, shared cadence | ≤ 3 teams, coordinated releases | **Monorepo** (default) |
 
 ### 2.2 Decision Tree
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
@@ -197,6 +201,8 @@ Design tokens are the single source of truth for visual consistency. They are de
 | Hosted instance | Storybook is deployed to an internal URL, linked from Backstage |
 
 ### 3.4 Figma-to-Code Workflow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -885,6 +891,8 @@ jest.mock('launchdarkly-react-client-sdk', () => ({
 | RTL support | Enabled via `dir="rtl"` on `<html>` for RTL locales |
 
 ### 19.2 Translation Workflow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

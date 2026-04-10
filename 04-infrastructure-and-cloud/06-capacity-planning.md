@@ -346,6 +346,8 @@ When the platform launches in a new region, the capacity model provides a **day-
 
 ### Region Sizing Workflow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[Market Analysis\nProjected customers & providers] --> B[Demand Estimate\nOrders/day in month 1, 3, 6, 12]

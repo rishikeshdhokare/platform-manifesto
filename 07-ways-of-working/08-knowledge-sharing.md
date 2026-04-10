@@ -44,6 +44,8 @@ Every guild maintains a charter document in Backstage:
 
 ### 2.3 Guild Lifecycle
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["Engineer proposes guild<br/>(5+ interested members)"] --> B["VP Eng approves charter"]
@@ -102,6 +104,8 @@ Monthly, drop-in sessions where Staff+ engineers make themselves available for 1
 | **Scope** | Any architecture question: service design, data modeling, API contracts, scalability concerns, ADR reviews |
 | **Output** | No formal output required; the engineer takes away guidance. If a decision emerges, it should be captured as an ADR. |
 | **Scheduling** | Calendar invite with booking link shared in `#engineering` |
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

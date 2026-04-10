@@ -26,6 +26,8 @@ All persistent geographic truth remains with the external providers; the platfor
 
 Internal platform consumers call **Geolocation Service**, which uses **Redis** before hitting external APIs. **Cache hit** avoids provider cost and latency; **cache miss** fetches from the configured provider.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     subgraph internal [Internal platform services]
@@ -59,6 +61,8 @@ flowchart TB
 ## 🧩 3. Domain model
 
 Types exposed by the Geolocation bounded context (language-agnostic view).
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -115,6 +119,8 @@ classDiagram
 ## 🔌 4. Provider abstraction (hexagonal)
 
 The **domain port** defines operations (calculate route, ETA, geocode, matrix). **Adapters** implement that port per vendor (**Google**, **HERE**), making provider switches a configuration and adapter concern - not a rewrite of platform logic.
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -175,6 +181,8 @@ All cached data is **ephemeral** and **reconstructible** by re-calling providers
 
 - **Circuit breaker** on outbound calls to the primary mapping provider to avoid cascading failures and thundering herds.
 - **Fallback** to a **secondary** provider (e.g., HERE when Google is unhealthy, or vice versa per platform config) when the primary is open or errors exceed thresholds.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

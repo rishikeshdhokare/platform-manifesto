@@ -42,6 +42,8 @@ Governance rules in this document are **cloud- and vendor-agnostic**. Where **AW
 
 ### Bias Audit Process
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     Train([Train Model]) --> Evaluate[Evaluate Fairness Metrics<br/>Demographic parity, equalized odds]
@@ -85,6 +87,8 @@ Customers and providers deserve to understand the decisions that affect their ex
 | **Fraud block** | "Your order could not be completed. Contact support." | Generic message - details available to support agents |
 
 ### Price Estimate API - Explainability Integration
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -153,6 +157,8 @@ SHAP values are computed during model evaluation and stored in the model registr
 
 ### Code Review Flow for AI-Assisted PRs
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     Dev([Developer uses<br/>AI tool]) --> Generate[AI generates<br/>code suggestion]
@@ -191,6 +197,8 @@ flowchart TD
 ### RAG Architecture
 
 **Reference implementation (AWS):** Titan embeddings plus Bedrock Claude in the diagram below.
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

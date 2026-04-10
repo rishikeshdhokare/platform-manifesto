@@ -177,6 +177,8 @@ When bad data reaches production - corrupted records, incorrect values, schema v
 
 ### 5.1 Incident Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A["Bad data\ndetected"] --> B["Assess\nblast radius"]
@@ -230,6 +232,8 @@ An analytics data contract is a formal agreement between a data producer and its
 | **Consumer notification** | All registered consumers are notified before any schema change |
 
 ### 6.2 Contract Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -324,6 +328,8 @@ For full PII handling details - including data classification, privacy impact as
 | **Audit trail** | All data access is logged. PII access is logged with justification (per privacy-engineering.md §10). |
 
 ### 9.2 Access Model
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

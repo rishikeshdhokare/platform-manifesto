@@ -35,6 +35,8 @@ Principles in this document are **cloud- and vendor-agnostic**. The platform use
 
 The diagram below shows one concrete mapping; swap FIS for your approved infrastructure chaos tool.
 
+**Visual overview:**
+
 ```mermaid
 graph TB
     subgraph "Chaos Engineering Toolchain"
@@ -108,6 +110,8 @@ Every Tier-1 and Tier-2 service must maintain an experiment catalog. The table b
 ## 💥 5. Game Day Process
 
 The platform runs quarterly game days - structured chaos exercises that simulate real-world failure scenarios with full incident response.
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -196,6 +200,8 @@ Circuit breakers are the most critical resilience pattern on the platform. A cir
 
 **Hypothesis:** When the pricing service is fully unavailable, the orders service circuit breaker opens within 30 seconds and returns a default price estimate via the fallback.
 
+**Visual overview:**
+
 ```mermaid
 stateDiagram-v2
     direction LR
@@ -261,6 +267,8 @@ stateDiagram-v2
 ## ⚠️ 8. Blast Radius Control
 
 Chaos experiments must follow a strict blast radius progression. Jumping directly to production-wide experiments is prohibited.
+
+**Visual overview:**
 
 ```mermaid
 graph LR

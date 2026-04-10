@@ -40,6 +40,8 @@ This document helps us **understand dependency on AWS and other vendors** across
 
 Application **domain logic** stays inside the hexagon; **adapters** talk to vendors. The **platform layer** (cluster provisioning, IAM linking, registry glue) is where cloud coupling concentrates.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     subgraph portable [Portable / standard]
@@ -61,6 +63,8 @@ flowchart TB
     portable --- BOUNDARY((Hexagonal boundary))
     awsspecific --- BOUNDARY
 ```
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -160,6 +164,8 @@ flowchart LR
 - Updated **tables** and **Mermaid diagrams** in this file (via PR).
 - Short **executive summary** (1 page): top risks, agreed mitigations, and any ADRs spawned.
 - **Tracking:** Jira epic or platform backlog items for mitigations with owners and quarters.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

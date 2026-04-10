@@ -28,6 +28,8 @@ The **Dynamic Pricing** domain (`{company}.dynamicpricing`) balances **supply an
 
 ## 🔄 2. Dynamic Pricing Calculation Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[Collect demand signals\nOrder requests per zone per minute] --> B[Collect supply signals\nAvailable providers per zone]
@@ -47,6 +49,8 @@ flowchart TD
 ---
 
 ## 🧩 3. Domain Model
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -101,6 +105,8 @@ classDiagram
 ## 🗺️ 4. Zone Management
 
 The platform partitions each **market** into **hexagonal zones** using **H3 geospatial indexing**. Each cell is a first-class **pricing zone** with its **own multiplier**, computed from local demand and supply. Ops can overlay custom geometries where policy requires finer control.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TB

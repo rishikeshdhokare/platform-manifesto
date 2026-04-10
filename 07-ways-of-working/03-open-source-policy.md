@@ -40,6 +40,8 @@
 
 Every build runs **FOSSA** license scanning. Snyk is used as a secondary check for security + license combined analysis.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     PR["Pull Request"] --> CI["CI Pipeline"]
@@ -75,6 +77,8 @@ Before adding any new dependency, engineers must evaluate:
 | **Transitive dependencies** | What does it pull in? | Pulls in GPL-licensed transitive deps |
 
 ### 3.1 Dependency Review Process
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
@@ -137,6 +141,8 @@ Engineers are encouraged to contribute to open source projects that {Company} de
 | **Attribution** | Use your `@{company}.com` email; {Company} is proud of contributions |
 
 ### 5.2 Contribution Workflow
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -215,6 +221,8 @@ If a team genuinely needs a GPL-licensed dependency:
 ## 🎯 8. Decision Flowchart - Adding a New Dependency
 
 Use this flowchart every time you consider adding a new third-party library.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

@@ -14,6 +14,8 @@ Every candidate, regardless of outcome, should leave the process thinking: "That
 
 ## 🎯 2. Interview Loop Structure
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["Recruiter Screen<br/>30 min"] --> B["Technical Phone Screen<br/>60 min"]

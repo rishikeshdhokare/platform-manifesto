@@ -63,6 +63,8 @@ Every new vendor must pass the security review before production data is shared 
 
 ### 4.1 Security Review Workflow
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     actor Team as Requesting Team
@@ -115,6 +117,8 @@ Before committing to a full contract, teams may run a time-boxed pilot.
 | **Pilot report** | Written summary at pilot end: metrics achieved, issues found, go/no-go recommendation |
 
 ### 6.1 Pilot Decision Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
