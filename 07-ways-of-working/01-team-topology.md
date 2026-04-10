@@ -171,7 +171,7 @@ This is what a real, well-written ADR looks like:
 
 **Date:** 2026-11-10
 **Status:** Accepted
-**Deciders:** Jane Doe (Tech Lead, Orders), John Smith (Platform Engineering)
+**Deciders:** @tech-lead-orders, @platform-engineer
 
 ## Context
 

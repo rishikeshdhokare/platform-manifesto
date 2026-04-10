@@ -369,7 +369,7 @@ After a write operation, the writing service returns a **consistency token** - t
 
 ```json
 {
-  "data": { "profileId": "usr_abc123", "name": "Jane Doe" },
+  "data": { "profileId": "usr_abc123", "name": "Example User" },
   "meta": {
     "consistencyToken": "2026-11-15T14:30:00.123456Z"
   }
