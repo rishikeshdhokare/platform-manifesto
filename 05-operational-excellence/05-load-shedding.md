@@ -63,7 +63,7 @@ graph LR
 
 ### Priority Reference Table
 
-| Priority | Label | Description | Shedding Behaviour |
+| Priority | Label | Description | Shedding Behavior |
 |----------|-------|-------------|-------------------|
 | **P1** | Critical | Operations for orders already in progress. Failure here means a customer stranded or a provider not paid. | **Never shed.** These requests are always accepted. |
 | **P2** | Important | Operations that initiate new orders. Failure means lost revenue but no safety impact. | Queued with wait time at Tier 3; rejected with `Retry-After` at Tier 4. |

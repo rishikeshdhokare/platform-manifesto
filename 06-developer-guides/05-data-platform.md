@@ -266,7 +266,7 @@ These are the most common mistakes. Avoid them:
 |--------|---------|---------|
 | `raw_` | Unprocessed data from CDC or external sources | `raw_orders`, `raw_payments` |
 | `curated_` | Cleaned, deduplicated, business-ready tables | `curated_orders`, `curated_payments` |
-| `analytics_` | Aggregated tables optimised for reporting | `analytics_orders`, `analytics_revenue` |
+| `analytics_` | Aggregated tables optimized for reporting | `analytics_orders`, `analytics_revenue` |
 
 ### 9.2 Table Naming
 

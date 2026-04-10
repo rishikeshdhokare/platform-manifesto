@@ -70,7 +70,7 @@ If any access request takes longer than the SLA, escalate in `#platform-support`
 
 ## 📚 3. Minimum Viable Manifesto
 
-You don't need to read the entire manifesto in your first week. Here's a prioritised reading order.
+You don't need to read the entire manifesto in your first week. Here's a prioritized reading order.
 
 ### Read in Week 1
 
@@ -107,11 +107,11 @@ Everything else in the manifesto is **reference material**. Consult it when you'
 - **AI/ML products?** → [10-ai-ml-platform/](./10-ai-ml-platform/)
 - **Working with AI tools?** → [12-ai-engineering/](./12-ai-engineering/)
 - **Building an agent-native org?** → [Agent-Native by Design](./README.md#-agent-native-by-design)
-- **Acronym you don't recognise?** → [GLOSSARY.md](./GLOSSARY.md)
+- **Acronym you don't recognize?** → [GLOSSARY.md](./GLOSSARY.md)
 
 ### Onboarding AI Agents
 
-If your organisation operates AI agents as first-class engineering participants, agents need onboarding too. This checklist complements (not replaces) the human onboarding above.
+If your organization operates AI agents as first-class engineering participants, agents need onboarding too. This checklist complements (not replaces) the human onboarding above.
 
 | Step | What | How |
 |:-----|:-----|:----|

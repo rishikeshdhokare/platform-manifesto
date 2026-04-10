@@ -837,7 +837,7 @@ function OrderForm() {
 
 ### 18.3 Anonymous to Identified User Transition
 
-On app load before login, the SDK initialises with an anonymous context. On login, identify the user:
+On app load before login, the SDK initializes with an anonymous context. On login, identify the user:
 
 ```typescript
 import { useLDClient } from 'launchdarkly-react-client-sdk';
@@ -923,7 +923,7 @@ Translation file (`en.json`):
 
 ### 20.1 Standard
 
-All WebSocket connections use the `@{company}/ws-client` wrapper library, which standardises authentication, reconnection, and error handling. Web and mobile apps use the same package and the same `useWebSocket` hook; path-first calls (as below) and options-object shapes are supported for their respective platforms.
+All WebSocket connections use the `@{company}/ws-client` wrapper library, which standardizes authentication, reconnection, and error handling. Web and mobile apps use the same package and the same `useWebSocket` hook; path-first calls (as below) and options-object shapes are supported for their respective platforms.
 
 | Parameter | Value |
 |-----------|-------|

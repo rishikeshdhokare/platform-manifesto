@@ -78,7 +78,7 @@ These are acceptable - they represent state transitions, not arbitrary RPC.
 
 **Payload mismatch:** If the same `Idempotency-Key` is submitted with a **different request payload** than the original, the server returns `422 Unprocessable Entity` with error code `IDEMPOTENCY_KEY_PAYLOAD_MISMATCH`. The server does not execute the new payload - the original result stands.
 
-**PATCH operations:** `PATCH` **can be** idempotent when using absolute field assignments (e.g., "set status to X") but is **not inherently so** - relative operations like "increment counter" or "append to list" are non-idempotent (see RFC 5789). For absolute-assignment PATCH endpoints, no `Idempotency-Key` is required (though clients may include one; the server will honour it if present). For PATCH endpoints that perform relative updates, require an `Idempotency-Key` header using the same semantics as `POST`.
+**PATCH operations:** `PATCH` **can be** idempotent when using absolute field assignments (e.g., "set status to X") but is **not inherently so** - relative operations like "increment counter" or "append to list" are non-idempotent (see RFC 5789). For absolute-assignment PATCH endpoints, no `Idempotency-Key` is required (though clients may include one; the server will honor it if present). For PATCH endpoints that perform relative updates, require an `Idempotency-Key` header using the same semantics as `POST`.
 
 **gRPC:** For mutation RPCs in internal gRPC services, include an `idempotency_key` field in the request message:
 
@@ -261,8 +261,8 @@ All errors - validation, auth, not found, server errors - use this shape (fields
 | `204 No Content` | Successful DELETE with no response body |
 | `400 Bad Request` | Validation failure, malformed request |
 | `401 Unauthorized` | Missing or invalid authentication |
-| `403 Forbidden` | Authenticated but not authorised |
-| `404 Not Found` | Resource does not exist (or caller is not authorised to know it exists) |
+| `403 Forbidden` | Authenticated but not authorized |
+| `404 Not Found` | Resource does not exist (or caller is not authorized to know it exists) |
 | `409 Conflict` | State conflict - e.g. order already cancelled |
 | `422 Unprocessable Entity` | Business rule violation (different from 400 validation) |
 | `429 Too Many Requests` | Rate limit exceeded; include `Retry-After` header |
@@ -316,7 +316,7 @@ X-RateLimit-Reset: 1700000000
 
 ### 9.1 Algorithm & Enforcement
 
-| Algorithm | Use Case | Behaviour |
+| Algorithm | Use Case | Behavior |
 |-----------|----------|-----------|
 | **Token bucket** (standard) | Most endpoints | Tokens refill at a steady rate; allows smoothed traffic with some burst capacity |
 | **Sliding window** | Endpoints requiring strict per-second limits (e.g., payment initiation) | Exact count over a rolling time window; no burst allowed |

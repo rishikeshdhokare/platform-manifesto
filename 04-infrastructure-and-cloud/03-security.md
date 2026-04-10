@@ -120,7 +120,7 @@ Example IRSA policy for orders-service:
 
 ### 4.4 Authorisation in Services
 
-- Services must authorise the **requesting principal** against the **requested resource**
+- Services must authorize the **requesting principal** against the **requested resource**
 - Never trust data in the request body for identity - use the **trusted identity context** the BFF forwards (claims propagated over mTLS), not a fresh parse of the client's JWT
 - Implement authorisation at the **service/domain layer**, not only at the gateway or BFF:
   ```java

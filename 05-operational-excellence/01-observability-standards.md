@@ -201,7 +201,7 @@ Key metric: `kafka_consumer_group_lag` - alerts when lag exceeds threshold.
 
 ### 3.6 Grafana Dashboards
 
-Every service **must** have a Grafana dashboard before production deployment. The platform team provides a **standard dashboard template** - teams import it and customise.
+Every service **must** have a Grafana dashboard before production deployment. The platform team provides a **standard dashboard template** - teams import it and customize.
 
 Minimum dashboard panels (add runtime-appropriate rows; JVM is one option among several):
 

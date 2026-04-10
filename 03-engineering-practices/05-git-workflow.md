@@ -150,7 +150,7 @@ Break it into steps. Each step is a small, safe PR.
 
 **Good approach:**
 ```
-PR 1: Extract PriceCalculationService interface (no behaviour change)
+PR 1: Extract PriceCalculationService interface (no behavior change)
 PR 2: Move pricing logic into new service (with tests proving equivalence)
 PR 3: Update callers to use new service
 PR 4: Delete old code
@@ -232,7 +232,7 @@ Every commit must follow this format:
 
 | Type | When to Use |
 |------|------------|
-| `feat` | A new feature or behaviour |
+| `feat` | A new feature or behavior |
 | `fix` | A bug fix |
 | `refactor` | Code change that doesn't add a feature or fix a bug |
 | `test` | Adding or updating tests |

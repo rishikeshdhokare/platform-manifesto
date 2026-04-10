@@ -36,7 +36,7 @@ AWS Organization (Root)
 │
 ├── Security OU
 │   ├── Security Tooling       (GuardDuty, SecurityHub, CloudTrail aggregation)
-│   └── Log Archive            (centralised CloudTrail, S3 access logs)
+│   └── Log Archive            (centralized CloudTrail, S3 access logs)
 │
 ├── Infrastructure OU
 │   ├── Shared Services        (ECR, Artifactory, internal DNS, Vault)

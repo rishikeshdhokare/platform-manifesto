@@ -10,7 +10,7 @@ AI is not a phase of the SDLC - it is a capability that runs through every phase
 
 The goal is not "use AI everywhere." The goal is **use AI where it compounds** - where it reduces toil, catches what humans miss, or accelerates feedback loops - and **stay human where it matters** - architecture decisions, ethical judgements, and customer empathy.
 
-> **Agent-native organisations:** This document defines AI integration across the SDLC from the perspective of AI assisting human engineers. For organisations where AI agents are first-class engineering participants (see [Agent-Native by Design](../README.md#-agent-native-by-design)), these same practices and guardrails apply - agents are held to the same standards as human engineers, and the human gates defined throughout this document (approval, incident command, architecture decisions) represent the minimum gates that agent-native orgs must preserve.
+> **Agent-native organizations:** This document defines AI integration across the SDLC from the perspective of AI assisting human engineers. For organizations where AI agents are first-class engineering participants (see [Agent-Native by Design](../README.md#-agent-native-by-design)), these same practices and guardrails apply - agents are held to the same standards as human engineers, and the human gates defined throughout this document (approval, incident command, architecture decisions) represent the minimum gates that agent-native orgs must preserve.
 
 For approved tools and security guardrails, see [AI-Assisted Development Practices](../10-ai-ml-platform/02-ai-governance.md#4-ai-assisted-development-practices) in the AI Governance document.
 

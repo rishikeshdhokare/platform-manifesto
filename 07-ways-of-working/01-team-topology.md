@@ -83,7 +83,7 @@ terraform/          @{company}/team-platform
 
 ### 2.3 AI Agent Roles in Teams
 
-Organisations using AI agents as engineering participants must follow these accountability rules:
+Organizations using AI agents as engineering participants must follow these accountability rules:
 
 | Principle | Rule |
 |:----------|:-----|

@@ -6,7 +6,7 @@
 
 ## 📋 Table of Contents
 
-1. [QA Organisational Model](#1-qa-organisational-model)
+1. [QA Organizational Model](#1-qa-organizational-model)
 2. [Test Environments](#2-test-environments)
 3. [Test Data Management](#3-test-data-management)
 4. [Regression Testing](#4-regression-testing)
@@ -19,7 +19,7 @@
 
 ---
 
-## 🎯 1. QA Organisational Model
+## 🎯 1. QA Organizational Model
 
 ### 1.1 Philosophy
 
@@ -236,7 +236,7 @@ Automated rollback triggers (configured in the CD pipeline):
 | **S1 - Critical** | Service down or data loss affecting all users | Payment processing failure, app crashes on launch, data corruption | **4 hours** (all-hands incident) |
 | **S2 - Major** | Core feature broken for a segment of users | Orders fail for a specific region, push notifications not delivering on Android 14 | **1 sprint** (highest priority in next sprint) |
 | **S3 - Moderate** | Non-core feature broken or degraded experience | Profile photo upload fails intermittently, slow loading on order history | **2 sprints** |
-| **S4 - Minor** | Cosmetic issue or minor inconvenience | Misaligned text on settings screen, tooltip typo | **Backlog** (prioritised when capacity allows) |
+| **S4 - Minor** | Cosmetic issue or minor inconvenience | Misaligned text on settings screen, tooltip typo | **Backlog** (prioritized when capacity allows) |
 
 ### 7.2 Triage Process
 

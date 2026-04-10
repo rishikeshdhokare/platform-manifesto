@@ -321,7 +321,7 @@ Is the issue caught during canary?
 Is there a feature flag for the affected feature?
   └─ YES → Turn off the flag. Monitor. Done.
 
-Is the issue in application behaviour (not infra)?
+Is the issue in application behavior (not infra)?
   └─ YES → ArgoCD rollback to previous revision. Monitor.
 
 Is the issue in database schema?

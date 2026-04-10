@@ -400,7 +400,7 @@ Instrumented tests run on emulators at the following API levels:
 |-----------|----------------|---------|
 | 24 | 7.0 (Nougat) | `minSdk` - ensures baseline compatibility |
 | 28 | 9.0 (Pie) | Mid-range devices in production fleet |
-| 34 | 14 | `targetSdk` - latest behaviour changes |
+| 34 | 14 | `targetSdk` - latest behavior changes |
 
 ---
 
@@ -410,7 +410,7 @@ Instrumented tests run on emulators at the following API levels:
 
 **Hilt** is the mandated DI framework. Koin and manual DI are not permitted for new code.
 
-### 9.2 Module Organisation
+### 9.2 Module Organization
 
 ```kotlin
 @Module

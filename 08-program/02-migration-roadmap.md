@@ -6,7 +6,7 @@
 
 ## 📋 Overview
 
-This document defines the **prioritised, phased program** to migrate the organisation from the current state to the target platform defined in this manifesto.
+This document defines the **prioritized, phased program** to migrate the organization from the current state to the target platform defined in this manifesto.
 
 The migration follows a **strangler fig pattern** - we do not rewrite everything at once. We build the new platform alongside the existing system, migrate services incrementally, and decommission the old as we go.
 
@@ -57,7 +57,7 @@ gantt
 
 **Reference implementation (AWS):**
 
-- [ ] AWS account structure created (Organisation, dev/staging/production accounts)
+- [ ] AWS account structure created (Organization, dev/staging/production accounts)
 - [ ] VPC and networking in all accounts (Terraform)
 - [ ] EKS clusters provisioned in all three environments
 - [ ] ECR repository structure
@@ -69,12 +69,12 @@ gantt
 - [ ] AWS GuardDuty, CloudTrail, Config enabled on all accounts
 
 ### CI/CD Platform (Weeks 2-4)
-- [ ] GitHub organisation configuration (branch protection templates, CODEOWNERS tooling)
+- [ ] GitHub organization configuration (branch protection templates, CODEOWNERS tooling)
 - [ ] Shared GitHub Actions workflow templates (e.g. `java-pr.yml`, `java-main.yml` for **reference stack Java**; add templates per primary language)
 - [ ] ArgoCD installed and configured on all EKS clusters
 - [ ] Pact Broker deployed
-- [ ] SonarCloud organisation configured
-- [ ] Snyk organisation configured
+- [ ] SonarCloud organization configured
+- [ ] Snyk organization configured
 - [ ] Gitleaks pre-commit hook template
 
 ### Observability Stack (Weeks 3-5)
@@ -238,7 +238,7 @@ At this phase, each team owns their migration with a checklist:
 
 ---
 
-## 🔧 Phase 4: Optimise (Month 10+)
+## 🔧 Phase 4: Optimize (Month 10+)
 
 **Goal:** Continuous improvement - push teams from L3 to L4.
 
