@@ -31,12 +31,12 @@ gantt
     axisFormat %b
 
     section Quarter N
-    Execution                    :active, exec, 2026-01-01, 2026-02-28
-    OKR Drafting (for Q N+1)     :draft, 2026-02-15, 2026-03-15
+    Execution                    :active, exec, 2025-01-01, 60d
+    OKR Drafting (for Q N+1)     :draft, after exec, 30d
 
     section Quarter N+1
-    Alignment & Commitment       :align, 2026-03-01, 2026-03-31
-    Execution                    :exec2, 2026-04-01, 2026-06-30
+    Alignment & Commitment       :align, after draft, 30d
+    Execution                    :exec2, after align, 90d
 ```
 
 | Phase | Timing | Activities |

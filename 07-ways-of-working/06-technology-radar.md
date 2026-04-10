@@ -114,7 +114,7 @@ sequenceDiagram
 ## 🔭 6. Current Radar Snapshot
 
 > *This is a living document. The canonical version is published in Backstage.*  
-> *Last updated: Q1 2026*
+> *Last updated: {quarter} {year}*
 
 > This snapshot reflects the reference implementation. Organizations adopting this manifesto should populate their own radar based on their technology landscape.
 
