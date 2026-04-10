@@ -101,6 +101,18 @@ When adding, removing, or renaming ANY document:
 
 ---
 
+## Pull Request Descriptions
+
+When creating a pull request, the title and body must NEVER reference AI tooling:
+
+- Do not mention Cursor, Copilot, ChatGPT, Claude, or any AI assistant by name
+- Do not use phrases like "AI-generated", "auto-generated", or "assisted by"
+- Write the PR as a human would - focus on **what** changed and **why**
+
+A PR template exists at `.github/pull_request_template.md`. Populate every section of the template when creating PRs.
+
+---
+
 ## Pre-Commit Checklist
 
 - [ ] No em-dashes (`—`) or en-dashes (`–`) in changed files
