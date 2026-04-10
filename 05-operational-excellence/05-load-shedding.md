@@ -677,7 +677,7 @@ groups:
 
 ### 10.1 Target
 
-**30% of P3/P4 incidents auto-remediated by end of year.** Auto-remediation reduces on-call burden and MTTR for well-understood failure modes.
+**30% of P3/P4 incidents auto-remediated within 12 months of adoption.** Auto-remediation reduces on-call burden and MTTR for well-understood failure modes.
 
 ### 10.2 Standard Patterns
 

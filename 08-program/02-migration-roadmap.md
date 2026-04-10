@@ -29,20 +29,20 @@ Phases and exit criteria are **universal**. Checklists that name **AWS**, **EKS*
 ```mermaid
 gantt
     title Migration Roadmap
-    dateFormat YYYY-Q
-    axisFormat %Y-Q%q
-    section Foundation
-        Platform setup          :done, p0, 2026-Q1, 90d
-        Golden path             :done, p1, 2026-Q1, 90d
-    section Migrate
-        Tier 1 services         :active, m1, 2026-Q2, 90d
-        Tier 2 services         :m2, 2026-Q3, 90d
-    section Optimize
-        Performance tuning      :o1, 2026-Q4, 90d
-        Cost optimization       :o2, 2026-Q4, 90d
-    section Scale
-        Multi-region            :s1, 2027-Q1, 90d
-        Platform maturity       :s2, 2027-Q1, 90d
+    dateFormat YYYY-MM-DD
+    axisFormat Month %m
+    section Foundation (Months 1-3)
+        Platform setup          :done, p0, 2025-01-01, 90d
+        Golden path             :done, p1, 2025-01-01, 90d
+    section Migrate (Months 4-9)
+        Tier 1 services         :active, m1, after p0, 90d
+        Tier 2 services         :m2, after m1, 90d
+    section Optimize (Months 10-12)
+        Performance tuning      :o1, after m2, 90d
+        Cost optimization       :o2, after m2, 90d
+    section Scale (Months 13-15)
+        Multi-region            :s1, after o1, 90d
+        Platform maturity       :s2, after o1, 90d
 ```
 
 ---

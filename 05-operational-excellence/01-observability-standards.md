@@ -815,9 +815,9 @@ Toil is distinct from engineering overhead (meetings, planning) and operational 
 
 | Metric | Measurement | Target |
 |--------|-------------|--------|
-| % of Tier 1 services with SLOs defined | Backstage catalog query | 100% by Q4 |
-| % of Tier 2 services with SLOs defined | Backstage catalog query | 100% by Q4 |
-| % of Tier 3 services with SLOs defined | Backstage catalog query | 80% by Q4 |
+| % of Tier 1 services with SLOs defined | Backstage catalog query | 100% within 12 months of adoption |
+| % of Tier 2 services with SLOs defined | Backstage catalog query | 100% within 12 months of adoption |
+| % of Tier 3 services with SLOs defined | Backstage catalog query | 80% within 12 months of adoption |
 | SLOs tracked in Grafana dashboards | Dashboard audit | 100% of defined SLOs |
 | Error budget policy documented | Confluence page linked from Backstage | 100% of Tier 1-2 services |
 
