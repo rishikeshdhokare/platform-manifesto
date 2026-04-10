@@ -13,7 +13,7 @@ jobs:
   link-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Validate internal Markdown links
         uses: lycheeverse/lychee-action@v2
