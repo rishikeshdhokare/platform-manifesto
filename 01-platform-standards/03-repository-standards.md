@@ -19,11 +19,25 @@ Every service repository must contain the following files. Missing files are fla
 | `docs/adr/` | Architecture Decision Records | Yes |
 | `docs/runbook.md` | Operational runbook for on-call engineers | Yes |
 | `AGENTS.md` | AI agent instructions - coding standards, architecture rules, forbidden patterns (see [Context Engineering](../12-ai-engineering/01-context-engineering.md)) | Yes |
-| `.cursor/rules/` | Cursor-specific rules scoped by file pattern | Recommended |
+| `.cursor/rules/` or equivalent | Agent rules scoped by file pattern (vendor-neutral alternative: any rules directory the team's primary agent tooling supports) | Yes |
 | `.github/copilot-instructions.md` | GitHub Copilot workspace instructions | Recommended |
 | `Dockerfile` | Container build instructions | Yes |
 | `Makefile` | Standard build targets | Yes |
 | `.gitignore` | Language-appropriate ignore rules | Yes |
+
+### Minimum Agent Context Bundle
+
+Every repository must include a minimum set of agent context files. These files ensure AI agents operating in the codebase follow the same standards as human engineers. See [Context Engineering](../12-ai-engineering/01-context-engineering.md) for detailed guidance on what to include.
+
+| File | Purpose | Required |
+|------|---------|----------|
+| `AGENTS.md` | Agent behavior rules, forbidden patterns, repo-specific constraints | Yes |
+| `.cursor/rules/` or equivalent | Granular, file-pattern-specific rules for the team's agent tooling | Yes |
+| `.github/copilot-instructions.md` | GitHub Copilot workspace instructions | Recommended |
+
+**CI enforcement:** Add a CI step that validates required context files exist and are not empty. Backstage software templates include this check by default.
+
+**Freshness:** Context files must be reviewed when the code they govern changes. Include context file review as a checklist item in the PR template.
 
 ### Makefile Standard Targets
 
