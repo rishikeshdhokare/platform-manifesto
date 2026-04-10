@@ -105,7 +105,9 @@ When adding, removing, or renaming ANY document:
 
 ## Pull Request Descriptions
 
-When creating a pull request, the title and body must NEVER reference AI tooling:
+> **Scope:** This rule applies to PRs in **this manifesto repository** only, because the manifesto is vendor-neutral documentation. Application repositories have different disclosure requirements - see the [code review guide](./03-engineering-practices/06-code-review-guide.md) for agent-authored code provenance standards.
+
+When creating a pull request in this repository, the title and body must NEVER reference AI tooling:
 
 - Do not mention Cursor, Copilot, ChatGPT, Claude, or any AI assistant by name
 - Do not use phrases like "AI-generated", "auto-generated", or "assisted by"
