@@ -30,7 +30,7 @@
 
 ### 1.1 STRIDE Per New Service
 
-Every new service must complete a STRIDE threat model before its [Production Readiness Review](../05-operational-excellence/04-incident-management.md). The model is documented in `docs/threats.md` within the service repository.
+Every new service must complete a STRIDE threat model before its [Production Readiness Review](../06-developer-guides/02-golden-path.md). The model is documented in `docs/threats.md` within the service repository.
 
 | STRIDE Category | Question to Answer | Example Threat |
 |-----------------|-------------------|----------------|
