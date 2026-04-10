@@ -176,50 +176,43 @@ flowchart TD
 
 When a customer requests deletion of their account and personal data, the platform executes a **cross-service cascade deletion**.
 
-### Deletion Sequence
+### Deletion Sequence - Initiation
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
     participant Customer
-    participant CustomerApp as Customer App
-    participant DDS as Data Deletion Service
-    participant CustomerDB as Customer Profile DB
+    participant App as Customer App
+    participant DDS as Deletion Service
+    participant DB as Customer DB
     participant Kafka
-    participant OrderSvc as Order Service
-    participant PaySvc as Payment Service
-    participant LocSvc as Location Service
-    participant SupportSvc as Support Service
-    participant Verify as Verification Service
 
-    Customer->>CustomerApp: Request account deletion
-    CustomerApp->>DDS: POST /deletion-requests<br/>{customerId, reason}
-    DDS->>DDS: Validate identity<br/>(re-authentication required)
-    DDS->>CustomerDB: DELETE customer profile
-    CustomerDB-->>DDS: Confirmed
-    DDS->>Kafka: Publish customers.customer.deleted<br/>{customerId, deletionId, timestamp}
+    Customer->>App: Request deletion
+    App->>DDS: POST /deletion-requests
+    DDS->>DDS: Re-authenticate
+    DDS->>DB: DELETE profile
+    DB-->>DDS: Confirmed
+    DDS->>Kafka: customers.customer.deleted
+```
 
-    par Parallel Service Deletion
-        Kafka->>OrderSvc: Consume event
-        OrderSvc->>OrderSvc: Anonymize order records<br/>(replace customerId with hash)
-        OrderSvc->>Kafka: Publish deletion.completed<br/>{service: order, deletionId}
-    and
-        Kafka->>PaySvc: Consume event
-        PaySvc->>PaySvc: Delete payment tokens<br/>and billing history
-        PaySvc->>Kafka: Publish deletion.completed<br/>{service: payment, deletionId}
-    and
-        Kafka->>LocSvc: Consume event
-        LocSvc->>LocSvc: Delete all GPS traces
-        LocSvc->>Kafka: Publish deletion.completed<br/>{service: location, deletionId}
-    and
-        Kafka->>SupportSvc: Consume event
-        SupportSvc->>SupportSvc: Delete chat logs<br/>and support tickets
-        SupportSvc->>Kafka: Publish deletion.completed<br/>{service: support, deletionId}
-    end
+### Deletion Sequence - Service Cascade
 
-    Kafka->>Verify: Consume all deletion.completed events
-    Verify->>Verify: Verify all services reported<br/>deletion for deletionId
-    Verify->>DDS: Deletion verified ✅
-    DDS->>Customer: Confirmation email:<br/>"Your data has been deleted"
+**Visual overview:**
+
+```mermaid
+sequenceDiagram
+    participant Kafka
+    participant Svcs as Domain Services
+    participant Verify as Verification
+    participant DDS as Deletion Service
+
+    Kafka->>Svcs: Consume deletion event
+    Note over Svcs: Each service anonymizes<br/>or deletes its data
+    Svcs->>Kafka: deletion.completed per service
+    Kafka->>Verify: All completions received
+    Verify->>DDS: Deletion verified
+    DDS->>DDS: Send confirmation email
 ```
 
 ### Key Design Decisions

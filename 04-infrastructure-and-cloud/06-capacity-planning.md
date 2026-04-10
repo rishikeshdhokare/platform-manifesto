@@ -137,22 +137,21 @@ Kubernetes HPA reacts to load, but reaction time is too slow for demand spikes t
 
 ### HPA Override Architecture
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant Cal as Event Calendar
     participant CJ as CronJob
     participant HPA as HPA Override
-    participant K8s as Kubernetes
-    participant Karp as Karpenter
+    participant K8s as K8s + Karpenter
 
     Cal->>CJ: Known event at T-30min
-    CJ->>HPA: Set minReplicas = pre-calculated peak
-    HPA->>K8s: Scale pods to new minimum
-    K8s->>Karp: Request additional nodes
-    Karp->>K8s: Provision nodes (Spot preferred)
-    Note over K8s: Pods running at event capacity
-    Cal->>CJ: Event window ends + 30min buffer
-    CJ->>HPA: Reset minReplicas to baseline
+    CJ->>HPA: Set minReplicas to peak
+    HPA->>K8s: Scale pods + provision nodes
+    Note over K8s: Pods at event capacity
+    Cal->>CJ: Event window ends + buffer
+    CJ->>HPA: Reset to baseline
     HPA->>K8s: Scale down gradually
 ```
 
