@@ -576,6 +576,7 @@ This isn't set in stone - it's set in Git. Here's how to shape it.
 | 📋 | **Deviate from it** | Document your rationale in an ADR. No silent exceptions |
 | 🗓️ | **Review cadence** | Quarterly with Tech Leads; full manifesto bi-annually |
 | 💬 | **Disagree with it** | `#engineering-discussions` or Architecture Clinic, then open a PR |
+| 📝 | **Contribute** | See [CONTRIBUTING.md](./CONTRIBUTING.md) for fork, customization, and adoption guides |
 
 ---
 
