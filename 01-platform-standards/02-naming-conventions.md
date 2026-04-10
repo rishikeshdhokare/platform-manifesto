@@ -232,6 +232,8 @@ Every AWS resource must carry these tags:
 
 ## 🗺️ 10. Naming Hierarchy
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     org["{Company} Org"]

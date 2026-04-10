@@ -41,6 +41,8 @@ Configuration storage examples that use **AWS SSM Parameter Store** and **S3** f
 
 All region-specific configuration follows a strict hierarchy with inheritance. More specific levels override less specific ones.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     G["Global Defaults\n/{env}/global/*"] --> CO["Country Overrides\n/{env}/countries/{country}/*"]
@@ -148,6 +150,8 @@ Service types are **configuration-driven**, not hard-coded. Different regions su
 | APAC South | Economy, Comfort |
 
 ### Configuration Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -276,6 +280,8 @@ ZonedDateTime local = now.atZone(ZoneId.of("America/New_York"));     // display
 | `ja` | Japanese | LTR | APAC |
 
 ### Localization Flow
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -442,6 +448,8 @@ The platform complies with data residency requirements by ensuring user data is 
 ### Regional Data Mapping
 
 **Reference implementation (AWS):** Region IDs and SCP wording below are AWS-specific; enforce the same data-boundary rules with your cloud's policy and networking controls.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

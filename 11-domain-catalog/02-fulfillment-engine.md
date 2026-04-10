@@ -22,6 +22,8 @@ The **Fulfillment Engine** (`{company}.fulfillment`) is the real-time subsystem 
 | Order lifecycle | Order orchestration (`{company}.orders`) |
 | Provider profile data | Provider Profile (`{company}.providers`) - ratings, documents, long-lived attributes |
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
   subgraph Platform["{Company} Platform"]
@@ -40,6 +42,8 @@ flowchart LR
 ## 🔄 2. Assignment Algorithm Flow
 
 End-to-end flow from order request to published assignment event.
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -76,6 +80,8 @@ sequenceDiagram
 ## 🧩 3. Domain Model
 
 Core types for the fulfillment bounded context. Enums and messages align with `{company}.fulfillment.v1` protobuf package.
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -232,6 +238,8 @@ Fulfillment Engine persistence is **ephemeral only** - no relational database fo
 
 External and platform dependencies for `{company}.fulfillment`.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
   subgraph FE["Fulfillment Engine<br/>{company}.fulfillment"]
@@ -258,6 +266,8 @@ flowchart TB
 | **HPA** | **CPU-based** scaling plus **custom metric**: `{company}_fulfillment_active_assignments` (or equivalent Prometheus metric exported from the service) to scale before CPU saturates during assignment storms |
 | **Nodes** | **Karpenter** (or equivalent) for rapid node provisioning during **peak demand** (events, weather, market launches) |
 | **Redis** | Scale-out via sharding by region; avoid single hot key on `provider:locations` where possible |
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

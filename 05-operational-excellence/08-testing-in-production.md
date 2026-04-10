@@ -64,6 +64,8 @@ services/
 
 ### 3.2 Canary Execution Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A["Canary Script<br/>(TypeScript in Git)"] --> B["Terraform<br/>deploys to CloudWatch"]
@@ -94,6 +96,8 @@ Canary Terraform is applied via the same ArgoCD pipeline as the service. When a 
 ### 4.1 How It Works
 
 Istio traffic mirroring duplicates production traffic to a **shadow service** running the new version. The shadow receives real traffic but its responses are **discarded** - fire-and-forget.
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -201,6 +205,8 @@ Testing in production is powerful but dangerous if done carelessly. These rules 
 ## 📋 8. Testing-in-Production Technique Selection
 
 Use this diagram to choose the right technique for your scenario.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

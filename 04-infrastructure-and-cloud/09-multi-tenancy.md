@@ -84,6 +84,8 @@ The default and most cost-efficient pattern. All tenants share the same database
 
 **Architecture:**
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     subgraph "Application Layer"
@@ -284,6 +286,8 @@ Observability without tenant context is useless in a multi-tenant system. Every 
 
 Tenant identity is extracted from the request at the API Gateway and propagated through the entire request lifecycle:
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["API Gateway\n(extracts tenant_id\nfrom API key or\nJWT claim)"] --> B["Service A\n(tenant_id in MDC\nand OTel baggage)"]
@@ -355,6 +359,8 @@ void rlsPreventsAccessToOtherTenantData() {
 
 A dedicated CI step creates two test tenants, seeds data for both, and then exercises every API endpoint as each tenant. Any response containing data from the other tenant fails the build.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["Seed tenant-A\nand tenant-B\nwith test data"] --> B["Execute all API\nendpoints as tenant-A"]
@@ -373,6 +379,8 @@ flowchart LR
 ## 🔄 8. Tenant Lifecycle
 
 ### 8.1 Lifecycle Stages
+
+**Visual overview:**
 
 ```mermaid
 stateDiagram-v2

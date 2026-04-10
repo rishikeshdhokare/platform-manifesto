@@ -84,6 +84,8 @@ Internal native SDKs are distributed as **XCFrameworks** via the internal Swift 
 
 All native iOS code follows **MVVM with Coordinators**:
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     C[Coordinator] -->|creates| V[View / ViewController]
@@ -258,6 +260,8 @@ viewModel.onComplete = { result in
 | **xcpretty** | Human-readable xcodebuild output |
 
 ### 6.2 Pipeline Stages
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

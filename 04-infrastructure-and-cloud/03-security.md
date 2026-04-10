@@ -443,6 +443,8 @@ The platform Helm chart translates these into `NetworkPolicy` rules. The platfor
 
 All external HTTPS traffic routes through a shared **Istio EgressGateway** for centralized logging and inspection:
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     Pod["Service Pod"] -->|mTLS| Sidecar["Envoy Sidecar"]

@@ -67,6 +67,8 @@ Each mobile client has a dedicated **Backend-for-Frontend (BFF)** that acts as i
 
 ### Architecture
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     subgraph "Client Layer"
@@ -185,6 +187,8 @@ Cursors are opaque, base64-encoded tokens. The client passes `?cursor=<token>` t
 
 ### Online/Offline Logic Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A["User Action\n(e.g., view order)"] --> B{"Network\navailable?"}
@@ -245,6 +249,8 @@ When network connectivity is restored:
 ## 🔔 6. Push Notification Standards
 
 ### Notification Flow
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -463,6 +469,8 @@ For install-then-navigate flows (e.g., a referral link clicked by someone withou
 
 ### Pipeline
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["Pull Request"] --> B["Lint\n(ESLint + Prettier)"]
@@ -586,6 +594,8 @@ Before every App Store / Play Store submission:
 Tokens are **never** stored in `AsyncStorage`, `UserDefaults`, plain `SharedPreferences`, or any unencrypted storage.
 
 ### 14.2 Refresh flow
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram

@@ -37,6 +37,8 @@ The platform uses **gRPC** for high-performance, typed, internal communication b
 
 Use this flowchart for new interfaces. When in doubt, default to **REST** for anything user- or partner-facing; escalate to **gRPC** only with Platform Engineering review for latency and coupling trade-offs.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[New API?] --> B{External caller?}
@@ -131,6 +133,8 @@ A **major version** is a **new package** (new `vN` folder and package name). Dep
 
 - **Previous major proto package versions remain supported for 12 months** after the successor is declared GA in the service changelog.
 - After 12 months, callers must be on the new package; servers may drop the old `Service` implementation with Platform Engineering approval and a published deprecation notice.
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR
@@ -555,6 +559,8 @@ spec:
 - Kubernetes **1.24+** supports native **gRPC probes** (`grpc:` field). For older clusters, use **grpc_health_probe** as an exec probe or a sidecar HTTP health endpoint approved by Platform Engineering.
 - Align `service` name with the **fully qualified service name** expected by your health implementation when using per-service checks.
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant K as kubelet
@@ -593,6 +599,8 @@ Export Prometheus-compatible metrics (naming may vary by library; align with mes
 Dashboards must break down by **service name**, **method**, and **status code**.
 
 ### 9.3 Trace propagation across a gRPC chain
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram

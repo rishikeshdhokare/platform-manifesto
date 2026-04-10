@@ -55,6 +55,8 @@ Every AWS resource provisioned through Terraform **must** carry the following ta
 
 ### Tag Propagation
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[Terraform Module] -->|tags block| B[AWS Resource]
@@ -122,6 +124,8 @@ resource "aws_budgets_budget" "matching_team" {
 
 **Reference implementation (AWS):** the diagram uses CUR, Cost Explorer, Cost Anomaly Detection, and AWS Budgets; map the same stages to **Cloud Billing export + BigQuery** or **Cost Management + exports** on other clouds.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     subgraph AWS
@@ -161,6 +165,8 @@ flowchart LR
 We run a **quarterly rightsizing review** as part of the FinOps cadence.
 
 ### Process
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

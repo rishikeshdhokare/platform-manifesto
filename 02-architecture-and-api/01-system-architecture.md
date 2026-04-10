@@ -93,6 +93,8 @@ flowchart TB
 
 Core and supporting domains publish events to the shared Kafka backbone:
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     subgraph core [Core Domains]

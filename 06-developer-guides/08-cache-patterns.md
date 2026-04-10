@@ -42,6 +42,8 @@ Cache-aside (also called lazy-loading) is the **default caching pattern**: read 
 
 ### Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[Application] -->|1. GET key| B{Cache Hit?}
@@ -124,6 +126,8 @@ TTL (time-to-live) defines the maximum staleness window. Choose TTL based on cha
 
 ### TTL Selection Flowchart
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     A[How often does this data change?] -->|Every few seconds| B[TTL: 5-30 seconds\nor don't cache]
@@ -144,6 +148,8 @@ flowchart TD
 For data with long TTLs, relying on natural expiry alone means users see stale data for too long after a change. The platform uses **Kafka-driven cache invalidation** to proactively clear cache entries when the source data changes.
 
 ### Flow
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -491,6 +497,8 @@ Examples:
 ## 🎯 10. Decision Guide
 
 ### Should You Cache This Data?
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

@@ -37,6 +37,8 @@ This is the **general product A/B testing standard**. For ML-specific experiment
 
 ## 🔄 3. Experiment Lifecycle
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     subgraph design [Design]
@@ -157,6 +159,8 @@ Every experiment requires instrumentation to capture:
 Emit exposure events at the point where the user **actually sees** the variant, not when the flag is evaluated. This prevents dilution from users who are assigned but never reach the experiment surface.
 
 ### 5.4 Architecture
+
+**Visual overview:**
 
 ```mermaid
 flowchart TB

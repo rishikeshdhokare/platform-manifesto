@@ -37,6 +37,8 @@
 
 ### 1.2 Process
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["Self-assessment<br/>(IC writes)"] --> B["Manager assessment<br/>(EM writes)"]
@@ -180,6 +182,8 @@ If a dimension is Red for two consecutive quarters:
 
 ### 4.3 Approval Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     A["EM writes business case"] --> B["VP Eng reviews"]
@@ -229,6 +233,8 @@ Cross-team dependencies are tracked on a shared dependency board (Jira filter) r
 ## 👥 6. Conflict Resolution
 
 ### 6.1 Escalation Path
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

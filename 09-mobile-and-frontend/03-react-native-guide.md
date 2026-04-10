@@ -126,6 +126,8 @@ const linking: LinkingOptions<RootParamList> = {
 - Deep links arriving while unauthenticated are **queued** in a `pendingDeepLink` ref and replayed after login completes.
 - Token refresh failures trigger a `FORCE_LOGOUT` action that resets the navigation state to `AuthStack`.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     DL[Deep Link Received] --> AUTH{Authenticated?}
@@ -398,6 +400,8 @@ Keys are stored in **AWS Secrets Manager** and injected into CI at build time. T
 
 - **Mandatory updates** display a full-screen modal with a progress bar. The user cannot dismiss until the update installs and the app restarts.
 - **Optional updates** show a non-intrusive banner at the bottom. Users can defer up to 3 times before the update becomes mandatory.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

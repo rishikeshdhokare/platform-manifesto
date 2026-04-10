@@ -32,6 +32,8 @@ The **Customer Profile** bounded context (`{company}.customers`) manages **custo
 
 Core types live under `{company}.customers.domain`. Identifiers are opaque UUIDs at the API boundary.
 
+**Visual overview:**
+
 ```mermaid
 classDiagram
     class CustomerId {
@@ -95,6 +97,8 @@ classDiagram
 ## 🚀 3. Customer Registration Flow
 
 Happy path: mobile app registers a new customer through the BFF, which delegates identity to the platform auth provider and triggers verification.
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -194,6 +198,8 @@ Producer: `{company}.customers` - subject prefix `customers.customer`.
 3. **Payment Service** and **Orders** may retain legal/financial records per finance policy - Customer Profile publishes `customers.customer.deleted` and stops being source of truth for **new** customer-facing reads.  
 4. Confirmation returned when profile row is tombstoned or removed per jurisdictional rules.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     REQ[Erasure request] --> VAL[Validate identity]
@@ -220,6 +226,8 @@ flowchart LR
 ---
 
 ## 🔗 9. Dependencies
+
+**Visual overview:**
 
 ```mermaid
 flowchart TB

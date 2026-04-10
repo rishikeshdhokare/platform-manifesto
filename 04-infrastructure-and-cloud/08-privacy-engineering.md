@@ -147,6 +147,8 @@ For location-based analytics (heatmaps, demand forecasting):
 
 ### Retention Enforcement Flow
 
+**Visual overview:**
+
 ```mermaid
 flowchart TD
     SCHED["Scheduled Job<br/>(daily at 02:00 UTC)"]
@@ -228,6 +230,8 @@ sequenceDiagram
 ## 🛡️ 7. Consent Management
 
 ### Consent Service Architecture
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

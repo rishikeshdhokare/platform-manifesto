@@ -22,6 +22,8 @@ The **Payment Service** is the bounded context responsible for **payment process
 
 Cardholder data is **never** persisted in platform systems in raw form. **Tokenization and vaulting** are delegated to the payment provider; the platform stores only **provider tokens**, **last4**, **brand**, and **expiry metadata** where permitted. The **PCI-DSS assessment scope** for application infrastructure is limited to **token handling** and **provider API integration** - not full card data processing.
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     subgraph platform_pci [{Company} - reduced PCI scope]
@@ -47,6 +49,8 @@ flowchart LR
 ## 🔄 2. Payment lifecycle
 
 State transitions for a single payment intent tied to an order (`{company}.orders` correlation).
+
+**Visual overview:**
 
 ```mermaid
 stateDiagram-v2
@@ -79,6 +83,8 @@ stateDiagram-v2
 ## 🔀 3. Payment flow
 
 End-to-end flow from order completion through payout, including failure and retry semantics.
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -132,6 +138,8 @@ sequenceDiagram
 ## 🧩 4. Domain model
 
 Core aggregates and value objects for the Payment Service.
+
+**Visual overview:**
 
 ```mermaid
 classDiagram
@@ -260,6 +268,8 @@ Base path: `/v1` · All mutation endpoints require **`Idempotency-Key`** header 
 | `wallet_transactions` | Append-only ledger lines for wallet credits/debits. |
 | `refunds` | Refund requests and outcomes tied to `payments`. |
 
+**Visual overview:**
+
 ```mermaid
 erDiagram
     payments ||--o{ payouts : "funds"
@@ -313,6 +323,8 @@ erDiagram
 ---
 
 ## 🔄 10. Reconciliation
+
+**Visual overview:**
 
 ```mermaid
 flowchart TB

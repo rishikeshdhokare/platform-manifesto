@@ -105,6 +105,8 @@ Every RFC must include the following sections:
 
 ## 📋 5. RFC Stages
 
+**Visual overview:**
+
 ```mermaid
 stateDiagram-v2
     [*] --> Draft

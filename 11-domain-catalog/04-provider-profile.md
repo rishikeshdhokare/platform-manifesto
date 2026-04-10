@@ -31,6 +31,8 @@ The **Provider Profile** bounded context (`{company}.providers`) manages **provi
 
 Core types live under `{company}.providers.domain`. Identifiers are opaque UUIDs at the API boundary.
 
+**Visual overview:**
+
 ```mermaid
 classDiagram
     class ProviderId {
@@ -105,6 +107,8 @@ classDiagram
 ## 🚀 3. Provider Onboarding Flow
 
 End-to-end from first registration to an **ACTIVE** provider eligible for assignment (subject to Fulfillment Engine rules).
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
@@ -194,6 +198,8 @@ Consumer group naming follows the platform standard: `{consuming-service}.{topic
 ## 🔗 8. Dependencies
 
 Provider Profile does **not** query Orders or Fraud databases directly - only APIs and Kafka.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TB

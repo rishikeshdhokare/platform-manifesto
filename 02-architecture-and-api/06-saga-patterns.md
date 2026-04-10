@@ -14,6 +14,8 @@ If **payment capture fails after the order is already marked `COMPLETED`**, the 
 
 **Platform standard:** model multi-step business processes as **sagas** - a sequence of local transactions coordinated by **messages** (choreography or orchestration), each with a defined **compensation** path when something goes wrong.
 
+**Visual overview:**
+
 ```mermaid
 flowchart TB
     subgraph ideal["Ideal (impossible across services)"]
@@ -57,6 +59,8 @@ Services react to **domain events** on Kafka. There is **no central coordinator*
 | **Pros** | Loosely coupled teams and deployables; no orchestrator SPOF; aligns with domain boundaries |
 | **Cons** | End-to-end progress is implicit; debugging requires correlation IDs and tracing across many consumers |
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     autonumber
@@ -83,6 +87,8 @@ A **saga orchestrator** - either a dedicated service (e.g. `com.{company}.saga.s
 | **Mechanism** | Command topics and/or synchronous internal APIs with clear timeouts; orchestrator owns saga instance state |
 | **Pros** | Single place to inspect progress; strict ordering is straightforward |
 | **Cons** | Orchestrator is a coupling point and potential SPOF; must be scaled and resilient like any critical service |
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -123,6 +129,8 @@ End-to-end walkthrough for the happy path and payment failure. All events carry 
 3. **Notifications Service** consumes order completion (and optionally payment outcome), sends the customer receipt or failure notice.
 4. **Customer Profile Service** consumes **`orders.order.completed`**, appends to order history.
 5. **Analytics pipeline** consumes the same event (and payment events) for reporting and data warehouse loads.
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -170,6 +178,8 @@ When a saga step **fails**, earlier **forward** effects must be **compensated** 
 | Analytics / DWH fact written | Emit **correcting** event or late-arriving negative adjustment | Data platform |
 
 **Example (payment capture fails):** Orders updates status so ops and apps show truth; Notifications sends **"payment failed"** to the customer; provider surfaces are informed per policy (in-app + push) so the **payment issue** is visible without implying an unpaid completed order for payout.
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD
@@ -246,6 +256,8 @@ Observability for sagas is **not** optional.
 - **Structured logs:** Every handler logs saga-relevant events with **`correlationId`**, **`orderId`**, **`sagaType`** (e.g. `ORDER_COMPLETION`), and **step name**.
 - **Grafana / Loki:** Query for sagas that **started** (e.g. `orders.order.completed` processed) but **never** reached a terminal payment event within SLA window.
 - **Dead saga detection:** Alert if an order remains **`COMPLETED`** without a matching **`payments.payment.captured`** or **`payments.payment.failed`** within **5 minutes** (tune per region/PSP).
+
+**Visual overview:**
 
 ```mermaid
 flowchart LR

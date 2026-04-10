@@ -49,6 +49,8 @@ Every deprecated artifact has a defined **sunset window** - the period between t
 
 ### 2.1 Timeline Visualization
 
+**Visual overview:**
+
 ```mermaid
 gantt
     title Deprecation Timeline by Artifact Type
@@ -141,6 +143,8 @@ No deprecated artifact may be removed while it still has active consumers. Usage
 | **Shared libraries** | Dependency declaration in build manifests (**reference:** `pom.xml`, `package.json`, `go.mod`, etc.) | Backstage dependency graph scan (weekly) |
 
 ### 5.2 Removal Gate
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

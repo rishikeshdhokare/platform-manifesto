@@ -49,6 +49,8 @@ The Java examples below are **reference implementation**.
 
 ### How It Works
 
+**Visual overview:**
+
 ```mermaid
 sequenceDiagram
     participant S1 as Service Instance A
@@ -138,6 +140,8 @@ public class OrderService {
 When the coordination boundary extends beyond a single database, the platform uses **Redisson** to acquire distributed locks backed by Redis.
 
 ### How It Works
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -257,6 +261,8 @@ Thread B acquires lock at T+10s - system recovers
 ## 🔐 5. Double-Assignment Prevention
 
 The canonical example of distributed locking on the platform: preventing two orders from being assigned to the same provider simultaneously.
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
@@ -407,6 +413,8 @@ class ProviderAssignmentConcurrencyTest {
 ## 🎯 8. Decision Guide
 
 ### When to Lock - and How
+
+**Visual overview:**
 
 ```mermaid
 flowchart TD

@@ -23,6 +23,8 @@ The radar answers two questions:
 | **Assess** | Interesting. Worth investigating but not yet trialed. | Explore in spikes or PoCs. Do not use in production without a Trial promotion. |
 | **Hold** | Not recommended for new work. Existing usage may continue. | Do not start new projects with Hold technologies. Plan migration for critical paths. |
 
+**Visual overview:**
+
 ```mermaid
 flowchart LR
     Assess["🔍 Assess<br/>Investigate"] --> Trial["🧪 Trial<br/>Limited production"]
@@ -85,6 +87,8 @@ Any engineer can propose adding a technology to the radar. Proposals follow a li
 | **Sponsor** | Staff+ engineer willing to shepherd evaluation |
 
 ### 5.2 Proposal Workflow
+
+**Visual overview:**
 
 ```mermaid
 sequenceDiagram
