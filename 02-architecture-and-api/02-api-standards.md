@@ -514,9 +514,9 @@ The BFF validates the external JWT and forwards identity claims to downstream se
 
 | Header | Value | Description |
 |--------|-------|-------------|
-| `X-{Company}-User-Id` | UUID from JWT `sub` claim | Authenticated user identity |
-| `X-{Company}-Roles` | Comma-separated role list from JWT | User roles for authorization |
-| `X-{Company}-Tenant-Id` | Tenant identifier from JWT | Tenant context for multi-tenant isolation |
+| `X-{company}-User-Id` | UUID from JWT `sub` claim | Authenticated user identity |
+| `X-{company}-Roles` | Comma-separated role list from JWT | User roles for authorization |
+| `X-{company}-Tenant-Id` | Tenant identifier from JWT | Tenant context for multi-tenant isolation |
 
 Downstream services trust these headers because the request arrives over the Istio mesh with mTLS - the BFF's SPIFFE identity is verified by the sidecar. Services do not re-validate the original JWT.
 
