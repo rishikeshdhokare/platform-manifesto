@@ -337,7 +337,8 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`11-deployment-architecture.md`](04-infrastructure-and-cloud/11-deployment-architecture.md) | Environment landscape, artifact promotion, production gates, multi-region deployment |
 
 | [`12-identity-management.md`](04-infrastructure-and-cloud/12-identity-management.md) | Identity provider architecture, OAuth2 flows, OIDC, token lifecycle |
-</details>
+
+| [`13-authorization-patterns.md`](04-infrastructure-and-cloud/13-authorization-patterns.md) | RBAC vs ABAC framework, role hierarchy, OPA/Cedar policy engines |</details>
 
 <details>
 <summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i></summary>

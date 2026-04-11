@@ -17,6 +17,7 @@
 | [11-deployment-architecture.md](./11-deployment-architecture.md) | Environment landscape, artifact promotion flow, production promotion gates, multi-region deployment |
 | [12-identity-management.md](./12-identity-management.md) | Identity provider architecture, OAuth2 flows, OIDC, token lifecycle, session management |
 
+| [13-authorization-patterns.md](./13-authorization-patterns.md) | RBAC vs ABAC framework, role hierarchy, OPA/Cedar policy engines |
 ---
 
 <div align="center">
