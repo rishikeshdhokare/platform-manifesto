@@ -25,6 +25,7 @@
 | [18-i18n-localization.md](./18-i18n-localization.md) | Internationalization and localization engineering |
 | [19-api-mocking.md](./19-api-mocking.md) | API mocking and service virtualization standards |
 | [20-agentic-developer-guides.md](./20-agentic-developer-guides.md) | Developer guides reframed for agentic workflow |
+| [21-data-lakehouse.md](./21-data-lakehouse.md) | Data lakehouse standards, ETL vs ELT guide |
 ---
 <div align="center">
 
