@@ -485,6 +485,7 @@ How we work with AI across the entire software development lifecycle, including 
 | [`01-context-engineering.md`](12-ai-engineering/01-context-engineering.md) | Context stack, AGENTS.md, cursor rules, architecture-as-context, knowledge retrieval, maintenance |
 | [`02-ai-assisted-sdlc.md`](12-ai-engineering/02-ai-assisted-sdlc.md) | AI integration across discovery, design, development, testing, review, deployment, operations, documentation |
 | [`03-ai-adoption-metrics.md`](12-ai-engineering/03-ai-adoption-metrics.md) | Adoption metrics, effectiveness metrics, quality guardrails, AI Engineering Maturity (L0-L4), AI Champions Guild |
+| [`04-trust-tiered-autonomy.md`](12-ai-engineering/04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes, promotion criteria, guardrails |
 
 </details>
 
