@@ -496,6 +496,7 @@ How we work with AI across the entire software development lifecycle, including 
 | [`03-ai-adoption-metrics.md`](12-ai-engineering/03-ai-adoption-metrics.md) | Adoption metrics, effectiveness metrics, quality guardrails, AI Engineering Maturity (L0-L4), AI Champions Guild |
 | [`04-trust-tiered-autonomy.md`](12-ai-engineering/04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes, promotion criteria, guardrails |
 
+| [`05-agent-security-model.md`](12-ai-engineering/05-agent-security-model.md) | Agent identity standards, least privilege, audit trails, threat model |
 </details>
 
 <br/>

@@ -19,6 +19,7 @@
 | [03-ai-adoption-metrics.md](./03-ai-adoption-metrics.md) | Measuring AI effectiveness, AI Engineering Maturity (L0-L4), quality guardrails |
 | [04-trust-tiered-autonomy.md](./04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes - Tier 1 (Supervised) to Tier 4 (Full Autonomy) |
 
+| [05-agent-security-model.md](./05-agent-security-model.md) | Agent identity standards, least privilege, audit trails, threat model |
 ---
 <div align="center">
 
