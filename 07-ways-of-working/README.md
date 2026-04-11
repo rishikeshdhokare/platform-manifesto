@@ -16,6 +16,8 @@
 | [10-product-operations.md](./10-product-operations.md) | Product operations - roadmap, OKRs, user stories, launch management, customer feedback |
 | [11-engineering-culture.md](./11-engineering-culture.md) | Engineering culture and values - ownership, transparency, psychological safety, learning, agent-native culture |
 
+| [12-document-templates.md](./12-document-templates.md) | Standalone ADR, RFC, PIR, PRD, and design doc templates |
+| [13-technical-writing.md](./13-technical-writing.md) | Internal technical documentation and writing guide |
 ---
 <div align="center">
 

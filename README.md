@@ -333,6 +333,7 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 
 | [`18-cross-team-dependencies.md`](03-engineering-practices/18-cross-team-dependencies.md) | Interface contracts, API compatibility, breaking changes |<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i></summary>
 
+| [`19-performance-engineering.md`](03-engineering-practices/19-performance-engineering.md) | Performance engineering and backend budgets |
 <br/>
 
 Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
@@ -370,10 +371,14 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`20-serverless-patterns.md`](04-infrastructure-and-cloud/20-serverless-patterns.md) | Lambda patterns, cold start mitigation, guardrails |Observability, resilience, incidents, chaos engineering, and what to do when things break.
 
 | [`21-multi-cloud-strategy.md`](04-infrastructure-and-cloud/21-multi-cloud-strategy.md) | Cloud-exit planning, portability, vendor lock-in |
-| File | What You'll Learn |
-|------|-------------------|
-| [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
-| [`02-observability-in-practice.md`](05-operational-excellence/02-observability-in-practice.md) | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
+
+| [`22-self-service-infra.md`](04-infrastructure-and-cloud/22-self-service-infra.md) | Self-service infrastructure provisioning patterns || File | What You'll Learn |
+
+| [`23-infra-testing.md`](04-infrastructure-and-cloud/23-infra-testing.md) | IaC testing, policy-as-code, drift detection ||------|-------------------|
+
+| [`24-cdn-edge-caching.md`](04-infrastructure-and-cloud/24-cdn-edge-caching.md) | CDN and edge caching strategy, multi-CDN || [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
+
+| [`25-kubernetes-operations.md`](04-infrastructure-and-cloud/25-kubernetes-operations.md) | Kubernetes cluster operations and namespace strategy || [`02-observability-in-practice.md`](05-operational-excellence/02-observability-in-practice.md) | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
 | [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - with worked examples |
 | [`04-incident-management.md`](05-operational-excellence/04-incident-management.md) | Response playbook, on-call structure, PIR template, change management |
 | [`05-load-shedding.md`](05-operational-excellence/05-load-shedding.md) | Priority tiers, backpressure, graceful degradation, auto-remediation |
@@ -424,13 +429,21 @@ The guides you keep open while writing code.
 
 | [`12-data-migration-patterns.md`](06-developer-guides/12-data-migration-patterns.md) | Schema evolution, zero-downtime migration strategies |</details>
 
-<details>
-<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i></summary>
+| [`13-onboarding-automation.md`](06-developer-guides/13-onboarding-automation.md) | Developer onboarding automation and knowledge base |
 
-<br/>
+| [`14-sdk-versioning.md`](06-developer-guides/14-sdk-versioning.md) | SDK and client library versioning standards |<details>
 
-Team structure, decision-making, hiring, career growth, and knowledge sharing.
+| [`15-api-documentation.md`](06-developer-guides/15-api-documentation.md) | API documentation and developer portal standards |<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i></summary>
 
+| [`16-object-storage.md`](06-developer-guides/16-object-storage.md) | Object and file storage patterns |
+
+| [`17-database-performance.md`](06-developer-guides/17-database-performance.md) | Database performance tuning and connection management |<br/>
+
+| [`18-i18n-localization.md`](06-developer-guides/18-i18n-localization.md) | Internationalization and localization engineering |
+
+| [`19-api-mocking.md`](06-developer-guides/19-api-mocking.md) | API mocking and service virtualization standards |Team structure, decision-making, hiring, career growth, and knowledge sharing.
+
+| [`20-agentic-developer-guides.md`](06-developer-guides/20-agentic-developer-guides.md) | Developer guides reframed for agentic workflow |
 | File | What You'll Learn |
 |------|-------------------|
 | [`01-team-topology.md`](07-ways-of-working/01-team-topology.md) | Stream-aligned teams, platform team, inner source, tech debt registry |
@@ -445,7 +458,9 @@ Team structure, decision-making, hiring, career growth, and knowledge sharing.
 | [`10-product-operations.md`](07-ways-of-working/10-product-operations.md) | Roadmap, OKRs, launch management, customer feedback loops |
 | [`11-engineering-culture.md`](07-ways-of-working/11-engineering-culture.md) | Cultural values, blameless postmortems, innovation time, knowledge sharing |
 
-</details>
+| [`12-document-templates.md`](07-ways-of-working/12-document-templates.md) | Standalone ADR, RFC, PIR, PRD, and design doc templates |
+
+| [`13-technical-writing.md`](07-ways-of-working/13-technical-writing.md) | Internal technical documentation and writing guide |</details>
 
 <details>
 <summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>The honest scorecard - where we are and where we're headed</i></summary>
@@ -482,8 +497,11 @@ Everything for the engineers building client applications.
 | [`05-ios-standards.md`](09-mobile-and-frontend/05-ios-standards.md) | SwiftUI, SPM, privacy manifest, extensions, dSYM |
 | [`06-design-system.md`](09-mobile-and-frontend/06-design-system.md) | Design-dev handoff, tokens, motion, dark mode, data visualization |
 
-</details>
+| [`07-accessibility-standards.md`](09-mobile-and-frontend/07-accessibility-standards.md) | Accessibility standards for web and mobile (WCAG 2.2) |
 
+| [`08-minimum-version-policy.md`](09-mobile-and-frontend/08-minimum-version-policy.md) | Mobile minimum version and forced upgrade strategy |</details>
+
+| [`09-agent-ui-constraints.md`](09-mobile-and-frontend/09-agent-ui-constraints.md) | Agent-generated UI constraints for design system |
 <details>
 <summary><b>🤖 10 - AI/ML Platform</b> &nbsp;·&nbsp; <i>ML pipelines, model governance, and AI guardrails</i></summary>
 

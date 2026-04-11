@@ -23,6 +23,7 @@
 | [15-test-data-management.md](./15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking || [16-progressive-delivery.md](./16-progressive-delivery.md) | Canary, blue-green, shadow, dark launch, traffic splitting |
 | [17-monorepo-polyrepo.md](./17-monorepo-polyrepo.md) | Monorepo vs polyrepo decision framework |
 | [18-cross-team-dependencies.md](./18-cross-team-dependencies.md) | Interface contracts, API compatibility, breaking changes |
+| [19-performance-engineering.md](./19-performance-engineering.md) | Performance engineering and backend budgets |
 ---
 <div align="center">
 
