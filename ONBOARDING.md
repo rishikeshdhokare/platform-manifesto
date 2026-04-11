@@ -119,10 +119,26 @@ If your organization operates AI agents as first-class engineering participants,
 | **Repository access** | Grant the agent read/write access scoped to its team's repositories | GitHub team membership or fine-grained PAT |
 | **Context files** | Ensure every repo the agent operates in has `AGENTS.md` and `.cursor/rules/` | See [Context Engineering](./12-ai-engineering/01-context-engineering.md) |
 | **CI identity** | Configure the agent's commits and PRs to use the service account identity | Git config in the agent's environment: `user.name` and `user.email` |
-| **Human approval gates** | Define which actions the agent may perform autonomously and which require human approval | At minimum: merges to main, production deploys, infrastructure changes, and security-sensitive code require human sign-off |
+| **Human approval gates** | Define which actions the agent may perform autonomously and which require human approval | At minimum: merges to main, production deploys, infrastructure changes, and security-sensitive code require human sign-off. See [Trust-Tiered Autonomy](./12-ai-engineering/04-trust-tiered-autonomy.md) for the full tier model |
 | **Manifesto as context** | Index the manifesto into the agent's context (RAG, system prompt, or tool retrieval) | The agent should follow the same standards as human engineers |
+| **Autonomy tier** | Assign the agent an initial autonomy tier (start at Tier 1 - Supervised) | See [Trust-Tiered Autonomy](./12-ai-engineering/04-trust-tiered-autonomy.md) for promotion criteria |
 
 > **Rule:** Agent-opened PRs are held to the same review and CI gate standards as human PRs. "An agent wrote this" does not reduce the review bar.
+
+### Onboarding an Agent to a New Codebase
+
+When an AI agent begins operating in a codebase for the first time, follow this sequence to give it the context it needs to produce compliant, useful output from its first interaction.
+
+| Order | Action | What the Agent Receives |
+|:------|:-------|:------------------------|
+| **1** | Feed the manifesto | The agent gets organization-wide standards - API contracts, error formats, naming conventions, testing requirements, and deployment rules |
+| **2** | Feed `AGENTS.md` from the target repo | The agent gets repository-specific rules - local overrides, team conventions, and service-specific constraints |
+| **3** | Feed `.cursor/rules/` or equivalent rule files | The agent gets file-level and pattern-level guidance that applies to specific parts of the codebase |
+| **4** | Provide the service catalog entry | The agent understands the service's purpose, dependencies, SLOs, and owning team |
+| **5** | Provide recent ADRs and RFCs | The agent understands recent architectural decisions and why certain trade-offs were made |
+| **6** | Set scope boundaries | Restrict the agent to specific directories, file types, or change categories until it demonstrates reliability |
+
+> **Outcome:** An agent onboarded this way produces code that passes CI on the first attempt, follows team conventions, and requires minimal rework during review. Without this context, the same agent produces plausible but non-compliant output that costs more to fix than to write manually.
 
 ---
 
