@@ -198,6 +198,32 @@ The platform is designed to make **Level 3 the default** - if you follow the gol
 
 ---
 
+## 🏢 15. Company-Size Entry Points
+
+Not every organization starts at the same place. The table below recommends a **starting maturity level** and a **12-month target** for each dimension based on engineering team size. Values are expressed as **Start → 12-month Target**.
+
+| Dimension | Small (1-20 eng) | Medium (20-100 eng) | Large (100+ eng) |
+|-----------|------------------|---------------------|------------------|
+| **CI/CD** | L1 → L2 | L2 → L3 | L2 → L4 |
+| **Testing** | L1 → L2 | L2 → L3 | L2 → L4 |
+| **Security** | L1 → L2 | L1 → L3 | L2 → L4 |
+| **Observability** | L0 → L1 | L1 → L3 | L2 → L3 |
+| **Incident Management** | L0 → L1 | L1 → L2 | L2 → L3 |
+| **Documentation** | L1 → L2 | L2 → L3 | L2 → L3 |
+| **Platform** | L0 → L1 | L1 → L2 | L2 → L3 |
+
+### Reading the table
+
+- **Small teams (1-20 engineers)** have limited capacity and should focus on **two or three dimensions first** - typically CI/CD, Testing, and Security. Reaching L2 across those areas gives you a solid foundation. Expand to Observability and Documentation as the team grows. A dedicated platform investment is unlikely to pay off at this size; rely on managed services and convention instead.
+- **Medium teams (20-100 engineers)** benefit from investing broadly. Aim for L3 across CI/CD, Testing, Security, and Observability within 12 months, and establish a small platform function (even one engineer) to maintain shared tooling.
+- **Large teams (100+ engineers)** should target L3 or L4 across all dimensions. At this scale, inconsistency between teams becomes the primary risk - a platform team with clear ownership of the golden path is essential.
+
+Smaller organizations that try to advance every dimension simultaneously often spread themselves too thin. Pick the dimensions where gaps cause the most pain, reach the target level there, then move on. Revisit this table quarterly and adjust targets as your team scales.
+
+For a phased plan on rolling out these practices, see the [Migration Roadmap](./02-migration-roadmap.md).
+
+---
+
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
