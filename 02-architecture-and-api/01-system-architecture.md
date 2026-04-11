@@ -1,6 +1,6 @@
 # 🏛️ System Architecture Blueprint
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Principal Engineering / Platform](https://img.shields.io/badge/owner-Principal_Engineering_/_Platform-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Principal Engineering / Platform](https://img.shields.io/badge/owner-Principal_Engineering_/_Platform-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 

@@ -1,6 +1,6 @@
 # 🔬 A/B Testing Strategy
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering / Product Engineering](https://img.shields.io/badge/owner-Platform_Engineering_%2F_Product_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering / Product Engineering](https://img.shields.io/badge/owner-Platform_Engineering_%2F_Product_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 
