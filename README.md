@@ -512,6 +512,7 @@ Everything for the engineers building client applications.
 | [`01-ml-platform.md`](10-ai-ml-platform/01-ml-platform.md) | Model serving, feature stores, training pipelines, GPU governance |
 | [`02-ai-governance.md`](10-ai-ml-platform/02-ai-governance.md) | Bias auditing, LLM guardrails, red-teaming, generative AI patterns |
 
+| [`03-model-selection.md`](10-ai-ml-platform/03-model-selection.md) | AI/ML model selection framework by task type and cost |
 </details>
 
 <details>
@@ -551,13 +552,20 @@ How we work with AI across the entire software development lifecycle, including 
 | [`04-trust-tiered-autonomy.md`](12-ai-engineering/04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes, promotion criteria, guardrails |
 
 | [`05-agent-security-model.md`](12-ai-engineering/05-agent-security-model.md) | Agent identity standards, least privilege, audit trails, threat model |
-</details>
 
-<br/>
+| [`06-ai-native-sdlc.md`](12-ai-engineering/06-ai-native-sdlc.md) | AI-native SDLC strategy based on Three Pillars |</details>
 
-<div align="center"><sub><i>Every service in the diagram above, documented in detail. ↓</i></sub></div>
+| [`07-prompt-engineering.md`](12-ai-engineering/07-prompt-engineering.md) | Prompt engineering and LLM integration standards |
 
----
+| [`08-rag-patterns.md`](12-ai-engineering/08-rag-patterns.md) | RAG patterns, vector database standards, LLM architecture |<br/>
+
+| [`09-mcp-tool-use.md`](12-ai-engineering/09-mcp-tool-use.md) | MCP and tool-use integration standards |
+
+| [`10-multi-agent-patterns.md`](12-ai-engineering/10-multi-agent-patterns.md) | AI agent orchestration and multi-agent patterns |<div align="center"><sub><i>Every service in the diagram above, documented in detail. ↓</i></sub></div>
+
+| [`11-ai-finops.md`](12-ai-engineering/11-ai-finops.md) | AI cost optimization and FinOps for AI workloads |
+
+| [`12-sdlc-agent-blueprint.md`](12-ai-engineering/12-sdlc-agent-blueprint.md) | SDLC agent blueprint and orchestration |---
 
 ## 🔗 How Services Connect
 

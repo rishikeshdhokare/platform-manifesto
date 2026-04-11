@@ -20,6 +20,13 @@
 | [04-trust-tiered-autonomy.md](./04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes - Tier 1 (Supervised) to Tier 4 (Full Autonomy) |
 
 | [05-agent-security-model.md](./05-agent-security-model.md) | Agent identity standards, least privilege, audit trails, threat model |
+| [06-ai-native-sdlc.md](./06-ai-native-sdlc.md) | AI-native SDLC strategy based on Three Pillars |
+| [07-prompt-engineering.md](./07-prompt-engineering.md) | Prompt engineering and LLM integration standards |
+| [08-rag-patterns.md](./08-rag-patterns.md) | RAG patterns, vector database standards, LLM architecture |
+| [09-mcp-tool-use.md](./09-mcp-tool-use.md) | MCP and tool-use integration standards |
+| [10-multi-agent-patterns.md](./10-multi-agent-patterns.md) | AI agent orchestration and multi-agent patterns |
+| [11-ai-finops.md](./11-ai-finops.md) | AI cost optimization and FinOps for AI workloads |
+| [12-sdlc-agent-blueprint.md](./12-sdlc-agent-blueprint.md) | SDLC agent blueprint and orchestration |
 ---
 <div align="center">
 

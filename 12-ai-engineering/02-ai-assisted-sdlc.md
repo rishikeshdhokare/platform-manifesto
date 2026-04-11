@@ -237,6 +237,27 @@ Documentation is where AI has the clearest ROI: humans avoid writing docs, AI do
 > **For agent-native orgs:** These guardrails are not obstacles to agent autonomy - they are the boundaries that make agent autonomy safe. An agent that can code, test, and deploy within these guardrails is more trustworthy (and more useful) than one that operates without constraints.
 
 ---
+
+## 🚀 10. Toward a Fully Agentic Operating Model
+
+The practices in this document frame AI as an assistant to human engineers. As agent capabilities mature and trust is earned, {Company} is moving toward a fully agentic operating model where AI agents are first-class engineering participants - not just tools that humans wield, but autonomous actors that own and execute work within defined boundaries.
+
+**What changes in a fully agentic model:**
+
+| Dimension | AI-Assisted (Today) | Fully Agentic (Target) |
+|-----------|---------------------|----------------------|
+| **Task ownership** | Human owns the task, AI helps | Agent owns the task, human approves |
+| **Code authorship** | Human writes, AI suggests | Agent writes, human reviews |
+| **Testing** | AI generates tests for review | Agent writes and maintains test suites |
+| **Deployment** | Human triggers, AI monitors | Agent deploys within tier constraints |
+| **Incident response** | AI assists diagnosis | Agent executes runbooks, human commands |
+| **Documentation** | AI drafts, human edits | Agent maintains docs as code changes |
+
+**What does NOT change:** Architecture decisions, security trade-offs, ethical judgements, and customer empathy remain human responsibilities. The guardrails in Section 9 above are permanent - they define the boundaries of safe autonomy, not temporary limitations to be removed.
+
+> **Rule:** Transitioning any SDLC phase from AI-assisted to fully agentic requires documented trust-tier promotion per [Trust-Tiered Autonomy](./04-trust-tiered-autonomy.md), plus VP Engineering approval for Tier 3+ operations.
+
+---
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
