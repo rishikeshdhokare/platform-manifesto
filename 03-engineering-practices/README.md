@@ -19,7 +19,8 @@
 | [13-specification-driven-development.md](./13-specification-driven-development.md) | Specification-driven development - specs as primary artifacts, code generated from contracts |
 
 | [14-supply-chain-security.md](./14-supply-chain-security.md) | SBOM generation, dependency scanning, license compliance, trusted registries |
----
+
+| [15-test-data-management.md](./15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking |---
 <div align="center">
 
 🏠 [Back to root](../README.md)
