@@ -95,6 +95,14 @@ If teams continue without a shared playbook, common failure modes include:
 Procurement and vendor conversations should align intake with [Vendor Intake](./08-program/05-vendor-intake.md) and related program documents once engineering has pointed you to the right sections.
 
 ---
+
+## 8. 🤖 The Manifesto as Agent Context
+
+This manifesto is not only a human reference - it is the shared operating system for AI agents across your engineering organization. When indexed into your agent orchestration layer (RAG, context window, or tool retrieval), it gives every agent the same standards, contracts, and guardrails that human engineers follow. Agent-generated code, architecture proposals, and operational decisions are checked against manifesto rules automatically.
+
+The structured, opinionated format - numbered files, explicit contracts, deterministic rules - makes the manifesto machine-parseable without adaptation. For details on wiring the manifesto into your agent stack, see [Context Engineering](./12-ai-engineering/01-context-engineering.md). For the autonomy model governing what agents may do without human approval, see [Trust-Tiered Autonomy](./12-ai-engineering/04-trust-tiered-autonomy.md).
+
+---
 <div align="center">
 
 🏠 [Back to root](./README.md)
