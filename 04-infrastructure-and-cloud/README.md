@@ -22,7 +22,8 @@
 | [14-secrets-management.md](./14-secrets-management.md) | Secret classification, rotation policies, injection patterns |---
 
 | [15-certificate-lifecycle.md](./15-certificate-lifecycle.md) | Certificate types, automated renewal, mTLS, PKI hierarchy |
-<div align="center">
+
+| [16-compliance-engineering.md](./16-compliance-engineering.md) | Compliance as code, automated evidence collection, continuous compliance |<div align="center">
 
 🏠 [Back to root](../README.md)
 
