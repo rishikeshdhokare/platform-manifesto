@@ -26,6 +26,7 @@
 | [16-compliance-engineering.md](./16-compliance-engineering.md) | Compliance as code, automated evidence collection, continuous compliance |<div align="center">
 
 | [17-zero-trust-networking.md](./17-zero-trust-networking.md) | Zero-trust principles, microsegmentation, mTLS, identity-based access |
-🏠 [Back to root](../README.md)
+
+| [18-agent-data-governance.md](./18-agent-data-governance.md) | Agent PII access restrictions, compliance audit trail, dev-time governance |🏠 [Back to root](../README.md)
 
 </div>
