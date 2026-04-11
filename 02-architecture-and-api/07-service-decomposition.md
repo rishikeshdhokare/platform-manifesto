@@ -1,6 +1,6 @@
 # ✂️ Service Decomposition Criteria
 
-![Status: Guidance](https://img.shields.io/badge/status-guidance-orange?style=flat-square) ![Owner: Principal Engineering](https://img.shields.io/badge/owner-Principal_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Guidance](https://img.shields.io/badge/status-Guidance-orange?style=flat-square) ![Owner: Principal Engineering](https://img.shields.io/badge/owner-Principal_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 ---
 

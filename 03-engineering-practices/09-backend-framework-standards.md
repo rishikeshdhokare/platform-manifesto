@@ -1,6 +1,6 @@
 # ⚙️ Backend Framework Standards
 
-![Status: Mandated](https://img.shields.io/badge/status-mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
+![Status: Mandated](https://img.shields.io/badge/status-Mandated-blue?style=flat-square) ![Owner: Platform Engineering](https://img.shields.io/badge/owner-Platform_Engineering-purple?style=flat-square) ![Updated: 2026](https://img.shields.io/badge/updated-2026-green?style=flat-square)
 
 > This document defines **universal backend standards** that apply regardless of framework, plus **reference implementation** details for the current stack. The principles (structured logging, config layering, health checks, graceful shutdown, etc.) are mandatory. The implementation snippets show how to achieve them using the reference stack and should be adapted to your framework.
 
