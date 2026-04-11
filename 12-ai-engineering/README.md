@@ -17,6 +17,7 @@
 | [01-context-engineering.md](./01-context-engineering.md) | Context stack architecture, repository rules files, architecture-as-context, knowledge retrieval |
 | [02-ai-assisted-sdlc.md](./02-ai-assisted-sdlc.md) | AI integration across every SDLC phase - discovery through operations |
 | [03-ai-adoption-metrics.md](./03-ai-adoption-metrics.md) | Measuring AI effectiveness, AI Engineering Maturity (L0-L4), quality guardrails |
+| [04-trust-tiered-autonomy.md](./04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes - Tier 1 (Supervised) to Tier 4 (Full Autonomy) |
 
 ---
 <div align="center">
