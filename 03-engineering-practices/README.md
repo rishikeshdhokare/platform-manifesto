@@ -16,6 +16,7 @@
 | [10-frontend-ci-cd.md](./10-frontend-ci-cd.md) | Frontend & mobile CI/CD - golden path, monorepo, preview environments, deployment |
 | [11-qa-standards.md](./11-qa-standards.md) | Quality assurance - test environments, test data, regression, bug triage, security testing |
 | [12-engineering-principles.md](./12-engineering-principles.md) | Core engineering principles for the AI era - ownership, observability, agent-native design |
+| [13-specification-driven-development.md](./13-specification-driven-development.md) | Specification-driven development - specs as primary artifacts, code generated from contracts |
 
 ---
 <div align="center">
