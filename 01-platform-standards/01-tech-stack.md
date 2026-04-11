@@ -397,6 +397,30 @@ The BFF acts as a confidential client - it holds the client secret and exchanges
 
 ---
 
+## 📊 13. Scale-Tier Recommendations
+
+The stack defined in this document represents the **Scale** tier - the full production-grade toolchain for organizations with 100+ engineers. Smaller teams should adopt progressively: start with the Startup column, graduate to Growth as headcount and traffic increase, and converge on the Scale tier as operational maturity demands it. Each tier in the table below lists a **recommended** tool and an acceptable **alternative** in parentheses.
+
+| Technology Area | Startup (1-20 engineers) | Growth (20-100 engineers) | Scale (100+ engineers) |
+|-----------------|--------------------------|---------------------------|------------------------|
+| **Backend** | Node.js/Express (or Django) | Java + Spring Boot (or NestJS) | Java 21 + Spring Boot 3.x (or Kotlin + Ktor) |
+| **Frontend** | Next.js + TypeScript (or Remix) | Next.js + TypeScript (or Astro) | Next.js + React 18 + TypeScript (or Remix) |
+| **Database** | Managed PostgreSQL - single instance (or PlanetScale) | Aurora PostgreSQL - Multi-AZ (or Cloud SQL) | Aurora PostgreSQL + read replicas (or CockroachDB) |
+| **Cache** | In-process cache only (or managed Redis single-node) | Managed Redis - single node (or Valkey) | ElastiCache Redis cluster mode (or Memorystore cluster) |
+| **Messaging** | SQS or Cloud Tasks (or Redis Pub/Sub) | Managed Kafka - small cluster (or Google Pub/Sub) | MSK / Confluent Kafka - multi-AZ (or Pulsar) |
+| **CI/CD** | GitHub Actions (or GitLab CI) | GitHub Actions + ArgoCD (or GitLab CI + Flux) | GitHub Actions + ArgoCD + Backstage (or GitLab + Spinnaker) |
+| **Observability** | Cloud-native logs + Sentry (or Datadog free tier) | Grafana Cloud + OpenTelemetry (or Datadog) | Prometheus + Grafana + OTel + PagerDuty (or Datadog Enterprise) |
+| **Infrastructure** | PaaS - Railway, Render (or Fly.io) | Terraform + EKS/GKE (or Pulumi) | Terraform + EKS + Karpenter + internal modules (or Crossplane) |
+
+### Adoption guidance
+
+- **Start lean.** A five-person team running Kafka and a full Grafana stack is over-investing in infrastructure. Use managed PaaS and cloud-native tooling until the operational overhead is justified by traffic or team size.
+- **Graduate deliberately.** Moving from one tier to the next should be driven by a concrete pain point (deployment frequency, incident frequency, scaling limits) - not aspiration.
+- **Converge on Scale.** Once your organization reaches 100+ engineers, the benefits of a single, well-supported stack (shared tooling, rotation of engineers, centralized platform investment) outweigh the flexibility of per-team choices.
+- **The table is directional.** Exact tool choices depend on your cloud provider, hiring market, and existing expertise. The principle is to match infrastructure complexity to organizational maturity.
+
+---
+
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
