@@ -45,6 +45,15 @@ flowchart TB
 
 The diagram above contrasts a fictional atomic cross-service transaction with what actually happens: **independent commits** and the risk of partial failure. Sagas make that failure **explicit and recoverable** through compensating actions and idempotent consumers.
 
+### When NOT to Use This Pattern
+
+- All operations are within a single database (use a local transaction instead)
+- The workflow is simple request-response with no compensation needed
+- Latency requirements are sub-millisecond (saga coordination adds overhead)
+- The business process does not require atomicity across services
+- You have fewer than 3 services involved (direct API calls with idempotency may suffice)
+- The team lacks operational maturity for distributed tracing and dead letter queue management
+
 ---
 
 ## 🧩 2. Saga Patterns
