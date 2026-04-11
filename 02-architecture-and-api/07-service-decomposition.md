@@ -8,6 +8,15 @@
 
 Splitting a service is expensive - it introduces network boundaries, distributed transactions, and operational overhead. Only split when the **cost of keeping things together** exceeds the cost of separation.
 
+### When NOT to Use This Pattern
+
+- You are a startup with fewer than 10 engineers and unclear domain boundaries
+- The monolith is healthy, deployable in under 15 minutes, and teams are not blocked
+- You cannot invest in platform capabilities (CI/CD, observability, service mesh) that microservices require
+- The decomposition driver is technology choice rather than team autonomy or independent scaling
+- Cross-service transactions would dominate the architecture (tight coupling defeats the purpose)
+- You do not have a clear domain model - split prematurely and you will create a distributed monolith
+
 ### 1.1 Split Signals
 
 | Signal | Description | Threshold |

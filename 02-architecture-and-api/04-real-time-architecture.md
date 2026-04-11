@@ -17,6 +17,15 @@ Goals:
 - **Clear ownership** of channels, topics, and push policies per domain.
 - **Operability** at scale: measurable connections, fan-out, and failure modes.
 
+### When NOT to Use This Pattern
+
+- Data freshness requirements are seconds or minutes, not milliseconds (use polling or SSE instead of WebSockets)
+- The client is a batch processor or backend service (use Kafka consumers or gRPC streaming)
+- Traffic is predominantly unidirectional server-to-client (use SSE - simpler than WebSockets)
+- The feature has fewer than 100 concurrent users (long-polling is simpler and sufficient)
+- Mobile clients with unreliable connectivity (HTTP with retry is more resilient than persistent connections)
+- You need guaranteed delivery (WebSocket is fire-and-forget - use a message queue for reliability)
+
 ---
 
 ## 🧭 2. Communication Patterns Decision Guide
