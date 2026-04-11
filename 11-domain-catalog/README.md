@@ -4,6 +4,64 @@
 
 > **Reference implementation:** The domains below represent a **reference domain model** for an order-and-fulfillment platform. Organizations adopting this manifesto should replace these domains with their own bounded contexts. The value is in the **patterns** (event flows, SLO tables, failure modes, data ownership) rather than the specific service boundaries.
 
+### How to Use This Section
+
+> **This is a reference domain model.** The bounded contexts below illustrate how an order-and-fulfillment platform documents its domains. Your organization's domains will be different - the value here is the **documentation pattern**, not the specific services. Use the event flows, SLO tables, failure mode matrices, and data ownership diagrams as templates for your own architecture.
+
+**Steps for adopters:**
+
+1. **Identify your domains** - Map your organization's core (revenue-generating), supporting (enables core), and generic (commodity/off-the-shelf) bounded contexts
+2. **Create one document per domain** - Use the template below so every domain is documented consistently
+3. **Replace the example domains** - Remove the reference Order Service, Fulfillment Engine, and other examples; add your own bounded contexts
+4. **Update the landscape** - Redraw the domain landscape diagram and ownership matrix at the top of this page to reflect your architecture
+
+**Domain document template:**
+
+```markdown
+# {emoji} Domain Name
+
+![Status: Active](https://img.shields.io/badge/status-Active-green)
+![Owner: {Team}](https://img.shields.io/badge/owner-{Team}-purple)
+
+## 1. Overview
+Brief description of the bounded context and its core responsibilities.
+
+## 2. Ownership
+| Field            | Value                       |
+|------------------|-----------------------------|
+| Owning team      | {Team name}                 |
+| Service name     | {service-name}              |
+| Data store       | {e.g., Aurora PostgreSQL}   |
+| Tier             | Tier {1-3}                  |
+
+## 3. Events Published / Consumed
+| Direction | Topic Pattern              | Schema | Counterparties |
+|-----------|----------------------------|--------|----------------|
+| Published | {domain}.{entity}.{action} | {ref}  | {consumers}    |
+| Consumed  | {source}.{entity}.{action} | {ref}  | {producers}    |
+
+## 4. SLOs & Error Budgets
+| SLO            | Target   | Budget Policy              |
+|----------------|----------|----------------------------|
+| Availability   | {99.95%} | {action on exhaustion}     |
+| Latency p99    | {200ms}  | {action on exhaustion}     |
+
+## 5. Failure Modes
+| Mode | User Impact | Fallback | Blast Radius |
+|------|-------------|----------|--------------|
+
+## 6. Capacity Sizing
+Min/max replicas, DB connection pool size, peak QPS, HPA config.
+
+## 7. Data Retention
+Per store (DB tables, Kafka topics, S3 buckets): retention period and deletion/archival mechanism.
+
+## 8. Allowed Callers
+| Caller    | Protocol          | Auth Mechanism       |
+|-----------|-------------------|----------------------|
+| {service} | {gRPC/REST/Kafka} | {mTLS/RBAC/API key} |
+```
+
 ## 🗺️ Domain Landscape
 
 **Visual overview:**
