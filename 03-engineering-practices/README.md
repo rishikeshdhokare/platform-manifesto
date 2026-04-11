@@ -18,6 +18,7 @@
 | [12-engineering-principles.md](./12-engineering-principles.md) | Core engineering principles for the AI era - ownership, observability, agent-native design |
 | [13-specification-driven-development.md](./13-specification-driven-development.md) | Specification-driven development - specs as primary artifacts, code generated from contracts |
 
+| [14-supply-chain-security.md](./14-supply-chain-security.md) | SBOM generation, dependency scanning, license compliance, trusted registries |
 ---
 <div align="center">
 
