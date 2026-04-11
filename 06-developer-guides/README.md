@@ -15,6 +15,8 @@
 | [09-data-governance.md](./09-data-governance.md) | Data governance - stewards, quality SLAs, retention, analytics contracts |
 | [10-local-development.md](./10-local-development.md) | Local development - Docker Compose, seeding, secrets, first PR path, troubleshooting |
 
+| [11-database-selection.md](./11-database-selection.md) | Database selection, polyglot persistence, decision matrix |
+| [12-data-migration-patterns.md](./12-data-migration-patterns.md) | Schema evolution, zero-downtime migration strategies |
 ---
 <div align="center">
 

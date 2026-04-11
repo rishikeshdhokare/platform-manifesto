@@ -289,14 +289,23 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 | [`09-error-catalog.md`](02-architecture-and-api/09-error-catalog.md) | Central error registry, exception handling, and frontend error boundaries |
 | [`10-monolith-first-guide.md`](02-architecture-and-api/10-monolith-first-guide.md) | When to start with a monolith, modular monolith pattern, and migration path |
 
-</details>
+| [`11-api-versioning.md`](02-architecture-and-api/11-api-versioning.md) | API versioning strategy, breaking change policy, deprecation |
 
-<details>
-<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>Testing, CI/CD, code review - the daily craft</i></summary>
+| [`12-rate-limiting.md`](02-architecture-and-api/12-rate-limiting.md) | Rate limiting and throttling patterns, per-tenant limits |</details>
 
-<br/>
+| [`13-webhook-standards.md`](02-architecture-and-api/13-webhook-standards.md) | Webhook design, payload signing, delivery guarantees |
 
-The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend framework standards.
+| [`14-batch-processing.md`](02-architecture-and-api/14-batch-processing.md) | Batch processing, CRON jobs, workflow orchestration |<details>
+
+| [`15-contract-testing.md`](02-architecture-and-api/15-contract-testing.md) | Consumer-driven contracts, Pact, CI integration |<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>Testing, CI/CD, code review - the daily craft</i></summary>
+
+| [`16-messaging-patterns.md`](02-architecture-and-api/16-messaging-patterns.md) | Messaging patterns beyond Kafka, queues, outbox pattern |
+
+| [`17-graphql-standards.md`](02-architecture-and-api/17-graphql-standards.md) | GraphQL standards, federation, BFF integration |<br/>
+
+| [`18-event-sourcing-cqrs.md`](02-architecture-and-api/18-event-sourcing-cqrs.md) | Event sourcing and CQRS patterns |
+
+| [`19-api-lifecycle.md`](02-architecture-and-api/19-api-lifecycle.md) | API lifecycle management, design through sunset |The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend framework standards.
 
 | File | What You'll Learn |
 |------|-------------------|
@@ -318,8 +327,11 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend
 
 | [`15-test-data-management.md`](03-engineering-practices/15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking |</details>
 
-<details>
-<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i></summary>
+| [`16-progressive-delivery.md`](03-engineering-practices/16-progressive-delivery.md) | Canary, blue-green, shadow, dark launch, traffic splitting |
+
+| [`17-monorepo-polyrepo.md`](03-engineering-practices/17-monorepo-polyrepo.md) | Monorepo vs polyrepo decision framework |<details>
+
+| [`18-cross-team-dependencies.md`](03-engineering-practices/18-cross-team-dependencies.md) | Interface contracts, API compatibility, breaking changes |<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i></summary>
 
 <br/>
 
@@ -353,8 +365,11 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 
 | [`18-agent-data-governance.md`](04-infrastructure-and-cloud/18-agent-data-governance.md) | Agent PII access restrictions, compliance audit trail, dev-time governance |<br/>
 
-Observability, resilience, incidents, chaos engineering, and what to do when things break.
+| [`19-service-mesh.md`](04-infrastructure-and-cloud/19-service-mesh.md) | Istio vs Linkerd, traffic management, observability |
 
+| [`20-serverless-patterns.md`](04-infrastructure-and-cloud/20-serverless-patterns.md) | Lambda patterns, cold start mitigation, guardrails |Observability, resilience, incidents, chaos engineering, and what to do when things break.
+
+| [`21-multi-cloud-strategy.md`](04-infrastructure-and-cloud/21-multi-cloud-strategy.md) | Cloud-exit planning, portability, vendor lock-in |
 | File | What You'll Learn |
 |------|-------------------|
 | [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
@@ -405,7 +420,9 @@ The guides you keep open while writing code.
 | [`09-data-governance.md`](06-developer-guides/09-data-governance.md) | Data stewards, quality SLAs, retention matrices, analytics contracts |
 | [`10-local-development.md`](06-developer-guides/10-local-development.md) | Docker Compose, database seeding, your first PR |
 
-</details>
+| [`11-database-selection.md`](06-developer-guides/11-database-selection.md) | Database selection, polyglot persistence, decision matrix |
+
+| [`12-data-migration-patterns.md`](06-developer-guides/12-data-migration-patterns.md) | Schema evolution, zero-downtime migration strategies |</details>
 
 <details>
 <summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i></summary>

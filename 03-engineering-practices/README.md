@@ -20,7 +20,10 @@
 
 | [14-supply-chain-security.md](./14-supply-chain-security.md) | SBOM generation, dependency scanning, license compliance, trusted registries |
 
-| [15-test-data-management.md](./15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking |---
+| [15-test-data-management.md](./15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking || [16-progressive-delivery.md](./16-progressive-delivery.md) | Canary, blue-green, shadow, dark launch, traffic splitting |
+| [17-monorepo-polyrepo.md](./17-monorepo-polyrepo.md) | Monorepo vs polyrepo decision framework |
+| [18-cross-team-dependencies.md](./18-cross-team-dependencies.md) | Interface contracts, API compatibility, breaking changes |
+---
 <div align="center">
 
 🏠 [Back to root](../README.md)
