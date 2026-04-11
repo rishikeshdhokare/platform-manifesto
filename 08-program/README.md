@@ -11,6 +11,7 @@
 | [05-vendor-intake.md](./05-vendor-intake.md) | Vendor & SaaS intake process, security review, procurement, pilot criteria |
 | [06-adoption-guide.md](./06-adoption-guide.md) | Scale-based adoption guide - phases for 10, 100, and 1000+ engineers |
 
+| [07-engineering-kpis.md](./07-engineering-kpis.md) | DORA metrics, platform adoption, developer satisfaction |
 ---
 
 <div align="center">
