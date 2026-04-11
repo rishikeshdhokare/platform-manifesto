@@ -347,6 +347,7 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 
 | [`16-compliance-engineering.md`](04-infrastructure-and-cloud/16-compliance-engineering.md) | Compliance as code, automated evidence collection, continuous compliance |<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i></summary>
 
+| [`17-zero-trust-networking.md`](04-infrastructure-and-cloud/17-zero-trust-networking.md) | Zero-trust principles, microsegmentation, mTLS, identity-based access |
 <br/>
 
 Observability, resilience, incidents, chaos engineering, and what to do when things break.
