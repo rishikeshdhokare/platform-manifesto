@@ -105,7 +105,8 @@ If your engineering organization uses AI agents as first-class participants - no
 | 🧪 **QA / Test Engineer** | [Testing Pyramid](03-engineering-practices/01-testing-pyramid.md) · [QA Standards](03-engineering-practices/11-qa-standards.md) | Test strategy, environments, automation |
 | ⚖️ **Procurement / Legal** | [Vendor Intake](08-program/05-vendor-intake.md) · [Vendor Assessment](08-program/03-vendor-assessment.md) | Vendor intake, assessment, compliance |
 | 🎧 **Support / Customer Success** | [Incident Management](05-operational-excellence/04-incident-management.md) · [Debugging Guide](05-operational-excellence/09-debugging-guide.md) | Incident response, debugging, SLOs |
-| 🔢 **Data Analyst / BI** | [Data Platform](06-developer-guides/05-data-platform.md) · [Data Governance](06-developer-guides/09-data-governance.md) | Data platform, governance, analytics |
+
+| [`10-slo-framework.md`](05-operational-excellence/10-slo-framework.md) | SLO framework, SLI types, error budget, burn rate alerts || 🔢 **Data Analyst / BI** | [Data Platform](06-developer-guides/05-data-platform.md) · [Data Governance](06-developer-guides/09-data-governance.md) | Data platform, governance, analytics |
 
 > 💡 Lost on a term? The [**Glossary**](./GLOSSARY.md) has you covered.
 
@@ -366,6 +367,22 @@ Observability, resilience, incidents, chaos engineering, and what to do when thi
 | [`08-testing-in-production.md`](05-operational-excellence/08-testing-in-production.md) | Synthetic monitoring, traffic mirroring, dark launches |
 | [`09-debugging-guide.md`](05-operational-excellence/09-debugging-guide.md) | How to debug locally, in staging, and in production - with real queries |
 
+| [`26-agent-operational-safety.md`](05-operational-excellence/26-agent-operational-safety.md) | Agent deployment gates, rollback, chaos testing |
+| [`25-agent-observability.md`](05-operational-excellence/25-agent-observability.md) | Agent observability, LLM tracing, token monitoring |
+| [`24-review-engineering.md`](05-operational-excellence/24-review-engineering.md) | Review standards for validating agent output |
+| [`23-release-management.md`](05-operational-excellence/23-release-management.md) | SemVer, release trains, changelog, rollback |
+| [`22-feature-flags.md`](05-operational-excellence/22-feature-flags.md) | Flag types, lifecycle management, stale cleanup |
+| [`21-runbook-standards.md`](05-operational-excellence/21-runbook-standards.md) | Runbook authoring standards, template, review |
+| [`20-logging-taxonomy.md`](05-operational-excellence/20-logging-taxonomy.md) | Log levels, structured logging, PII redaction |
+| [`19-backup-testing.md`](05-operational-excellence/19-backup-testing.md) | Backup types, testing cadence, RTO/RPO validation |
+| [`18-health-checks.md`](05-operational-excellence/18-health-checks.md) | Liveness vs readiness probes, circuit breaker integration |
+| [`17-production-readiness.md`](05-operational-excellence/17-production-readiness.md) | Pre-launch gates, observability, security, load testing |
+| [`16-external-comms.md`](05-operational-excellence/16-external-comms.md) | Status page, customer notifications, stakeholder matrix |
+| [`15-pir-process.md`](05-operational-excellence/15-pir-process.md) | PIR template, blameless retrospective, action tracking |
+| [`14-on-call-standards.md`](05-operational-excellence/14-on-call-standards.md) | Rotation design, compensation, handoff, escalation SLAs |
+| [`13-incident-severity.md`](05-operational-excellence/13-incident-severity.md) | SEV1-SEV4 definitions, escalation, communication |
+| [`12-alerting-design.md`](05-operational-excellence/12-alerting-design.md) | Alert severity levels, routing rules, fatigue prevention |
+| [`11-service-scorecards.md`](05-operational-excellence/11-service-scorecards.md) | Service scorecards, scoring dimensions, readiness gates |
 </details>
 
 <details>

@@ -14,6 +14,7 @@
 | [08-testing-in-production.md](./08-testing-in-production.md) | Synthetic monitoring, traffic mirroring, dark launches |
 | [09-debugging-guide.md](./09-debugging-guide.md) | Debugging guide - local, staging, log search, trace exploration, common scenarios |
 
+| [10-slo-framework.md](./10-slo-framework.md) | SLO framework, SLI types, error budget, burn rate alerts |
 ---
 
 <div align="center">
