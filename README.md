@@ -336,6 +336,7 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`10-security-operations.md`](04-infrastructure-and-cloud/10-security-operations.md) | Threat modeling, SIEM, pen testing, SBOM, bug bounty, PAM |
 | [`11-deployment-architecture.md`](04-infrastructure-and-cloud/11-deployment-architecture.md) | Environment landscape, artifact promotion, production gates, multi-region deployment |
 
+| [`12-identity-management.md`](04-infrastructure-and-cloud/12-identity-management.md) | Identity provider architecture, OAuth2 flows, OIDC, token lifecycle |
 </details>
 
 <details>
