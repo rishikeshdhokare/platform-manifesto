@@ -17,13 +17,13 @@
 | [11-qa-standards.md](./11-qa-standards.md) | Quality assurance - test environments, test data, regression, bug triage, security testing |
 | [12-engineering-principles.md](./12-engineering-principles.md) | Core engineering principles for the AI era - ownership, observability, agent-native design |
 | [13-specification-driven-development.md](./13-specification-driven-development.md) | Specification-driven development - specs as primary artifacts, code generated from contracts |
-
 | [14-supply-chain-security.md](./14-supply-chain-security.md) | SBOM generation, dependency scanning, license compliance, trusted registries |
-
-| [15-test-data-management.md](./15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking || [16-progressive-delivery.md](./16-progressive-delivery.md) | Canary, blue-green, shadow, dark launch, traffic splitting |
+| [15-test-data-management.md](./15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking |
+| [16-progressive-delivery.md](./16-progressive-delivery.md) | Canary, blue-green, shadow, dark launch, traffic splitting |
 | [17-monorepo-polyrepo.md](./17-monorepo-polyrepo.md) | Monorepo vs polyrepo decision framework |
 | [18-cross-team-dependencies.md](./18-cross-team-dependencies.md) | Interface contracts, API compatibility, breaking changes |
 | [19-performance-engineering.md](./19-performance-engineering.md) | Performance engineering and backend budgets |
+
 ---
 <div align="center">
 

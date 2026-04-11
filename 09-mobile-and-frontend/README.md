@@ -10,9 +10,11 @@
 | [04-android-standards.md](./04-android-standards.md) | Android platform - Gradle, Compose, Kotlin, Hilt, WorkManager, deep linking |
 | [05-ios-standards.md](./05-ios-standards.md) | iOS platform - Xcode, Swift concurrency, SwiftUI, Keychain, push, dSYM |
 | [06-design-system.md](./06-design-system.md) | Design system & UX - handoff, tokens, icons, motion, dark mode, data viz |
+| [07-accessibility-standards.md](./07-accessibility-standards.md) | Accessibility standards for web and mobile (WCAG 2.2) |
+| [08-minimum-version-policy.md](./08-minimum-version-policy.md) | Mobile minimum version and forced upgrade strategy |
+| [09-agent-ui-constraints.md](./09-agent-ui-constraints.md) | Agent-generated UI constraints for design system compliance |
 
 ---
-
 <div align="center">
 
 🏠 [Back to root](../README.md)

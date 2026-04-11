@@ -15,11 +15,11 @@
 | [09-engineering-management.md](./09-engineering-management.md) | Engineering management - performance reviews, 1:1s, team health, headcount, career dev |
 | [10-product-operations.md](./10-product-operations.md) | Product operations - roadmap, OKRs, user stories, launch management, customer feedback |
 | [11-engineering-culture.md](./11-engineering-culture.md) | Engineering culture and values - ownership, transparency, psychological safety, learning, agent-native culture |
-
 | [12-document-templates.md](./12-document-templates.md) | Standalone ADR, RFC, PIR, PRD, and design doc templates |
 | [13-technical-writing.md](./13-technical-writing.md) | Internal technical documentation and writing guide |
-| [14-async-culture.md](./14-async-culture.md) | Engineering communication norms, async-first |
+| [14-async-culture.md](./14-async-culture.md) | Engineering communication norms, async-first culture |
 | [15-agentic-ways-of-working.md](./15-agentic-ways-of-working.md) | Ways of working for agentic organizations |
+
 ---
 <div align="center">
 

@@ -15,8 +15,8 @@
 |----------|-------------|
 | [01-ml-platform.md](./01-ml-platform.md) | Model serving, feature stores, A/B testing, training pipelines, ML CI/CD |
 | [02-ai-governance.md](./02-ai-governance.md) | Responsible AI, bias auditing, AI-assisted development, generative AI patterns |
-
 | [03-model-selection.md](./03-model-selection.md) | AI/ML model selection framework by task type and cost |
+
 ---
 <div align="center">
 

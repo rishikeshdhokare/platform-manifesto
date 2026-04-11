@@ -8,7 +8,7 @@
 
 <br/>
 
-[![Sections](https://img.shields.io/badge/12_sections-6C3FC5?style=for-the-badge&logo=bookstack&logoColor=white)](.)
+[![Sections](https://img.shields.io/badge/13_sections-6C3FC5?style=for-the-badge&logo=bookstack&logoColor=white)](.)
 [![Updated](https://img.shields.io/badge/2026-00A86B?style=for-the-badge&logo=calendar&logoColor=white)](.)
 [![PRs Welcome](https://img.shields.io/badge/PRs_welcome-FF1493?style=for-the-badge&logo=github&logoColor=white)](.)
 [![Agent-Ready](https://img.shields.io/badge/Agent--Native_Ready-00C853?style=for-the-badge&logo=probot&logoColor=white)](./12-ai-engineering/01-context-engineering.md)
@@ -105,8 +105,7 @@ If your engineering organization uses AI agents as first-class participants - no
 | 🧪 **QA / Test Engineer** | [Testing Pyramid](03-engineering-practices/01-testing-pyramid.md) · [QA Standards](03-engineering-practices/11-qa-standards.md) | Test strategy, environments, automation |
 | ⚖️ **Procurement / Legal** | [Vendor Intake](08-program/05-vendor-intake.md) · [Vendor Assessment](08-program/03-vendor-assessment.md) | Vendor intake, assessment, compliance |
 | 🎧 **Support / Customer Success** | [Incident Management](05-operational-excellence/04-incident-management.md) · [Debugging Guide](05-operational-excellence/09-debugging-guide.md) | Incident response, debugging, SLOs |
-
-| [`10-slo-framework.md`](05-operational-excellence/10-slo-framework.md) | SLO framework, SLI types, error budget, burn rate alerts || 🔢 **Data Analyst / BI** | [Data Platform](06-developer-guides/05-data-platform.md) · [Data Governance](06-developer-guides/09-data-governance.md) | Data platform, governance, analytics |
+| 🔢 **Data Analyst / BI** | [Data Platform](06-developer-guides/05-data-platform.md) · [Data Governance](06-developer-guides/09-data-governance.md) | Data platform, governance, analytics |
 
 > 💡 Lost on a term? The [**Glossary**](./GLOSSARY.md) has you covered.
 
@@ -288,24 +287,24 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 | [`08-event-schema-evolution.md`](02-architecture-and-api/08-event-schema-evolution.md) | Avro compatibility rules, partition keys, and the breaking change playbook |
 | [`09-error-catalog.md`](02-architecture-and-api/09-error-catalog.md) | Central error registry, exception handling, and frontend error boundaries |
 | [`10-monolith-first-guide.md`](02-architecture-and-api/10-monolith-first-guide.md) | When to start with a monolith, modular monolith pattern, and migration path |
-
 | [`11-api-versioning.md`](02-architecture-and-api/11-api-versioning.md) | API versioning strategy, breaking change policy, deprecation |
-
-| [`12-rate-limiting.md`](02-architecture-and-api/12-rate-limiting.md) | Rate limiting and throttling patterns, per-tenant limits |</details>
-
+| [`12-rate-limiting.md`](02-architecture-and-api/12-rate-limiting.md) | Rate limiting and throttling patterns, per-tenant limits |
 | [`13-webhook-standards.md`](02-architecture-and-api/13-webhook-standards.md) | Webhook design, payload signing, delivery guarantees |
-
-| [`14-batch-processing.md`](02-architecture-and-api/14-batch-processing.md) | Batch processing, CRON jobs, workflow orchestration |<details>
-
-| [`15-contract-testing.md`](02-architecture-and-api/15-contract-testing.md) | Consumer-driven contracts, Pact, CI integration |<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>Testing, CI/CD, code review - the daily craft</i></summary>
-
+| [`14-batch-processing.md`](02-architecture-and-api/14-batch-processing.md) | Batch processing, CRON jobs, workflow orchestration |
+| [`15-contract-testing.md`](02-architecture-and-api/15-contract-testing.md) | Consumer-driven contracts, Pact, CI integration |
 | [`16-messaging-patterns.md`](02-architecture-and-api/16-messaging-patterns.md) | Messaging patterns beyond Kafka, queues, outbox pattern |
-
-| [`17-graphql-standards.md`](02-architecture-and-api/17-graphql-standards.md) | GraphQL standards, federation, BFF integration |<br/>
-
+| [`17-graphql-standards.md`](02-architecture-and-api/17-graphql-standards.md) | GraphQL standards, federation, BFF integration |
 | [`18-event-sourcing-cqrs.md`](02-architecture-and-api/18-event-sourcing-cqrs.md) | Event sourcing and CQRS patterns |
+| [`19-api-lifecycle.md`](02-architecture-and-api/19-api-lifecycle.md) | API lifecycle management, design through sunset |
 
-| [`19-api-lifecycle.md`](02-architecture-and-api/19-api-lifecycle.md) | API lifecycle management, design through sunset |The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend framework standards.
+</details>
+
+<details>
+<summary><b>⚙️ 03 - Engineering Practices</b> &nbsp;·&nbsp; <i>Testing, CI/CD, code review - the daily craft</i></summary>
+
+<br/>
+
+The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend framework standards.
 
 | File | What You'll Learn |
 |------|-------------------|
@@ -322,18 +321,18 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 | [`11-qa-standards.md`](03-engineering-practices/11-qa-standards.md) | Test environments, test data, bug triage severity, device matrix |
 | [`12-engineering-principles.md`](03-engineering-practices/12-engineering-principles.md) | Core engineering principles for the AI era with agent-native context |
 | [`13-specification-driven-development.md`](03-engineering-practices/13-specification-driven-development.md) | Specification-driven development as the norm for agentic organizations |
-
 | [`14-supply-chain-security.md`](03-engineering-practices/14-supply-chain-security.md) | SBOM generation, dependency scanning, license compliance, trusted registries |
-
-| [`15-test-data-management.md`](03-engineering-practices/15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking |</details>
-
+| [`15-test-data-management.md`](03-engineering-practices/15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking |
 | [`16-progressive-delivery.md`](03-engineering-practices/16-progressive-delivery.md) | Canary, blue-green, shadow, dark launch, traffic splitting |
-
-| [`17-monorepo-polyrepo.md`](03-engineering-practices/17-monorepo-polyrepo.md) | Monorepo vs polyrepo decision framework |<details>
-
-| [`18-cross-team-dependencies.md`](03-engineering-practices/18-cross-team-dependencies.md) | Interface contracts, API compatibility, breaking changes |<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i></summary>
-
+| [`17-monorepo-polyrepo.md`](03-engineering-practices/17-monorepo-polyrepo.md) | Monorepo vs polyrepo decision framework |
+| [`18-cross-team-dependencies.md`](03-engineering-practices/18-cross-team-dependencies.md) | Interface contracts, API compatibility, breaking changes |
 | [`19-performance-engineering.md`](03-engineering-practices/19-performance-engineering.md) | Performance engineering and backend budgets |
+
+</details>
+
+<details>
+<summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i></summary>
+
 <br/>
 
 Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
@@ -351,59 +350,60 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`09-multi-tenancy.md`](04-infrastructure-and-cloud/09-multi-tenancy.md) | Data isolation patterns, noisy-neighbor controls, tenant-aware observability |
 | [`10-security-operations.md`](04-infrastructure-and-cloud/10-security-operations.md) | Threat modeling, SIEM, pen testing, SBOM, bug bounty, PAM |
 | [`11-deployment-architecture.md`](04-infrastructure-and-cloud/11-deployment-architecture.md) | Environment landscape, artifact promotion, production gates, multi-region deployment |
-
 | [`12-identity-management.md`](04-infrastructure-and-cloud/12-identity-management.md) | Identity provider architecture, OAuth2 flows, OIDC, token lifecycle |
-
-| [`13-authorization-patterns.md`](04-infrastructure-and-cloud/13-authorization-patterns.md) | RBAC vs ABAC framework, role hierarchy, OPA/Cedar policy engines |</details>
-
+| [`13-authorization-patterns.md`](04-infrastructure-and-cloud/13-authorization-patterns.md) | RBAC vs ABAC framework, role hierarchy, OPA/Cedar policy engines |
 | [`14-secrets-management.md`](04-infrastructure-and-cloud/14-secrets-management.md) | Secret classification, rotation policies, injection patterns |
-
-| [`15-certificate-lifecycle.md`](04-infrastructure-and-cloud/15-certificate-lifecycle.md) | Certificate types, automated renewal, mTLS, PKI hierarchy |<details>
-
-| [`16-compliance-engineering.md`](04-infrastructure-and-cloud/16-compliance-engineering.md) | Compliance as code, automated evidence collection, continuous compliance |<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i></summary>
-
+| [`15-certificate-lifecycle.md`](04-infrastructure-and-cloud/15-certificate-lifecycle.md) | Certificate types, automated renewal, mTLS, PKI hierarchy |
+| [`16-compliance-engineering.md`](04-infrastructure-and-cloud/16-compliance-engineering.md) | Compliance as code, automated evidence collection, continuous compliance |
 | [`17-zero-trust-networking.md`](04-infrastructure-and-cloud/17-zero-trust-networking.md) | Zero-trust principles, microsegmentation, mTLS, identity-based access |
+| [`18-agent-data-governance.md`](04-infrastructure-and-cloud/18-agent-data-governance.md) | Agent PII access restrictions, compliance audit trail, dev-time governance |
+| [`19-service-mesh.md`](04-infrastructure-and-cloud/19-service-mesh.md) | Service mesh patterns, traffic management, observability integration |
+| [`20-serverless-patterns.md`](04-infrastructure-and-cloud/20-serverless-patterns.md) | Serverless and FaaS patterns, cold start mitigation, guardrails |
+| [`21-multi-cloud-strategy.md`](04-infrastructure-and-cloud/21-multi-cloud-strategy.md) | Cloud-exit planning, portability, vendor lock-in mitigation |
+| [`22-self-service-infra.md`](04-infrastructure-and-cloud/22-self-service-infra.md) | Self-service infrastructure provisioning patterns |
+| [`23-infra-testing.md`](04-infrastructure-and-cloud/23-infra-testing.md) | IaC testing, policy-as-code, drift detection |
+| [`24-cdn-edge-caching.md`](04-infrastructure-and-cloud/24-cdn-edge-caching.md) | CDN and edge caching strategy, multi-CDN patterns |
+| [`25-kubernetes-operations.md`](04-infrastructure-and-cloud/25-kubernetes-operations.md) | Kubernetes cluster operations and namespace strategy |
+| [`26-search-infrastructure.md`](04-infrastructure-and-cloud/26-search-infrastructure.md) | Search infrastructure patterns and OpenSearch operations |
 
-| [`18-agent-data-governance.md`](04-infrastructure-and-cloud/18-agent-data-governance.md) | Agent PII access restrictions, compliance audit trail, dev-time governance |<br/>
+</details>
 
-| [`19-service-mesh.md`](04-infrastructure-and-cloud/19-service-mesh.md) | Istio vs Linkerd, traffic management, observability |
+<details>
+<summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i></summary>
 
-| [`20-serverless-patterns.md`](04-infrastructure-and-cloud/20-serverless-patterns.md) | Lambda patterns, cold start mitigation, guardrails |Observability, resilience, incidents, chaos engineering, and what to do when things break.
+<br/>
 
-| [`21-multi-cloud-strategy.md`](04-infrastructure-and-cloud/21-multi-cloud-strategy.md) | Cloud-exit planning, portability, vendor lock-in |
+Observability, resilience, incidents, chaos engineering, and what to do when things break.
 
-| [`22-self-service-infra.md`](04-infrastructure-and-cloud/22-self-service-infra.md) | Self-service infrastructure provisioning patterns || File | What You'll Learn |
-
-| [`23-infra-testing.md`](04-infrastructure-and-cloud/23-infra-testing.md) | IaC testing, policy-as-code, drift detection ||------|-------------------|
-
-| [`24-cdn-edge-caching.md`](04-infrastructure-and-cloud/24-cdn-edge-caching.md) | CDN and edge caching strategy, multi-CDN || [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
-
-| [`25-kubernetes-operations.md`](04-infrastructure-and-cloud/25-kubernetes-operations.md) | Kubernetes cluster operations and namespace strategy || [`02-observability-in-practice.md`](05-operational-excellence/02-observability-in-practice.md) | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
-
-| [`26-search-infrastructure.md`](04-infrastructure-and-cloud/26-search-infrastructure.md) | Search infrastructure patterns (OpenSearch) || [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - with worked examples |
+| File | What You'll Learn |
+|------|-------------------|
+| [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
+| [`02-observability-in-practice.md`](05-operational-excellence/02-observability-in-practice.md) | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
+| [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - with worked examples |
 | [`04-incident-management.md`](05-operational-excellence/04-incident-management.md) | Response playbook, on-call structure, PIR template, change management |
 | [`05-load-shedding.md`](05-operational-excellence/05-load-shedding.md) | Priority tiers, backpressure, graceful degradation, auto-remediation |
 | [`06-chaos-engineering.md`](05-operational-excellence/06-chaos-engineering.md) | Fault injection, game days, resilience validation |
 | [`07-disaster-recovery-playbook.md`](05-operational-excellence/07-disaster-recovery-playbook.md) | Region failover, failback, DNS strategy, rollback SLAs |
 | [`08-testing-in-production.md`](05-operational-excellence/08-testing-in-production.md) | Synthetic monitoring, traffic mirroring, dark launches |
 | [`09-debugging-guide.md`](05-operational-excellence/09-debugging-guide.md) | How to debug locally, in staging, and in production - with real queries |
-
-| [`26-agent-operational-safety.md`](05-operational-excellence/26-agent-operational-safety.md) | Agent deployment gates, rollback, chaos testing |
-| [`25-agent-observability.md`](05-operational-excellence/25-agent-observability.md) | Agent observability, LLM tracing, token monitoring |
-| [`24-review-engineering.md`](05-operational-excellence/24-review-engineering.md) | Review standards for validating agent output |
-| [`23-release-management.md`](05-operational-excellence/23-release-management.md) | SemVer, release trains, changelog, rollback |
-| [`22-feature-flags.md`](05-operational-excellence/22-feature-flags.md) | Flag types, lifecycle management, stale cleanup |
-| [`21-runbook-standards.md`](05-operational-excellence/21-runbook-standards.md) | Runbook authoring standards, template, review |
-| [`20-logging-taxonomy.md`](05-operational-excellence/20-logging-taxonomy.md) | Log levels, structured logging, PII redaction |
-| [`19-backup-testing.md`](05-operational-excellence/19-backup-testing.md) | Backup types, testing cadence, RTO/RPO validation |
-| [`18-health-checks.md`](05-operational-excellence/18-health-checks.md) | Liveness vs readiness probes, circuit breaker integration |
-| [`17-production-readiness.md`](05-operational-excellence/17-production-readiness.md) | Pre-launch gates, observability, security, load testing |
-| [`16-external-comms.md`](05-operational-excellence/16-external-comms.md) | Status page, customer notifications, stakeholder matrix |
-| [`15-pir-process.md`](05-operational-excellence/15-pir-process.md) | PIR template, blameless retrospective, action tracking |
-| [`14-on-call-standards.md`](05-operational-excellence/14-on-call-standards.md) | Rotation design, compensation, handoff, escalation SLAs |
-| [`13-incident-severity.md`](05-operational-excellence/13-incident-severity.md) | SEV1-SEV4 definitions, escalation, communication |
-| [`12-alerting-design.md`](05-operational-excellence/12-alerting-design.md) | Alert severity levels, routing rules, fatigue prevention |
+| [`10-slo-framework.md`](05-operational-excellence/10-slo-framework.md) | SLO framework, SLI types, error budget, burn rate alerts |
 | [`11-service-scorecards.md`](05-operational-excellence/11-service-scorecards.md) | Service scorecards, scoring dimensions, readiness gates |
+| [`12-alerting-design.md`](05-operational-excellence/12-alerting-design.md) | Alert severity levels, routing rules, fatigue prevention |
+| [`13-incident-severity.md`](05-operational-excellence/13-incident-severity.md) | SEV1-SEV4 definitions, escalation paths, communication protocols |
+| [`14-on-call-standards.md`](05-operational-excellence/14-on-call-standards.md) | Rotation design, compensation, handoff, escalation SLAs |
+| [`15-pir-process.md`](05-operational-excellence/15-pir-process.md) | PIR template, blameless retrospective, action tracking |
+| [`16-external-comms.md`](05-operational-excellence/16-external-comms.md) | Status page, customer notifications, stakeholder matrix |
+| [`17-production-readiness.md`](05-operational-excellence/17-production-readiness.md) | Pre-launch gates, observability, security, load testing |
+| [`18-health-checks.md`](05-operational-excellence/18-health-checks.md) | Liveness vs readiness probes, circuit breaker integration |
+| [`19-backup-testing.md`](05-operational-excellence/19-backup-testing.md) | Backup types, testing cadence, RTO/RPO validation |
+| [`20-logging-taxonomy.md`](05-operational-excellence/20-logging-taxonomy.md) | Log levels, structured logging standards, PII redaction |
+| [`21-runbook-standards.md`](05-operational-excellence/21-runbook-standards.md) | Runbook authoring standards, template, review process |
+| [`22-feature-flags.md`](05-operational-excellence/22-feature-flags.md) | Flag types, lifecycle management, stale flag cleanup |
+| [`23-release-management.md`](05-operational-excellence/23-release-management.md) | SemVer, release trains, changelog, rollback procedures |
+| [`24-review-engineering.md`](05-operational-excellence/24-review-engineering.md) | Review standards for validating agent-generated output |
+| [`25-agent-observability.md`](05-operational-excellence/25-agent-observability.md) | Agent observability, LLM tracing, token monitoring |
+| [`26-agent-operational-safety.md`](05-operational-excellence/26-agent-operational-safety.md) | Agent deployment gates, rollback, chaos testing for agents |
+
 </details>
 
 <details>
@@ -425,28 +425,28 @@ The guides you keep open while writing code.
 | [`08-cache-patterns.md`](06-developer-guides/08-cache-patterns.md) | Cache-aside, TTL, event-driven invalidation, in-process caching, stampede prevention |
 | [`09-data-governance.md`](06-developer-guides/09-data-governance.md) | Data stewards, quality SLAs, retention matrices, analytics contracts |
 | [`10-local-development.md`](06-developer-guides/10-local-development.md) | Docker Compose, database seeding, your first PR |
-
 | [`11-database-selection.md`](06-developer-guides/11-database-selection.md) | Database selection, polyglot persistence, decision matrix |
-
-| [`12-data-migration-patterns.md`](06-developer-guides/12-data-migration-patterns.md) | Schema evolution, zero-downtime migration strategies |</details>
-
+| [`12-data-migration-patterns.md`](06-developer-guides/12-data-migration-patterns.md) | Schema evolution, zero-downtime migration strategies |
 | [`13-onboarding-automation.md`](06-developer-guides/13-onboarding-automation.md) | Developer onboarding automation and knowledge base |
-
-| [`14-sdk-versioning.md`](06-developer-guides/14-sdk-versioning.md) | SDK and client library versioning standards |<details>
-
-| [`15-api-documentation.md`](06-developer-guides/15-api-documentation.md) | API documentation and developer portal standards |<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i></summary>
-
+| [`14-sdk-versioning.md`](06-developer-guides/14-sdk-versioning.md) | SDK and client library versioning standards |
+| [`15-api-documentation.md`](06-developer-guides/15-api-documentation.md) | API documentation and developer portal standards |
 | [`16-object-storage.md`](06-developer-guides/16-object-storage.md) | Object and file storage patterns |
-
-| [`17-database-performance.md`](06-developer-guides/17-database-performance.md) | Database performance tuning and connection management |<br/>
-
+| [`17-database-performance.md`](06-developer-guides/17-database-performance.md) | Database performance tuning and connection management |
 | [`18-i18n-localization.md`](06-developer-guides/18-i18n-localization.md) | Internationalization and localization engineering |
-
-| [`19-api-mocking.md`](06-developer-guides/19-api-mocking.md) | API mocking and service virtualization standards |Team structure, decision-making, hiring, career growth, and knowledge sharing.
-
+| [`19-api-mocking.md`](06-developer-guides/19-api-mocking.md) | API mocking and service virtualization standards |
 | [`20-agentic-developer-guides.md`](06-developer-guides/20-agentic-developer-guides.md) | Developer guides reframed for agentic workflow |
+| [`21-data-lakehouse.md`](06-developer-guides/21-data-lakehouse.md) | Data lakehouse standards, ETL vs ELT guide |
 
-| [`21-data-lakehouse.md`](06-developer-guides/21-data-lakehouse.md) | Data lakehouse standards, ETL vs ELT guide || File | What You'll Learn |
+</details>
+
+<details>
+<summary><b>🤝 07 - Ways of Working</b> &nbsp;·&nbsp; <i>Teams, hiring, growth, and how we decide</i></summary>
+
+<br/>
+
+Team structure, decision-making, hiring, career growth, and knowledge sharing.
+
+| File | What You'll Learn |
 |------|-------------------|
 | [`01-team-topology.md`](07-ways-of-working/01-team-topology.md) | Stream-aligned teams, platform team, inner source, tech debt registry |
 | [`02-engineering-ladder.md`](07-ways-of-working/02-engineering-ladder.md) | Engineer I to Principal - expectations at every level |
@@ -459,14 +459,14 @@ The guides you keep open while writing code.
 | [`09-engineering-management.md`](07-ways-of-working/09-engineering-management.md) | 1:1s, reviews, team health, headcount, career development |
 | [`10-product-operations.md`](07-ways-of-working/10-product-operations.md) | Roadmap, OKRs, launch management, customer feedback loops |
 | [`11-engineering-culture.md`](07-ways-of-working/11-engineering-culture.md) | Cultural values, blameless postmortems, innovation time, knowledge sharing |
-
 | [`12-document-templates.md`](07-ways-of-working/12-document-templates.md) | Standalone ADR, RFC, PIR, PRD, and design doc templates |
+| [`13-technical-writing.md`](07-ways-of-working/13-technical-writing.md) | Internal technical documentation and writing guide |
+| [`14-async-culture.md`](07-ways-of-working/14-async-culture.md) | Engineering communication norms, async-first culture |
+| [`15-agentic-ways-of-working.md`](07-ways-of-working/15-agentic-ways-of-working.md) | Ways of working for agentic organizations |
 
-| [`13-technical-writing.md`](07-ways-of-working/13-technical-writing.md) | Internal technical documentation and writing guide |</details>
+</details>
 
-| [`14-async-culture.md`](07-ways-of-working/14-async-culture.md) | Engineering communication norms, async-first |
-
-| [`15-agentic-ways-of-working.md`](07-ways-of-working/15-agentic-ways-of-working.md) | Ways of working for agentic organizations |<details>
+<details>
 <summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>The honest scorecard - where we are and where we're headed</i></summary>
 
 <br/>
@@ -481,8 +481,19 @@ Maturity assessment, migration roadmap, metrics, and vendor management.
 | [`04-engineering-metrics.md`](08-program/04-engineering-metrics.md) | What we measure, what we don't, and why |
 | [`05-vendor-intake.md`](08-program/05-vendor-intake.md) | How to evaluate and onboard new SaaS tools |
 | [`06-adoption-guide.md`](08-program/06-adoption-guide.md) | Scale-based adoption guide for 10, 100, and 1000+ engineers |
-
 | [`07-engineering-kpis.md`](08-program/07-engineering-kpis.md) | DORA metrics, platform adoption, developer satisfaction |
+| [`08-agentic-maturity.md`](08-program/08-agentic-maturity.md) | Agentic maturity model for AI-native organizations |
+| [`09-idp-architecture.md`](08-program/09-idp-architecture.md) | Internal developer platform architecture and golden path |
+| [`10-tech-evaluation.md`](08-program/10-tech-evaluation.md) | Technology evaluation framework and scoring rubric |
+| [`11-tech-debt.md`](08-program/11-tech-debt.md) | Technical debt tracking, quantification, and remediation |
+| [`12-cost-allocation.md`](08-program/12-cost-allocation.md) | Cost allocation and chargeback model |
+| [`13-change-management.md`](08-program/13-change-management.md) | Change management for platform-wide changes |
+| [`14-okr-framework.md`](08-program/14-okr-framework.md) | Engineering OKR framework and goal-setting |
+| [`15-budget-allocation.md`](08-program/15-budget-allocation.md) | Engineering budget and capacity planning |
+| [`16-architecture-governance.md`](08-program/16-architecture-governance.md) | Architecture governance, ADR process, review cadence |
+| [`17-build-vs-buy.md`](08-program/17-build-vs-buy.md) | Build vs buy vs open-source decision framework |
+| [`18-vendor-mcp-compatibility.md`](08-program/18-vendor-mcp-compatibility.md) | Vendor MCP and agent compatibility assessment |
+
 </details>
 
 <details>
@@ -500,12 +511,12 @@ Everything for the engineers building client applications.
 | [`04-android-standards.md`](09-mobile-and-frontend/04-android-standards.md) | Gradle, Compose, Kotlin coroutines, Hilt, WorkManager |
 | [`05-ios-standards.md`](09-mobile-and-frontend/05-ios-standards.md) | SwiftUI, SPM, privacy manifest, extensions, dSYM |
 | [`06-design-system.md`](09-mobile-and-frontend/06-design-system.md) | Design-dev handoff, tokens, motion, dark mode, data visualization |
-
 | [`07-accessibility-standards.md`](09-mobile-and-frontend/07-accessibility-standards.md) | Accessibility standards for web and mobile (WCAG 2.2) |
+| [`08-minimum-version-policy.md`](09-mobile-and-frontend/08-minimum-version-policy.md) | Mobile minimum version and forced upgrade strategy |
+| [`09-agent-ui-constraints.md`](09-mobile-and-frontend/09-agent-ui-constraints.md) | Agent-generated UI constraints for design system compliance |
 
-| [`08-minimum-version-policy.md`](09-mobile-and-frontend/08-minimum-version-policy.md) | Mobile minimum version and forced upgrade strategy |</details>
+</details>
 
-| [`09-agent-ui-constraints.md`](09-mobile-and-frontend/09-agent-ui-constraints.md) | Agent-generated UI constraints for design system |
 <details>
 <summary><b>🤖 10 - AI/ML Platform</b> &nbsp;·&nbsp; <i>ML pipelines, model governance, and AI guardrails</i></summary>
 
@@ -515,8 +526,8 @@ Everything for the engineers building client applications.
 |------|-------------------|
 | [`01-ml-platform.md`](10-ai-ml-platform/01-ml-platform.md) | Model serving, feature stores, training pipelines, GPU governance |
 | [`02-ai-governance.md`](10-ai-ml-platform/02-ai-governance.md) | Bias auditing, LLM guardrails, red-teaming, generative AI patterns |
-
 | [`03-model-selection.md`](10-ai-ml-platform/03-model-selection.md) | AI/ML model selection framework by task type and cost |
+
 </details>
 
 <details>
@@ -554,10 +565,16 @@ How we work with AI across the entire software development lifecycle, including 
 | [`02-ai-assisted-sdlc.md`](12-ai-engineering/02-ai-assisted-sdlc.md) | AI integration across discovery, design, development, testing, review, deployment, operations, documentation |
 | [`03-ai-adoption-metrics.md`](12-ai-engineering/03-ai-adoption-metrics.md) | Adoption metrics, effectiveness metrics, quality guardrails, AI Engineering Maturity (L0-L4), AI Champions Guild |
 | [`04-trust-tiered-autonomy.md`](12-ai-engineering/04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes, promotion criteria, guardrails |
-
 | [`05-agent-security-model.md`](12-ai-engineering/05-agent-security-model.md) | Agent identity standards, least privilege, audit trails, threat model |
+| [`06-ai-native-sdlc.md`](12-ai-engineering/06-ai-native-sdlc.md) | AI-native SDLC strategy based on Three Pillars |
+| [`07-prompt-engineering.md`](12-ai-engineering/07-prompt-engineering.md) | Prompt engineering and LLM integration standards |
+| [`08-rag-patterns.md`](12-ai-engineering/08-rag-patterns.md) | RAG patterns, vector database standards, LLM architecture |
+| [`09-mcp-tool-use.md`](12-ai-engineering/09-mcp-tool-use.md) | MCP and tool-use integration standards |
+| [`10-multi-agent-patterns.md`](12-ai-engineering/10-multi-agent-patterns.md) | AI agent orchestration and multi-agent patterns |
+| [`11-ai-finops.md`](12-ai-engineering/11-ai-finops.md) | AI cost optimization and FinOps for AI workloads |
+| [`12-sdlc-agent-blueprint.md`](12-ai-engineering/12-sdlc-agent-blueprint.md) | SDLC agent blueprint and orchestration |
 
-| [`06-ai-native-sdlc.md`](12-ai-engineering/06-ai-native-sdlc.md) | AI-native SDLC strategy based on Three Pillars |</details>
+</details>
 
 <details>
 <summary><b>🔍 13 - Technology Selection</b> &nbsp;·&nbsp; <i>Structured decision guides for the entire stack</i></summary>
@@ -588,14 +605,14 @@ How we work with AI across the entire software development lifecycle, including 
 | [`20-gitops-tools.md`](13-technology-selection/20-gitops-tools.md) | GitOps tools |
 | [`21-feature-flags.md`](13-technology-selection/21-feature-flags.md) | Feature flags |
 | [`22-artifact-registries.md`](13-technology-selection/22-artifact-registries.md) | Artifact registries |
-| [`23-observability-platforms.md`](13-technology-selection/23-observability-platforms.md) | Observability |
+| [`23-observability-platforms.md`](13-technology-selection/23-observability-platforms.md) | Observability platforms |
 | [`24-incident-management.md`](13-technology-selection/24-incident-management.md) | Incident management |
 | [`25-error-tracking.md`](13-technology-selection/25-error-tracking.md) | Error tracking |
 | [`26-security-scanning.md`](13-technology-selection/26-security-scanning.md) | Security scanning |
 | [`27-identity-providers.md`](13-technology-selection/27-identity-providers.md) | Identity providers |
 | [`28-developer-portals.md`](13-technology-selection/28-developer-portals.md) | Developer portals |
 | [`29-testing-frameworks.md`](13-technology-selection/29-testing-frameworks.md) | Testing frameworks |
-| [`30-documentation-platforms.md`](13-technology-selection/30-documentation-platforms.md) | Documentation |
+| [`30-documentation-platforms.md`](13-technology-selection/30-documentation-platforms.md) | Documentation platforms |
 | [`31-project-management.md`](13-technology-selection/31-project-management.md) | Project management |
 | [`32-data-warehouses.md`](13-technology-selection/32-data-warehouses.md) | Data warehouses |
 | [`33-data-pipelines.md`](13-technology-selection/33-data-pipelines.md) | Data pipelines |
@@ -605,8 +622,8 @@ How we work with AI across the entire software development lifecycle, including 
 | [`37-cloud-dev-environments.md`](13-technology-selection/37-cloud-dev-environments.md) | Cloud dev environments |
 | [`38-paas-platforms.md`](13-technology-selection/38-paas-platforms.md) | PaaS platforms |
 | [`39-product-analytics.md`](13-technology-selection/39-product-analytics.md) | Product analytics |
-| [`40-notification-platforms.md`](13-technology-selection/40-notification-platforms.md) | Notifications |
-| [`41-chatops-platforms.md`](13-technology-selection/41-chatops-platforms.md) | ChatOps |
+| [`40-notification-platforms.md`](13-technology-selection/40-notification-platforms.md) | Notification platforms |
+| [`41-chatops-platforms.md`](13-technology-selection/41-chatops-platforms.md) | ChatOps platforms |
 | [`42-compliance-automation.md`](13-technology-selection/42-compliance-automation.md) | Compliance automation |
 | [`43-cloud-cost-management.md`](13-technology-selection/43-cloud-cost-management.md) | Cloud cost management |
 | [`44-backup-tools.md`](13-technology-selection/44-backup-tools.md) | Backup tools |
@@ -614,17 +631,11 @@ How we work with AI across the entire software development lifecycle, including 
 
 </details>
 
-| [`07-prompt-engineering.md`](12-ai-engineering/07-prompt-engineering.md) | Prompt engineering and LLM integration standards |
+<br/>
 
-| [`08-rag-patterns.md`](12-ai-engineering/08-rag-patterns.md) | RAG patterns, vector database standards, LLM architecture |<br/>
+<div align="center"><sub><i>Every service in the diagram above, documented in detail. ↓</i></sub></div>
 
-| [`09-mcp-tool-use.md`](12-ai-engineering/09-mcp-tool-use.md) | MCP and tool-use integration standards |
-
-| [`10-multi-agent-patterns.md`](12-ai-engineering/10-multi-agent-patterns.md) | AI agent orchestration and multi-agent patterns |<div align="center"><sub><i>Every service in the diagram above, documented in detail. ↓</i></sub></div>
-
-| [`11-ai-finops.md`](12-ai-engineering/11-ai-finops.md) | AI cost optimization and FinOps for AI workloads |
-
-| [`12-sdlc-agent-blueprint.md`](12-ai-engineering/12-sdlc-agent-blueprint.md) | SDLC agent blueprint and orchestration |---
+---
 
 ## 🔗 How Services Connect
 

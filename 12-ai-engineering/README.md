@@ -18,7 +18,6 @@
 | [02-ai-assisted-sdlc.md](./02-ai-assisted-sdlc.md) | AI integration across every SDLC phase - discovery through operations |
 | [03-ai-adoption-metrics.md](./03-ai-adoption-metrics.md) | Measuring AI effectiveness, AI Engineering Maturity (L0-L4), quality guardrails |
 | [04-trust-tiered-autonomy.md](./04-trust-tiered-autonomy.md) | Trust-tiered autonomy model for agent code changes - Tier 1 (Supervised) to Tier 4 (Full Autonomy) |
-
 | [05-agent-security-model.md](./05-agent-security-model.md) | Agent identity standards, least privilege, audit trails, threat model |
 | [06-ai-native-sdlc.md](./06-ai-native-sdlc.md) | AI-native SDLC strategy based on Three Pillars |
 | [07-prompt-engineering.md](./07-prompt-engineering.md) | Prompt engineering and LLM integration standards |
@@ -27,6 +26,7 @@
 | [10-multi-agent-patterns.md](./10-multi-agent-patterns.md) | AI agent orchestration and multi-agent patterns |
 | [11-ai-finops.md](./11-ai-finops.md) | AI cost optimization and FinOps for AI workloads |
 | [12-sdlc-agent-blueprint.md](./12-sdlc-agent-blueprint.md) | SDLC agent blueprint and orchestration |
+
 ---
 <div align="center">
 

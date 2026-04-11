@@ -29,7 +29,6 @@ Each guide follows a consistent format: evaluation criteria, comparison matrix, 
 | [21-feature-flags.md](./21-feature-flags.md) | LaunchDarkly vs Unleash vs Flagsmith vs GrowthBook |
 | [22-artifact-registries.md](./22-artifact-registries.md) | Artifactory vs Nexus vs GitHub Packages |
 | [23-observability-platforms.md](./23-observability-platforms.md) | Datadog vs Grafana Stack vs New Relic |
-
 | [24-incident-management.md](./24-incident-management.md) | PagerDuty vs OpsGenie vs Incident.io |
 | [25-error-tracking.md](./25-error-tracking.md) | Sentry vs Bugsnag vs Rollbar vs Crashlytics |
 | [26-security-scanning.md](./26-security-scanning.md) | SAST, DAST, SCA, secrets, container scanning |
@@ -52,6 +51,7 @@ Each guide follows a consistent format: evaluation criteria, comparison matrix, 
 | [43-cloud-cost-management.md](./43-cloud-cost-management.md) | Kubecost vs OpenCost vs Infracost |
 | [44-backup-tools.md](./44-backup-tools.md) | Velero vs Kasten vs native snapshots |
 | [45-monorepo-tooling.md](./45-monorepo-tooling.md) | Nx vs Turborepo vs Bazel vs Rush vs Pants |
+
 ---
 <div align="center">
 

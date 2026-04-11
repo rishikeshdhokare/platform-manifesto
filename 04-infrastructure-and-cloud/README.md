@@ -16,17 +16,24 @@
 | [10-security-operations.md](./10-security-operations.md) | Security operations - threat modeling, vulnerability management, SIEM, pen testing, supply chain |
 | [11-deployment-architecture.md](./11-deployment-architecture.md) | Environment landscape, artifact promotion flow, production promotion gates, multi-region deployment |
 | [12-identity-management.md](./12-identity-management.md) | Identity provider architecture, OAuth2 flows, OIDC, token lifecycle, session management |
-
 | [13-authorization-patterns.md](./13-authorization-patterns.md) | RBAC vs ABAC framework, role hierarchy, OPA/Cedar policy engines |
-
-| [14-secrets-management.md](./14-secrets-management.md) | Secret classification, rotation policies, injection patterns |---
-
+| [14-secrets-management.md](./14-secrets-management.md) | Secret classification, rotation policies, injection patterns |
 | [15-certificate-lifecycle.md](./15-certificate-lifecycle.md) | Certificate types, automated renewal, mTLS, PKI hierarchy |
-
-| [16-compliance-engineering.md](./16-compliance-engineering.md) | Compliance as code, automated evidence collection, continuous compliance |<div align="center">
-
+| [16-compliance-engineering.md](./16-compliance-engineering.md) | Compliance as code, automated evidence collection, continuous compliance |
 | [17-zero-trust-networking.md](./17-zero-trust-networking.md) | Zero-trust principles, microsegmentation, mTLS, identity-based access |
+| [18-agent-data-governance.md](./18-agent-data-governance.md) | Agent PII access restrictions, compliance audit trail, dev-time governance |
+| [19-service-mesh.md](./19-service-mesh.md) | Service mesh patterns, traffic management, observability integration |
+| [20-serverless-patterns.md](./20-serverless-patterns.md) | Serverless and FaaS patterns, cold start mitigation, guardrails |
+| [21-multi-cloud-strategy.md](./21-multi-cloud-strategy.md) | Cloud-exit planning, portability, vendor lock-in mitigation |
+| [22-self-service-infra.md](./22-self-service-infra.md) | Self-service infrastructure provisioning patterns |
+| [23-infra-testing.md](./23-infra-testing.md) | IaC testing, policy-as-code, drift detection |
+| [24-cdn-edge-caching.md](./24-cdn-edge-caching.md) | CDN and edge caching strategy, multi-CDN patterns |
+| [25-kubernetes-operations.md](./25-kubernetes-operations.md) | Kubernetes cluster operations and namespace strategy |
+| [26-search-infrastructure.md](./26-search-infrastructure.md) | Search infrastructure patterns and OpenSearch operations |
 
-| [18-agent-data-governance.md](./18-agent-data-governance.md) | Agent PII access restrictions, compliance audit trail, dev-time governance |🏠 [Back to root](../README.md)
+---
+<div align="center">
+
+🏠 [Back to root](../README.md)
 
 </div>
