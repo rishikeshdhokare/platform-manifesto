@@ -379,7 +379,8 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`24-cdn-edge-caching.md`](04-infrastructure-and-cloud/24-cdn-edge-caching.md) | CDN and edge caching strategy, multi-CDN || [`01-observability-standards.md`](05-operational-excellence/01-observability-standards.md) | Logging, metrics, tracing, SLOs, error budgets, alert hygiene |
 
 | [`25-kubernetes-operations.md`](04-infrastructure-and-cloud/25-kubernetes-operations.md) | Kubernetes cluster operations and namespace strategy || [`02-observability-in-practice.md`](05-operational-excellence/02-observability-in-practice.md) | Step-by-step: structured logging, correlation IDs, Prometheus, tracing |
-| [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - with worked examples |
+
+| [`26-search-infrastructure.md`](04-infrastructure-and-cloud/26-search-infrastructure.md) | Search infrastructure patterns (OpenSearch) || [`03-resilience-patterns.md`](05-operational-excellence/03-resilience-patterns.md) | Circuit breaker, retry, timeout, bulkhead - with worked examples |
 | [`04-incident-management.md`](05-operational-excellence/04-incident-management.md) | Response playbook, on-call structure, PIR template, change management |
 | [`05-load-shedding.md`](05-operational-excellence/05-load-shedding.md) | Priority tiers, backpressure, graceful degradation, auto-remediation |
 | [`06-chaos-engineering.md`](05-operational-excellence/06-chaos-engineering.md) | Fault injection, game days, resilience validation |
@@ -444,7 +445,8 @@ The guides you keep open while writing code.
 | [`19-api-mocking.md`](06-developer-guides/19-api-mocking.md) | API mocking and service virtualization standards |Team structure, decision-making, hiring, career growth, and knowledge sharing.
 
 | [`20-agentic-developer-guides.md`](06-developer-guides/20-agentic-developer-guides.md) | Developer guides reframed for agentic workflow |
-| File | What You'll Learn |
+
+| [`21-data-lakehouse.md`](06-developer-guides/21-data-lakehouse.md) | Data lakehouse standards, ETL vs ELT guide || File | What You'll Learn |
 |------|-------------------|
 | [`01-team-topology.md`](07-ways-of-working/01-team-topology.md) | Stream-aligned teams, platform team, inner source, tech debt registry |
 | [`02-engineering-ladder.md`](07-ways-of-working/02-engineering-ladder.md) | Engineer I to Principal - expectations at every level |
@@ -462,7 +464,9 @@ The guides you keep open while writing code.
 
 | [`13-technical-writing.md`](07-ways-of-working/13-technical-writing.md) | Internal technical documentation and writing guide |</details>
 
-<details>
+| [`14-async-culture.md`](07-ways-of-working/14-async-culture.md) | Engineering communication norms, async-first |
+
+| [`15-agentic-ways-of-working.md`](07-ways-of-working/15-agentic-ways-of-working.md) | Ways of working for agentic organizations |<details>
 <summary><b>📈 08 - Program</b> &nbsp;·&nbsp; <i>The honest scorecard - where we are and where we're headed</i></summary>
 
 <br/>

@@ -18,6 +18,8 @@
 
 | [12-document-templates.md](./12-document-templates.md) | Standalone ADR, RFC, PIR, PRD, and design doc templates |
 | [13-technical-writing.md](./13-technical-writing.md) | Internal technical documentation and writing guide |
+| [14-async-culture.md](./14-async-culture.md) | Engineering communication norms, async-first |
+| [15-agentic-ways-of-working.md](./15-agentic-ways-of-working.md) | Ways of working for agentic organizations |
 ---
 <div align="center">
 
