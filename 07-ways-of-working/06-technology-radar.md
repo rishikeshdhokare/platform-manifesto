@@ -130,6 +130,9 @@ sequenceDiagram
 | TypeScript | Adopt | - | Frontend and BFF |
 | Python | Trial | - | ML pipelines and data |
 | Go | Assess | - | CLI tooling exploration |
+| Rust | Assess | New | Performance-critical modules, WASM compilation targets |
+| Java 21+ (Virtual Threads) | Trial | Assess -> Trial | Lightweight concurrency for high-throughput services |
+| Deno | Hold | - | Overlap with Node/TypeScript; no production use cases justified |
 
 ### 6.2 Frameworks & Libraries
 
@@ -139,6 +142,11 @@ sequenceDiagram
 | React / Next.js | Adopt | - | Web frontend |
 | React Native | Adopt | - | Mobile |
 | Resilience4j | Adopt | - | Circuit breaker / retry |
+| Ktor | Trial | New | Lightweight Kotlin microservices |
+| LangChain / LangGraph | Trial | New | LLM application orchestration |
+| Jetpack Compose | Trial | - | Declarative Android UI |
+| Micronaut | Assess | New | Fast-startup alternative for serverless Kotlin |
+| Angular | Hold | - | Not approved for new projects; React is the standard |
 
 ### 6.3 Infrastructure & Platforms
 
@@ -148,6 +156,13 @@ sequenceDiagram
 | Amazon Aurora PostgreSQL | Adopt | - | Primary relational store |
 | Amazon MSK (Kafka) | Adopt | - | Event streaming |
 | ArgoCD | Adopt | - | GitOps deployment |
+| CloudFront | Adopt | - | CDN and edge caching |
+| Amazon DynamoDB | Adopt | - | Key-value and document workloads |
+| Istio | Trial | - | Service mesh for mTLS and traffic management |
+| AWS Lambda (Kotlin / Node) | Trial | Assess -> Trial | Event-driven serverless functions |
+| Karpenter | Trial | New | Kubernetes node autoscaling |
+| Pulumi | Assess | New | Programmatic IaC alternative to Terraform |
+| HashiCorp Vault | Hold | - | Migrating to AWS Secrets Manager |
 
 ### 6.4 Tools
 
@@ -158,7 +173,13 @@ sequenceDiagram
 | OpenTelemetry | Adopt | - | Observability |
 | Terraform | Adopt | - | IaC |
 | AI coding assistants (Cursor, Copilot) | Adopt | Trial -> Adopt | IDE-integrated code generation and completion |
+| k6 | Adopt | - | Load and performance testing |
+| Pact | Adopt | Trial -> Adopt | Consumer-driven contract testing |
 | MCP / tool-use protocols | Trial | New | Standardised agent-to-tool integration layer |
+| Infracost | Trial | New | Cost estimation in CI for IaC changes |
+| Sigstore / cosign | Trial | New | Container image signing and verification |
+| Renovate Bot | Assess | New | Automated dependency update PRs |
+| Jenkins | Hold | - | Legacy CI; migrating to GitHub Actions |
 
 ### 6.5 Techniques
 
@@ -166,10 +187,14 @@ sequenceDiagram
 |------------|------|-------|-------|
 | Trunk-based development | Adopt | - | Git workflow |
 | Feature flags | Adopt | - | Progressive rollout |
+| Spec-first API design | Adopt | - | OpenAPI spec before implementation |
 | Chaos engineering | Trial | - | Resilience validation |
 | AI-assisted development | Trial | - | SDLC acceleration |
 | Agentic CI/CD | Trial | New | Agents open PRs, run migrations, and maintain dependencies autonomously |
+| Platform engineering (IDP) | Trial | New | Self-service developer platform with paved roads |
 | Agent orchestration | Assess | New | Multi-agent coordination for complex engineering tasks |
+| Cell-based architecture | Assess | New | Blast-radius isolation via independent deployment cells |
+| Micro-frontends | Hold | - | Complexity outweighs benefits at current scale |
 
 ---
 
@@ -179,6 +204,7 @@ Each quarterly update is versioned as `YYYY-QN` (e.g., `2026-Q1`). Previous vers
 
 | Version | Date | Key Changes |
 |---------|------|------------|
+| 2026-Q2 | Q2 2026 | Added Rust and Java 21 (Assess/Trial), LangChain (Trial), Karpenter (Trial), expanded Hold quadrant |
 | 2026-Q1 | Q1 2026 | Initial snapshot aligned with tech stack |
 
 The full change history is available in the Backstage TechDocs version archive.

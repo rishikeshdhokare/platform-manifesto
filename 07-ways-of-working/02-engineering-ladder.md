@@ -90,6 +90,57 @@ flowchart LR
 
 ---
 
+## 🧭 7.1 Competency Matrix
+
+The following matrix details expected competencies across five pillars for each level. Use this for structured growth conversations and promotion readiness assessments.
+
+### Technical Execution
+
+| Competency | Engineer I | Engineer II | Senior | Staff | Principal |
+|-----------|-----------|-------------|--------|-------|-----------|
+| **Code quality** | Writes clean, tested code following standards | Writes idiomatic, well-structured code; catches issues in review | Sets quality bar for team; authors patterns others follow | Establishes cross-team code standards | Defines org-wide quality strategy |
+| **System design** | Understands existing designs | Designs within a service boundary | Designs services end-to-end (API, data, deployment) | Designs cross-service systems and integration patterns | Defines architecture principles for the organization |
+| **Testing** | Unit tests at ≥ 80% coverage | Integration tests with Testcontainers; contract tests | Test strategy for team; owns flaky-test discipline | Cross-service test architecture | Portfolio-wide quality and risk posture |
+| **Debugging** | Debugs with IDE and logs | Uses traces, metrics, and runbooks; forms clear hypotheses | Leads production debugging for complex, multi-service issues | Debugs systemic problems across domains | Diagnoses organization-wide reliability patterns |
+
+### Operational Excellence
+
+| Competency | Engineer I | Engineer II | Senior | Staff | Principal |
+|-----------|-----------|-------------|--------|-------|-----------|
+| **Reliability** | Follows SLO and alerting standards | Configures alerts; participates in on-call | Owns SLOs and error budgets for services | Designs reliability architecture across domain | Sets org reliability strategy and investment |
+| **Incident response** | Follows incident process | Responds to incidents; writes PIRs | Leads incident response; drives follow-up actions | Leads cross-team incident coordination | Shapes incident culture and process improvements |
+| **Observability** | Uses structured logging and dashboards | Adds custom metrics and traces | Designs observability for new services; maintains runbooks | Cross-cutting observability architecture | Vendor and architecture choices (e.g. OTel-first) |
+| **Security** | Follows secure coding defaults | Scans dependencies; manages secrets properly | Leads threat modeling for services | Security architecture across domain | Org security engineering partnership |
+
+### Delivery and Impact
+
+| Competency | Engineer I | Engineer II | Senior | Staff | Principal |
+|-----------|-----------|-------------|--------|-------|-----------|
+| **Scope of impact** | Task or story | Feature or vertical slice | Service or team outcomes | Domain or cross-team | Organization or industry |
+| **Autonomy** | Works with guidance on defined tasks | Independently delivers features with clear requirements | Identifies and solves ambiguous problems | Defines the problem space; aligns teams on approach | Sets multi-year technical direction |
+| **Decision-making** | Follows established patterns | Makes service-level technical decisions (ADRs) | Makes team-level decisions; knows when to escalate | Makes domain-level decisions; influences org direction | Makes org-level decisions; advises executive leadership |
+| **Velocity** | Delivers tasks within sprint estimates | Delivers features predictably; unblocks self | Removes blockers for the team; accelerates delivery | Accelerates delivery across teams | Optimizes org-wide engineering velocity |
+
+### Communication and Leadership
+
+| Competency | Engineer I | Engineer II | Senior | Staff | Principal |
+|-----------|-----------|-------------|--------|-------|-----------|
+| **Written communication** | Clear PR descriptions and commit messages | Writes ADRs and technical documentation | Writes RFCs; contributes to manifesto standards | Authors cross-team proposals and architecture docs | Publishes engineering strategy and vision documents |
+| **Mentoring** | Asks good questions; learns actively | Helps onboard new team members | Mentors engineers I-II; improves team practices | Mentors seniors; grows future staff engineers | Mentors staff engineers; shapes engineering culture |
+| **Collaboration** | Works well within team | Collaborates across team for feature delivery | Collaborates across teams for service integration | Drives alignment across domain teams | Aligns engineering direction with business strategy |
+| **Knowledge sharing** | Participates in team discussions | Presents in team demos and knowledge sessions | Leads team tech talks; documents patterns | Runs cross-team architecture sessions | Represents {Company} engineering externally |
+
+### Platform and Tooling
+
+| Competency | Engineer I | Engineer II | Senior | Staff | Principal |
+|-----------|-----------|-------------|--------|-------|-----------|
+| **Golden path** | Uses golden path templates and scaffolding | Extends golden path for team-specific needs | Improves golden path based on production experience | Contributes templates and shared libraries to platform | Defines golden path strategy and platform investment |
+| **CI/CD** | Uses shared pipelines correctly | Extends or fixes pipeline for team needs | Owns deployment strategy for services (flags, rollback) | Template and platform CI improvements | Build platform and supply-chain direction |
+| **Developer experience** | Onboards via golden path | Improves local dev setup and docs for team | Champions DX improvements; reduces team friction | Backstage, templates, and BOM contributions | DX and platform product strategy |
+| **AI and agents** | Uses AI coding assistants effectively | Configures agents with project context and rules | Evaluates agent patterns for team adoption | Shapes agent integration standards across teams | Defines org-wide agent strategy and governance |
+
+---
+
 ## 📊 8. Maturity model alignment
 
 The [Engineering Maturity Model](../08-program/01-maturity-model.md) describes **team capabilities** across dimensions (source control, testing, CI/CD, observability, security, developer experience, etc.). This ladder describes **individual** expectations at each level. Together they answer: *what should the team be capable of?* and *what should a person at this level be able to lead or exemplify?*
