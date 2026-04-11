@@ -9,6 +9,7 @@
 | [03-vendor-assessment.md](./03-vendor-assessment.md) | AWS lock-in analysis, portability assessment, exit cost estimation |
 | [04-engineering-metrics.md](./04-engineering-metrics.md) | Developer satisfaction, toil, platform adoption, tech debt quantification |
 | [05-vendor-intake.md](./05-vendor-intake.md) | Vendor & SaaS intake process, security review, procurement, pilot criteria |
+| [06-adoption-guide.md](./06-adoption-guide.md) | Scale-based adoption guide - phases for 10, 100, and 1000+ engineers |
 
 ---
 

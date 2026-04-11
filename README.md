@@ -417,6 +417,7 @@ Maturity assessment, migration roadmap, metrics, and vendor management.
 | [`03-vendor-assessment.md`](08-program/03-vendor-assessment.md) | AWS lock-in analysis, portability, exit costs |
 | [`04-engineering-metrics.md`](08-program/04-engineering-metrics.md) | What we measure, what we don't, and why |
 | [`05-vendor-intake.md`](08-program/05-vendor-intake.md) | How to evaluate and onboard new SaaS tools |
+| [`06-adoption-guide.md`](08-program/06-adoption-guide.md) | Scale-based adoption guide for 10, 100, and 1000+ engineers |
 
 </details>
 
