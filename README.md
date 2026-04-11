@@ -313,6 +313,7 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend
 | [`12-engineering-principles.md`](03-engineering-practices/12-engineering-principles.md) | Core engineering principles for the AI era with agent-native context |
 | [`13-specification-driven-development.md`](03-engineering-practices/13-specification-driven-development.md) | Specification-driven development as the norm for agentic organizations |
 
+| [`14-supply-chain-security.md`](03-engineering-practices/14-supply-chain-security.md) | SBOM generation, dependency scanning, license compliance, trusted registries |
 </details>
 
 <details>
