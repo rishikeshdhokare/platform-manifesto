@@ -341,7 +341,8 @@ Cloud architecture, security, FinOps, multi-tenancy, and infrastructure as code.
 | [`13-authorization-patterns.md`](04-infrastructure-and-cloud/13-authorization-patterns.md) | RBAC vs ABAC framework, role hierarchy, OPA/Cedar policy engines |</details>
 
 | [`14-secrets-management.md`](04-infrastructure-and-cloud/14-secrets-management.md) | Secret classification, rotation policies, injection patterns |
-<details>
+
+| [`15-certificate-lifecycle.md`](04-infrastructure-and-cloud/15-certificate-lifecycle.md) | Certificate types, automated renewal, mTLS, PKI hierarchy |<details>
 <summary><b>🚨 05 - Operational Excellence</b> &nbsp;·&nbsp; <i>When things break - and they will</i></summary>
 
 <br/>
