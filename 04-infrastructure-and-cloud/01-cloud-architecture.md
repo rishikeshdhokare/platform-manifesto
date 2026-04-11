@@ -433,6 +433,31 @@ Non-tagged resources trigger a Config compliance alert.
 
 ---
 
+## 🌍 10. Cloud Provider Equivalence
+
+This manifesto uses **AWS as the reference implementation**, but the architectural principles - multi-AZ resilience, private networking, managed data stores, infrastructure as code, and GitOps - apply to any major cloud provider. The table below maps each AWS service referenced in this document to its Azure and GCP equivalent, so teams on other clouds can adopt the same patterns with the appropriate substitution.
+
+| AWS Service (Reference) | Azure Equivalent | GCP Equivalent |
+|--------------------------|------------------|----------------|
+| **ECS / EKS** (container orchestration) | Azure Kubernetes Service (AKS) | Google Kubernetes Engine (GKE) |
+| **Aurora PostgreSQL / DynamoDB** (databases) | Azure Database for PostgreSQL / Cosmos DB | Cloud SQL, AlloyDB / Firestore |
+| **ElastiCache for Redis** (caching) | Azure Cache for Redis | Memorystore for Redis |
+| **MSK (Kafka) / SQS / SNS** (messaging) | Azure Event Hubs / Azure Service Bus | Google Pub/Sub / Cloud Tasks |
+| **S3** (object storage) | Azure Blob Storage | Google Cloud Storage |
+| **CloudFront** (CDN) | Azure Front Door / Azure CDN | Cloud CDN |
+| **AWS IAM + IRSA** (identity and access) | Azure AD + Workload Identity | Google IAM + Workload Identity Federation |
+| **Secrets Manager** (secrets) | Azure Key Vault | Google Secret Manager |
+| **CloudWatch + X-Ray** (monitoring) | Azure Monitor + Application Insights | Cloud Monitoring + Cloud Trace |
+| **CloudFormation / Terraform** (IaC) | Azure Resource Manager (ARM) / Terraform | Cloud Deployment Manager / Terraform |
+
+### Using this table
+
+- **Terraform is cloud-agnostic.** If you standardize on Terraform (recommended), most infrastructure code transfers across providers with provider and resource-name changes only.
+- **Managed Kafka varies.** Azure Event Hubs offers a Kafka-compatible API surface, but the operational model differs from MSK or Confluent Cloud. Evaluate protocol compatibility before migrating event-driven workloads.
+- **IAM models differ significantly.** AWS IRSA, Azure Workload Identity, and GCP Workload Identity Federation achieve the same goal (pod-level cloud credentials without static keys) but require provider-specific configuration. Plan for this when porting Kubernetes workloads.
+
+---
+
 <div align="center">
 
 ⬅️ [Back to section](./README.md) · 🏠 [Back to root](../README.md)
