@@ -15,6 +15,15 @@
 | [09-error-catalog.md](./09-error-catalog.md) | Error catalog, exception handling, error code registry, frontend error boundaries |
 | [10-monolith-first-guide.md](./10-monolith-first-guide.md) | When to start with a monolith, modular monolith pattern, migration path to microservices |
 
+| [11-api-versioning.md](./11-api-versioning.md) | API versioning strategy, breaking change policy, deprecation |
+| [12-rate-limiting.md](./12-rate-limiting.md) | Rate limiting and throttling patterns, per-tenant limits |
+| [13-webhook-standards.md](./13-webhook-standards.md) | Webhook design, payload signing, delivery guarantees |
+| [14-batch-processing.md](./14-batch-processing.md) | Batch processing, CRON jobs, workflow orchestration |
+| [15-contract-testing.md](./15-contract-testing.md) | Consumer-driven contracts, Pact, CI integration |
+| [16-messaging-patterns.md](./16-messaging-patterns.md) | Messaging patterns beyond Kafka, queues, outbox pattern |
+| [17-graphql-standards.md](./17-graphql-standards.md) | GraphQL standards, federation, BFF integration |
+| [18-event-sourcing-cqrs.md](./18-event-sourcing-cqrs.md) | Event sourcing and CQRS patterns |
+| [19-api-lifecycle.md](./19-api-lifecycle.md) | API lifecycle management, design through sunset |
 ---
 <div align="center">
 
