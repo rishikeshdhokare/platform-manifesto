@@ -18,7 +18,8 @@
 | [12-identity-management.md](./12-identity-management.md) | Identity provider architecture, OAuth2 flows, OIDC, token lifecycle, session management |
 
 | [13-authorization-patterns.md](./13-authorization-patterns.md) | RBAC vs ABAC framework, role hierarchy, OPA/Cedar policy engines |
----
+
+| [14-secrets-management.md](./14-secrets-management.md) | Secret classification, rotation policies, injection patterns |---
 
 <div align="center">
 
