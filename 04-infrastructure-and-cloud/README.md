@@ -15,6 +15,7 @@
 | [09-multi-tenancy.md](./09-multi-tenancy.md) | Multi-tenancy patterns - data isolation, noisy-neighbor controls, tenant-aware observability |
 | [10-security-operations.md](./10-security-operations.md) | Security operations - threat modeling, vulnerability management, SIEM, pen testing, supply chain |
 | [11-deployment-architecture.md](./11-deployment-architecture.md) | Environment landscape, artifact promotion flow, production promotion gates, multi-region deployment |
+| [12-identity-management.md](./12-identity-management.md) | Identity provider architecture, OAuth2 flows, OIDC, token lifecycle, session management |
 
 ---
 
