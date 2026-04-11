@@ -314,7 +314,8 @@ The day-to-day craft. Testing, CI/CD, code review, coding standards, and backend
 | [`13-specification-driven-development.md`](03-engineering-practices/13-specification-driven-development.md) | Specification-driven development as the norm for agentic organizations |
 
 | [`14-supply-chain-security.md`](03-engineering-practices/14-supply-chain-security.md) | SBOM generation, dependency scanning, license compliance, trusted registries |
-</details>
+
+| [`15-test-data-management.md`](03-engineering-practices/15-test-data-management.md) | Test data strategies, synthetic data generation, PII masking |</details>
 
 <details>
 <summary><b>☁️ 04 - Infrastructure & Cloud</b> &nbsp;·&nbsp; <i>The invisible floor you stand on</i></summary>
