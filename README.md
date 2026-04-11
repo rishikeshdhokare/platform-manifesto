@@ -286,6 +286,7 @@ Domain decomposition, communication patterns, API contracts, event schemas, and 
 | [`07-service-decomposition.md`](02-architecture-and-api/07-service-decomposition.md) | When to split or merge services, with a decision framework |
 | [`08-event-schema-evolution.md`](02-architecture-and-api/08-event-schema-evolution.md) | Avro compatibility rules, partition keys, and the breaking change playbook |
 | [`09-error-catalog.md`](02-architecture-and-api/09-error-catalog.md) | Central error registry, exception handling, and frontend error boundaries |
+| [`10-monolith-first-guide.md`](02-architecture-and-api/10-monolith-first-guide.md) | When to start with a monolith, modular monolith pattern, and migration path |
 
 </details>
 

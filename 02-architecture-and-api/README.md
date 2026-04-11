@@ -13,6 +13,7 @@
 | [07-service-decomposition.md](./07-service-decomposition.md) | When to split or merge services, boundary validation criteria |
 | [08-event-schema-evolution.md](./08-event-schema-evolution.md) | Event schema evolution, Avro compatibility, partition keys, breaking change playbook |
 | [09-error-catalog.md](./09-error-catalog.md) | Error catalog, exception handling, error code registry, frontend error boundaries |
+| [10-monolith-first-guide.md](./10-monolith-first-guide.md) | When to start with a monolith, modular monolith pattern, migration path to microservices |
 
 ---
 <div align="center">
