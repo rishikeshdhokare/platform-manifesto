@@ -559,6 +559,61 @@ How we work with AI across the entire software development lifecycle, including 
 
 | [`06-ai-native-sdlc.md`](12-ai-engineering/06-ai-native-sdlc.md) | AI-native SDLC strategy based on Three Pillars |</details>
 
+<details>
+<summary><b>🔍 13 - Technology Selection</b> &nbsp;·&nbsp; <i>Structured decision guides for the entire stack</i></summary>
+
+<br/>
+
+| Document | Description |
+|----------|-------------|
+| [`01-ai-coding-assistants.md`](13-technology-selection/01-ai-coding-assistants.md) | AI coding assistants |
+| [`02-ai-code-review.md`](13-technology-selection/02-ai-code-review.md) | AI code review tools |
+| [`03-llm-providers.md`](13-technology-selection/03-llm-providers.md) | LLM providers |
+| [`04-backend-languages.md`](13-technology-selection/04-backend-languages.md) | Backend languages |
+| [`05-backend-frameworks.md`](13-technology-selection/05-backend-frameworks.md) | Backend frameworks |
+| [`06-frontend-frameworks.md`](13-technology-selection/06-frontend-frameworks.md) | Frontend frameworks |
+| [`07-mobile-development.md`](13-technology-selection/07-mobile-development.md) | Mobile development |
+| [`08-relational-databases.md`](13-technology-selection/08-relational-databases.md) | Relational databases |
+| [`09-nosql-databases.md`](13-technology-selection/09-nosql-databases.md) | NoSQL databases |
+| [`10-cache-stores.md`](13-technology-selection/10-cache-stores.md) | Cache stores |
+| [`11-vector-databases.md`](13-technology-selection/11-vector-databases.md) | Vector databases |
+| [`12-search-engines.md`](13-technology-selection/12-search-engines.md) | Search engines |
+| [`13-cloud-providers.md`](13-technology-selection/13-cloud-providers.md) | Cloud providers |
+| [`14-container-orchestration.md`](13-technology-selection/14-container-orchestration.md) | Container orchestration |
+| [`15-iac-tools.md`](13-technology-selection/15-iac-tools.md) | IaC tools |
+| [`16-api-gateways.md`](13-technology-selection/16-api-gateways.md) | API gateways |
+| [`17-service-meshes.md`](13-technology-selection/17-service-meshes.md) | Service meshes |
+| [`18-cdn-platforms.md`](13-technology-selection/18-cdn-platforms.md) | CDN platforms |
+| [`19-cicd-platforms.md`](13-technology-selection/19-cicd-platforms.md) | CI/CD platforms |
+| [`20-gitops-tools.md`](13-technology-selection/20-gitops-tools.md) | GitOps tools |
+| [`21-feature-flags.md`](13-technology-selection/21-feature-flags.md) | Feature flags |
+| [`22-artifact-registries.md`](13-technology-selection/22-artifact-registries.md) | Artifact registries |
+| [`23-observability-platforms.md`](13-technology-selection/23-observability-platforms.md) | Observability |
+| [`24-incident-management.md`](13-technology-selection/24-incident-management.md) | Incident management |
+| [`25-error-tracking.md`](13-technology-selection/25-error-tracking.md) | Error tracking |
+| [`26-security-scanning.md`](13-technology-selection/26-security-scanning.md) | Security scanning |
+| [`27-identity-providers.md`](13-technology-selection/27-identity-providers.md) | Identity providers |
+| [`28-developer-portals.md`](13-technology-selection/28-developer-portals.md) | Developer portals |
+| [`29-testing-frameworks.md`](13-technology-selection/29-testing-frameworks.md) | Testing frameworks |
+| [`30-documentation-platforms.md`](13-technology-selection/30-documentation-platforms.md) | Documentation |
+| [`31-project-management.md`](13-technology-selection/31-project-management.md) | Project management |
+| [`32-data-warehouses.md`](13-technology-selection/32-data-warehouses.md) | Data warehouses |
+| [`33-data-pipelines.md`](13-technology-selection/33-data-pipelines.md) | Data pipelines |
+| [`34-message-brokers.md`](13-technology-selection/34-message-brokers.md) | Message brokers |
+| [`35-source-control.md`](13-technology-selection/35-source-control.md) | Source control |
+| [`36-secret-management.md`](13-technology-selection/36-secret-management.md) | Secret management |
+| [`37-cloud-dev-environments.md`](13-technology-selection/37-cloud-dev-environments.md) | Cloud dev environments |
+| [`38-paas-platforms.md`](13-technology-selection/38-paas-platforms.md) | PaaS platforms |
+| [`39-product-analytics.md`](13-technology-selection/39-product-analytics.md) | Product analytics |
+| [`40-notification-platforms.md`](13-technology-selection/40-notification-platforms.md) | Notifications |
+| [`41-chatops-platforms.md`](13-technology-selection/41-chatops-platforms.md) | ChatOps |
+| [`42-compliance-automation.md`](13-technology-selection/42-compliance-automation.md) | Compliance automation |
+| [`43-cloud-cost-management.md`](13-technology-selection/43-cloud-cost-management.md) | Cloud cost management |
+| [`44-backup-tools.md`](13-technology-selection/44-backup-tools.md) | Backup tools |
+| [`45-monorepo-tooling.md`](13-technology-selection/45-monorepo-tooling.md) | Monorepo tooling |
+
+</details>
+
 | [`07-prompt-engineering.md`](12-ai-engineering/07-prompt-engineering.md) | Prompt engineering and LLM integration standards |
 
 | [`08-rag-patterns.md`](12-ai-engineering/08-rag-patterns.md) | RAG patterns, vector database standards, LLM architecture |<br/>
